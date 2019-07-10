@@ -1,0 +1,14 @@
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440035.3.fits dist: 28.228663117102023 chanceCoincidence: 0.07349471954864384
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440035.4.fits dist: 28.220870016055777 chanceCoincidence: 0.039491338436482004
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440035.5.fits dist: 28.217180870049216 chanceCoincidence: 0.015297160972997381
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440035.6.fits dist: 28.22531188009831 chanceCoincidence: 0.01277558063568296
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440039.3.fits dist: 34.00506497661215 chanceCoincidence: 0.05283735386958632
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.3.fits dist: 26.364119663211667 chanceCoincidence: 0.21371490838232265
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.4.fits dist: 26.366477212228833 chanceCoincidence: 0.10100666992759932
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.5.fits dist: 26.38142313421447 chanceCoincidence: 0.04414795784867298
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.6.fits dist: 26.381065345888203 chanceCoincidence: 0.03642817893461514
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440420.3.fits dist: 27.593609853475858 chanceCoincidence: 0.06858456708987637
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440420.4.fits dist: 27.57958076111021 chanceCoincidence: 0.040137932054372216
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440420.5.fits dist: 27.57640803581036 chanceCoincidence: 0.016192941812422035
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440420.6.fits dist: 27.585973017750874 chanceCoincidence: 0.013768598686184186
+C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc460004.3.fits dist: 34.81261904970165 chanceCoincidence: 0.3772541008362801

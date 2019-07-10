@@ -1,0 +1,876 @@
+0
+far 10.3 no error info
+2
+far 10.4 no error info
+4
+far 10.5 no error info
+6
+far 10.6 no error info
+8
+far 91.3 no error info
+10
+far 91.4 no error info
+12
+far 91.5 no error info
+14
+far 91.6 no error info
+16
+far 196.3 no error info
+18
+far 196.4 no error info
+20
+far 196.5 no error info
+22
+far 196.6 no error info
+24
+far 215.3 no error info
+26
+far 215.4 no error info
+28
+far 215.5 no error info
+30
+far 215.6 no error info
+32
+far 10043.3 no error info
+34
+far 10043.4 no error info
+36
+far 10043.5 no error info
+38
+far 10043.6 no error info
+40
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc010163.4.fits
+42
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc010163.5.fits
+44
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc010163.6.fits
+46
+far 20027.3 no error info
+48
+far 20027.4 no error info
+50
+far 20027.5 no error info
+52
+far 20027.6 no error info
+54
+far 20096.3 no error info
+56
+far 20096.4 no error info
+58
+far 20096.5 no error info
+60
+far 20096.6 no error info
+62
+far 20176.3 no error info
+64
+far 20176.5 no error info
+66
+far 20176.6 no error info
+68
+far 40166.3 no error info
+70
+far 40166.4 no error info
+72
+far 40166.5 no error info
+74
+far 40166.6 no error info
+76
+far 40201.3 no error info
+78
+far 40201.4 no error info
+80
+far 40201.5 no error info
+82
+far 40201.6 no error info
+84
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc040301.5.fits
+86
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc040301.6.fits
+88
+far 50003.4 no error info
+90
+far 50081.3 no error info
+92
+far 50081.4 no error info
+94
+far 50081.5 no error info
+96
+far 50081.6 no error info
+98
+far 50203.3 no error info
+100
+far 50203.4 no error info
+102
+far 50203.5 no error info
+104
+far 50203.6 no error info
+106
+far 50221.3 no error info
+108
+far 50221.4 no error info
+110
+far 50221.5 no error info
+112
+far 50221.6 no error info
+114
+far 50293.3 no error info
+116
+far 50293.4 no error info
+118
+far 50293.5 no error info
+120
+far 50293.6 no error info
+122
+far 50296.4 no error info
+124
+far 50596.3 no error info
+126
+far 50596.4 no error info
+128
+far 50596.6 no error info
+130
+far 50601.3 no error info
+132
+far 50601.4 no error info
+134
+far 50601.6 no error info
+136
+far 80723.3 no error info
+138
+far 80723.4 no error info
+140
+far 80723.5 no error info
+142
+far 80723.6 no error info
+144
+far 80762.3 no error info
+146
+far 80762.4 no error info
+148
+far 80762.5 no error info
+150
+far 80762.6 no error info
+152
+far 90022.4 no error info
+154
+far 90022.5 no error info
+156
+far 90022.6 no error info
+158
+far 90034.5 no error info
+160
+far 90201.6 no error info
+162
+invalid aperture parameters C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc090275.3.fits
+164
+far 91040.3 no error info
+166
+far 91040.4 no error info
+168
+far 91040.5 no error info
+170
+far 91040.6 no error info
+172
+far 100020.3 no error info
+174
+far 100020.4 no error info
+176
+far 100020.5 no error info
+178
+far 100020.6 no error info
+180
+far 110430.3 no error info
+182
+far 110430.4 no error info
+184
+far 110430.5 no error info
+186
+far 110430.6 no error info
+188
+far 110716.3 no error info
+190
+far 110716.4 no error info
+192
+far 110716.5 no error info
+194
+far 110716.6 no error info
+196
+far 120113.3 no error info
+198
+far 120113.4 no error info
+200
+far 120113.5 no error info
+202
+far 120113.6 no error info
+204
+far 120243.3 no error info
+206
+far 120243.4 no error info
+208
+far 120243.5 no error info
+210
+far 120243.6 no error info
+212
+far 120333.3 no error info
+214
+far 120333.4 no error info
+216
+far 120333.5 no error info
+218
+far 120333.6 no error info
+220
+far 120336.3 no error info
+222
+far 120336.4 no error info
+224
+far 120336.5 no error info
+226
+far 120336.6 no error info
+228
+far 120400.3 no error info
+230
+far 120400.4 no error info
+232
+far 120400.5 no error info
+234
+far 120400.6 no error info
+236
+far 120419.3 no error info
+238
+far 120419.4 no error info
+240
+far 120419.6 no error info
+242
+far 120444.3 no error info
+244
+far 120444.4 no error info
+246
+far 120444.5 no error info
+248
+far 120444.6 no error info
+250
+far 120586.3 no error info
+252
+far 120586.4 no error info
+254
+far 120586.5 no error info
+256
+far 120586.6 no error info
+258
+far 130862.3 no error info
+260
+far 130862.5 no error info
+262
+far 130862.6 no error info
+264
+far 130945.4 no error info
+266
+far 130945.5 no error info
+268
+far 130945.6 no error info
+270
+far 131089.4 no error info
+272
+far 131089.5 no error info
+274
+far 131089.6 no error info
+276
+far 150249.3 no error info
+278
+far 150249.4 no error info
+280
+far 150249.5 no error info
+282
+far 150249.6 no error info
+284
+far 150381.3 no error info
+286
+far 150381.4 no error info
+288
+far 150381.5 no error info
+290
+far 150381.6 no error info
+292
+far 160039.4 no error info
+294
+far 160039.5 no error info
+296
+far 160039.6 no error info
+298
+far 160066.3 no error info
+300
+far 160066.4 no error info
+302
+far 160066.5 no error info
+304
+far 160066.6 no error info
+306
+far 160099.3 no error info
+308
+far 160099.4 no error info
+310
+far 160099.5 no error info
+312
+far 160099.6 no error info
+314
+far 160103.3 no error info
+316
+far 160103.4 no error info
+318
+far 160103.5 no error info
+320
+far 160103.6 no error info
+322
+far 160214.4 no error info
+324
+far 160214.5 no error info
+326
+far 160214.6 no error info
+328
+far 170078.3 no error info
+330
+far 170078.4 no error info
+332
+far 170078.5 no error info
+334
+far 170078.6 no error info
+336
+far 180279.3 no error info
+338
+far 180279.4 no error info
+340
+far 180279.5 no error info
+342
+far 180313.3 no error info
+344
+far 180313.4 no error info
+346
+far 180313.5 no error info
+348
+far 180561.4 no error info
+350
+far 300105.3 no error info
+352
+far 300105.4 no error info
+354
+far 300105.5 no error info
+356
+far 300105.6 no error info
+358
+unlikely C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc310042.3.fits
+360
+far 310073.3 no error info
+362
+far 310073.4 no error info
+364
+far 310073.5 no error info
+366
+far 310073.6 no error info
+368
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc310090.5.fits
+370
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc310090.6.fits
+372
+far 310146.3 no error info
+374
+far 310146.4 no error info
+376
+far 310146.5 no error info
+378
+far 310146.6 no error info
+380
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc310161.5.fits
+382
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc310161.6.fits
+384
+far 310260.3 no error info
+386
+far 310260.5 no error info
+388
+far 310260.6 no error info
+390
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc310574.4.fits
+392
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc320347.4.fits
+394
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc320347.5.fits
+396
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc320347.6.fits
+398
+far 320469.3 no error info
+400
+far 320469.4 no error info
+402
+far 320469.5 no error info
+404
+far 320469.6 no error info
+406
+far 330040.3 no error info
+408
+far 330040.4 no error info
+410
+far 330040.5 no error info
+412
+far 330040.6 no error info
+414
+far 330053.3 no error info
+416
+far 330053.4 no error info
+418
+far 330053.5 no error info
+420
+far 330053.6 no error info
+422
+far 330106.3 no error info
+424
+far 330106.4 no error info
+426
+far 330106.5 no error info
+428
+far 330106.6 no error info
+430
+far 330107.3 no error info
+432
+far 330107.4 no error info
+434
+far 330107.5 no error info
+436
+far 330107.6 no error info
+438
+far 340195.3 no error info
+440
+far 340195.4 no error info
+442
+far 340195.5 no error info
+444
+far 340195.6 no error info
+446
+far 340232.3 no error info
+448
+far 340232.4 no error info
+450
+far 340232.5 no error info
+452
+far 340232.6 no error info
+454
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc340242.4.fits
+456
+far 340243.3 no error info
+458
+far 340243.4 no error info
+460
+far 340243.5 no error info
+462
+far 340243.6 no error info
+464
+far 340276.3 no error info
+466
+far 340276.4 no error info
+468
+far 340276.5 no error info
+470
+far 340276.6 no error info
+472
+unlikely C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc340334.3.fits
+474
+far 340334.3 no error info
+476
+far 340334.4 no error info
+478
+far 340334.6 no error info
+480
+far 350192.3 no error info
+482
+far 350192.4 no error info
+484
+far 350192.6 no error info
+486
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc350607.4.fits
+488
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc350607.5.fits
+490
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc350607.6.fits
+492
+far 360139.5 no error info
+494
+unlikely C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc360140.3.fits
+496
+far 370189.3 no error info
+498
+far 370189.4 no error info
+500
+far 370189.5 no error info
+502
+far 370189.6 no error info
+504
+invalid aperture parameters C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc370330.6.fits
+506
+shape of normflux must match shape of x, y and r C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc370330.6.fits
+508
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc370344.6.fits
+510
+far 370356.3 no error info
+512
+far 370356.4 no error info
+514
+far 370356.5 no error info
+516
+far 370356.6 no error info
+518
+far 370563.3 no error info
+520
+far 370563.4 no error info
+522
+far 370563.5 no error info
+524
+far 370563.6 no error info
+526
+far 380040.3 no error info
+528
+far 380040.4 no error info
+530
+far 380040.5 no error info
+532
+far 380040.6 no error info
+534
+far 380108.3 no error info
+536
+far 380108.4 no error info
+538
+far 380108.5 no error info
+540
+far 380108.6 no error info
+542
+far 390259.3 no error info
+544
+far 390259.4 no error info
+546
+far 390259.5 no error info
+548
+far 390259.6 no error info
+550
+far 390264.3 no error info
+552
+far 390264.4 no error info
+554
+far 390264.6 no error info
+556
+far 390449.3 no error info
+558
+far 390449.4 no error info
+560
+far 390449.5 no error info
+562
+far 390449.6 no error info
+564
+far 390712.3 no error info
+566
+far 390712.4 no error info
+568
+far 390712.5 no error info
+570
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc420159.4.fits
+572
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc420159.6.fits
+574
+far 420196.3 no error info
+576
+far 420196.4 no error info
+578
+far 420196.5 no error info
+580
+far 420196.6 no error info
+582
+far 440008.3 no error info
+584
+far 440008.4 no error info
+586
+far 440008.5 no error info
+588
+far 440008.6 no error info
+590
+far 440011.3 no error info
+592
+far 440011.4 no error info
+594
+far 440011.5 no error info
+596
+far 440011.6 no error info
+598
+far 440035.3 no error info
+600
+far 440035.4 no error info
+602
+far 440035.5 no error info
+604
+far 440035.6 no error info
+606
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440039.4.fits
+608
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.4.fits
+610
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.5.fits
+612
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc440042.6.fits
+614
+far 440420.3 no error info
+616
+far 440420.4 no error info
+618
+far 440420.5 no error info
+620
+far 440420.6 no error info
+622
+far 450025.3 no error info
+624
+far 450025.4 no error info
+626
+far 450025.5 no error info
+628
+far 450025.6 no error info
+630
+far 450175.3 no error info
+632
+far 450175.4 no error info
+634
+far 450175.5 no error info
+636
+far 450175.6 no error info
+638
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc460004.6.fits
+640
+far 460004.5 no error info
+642
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc460037.5.fits
+644
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc460037.6.fits
+646
+far 470008.4 no error info
+648
+far 470008.5 no error info
+650
+far 470008.6 no error info
+652
+far 470043.3 no error info
+654
+far 470043.4 no error info
+656
+far 470043.5 no error info
+658
+far 470043.6 no error info
+660
+far 470240.3 no error info
+662
+far 470240.4 no error info
+664
+far 470240.5 no error info
+666
+far 470240.6 no error info
+668
+far 480064.3 no error info
+670
+far 480064.4 no error info
+672
+far 480064.5 no error info
+674
+far 480064.6 no error info
+676
+far 480552.3 no error info
+678
+far 480552.4 no error info
+680
+far 480552.5 no error info
+682
+far 480552.6 no error info
+684
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc480845.4.fits
+686
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc490521.4.fits
+688
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc490521.5.fits
+690
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc490521.6.fits
+692
+far 500012.3 no error info
+694
+far 500012.4 no error info
+696
+far 500012.5 no error info
+698
+far 500012.6 no error info
+700
+far 500057.3 no error info
+702
+far 500057.4 no error info
+704
+far 500057.5 no error info
+706
+far 500057.6 no error info
+708
+far 510113.3 no error info
+710
+far 510113.4 no error info
+712
+far 510113.5 no error info
+714
+far 510113.6 no error info
+716
+far 510238.3 no error info
+718
+far 510238.4 no error info
+720
+far 510238.5 no error info
+722
+far 510238.6 no error info
+724
+far 510597.3 no error info
+726
+far 510597.4 no error info
+728
+far 510597.5 no error info
+730
+far 510597.6 no error info
+732
+far 510638.3 no error info
+734
+far 510638.4 no error info
+736
+far 510638.5 no error info
+738
+far 510638.6 no error info
+740
+far 520188.3 no error info
+742
+far 520188.4 no error info
+744
+far 520188.5 no error info
+746
+far 520188.6 no error info
+748
+far 530219.3 no error info
+750
+far 530219.4 no error info
+752
+far 530219.5 no error info
+754
+far 550041.3 no error info
+756
+far 550041.4 no error info
+758
+far 550041.5 no error info
+760
+far 550041.6 no error info
+762
+far 550137.3 no error info
+764
+far 550137.4 no error info
+766
+far 550137.5 no error info
+768
+far 550137.6 no error info
+770
+far 550202.3 no error info
+772
+far 550202.4 no error info
+774
+far 550202.5 no error info
+776
+far 550202.6 no error info
+778
+far 550221.3 no error info
+780
+far 550221.4 no error info
+782
+far 550221.5 no error info
+784
+far 550221.6 no error info
+786
+far 560027.3 no error info
+788
+far 560027.4 no error info
+790
+far 560027.5 no error info
+792
+far 560027.6 no error info
+794
+far 560054.4 no error info
+796
+far 560054.5 no error info
+798
+far 560054.6 no error info
+800
+far 560087.3 no error info
+802
+far 560087.4 no error info
+804
+far 560087.6 no error info
+806
+far 570025.3 no error info
+808
+far 570025.4 no error info
+810
+far 570025.5 no error info
+812
+far 570025.6 no error info
+814
+far 570062.3 no error info
+816
+far 570062.4 no error info
+818
+far 570062.5 no error info
+820
+far 570062.6 no error info
+822
+far 570096.4 no error info
+824
+far 570096.5 no error info
+826
+far 570096.6 no error info
+828
+far 580098.3 no error info
+830
+far 580098.4 no error info
+832
+far 580098.5 no error info
+834
+far 580234.3 no error info
+836
+far 580234.4 no error info
+838
+far 580234.5 no error info
+840
+far 580234.6 no error info
+842
+far 580235.3 no error info
+844
+far 580235.4 no error info
+846
+far 580235.5 no error info
+848
+far 580235.6 no error info
+850
+index 15 is out of bounds for axis 0 with size 14 C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc580276.6.fits
+852
+far 580276.3 no error info
+854
+far 580276.4 no error info
+856
+far 580276.5 no error info
+858
+list.remove(x): x not in list C:/Users/Faith/Desktop/noey2019summer/ps1hosts\psc580280.5.fits
+860
+far 580300.3 no error info
+862
+far 580300.4 no error info
+864
+far 580300.5 no error info
+866
+far 580300.6 no error info
+868
+far 590123.3 no error info
+870
+far 590123.4 no error info
+872
+far 590123.5 no error info
+874
+far 590123.6 no error info
