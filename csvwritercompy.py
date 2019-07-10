@@ -472,6 +472,8 @@ def extraction(filenames):
                     blacklist.add(i)
                     kronrad[i] = 0.1
 
+        ''' '''
+        
         # start with default threshold, if it fails then use a higher one
         recursiveExtraction(THRESHOLD)
         flux = []
@@ -615,37 +617,10 @@ def extraction(filenames):
 #TODO check
 #TODO check relationsihp with fixing
                 if separation[bestCandidate] > CHECK_DISTANCE:
-                    THIS_IS_A_BAD_IMAGE = True
                     #check for an object with photoz within 10% of event redshift
                     for k in range(len(photozs)):
                         if photozs[k] and abs(photozs[k] - eventz)/eventz < 0.1:
-                            print("old: %i\n" % bestCandidate)
                             bestCandidate = k
-                            print("new: %i\n" % bestCandidate)
-                            print("switched bestCandidate " + filename + '\n')
-                            with open(ERRORFILE, 'a+') as errfile:
-                                errfile.write(("switched bestCandidate " + filename + '\n'))
-                            print(eventz)
-                            print(photozs)
-                else:
-                    THIS_IS_A_BAD_IMAGE = False
-                    
-#                if chanceCoincidence[bestCandidate] > 0.2:
-#                    # iterate through likekly objects
-#                    origLowestChanceCoincidence = chanceCoincidence[bestCandidate]
-#                    for k in np.where(chanceCoincidence - origLowestChanceCoincidence < 0.1)[0]:
-#                        # k has a closer redshift than orig bestCandidate by at least 0.05
-#                        if photozs[bestCandidate] and photozs[k] \
-#                            and abs(photozs[bestCandidate] - eventz) - abs(photozs[k] - eventz) > 0.05:
-#                                print("old: %i\n" % bestCandidate)
-#                                bestCandidate = k
-#                                print("new: %i\n" % bestCandidate)
-#                                print("switched bestCandidate " + filename + '\n')
-#                                with open(ERRORFILE, 'a+') as errfile:
-#                                    errfile.write(("switched bestCandidate " + filename + '\n'))
-#                                print(str(chanceCoincidence)+'\n')
-#                                print(eventz)
-#                                print(photozs)
 
             ellipticity = 1 - (objects['b'][bestCandidate]/objects['a'][bestCandidate])
 
@@ -718,32 +693,40 @@ def extraction(filenames):
                                dec[bestCandidate], hostDec,
                                offby, eventz, photozs[bestCandidate], pixelRank,
                                chanceCoincidence[bestCandidate]]
-#TODO fix writing
-            if THIS_IS_A_BAD_IMAGE:
-                #TODO remove any unnecessary
-                badImageDict = {'filterNum': filterNum, 'objects': objects,
-                                'kronradKpc': kronradKpc, 'separationKpc': separationKpc,
-                                'area': area,
-                                'magnitude': magnitude, 'absMag': absMag,
-                                'objCoords': objCoords, 'photozs': photozs,
-                                'm_0': m_0, 'swappedData': swappedData,
-                                'segmap': segmap, 'old_best': bestCandidate,
-                                'chanceCoincidence': chanceCoincidence}
-                BAD_IMAGES.append(badImageDict)
-            else:
-                newFluxParams =  (swappedData,
+            newFluxParams =  (swappedData,
                                objects['x'][bestCandidate],
                                objects['y'][bestCandidate],
                                objects['a'][bestCandidate],
                                objects['b'][bestCandidate],
                                objects['theta'][bestCandidate], 2.5*kronradKpc[bestCandidate])
-
-                GOOD_IMAGE = (finalProperties, newFluxParams)
+            #TODO remove any unnecessary
+            badImageDict = {'filterNum': filterNum, 'objects': objects,
+                            'kronradKpc': kronradKpc, 'separationKpc': separationKpc,
+                            'area': area,
+                            'magnitude': magnitude, 'absMag': absMag,
+                            'objCoords': objCoords, 'photozs': photozs,
+                            'm_0': m_0, 'swappedData': swappedData,
+                            'segmap': segmap, 'old_best': bestCandidate,
+                            'chanceCoincidence': chanceCoincidence,
+                            'newFluxParams': newFluxParams,
+                            'finalProperties':finalProperties}
+            BAD_IMAGES.append(badImageDict)
 
             cache.extend(finalProperties)
+                
+            # check if all images are in the same place
+            first_location = BAD_IMAGES[0]
+            for im in BAD_IMAGES:
+#TODO 
+'''
+1. if all are in same place, do nothing.
+2. if one is in event location, use it, correct others
+3. elif one has good photoz use it, flag photoz chosen
+4. else use one with best chance coincidence and error flag
+'''
+#TODO in earlier photoz checking, see if multiple have good photozs and flag 
 
-            # If possible, repair cache from bad images, whether this or previous filters
-            if GOOD_IMAGE and BAD_IMAGES:
+
                 errstring = "correcting " + idNumString + '.' + str(filterNum) + '\n'
                 print(errstring)
                 with open(ERRORFILE, 'a+') as errorfile:
