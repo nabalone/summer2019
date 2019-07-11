@@ -6,12 +6,12 @@ Created on Wed Jul  3 12:51:52 2019
 """
 #to_include = ['Z', 'Abs. Mag', 'separation (kpc)', 'area (kpc^2)', 'KronRad (kpc)']
 #fig_name = "redshiftKronmagKronradSeparation_svm_weightmess_4th"
-CLASS_WEIGHT = 'balanced' #{0:0.0000045,  1:5540000000,  2:111,  3:1000000000,  4:768}) FOR RF
+CLASS_WEIGHT = {0:0.0000045,  1:5540000000,  2:111,  3:1000000000,  4:768} # FOR RF
         #{0:0.29,  1:5.54,  2:1.11,  3:4.34,  4:7.68}
         #balanced: n_samples / (n_classes * np.bincount(y))
         #0:0.28,  1:5.44,  2:1.07,  3:3.92,  4:7.54
 WHITEN = True
-USE_RF = False #otherwise SVM
+USE_RF = True #otherwise SVM
 
 import csv
 import os
@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 from sklearn.utils.multiclass import unique_labels
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.ensemble import RandomForestClassifier
-PLOT_DIR = os.getcwd() + '/confusions_svm_whitened_cv100/'
+PLOT_DIR = os.getcwd() + '\\deletable\\'#'/confusions_svm_whitened_cv100/'
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
 
@@ -139,6 +139,7 @@ def plot_confusion_matrix(y_true, y_pred, to_include, cmap=plt.cm.Blues):
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
     number = namegen()
+    plt.show()
     plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + number + '.png')
     plt.close()    
     to_write = [number, bal_score, diag]
@@ -181,7 +182,7 @@ def run(to_include):
                 X.append(chooseProps(row, to_include))
                 y.append(type_to_int[typeDict[pad(int(row[0]))]])
         if USE_RF:
-            clf = RandomForestClassifier(class_weight = CLASS_WEIGHT)
+            clf = RandomForestClassifier(n_estimators=100, class_weight = CLASS_WEIGHT)
         else:
             clf = svm.SVC(gamma='scale', class_weight = CLASS_WEIGHT)#{4: 1., 2: 1., 3: 1., 0: 0.222, 1: 2.5})
     #{4: 1/13., 2: 1/93., 3: 1/25., 0: 1/357., 1: 1/18.}
@@ -189,7 +190,7 @@ def run(to_include):
             X = pca_whiten(X)
         clf.fit(X, y)     
         loo = LeaveOneOut()
-        y_pred = cross_val_predict(clf, X, y, cv=100)
+        y_pred = cross_val_predict(clf, X, y, cv=loo)
         plot_confusion_matrix(y, y_pred, to_include)
         
 
@@ -200,7 +201,7 @@ with open(PLOT_DIR + "log.csv", "w+") as destfile:
     x = ['number', 'bal_score', 'diag']
     x.extend(headers)
     csvwriter.writerow(x)
-    for combo in allCombos[1:]:
+    for combo in [['Z', 'Abs. Mag', 'separation (kpc)', 'area (kpc^2)', 'KronRad (kpc)']]: #allCombos[1:]:
         run(combo)
 end = time.time()
 print(end - start)
