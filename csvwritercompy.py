@@ -36,7 +36,7 @@ ERRORFILE = 'errorfile.txt'
 SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
-THRESHOLD = 1.5
+THRESHOLD = 0.9
 MINAREA = 5
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
 SUBTRACT_BACKGROUND = True
@@ -80,7 +80,7 @@ PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -88,7 +88,7 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc170078.4.fits']
+SPECIFIED = [SOURCEDIR + '/ps1hosts/psc480552.6.fits']
 RANGE = (0,40)
 m0collector = [None, None, None, [], [], [], []]
 
@@ -718,11 +718,11 @@ def extraction(filenames):
             first_location = BAD_IMAGES[0]
             for im in BAD_IMAGES:
 #TODO 
-'''
-1. if all are in same place, do nothing.
-2. if one is in event location, use it, correct others
-3. elif one has good photoz use it, flag photoz chosen
-4. else use one with best chance coincidence and error flag
+                '''
+                1. if all are in same place, do nothing.
+                2. if one is in event location, use it, correct others
+                3. elif one has good photoz use it, flag photoz chosen
+                4. else use one with best chance coincidence and error flag
 '''
 #TODO in earlier photoz checking, see if multiple have good photozs and flag 
 
