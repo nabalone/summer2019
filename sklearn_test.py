@@ -215,14 +215,14 @@ with open(PLOT_DIR + "log.csv", "w+") as destfile:
     for combo in [['Z', 'Abs. Mag', 'separation (kpc)', 'area (kpc^2)', \
                    'KronRad (kpc)', 'Ellipticity', 'pixelRank', 'chance coincidence'], ['Z', 'pixelRank']]: #allCombos[1:]:
         run(combo, 10, 'rf10')
-        run(combo, 100, '100a')
-        run(combo, 100, '100b')
-        global ADD_RANDOM
-        ADD_RANDOM=1
-        run(combo, 100, 'r100a')
-        run(combo, 100, 'r100b')
-        run(combo, 500, '500a')
-        run(combo, 500, '500b')
+#        run(combo, 100, '100a')
+#        run(combo, 100, '100b')
+#        global ADD_RANDOM
+#        ADD_RANDOM=1
+#        run(combo, 100, 'r100a')
+#        run(combo, 100, 'r100b')
+#        run(combo, 500, '500a')
+#        run(combo, 500, '500b')
 end = time.time()
 print(end - start)
         
