@@ -6,15 +6,18 @@ Created on Wed Jul  3 12:51:52 2019
 """
 #to_include = ['Z', 'Abs. Mag', 'separation (kpc)', 'area (kpc^2)', 'KronRad (kpc)']
 #fig_name = "redshiftKronmagKronradSeparation_svm_weightmess_4th"
-CLASS_WEIGHT = {0:0.0000045,  1:5540000000,  2:111,  3:1000000000,  4:768} # FOR RF
+CLASS_WEIGHT = "balanced"#{0:0.0000045,  1:5540000000,  2:111,  3:1000000000,  4:768} # FOR RF
         #{0:0.29,  1:5.54,  2:1.11,  3:4.34,  4:7.68}
         #balanced: n_samples / (n_classes * np.bincount(y))
         #0:0.28,  1:5.44,  2:1.07,  3:3.92,  4:7.54
 WHITEN = True
 USE_RF = True #otherwise SVM
 
+ADD_RANDOM = 0
+
 import csv
 import os
+import random
 from sklearn import svm
 from sklearn.metrics import confusion_matrix
 from sklearn.decomposition import PCA
@@ -68,6 +71,8 @@ def chooseProps(row, to_include):
             prop = headers[prop]
         for ind in indexDict[prop]:
             limited_row.append(row[ind])
+    for i in range(ADD_RANDOM):
+        limited_row.append(random.random())
     return limited_row
 
 type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
@@ -94,7 +99,8 @@ def namegen():
     return str(namecount)
         
     
-def plot_confusion_matrix(y_true, y_pred, to_include, cmap=plt.cm.Blues):
+def plot_confusion_matrix(y_true, y_pred, to_include, name_extension='', 
+                          cmap=plt.cm.Blues, importances=None):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
@@ -139,8 +145,9 @@ def plot_confusion_matrix(y_true, y_pred, to_include, cmap=plt.cm.Blues):
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
     number = namegen()
-    plt.show()
-    plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + number + '.png')
+    #plt.show()
+    plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + str(ADD_RANDOM) \
+                + name_extension + '.png')#number + '.png')
     plt.close()    
     to_write = [number, bal_score, diag]
     included_set = set(to_include)
@@ -149,6 +156,7 @@ def plot_confusion_matrix(y_true, y_pred, to_include, cmap=plt.cm.Blues):
             to_write.append('x')
         else:
             to_write.append(None)
+    to_write.extend(importances)
     csvwriter.writerow(to_write)
     return ax
     
@@ -159,7 +167,7 @@ def pca_whiten(X):
     return PCA(whiten=True).fit_transform(X)        
             
 
-def run(to_include):
+def run(to_include, N_ESTIMATORS = None, NAME_EXTENSION = ''):
     X = []
     y = []
     
@@ -182,7 +190,7 @@ def run(to_include):
                 X.append(chooseProps(row, to_include))
                 y.append(type_to_int[typeDict[pad(int(row[0]))]])
         if USE_RF:
-            clf = RandomForestClassifier(n_estimators=100, class_weight = CLASS_WEIGHT)
+            clf = RandomForestClassifier(n_estimators=N_ESTIMATORS, class_weight = CLASS_WEIGHT)
         else:
             clf = svm.SVC(gamma='scale', class_weight = CLASS_WEIGHT)#{4: 1., 2: 1., 3: 1., 0: 0.222, 1: 2.5})
     #{4: 1/13., 2: 1/93., 3: 1/25., 0: 1/357., 1: 1/18.}
@@ -191,7 +199,10 @@ def run(to_include):
         clf.fit(X, y)     
         loo = LeaveOneOut()
         y_pred = cross_val_predict(clf, X, y, cv=loo)
-        plot_confusion_matrix(y, y_pred, to_include)
+        I = clf.feature_importances_ if USE_RF else None
+        plot_confusion_matrix(y, y_pred, to_include,
+                              name_extension = NAME_EXTENSION, 
+                              importances = I)
         
 
 import time
@@ -201,8 +212,17 @@ with open(PLOT_DIR + "log.csv", "w+") as destfile:
     x = ['number', 'bal_score', 'diag']
     x.extend(headers)
     csvwriter.writerow(x)
-    for combo in [['Z', 'Abs. Mag', 'separation (kpc)', 'area (kpc^2)', 'KronRad (kpc)']]: #allCombos[1:]:
-        run(combo)
+    for combo in [['Z', 'Abs. Mag', 'separation (kpc)', 'area (kpc^2)', \
+                   'KronRad (kpc)', 'Ellipticity', 'pixelRank', 'chance coincidence'], ['Z', 'pixelRank']]: #allCombos[1:]:
+        run(combo, 10, 'rf10')
+        run(combo, 100, '100a')
+        run(combo, 100, '100b')
+        global ADD_RANDOM
+        ADD_RANDOM=1
+        run(combo, 100, 'r100a')
+        run(combo, 100, 'r100b')
+        run(combo, 500, '500a')
+        run(combo, 500, '500b')
 end = time.time()
 print(end - start)
         
