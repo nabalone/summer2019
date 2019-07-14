@@ -79,7 +79,7 @@ CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcs
 PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
-ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
+ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
 FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
@@ -106,6 +106,10 @@ for i in range(3,7):
 # remove error file
 if os.path.exists(ERRORFILE):
   os.remove(ERRORFILE)
+  
+  
+all_myMags = []
+all_realMags = []
 
 # for naming plots files
 namecount = 0
@@ -123,8 +127,12 @@ class Image:
         self.idNum = int(idNumString)
         self.filterNum = filterNum
         self.event = event
-        filename = SOURCE_DIR + "/psc%s.%s.fits" % (idNumString, filterNum)
+        self.eventz = float(zdict[self.idNumString])
+        filename = SOURCEDIR + "\ps1hosts\psc%s.%s.fits" % (idNumString, filterNum)
         w = WCS(filename)
+        
+        
+        image_file = fits.open(filename)
         
         # to get image dimensions in wcs:
         maxX = image_file[0].header['NAXIS1']
@@ -137,30 +145,28 @@ class Image:
         minRa = minRa.item(0)*u.deg
         maxDec = maxDec.item(0)*u.deg
         minDec = minDec.item(0)*u.deg
-
-        image_file = fits.open(filename)
         
         ''' extract objects '''
         image_data = image_file[0].data
 
         #fix byte order
-        swappedData = image_data.byteswap(True).newbyteorder()
+        self.swappedData = image_data.byteswap(True).newbyteorder()
         global bkg
         # subtracting out background
-        bkg = sep.Background(swappedData)
+        bkg = sep.Background(self.swappedData)
         if SUBTRACT_BACKGROUND:
-            swappedData = swappedData - bkg
+            self.swappedData = self.swappedData - bkg
         
         
         def recursiveExtraction(attemptedThresh):
-          self.objects, segmap = sep.extract(swappedData, attemptedThresh,
+            self.objects, self.segmap = sep.extract(self.swappedData, attemptedThresh,
                                           err=bkg.globalrms, #var=noise_data2 ,
                                   minarea = MINAREA, deblend_cont = DEBLEND_CONT,
                                   segmentation_map = True)
 
             # how to calculate kron radius and flux from
             # https://sep.readthedocs.io/en/v1.0.x/apertures.html
-            kronrad, _krflag = sep.kron_radius(swappedData, self.objects['x'], self.objects['y'],
+            self.kronrad, _krflag = sep.kron_radius(self.swappedData, self.objects['x'], self.objects['y'],
                                                self.objects['a'], self.objects['b'],
                                                self.objects['theta'], 6.0)
 
@@ -170,16 +176,14 @@ class Image:
             for i in range(len(self.objects)):
                 # remove any 'nan' kronrads and blacklist the objects
                 #check if ki is nan:
-                if np.isnan(kronrad[i]):
+                if np.isnan(self.kronrad[i]):
                     #if an object near event (likely host) fails,
                     # redo getting objects using a higher thresh
-                    if abs(self.objects['x'][i] - eventX) < 20 and \
-                       abs(self.objects['y'][i] - eventY) < 20:
-                           noteString = "Note: raising threshold to %s %s \n" \
-                               %(attemptedThresh + 0.3, filename_d)
-                           print(noteString)
-                           with open(ERRORFILE, 'a+') as errorfile:
-                               errorfile.write(noteString)
+                    if abs(self.objects['x'][i] - event['x']) < 20 and \
+                       abs(self.objects['y'][i] - event['y']) < 20:
+                           noteString = "Note: raising threshold to %s \n" \
+                               %(attemptedThresh + 0.3)
+                           self.errorProtocol(noteString)
                            recursiveExtraction(attemptedThresh + 0.3)
                            return
                     # otherwise blacklist and give an arbitrary valid kronrad
@@ -191,16 +195,16 @@ class Image:
         # start with default threshold, if it fails then use a higher one
         recursiveExtraction(THRESHOLD)
         flux = []
-        for i in range(len(kronrad)):
+        for i in range(len(self.kronrad)):
             try:
-                thisflux, _fluxerr, _flag = sep.sum_ellipse(swappedData, self.objects['x'][i],
+                thisflux, _fluxerr, _flag = sep.sum_ellipse(self.swappedData, self.objects['x'][i],
                                         self.objects['y'][i], self.objects['a'][i],
                                         self.objects['b'][i], self.objects['theta'][i],
-                                        2.5*kronrad[i], subpix=1)
+                                        2.5*self.kronrad[i], subpix=1)
                 flux.append(thisflux)
             except:
                 flux.append(0)
-                self.errorProtocol("Warning: failed flux calculation on " + filename_d)
+                self.errorProtocol("Warning: failed flux calculation on ")
         flux = np.array(flux)
 
         if idNumString not in sdssTableGroupIndex:
@@ -237,101 +241,100 @@ class Image:
 
                         # if its a star, and its not right on the event, blacklist
                         if sdssTable['type'][j] == 6 \
-                            and not abs(sdssTable['ra'][j] - eventRa)*u.deg < MINDIST \
-                            and not abs(sdssTable['dec'][j] - eventDec)*u.deg < MINDIST:
+                            and not abs(sdssTable['ra'][j] - self.event['ra'])*u.deg < MINDIST \
+                            and not abs(sdssTable['dec'][j] - self.event['dec'])*u.deg < MINDIST:
                             self.blacklist.add(i)
 
                         #if its a star brighter than 21, use its magnitude in zero point calculation
                         if sdssTable['type'][j] == 6 and sdssTable[FILTERS[filterNum]][j] < 21. \
-                            and self.objects['x'][i] - 2.5 * kronrad[i] >= 0 \
-                            and self.objects['x'][i] + 2.5 * kronrad[i] <= maxX \
-                            and self.objects['y'][i] - 2.5 * kronrad[i] >= 0 \
-                            and self.objects['y'][i] + 2.5 * kronrad[i] <= maxY:
+                            and self.objects['x'][i] - 2.5 * self.kronrad[i] >= 0 \
+                            and self.objects['x'][i] + 2.5 * self.kronrad[i] <= maxX \
+                            and self.objects['y'][i] - 2.5 * self.kronrad[i] >= 0 \
+                            and self.objects['y'][i] + 2.5 * self.kronrad[i] <= maxY:
                                 colRealMags.append(sdssTable[FILTERS[filterNum]][j])
                                 colFluxes.append(flux[i])
 #TODO check that star is completely in frame before use
                         break
 
-        try:
-            colFluxes = np.array(colFluxes)
+        colFluxes = np.array(colFluxes)
 
 #            magcache = [idNum, filterNum]
-            m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS']))
-            m_0s = m_0s[~np.isnan(m_0s)] #remove nans
-            if m_0s.any():
-                m_0 = np.median(m_0s)
-                global m0collector
-                m0collector[filterNum].append(m_0)
+        m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS']))
+        m_0s = m_0s[~np.isnan(m_0s)] #remove nans
+        if m_0s.any():
+            self.m_0 = np.median(m_0s)
+            global m0collector
+            m0collector[filterNum].append(self.m_0)
 
-            #no SDSS stars to calculate zero point
-            else:
-                    m_0 = FILTER_M0s[filterNum]['default']
-                    colFluxes = np.array([])
-                    colRealMags = np.array([])
+        #no SDSS stars to calculate zero point
+        else:
+                self.m_0 = FILTER_M0s[filterNum]['default']
+                colFluxes = np.array([])
+                colRealMags = np.array([])
 
-            # m_0 is outlier, use default
-            if m_0 > FILTER_M0s[filterNum]['upper'] or \
-                m_0 < FILTER_M0s[filterNum]['lower']:
-                    m_0 = FILTER_M0s[filterNum]['default']
+        # m_0 is outlier, use default
+        if self.m_0 > FILTER_M0s[filterNum]['upper'] or \
+            self.m_0 < FILTER_M0s[filterNum]['lower']:
+                self.m_0 = FILTER_M0s[filterNum]['default']
 
-            colMyMags = -2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS'])) + m_0
-            self.magnitude = -2.5 * np.log10(flux/float(image_file[0].header['MJD-OBS'])) + m_0
+        self.exposure_time = float(image_file[0].header['MJD-OBS'])
+        colMyMags = -2.5 * np.log10(colFluxes/self.exposure_time) + self.m_0
+        self.magnitude = -2.5 * np.log10(flux/self.exposure_time) + self.m_0
 #TODO combine?
 #            if MAG_TEST_STDEV:
 #                csvwriter.writerow(magcache)
 #                raise AssertionError
-            if MAG_TEST_ALL:
-                all_myMags[filterNum].extend(colMyMags[:])
-                all_realMags[filterNum].extend(colRealMags[:])
+        if MAG_TEST_ALL:
+            all_myMags[filterNum].extend(colMyMags[:])
+            all_realMags[filterNum].extend(colRealMags[:])
 #
 #                for obj in range(len(colFluxes)):
 #                    csvwriter.writerow([idNum, filterNum, colMyMags[obj],
 #                                        colRealMags[obj],
 #                                        colMyMags[obj] - colRealMags[obj]])
 #TODO remove
-                for k in range(len(colMyMags)):
-                    if abs(colMyMags[k] - colRealMags[k]) > 2:
-                        print("outlier: " + filename_d)
+            for k in range(len(colMyMags)):
+                if abs(colMyMags[k] - colRealMags[k]) > 2:
+                    self.errorProtocol("outlier: ")
 
-            '''Chance Coincidence Calculation'''
-            #size is half light radius
-            size, _flag = sep.flux_radius(swappedData, self.objects['x'], self.objects['y'],
-                              6.*self.objects['a'], 0.5, normflux=flux, subpix=5)
+        '''Chance Coincidence Calculation'''
+        #size is half light radius
+        size, _flag = sep.flux_radius(self.swappedData, self.objects['x'], self.objects['y'],
+                          6.*self.objects['a'], 0.5, normflux=flux, subpix=5)
 
-            # convert to arcsecs
-            degPerPix = image_file[0].header['CDELT1']
-            size = size * degPerPix *3600
+        # convert to arcsecs
+        degPerPix = image_file[0].header['CDELT1']
+        size = size * degPerPix *3600
 
-            self.separation = self.objCoords.separation(eventCoords).arcsec
-            
-            # Observed number density of galaxies brighter than magnitude M (From Berger 2010)
-            sigma = 10 ** (0.33 * (self.magnitude - 24) - 2.44) / (0.33 * np.log(10))
-            # Effective radius
-            R_effective = np.sqrt(np.abs(self.separation)**2 + 4 * np.abs(size) ** 2)
+        self.separation = self.objCoords.separation(event['coords']).arcsec
+        
+        # Observed number density of galaxies brighter than magnitude M (From Berger 2010)
+        sigma = 10 ** (0.33 * (self.magnitude - 24) - 2.44) / (0.33 * np.log(10))
+        # Effective radius
+        R_effective = np.sqrt(np.abs(self.separation)**2 + 4 * np.abs(size) ** 2)
 
-            # Probability of chance coincidence
-            self.chanceCoincidence = 1 - np.exp(-np.pi * R_effective ** 2 * sigma)
-            # exclude any blacklisted
-            for i in self.blacklist:
-                self.chanceCoincidence[i] = 1
-            
-            self.ellipticity = 1 - (self.objects['b'][bestCandidate]/self.objects['a'][bestCandidate])
+        # Probability of chance coincidence
+        self.chanceCoincidence = 1 - np.exp(-np.pi * R_effective ** 2 * sigma)
+        # exclude any blacklisted
+        for i in self.blacklist:
+            self.chanceCoincidence[i] = 1
+        
+        self.ellipticity = 1 - (self.objects['b']/self.objects['a'])
 
-            #remove mpc for dimensionless math and convert to kpc
-            dA = cosmo.angular_diameter_distance(event_z)*1000/u.Mpc # in kpc.
-            self.area = self.objects['npix'] * (degPerPix*(np.pi/180.)*dA)**2 #kpc^2
-            dL = cosmo.luminosity_distance(event_z)*1000/u.Mpc # in kpc
-            self.absMag = self.magnitude - 5*np.log10(dL) - 10
-            # separation is in arcseconds
-            self.separationKpc = self.separation * (1./3600.) * (np.pi/180.)*dA
-            self.kronradKpc = kronrad * degPerPix*(np.pi/180.)*dA
-            
-            image_file.close()
+        #remove mpc for dimensionless math and convert to kpc
+        dA = cosmo.angular_diameter_distance(self.eventz)*1000/u.Mpc # in kpc.
+        self.area = self.objects['npix'] * (degPerPix*(np.pi/180.)*dA)**2 #kpc^2
+        self.dL = cosmo.luminosity_distance(self.eventz)*1000/u.Mpc # in kpc
+        self.absMag = self.magnitude - 5*np.log10(self.dL) - 10
+        # separation is in arcseconds
+        self.separationKpc = self.separation * (1./3600.) * (np.pi/180.)*dA
+        self.kronradKpc = self.kronrad * degPerPix*(np.pi/180.)*dA
+        
+        image_file.close()
    
     def attemptBestCandidate(self):
         self.bestCandidate = np.argmin(self.chanceCoincidence)
         # Correct bestCandidate choice for closer redshift if similar prob.
-        self.eventz = float(zdict[self.idNumString])
 #TODO change to absolute separation
         photoz_matched = False
         if self.separation[self.bestCandidate] > CHECK_DISTANCE:
@@ -345,25 +348,44 @@ class Image:
                         photoz_matched = True
         return photoz_matched
     
-    def check_at(coords):
-        #TODO
+    def correct_bestCandidate(self, goodcoords):
+        self.bestCandidate = None
+        for k in range(len(self.objCoords)):
+            if self.objCoords[k].separation(goodcoords) < MINDIST:
+                self.bestCandidate = k
     
-    def modifyFinalDataFrom(data):
-        
-        #TODO
+    def modifyFinalDataFrom(self, data, newFluxParams, used_bestCandidate, used_segmap):
+        # no objects in correct location detected in bad image, 
+        #use data from good image but update magnitude
+        newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
+        newMagnitude = -2.5 * np.log10(self.exposure_time) + self.m_0
+#TODO just save the old pixel rank
+        newPixelRank = self.getPixelRank(target=used_bestCandidate, segmap=used_segmap)
+        newAbsMag = newMagnitude - 5*np.log10(self.dL) - 10
     
-    def getFinalData():    
+        newProperties = data[:] #copy list
+        oldMagnitude = newProperties[6]
+        newProperties[6] = newMagnitude
+        newProperties[7] = newAbsMag
+        newProperties[17] = newPixelRank
+        oldChanceCoincidence = newProperties[18]
+        #adjust chanceCoincidence for change in magnitude
+        newProperties[18] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
+#TODO make sure above math is correct
+
+    
+    def getFinalData(self):    
         '''Get "real" host location and redshifts'''
-        hostRa = hostsData[idNumString]['host_ra']
-        hostDec = hostsData[idNumString]['host_dec']
+        hostRa = hostsData[self.idNumString]['host_ra']
+        hostDec = hostsData[self.idNumString]['host_dec']
         try:
             hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
             #convert to decimal deg:
             hostRa = hostCoords.ra.deg
             hostDec = hostCoords.dec.deg
-            offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
+            offby = hostCoords.separation(self.objCoords[self.bestCandidate]).arcsec\
                     if hostRa else None
-            hectoZ = hostsData[idNumString]['redshift']
+            hectoZ = hostsData[self.idNumString]['redshift']
         except ValueError:
             if len(hostRa) > 12: # hecto gave multiple host galaxies
                 hostRa = "multiple"
@@ -384,7 +406,7 @@ class Image:
                            self.magnitude[bestCandidate],
                            self.absMag[bestCandidate],
                            self.objects['theta'][bestCandidate],
-                           self.ellipticity,
+                           self.ellipticity[bestCandidate],
                            self.ra[bestCandidate], hostRa,
                            self.dec[bestCandidate], hostDec,
                            offby, self.eventz, self.photozs[bestCandidate], pixelRank,
@@ -413,7 +435,7 @@ class Image:
     
         # plot an ellipse for each object
         for i in to_circle:
-            e = Ellipse(xy=(self.objects['x'][i], objects['y'][i]),
+            e = Ellipse(xy=(self.objects['x'][i], self.objects['y'][i]),
                         width=6*self.objects['a'][i],
                         height=6*self.objects['b'][i],
                         angle=self.objects['theta'][i] * 180. / np.pi)
@@ -430,21 +452,25 @@ class Image:
         plt.show()
         plt.close()
 
-    def getPixelRank(self):
+    def getPixelRank(self, target=None, segmap=None):
+#TODO global???
         global a
         global pixels
         global location
-        target = self.bestCandidate
-        a = np.where(self.segmap == target+1)
+        if not target:
+            target = self.bestCandidate
+        if not segmap:
+            segmap = self.segmap
+        a = np.where(segmap == target+1)
         pixels = []
         for k in range(len(a[0])):
             pixels.append((a[0][k], a[1][k])) #list of tuples of coords
-        pixels.append((int(event['x']), int(event['y']))) #in case event is outside host object
+        pixels.append((int(self.event['x']), int(self.event['y']))) #in case event is outside host object
         def sortkey(x):
             a, b = x
-            return swappedData[a][b]
+            return self.swappedData[a][b]
         pixels.sort(key = sortkey)
-        location = pixels.index((int(event['x']), int(event['y'])))
+        location = pixels.index((int(self.event['x']), int(self.event['y'])))
         return float(location)/float(len(pixels))
     
     
@@ -478,6 +504,7 @@ def extraction(filenames):
 
     ''' load event redshifts' dictionary '''
 #TODO combine with plotRedshifts method
+    global zdict
     zdict = {}
     zfile = open('new_ps1z.dat', 'r')
     zfile.readline() #get rid of heade
@@ -517,10 +544,12 @@ def extraction(filenames):
     db = db.append(db2,ignore_index=True)
 
     '''load prerun sdss queries'''
+    global fullSdssTable
     fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
     fullSdssTable = fullSdssTable.group_by('idnum')
     
     '''load real host data'''
+    global hostsData
     with open('hosts.dat', 'r') as hostsfile:
         hostsData = hostsfile.read()
     # convert to dictionary from dictionary string
@@ -542,11 +571,7 @@ def extraction(filenames):
 #        magdestfile = open(MAGFILE, "w+")
 #        csvwriter = csv.writer(magdestfile)
 
-    for filename in filenames:
-        ''' clean up and set up '''
-        #clear bestCandidate to avoid bad plotting
-        bestCandidate = None
-
+    for filename in filenames: 
         # to extract transient and filter number from filename of the form
         # */psc190369.6.fits
         dotSplit = filename.split('.')
@@ -571,23 +596,20 @@ def extraction(filenames):
         w = WCS(filename)
         event['x'], event['y'] = w.all_world2pix(event['ra'], event['dec'], 1)
         
-        images = []
+        images = [None]*7
         good_locations = []
         bad_locations = []
         good_photozs = []
-        bad_photozs = []
         for x in range(3,7):
             images[x] = Image(idNumString, x, event)
             photozMatched = images[x].attemptBestCandidate()
 #TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
-            if images[x].objCoords[x.bestCandidate].separation(event['coords']) < MINDIST:
+            if images[x].objCoords[images[x].bestCandidate].separation(event['coords']) < MINDIST:
                 good_locations.append(x)
             else:
                 bad_locations.append(x)
             if photozMatched:
                 good_photozs.append(x)
-            else:
-                bad_photozs = []
         
         '''choose candidates'''        
         if good_locations:
@@ -595,7 +617,7 @@ def extraction(filenames):
             goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
 #TODO do I use object at event coords or good coords?
             for x in bad_locations:
-                images[x].bestCandidate = images[x].check_at(event['coords'])
+                images[x].correct_bestCandidate(event['coords'])
         elif good_photozs:
             filter_to_use = good_photozs[0]
             goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
@@ -610,12 +632,20 @@ def extraction(filenames):
         
         cache = [None]*6
         # get final data from the known good filter first
-        cache[filter_to_use] = images[filter_to_use].getFinalData(images[filter_to_use].bestCandidate)
+        cache[filter_to_use] = images[filter_to_use].getFinalData()
         for i in range(3,7):
             if i == filter_to_use: #alread done above
                 pass
             elif images[i].bestCandidate == None:
-                cache[i] = modifyFinalDataFrom(cache[filter_to_use])
+                usedbestCandidate = images[filter_to_use].bestCandidate
+                newFluxParams =  (images[i].swappedData,
+                   images[filter_to_use].objects['x'][usedbestCandidate],
+                   images[filter_to_use].objects['y'][usedbestCandidate],
+                   images[filter_to_use].objects['a'][usedbestCandidate],
+                   images[filter_to_use].objects['b'][usedbestCandidate],
+                   images[filter_to_use].objects['theta'][usedbestCandidate], 
+                   2.5*images[filter_to_use].kronradKpc[usedbestCandidate])
+                cache[i] = images[i].modifyFinalDataFrom(cache[filter_to_use], newFluxParams)
             else:
                 cache[i] = images[i].getFinalData()
                 
@@ -626,116 +656,7 @@ def extraction(filenames):
                 image.plot()
                 image.plot(myVmin = 0, myVmax = 1000)
                 
-        
-        
-        
-        
-        
-        
-            newFluxParams =  (swappedData,
-                               self.objects['x'][bestCandidate],
-                               self.objects['y'][bestCandidate],
-                               self.objects['a'][bestCandidate],
-                               self.objects['b'][bestCandidate],
-                               self.objects['theta'][bestCandidate], 2.5*kronradKpc[bestCandidate])
-            #TODO remove any unnecessary
-            badImageDict = {'filterNum': filterNum, 'objects': objects,
-                            'kronradKpc': kronradKpc, 'separationKpc': separationKpc,
-                            'area': area,
-                            'magnitude': magnitude, 'absMag': absMag,
-                            'objCoords': objCoords, 'photozs': photozs,
-                            'm_0': m_0, 'swappedData': swappedData,
-                            'segmap': segmap, 'old_best': bestCandidate,
-                            'chanceCoincidence': chanceCoincidence,
-                            'newFluxParams': newFluxParams,
-                            'finalProperties':finalProperties}
-            BAD_IMAGES.append(badImageDict)
-
-            cache.extend(finalProperties)
-                
-            # check if all images are in the same place
-            first_location = BAD_IMAGES[0]
-            for im in BAD_IMAGES:
-#TODO 
-                '''
-                1. if all are in same place, do nothing.
-                2. if one is in event location, use it, correct others
-                3. elif one has good photoz use it, flag photoz chosen
-                4. else use one with best chance coincidence and error flag
-'''
-#TODO in earlier photoz checking, see if multiple have good photozs and flag 
-
-
-                errstring = "correcting " + idNumString + '.' + str(filterNum) + '\n'
-                print(errstring)
-                with open(ERRORFILE, 'a+') as errorfile:
-                    errorfile.write(errstring)
-                finalProperties, newFluxParams = GOOD_IMAGE
-                #TODO check indices are correct
-                goodCoords = SkyCoord(finalProperties[10], #new ra[bestCandidate]
-                                      finalProperties[12], unit=u.deg) #(ra,dec)
-                for imageDict in BAD_IMAGES:
-                    fixed = False
-                    for k in range(len(imageDict['objCoords'])):
-                        # look for an object at the new good location
-                        if imageDict['objCoords'][k].separation(goodCoords) < MINDIST:
-                            newBestCandidate = k
-                            newEllipticity = 1 - (imageDict['objects']['b'][newBestCandidate]/
-                                                imageDict['objects']['a'][newBestCandidate])
-                            newOffby = hostCoords.separation(imageDict['objCoords'][newBestCandidate]).arcsec
-                            newPixelRank = getPixelRank()
-
-                            newProperties = [imageDict['kronradKpc'][newBestCandidate],
-                                            imageDict['separationKpc'][newBestCandidate],
-                                            imageDict['area'][newBestCandidate],
-                                            imageDict['separationKpc'][newBestCandidate] /\
-                                            imageDict['area'][newBestCandidate],
-                                            imageDict['objects']['x'][newBestCandidate] - eventX,
-                                            imageDict['objects']['y'][newBestCandidate] - eventY,
-                                            imageDict['magnitude'][newBestCandidate],
-                                            imageDict['absMag'][newBestCandidate],
-                                            imageDict['objects']['theta'][newBestCandidate],
-                                            newEllipticity,
-                                            imageDict['objCoords'][newBestCandidate].ra.deg,
-                                            hostRa,
-                                            imageDict['objCoords'][newBestCandidate].dec.deg,
-                                            hostDec, newOffby,
-                                            eventz, imageDict['photozs'][newBestCandidate],
-                                            newPixelRank,
-                                            imageDict['chanceCoincidence'][newBestCandidate]]
-                            fixed = True
-                            break
-                    if not fixed: # no objects in center detected in bad image, use data from good image
-                        # but update magnitude
-                        newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
-                        newMagnitude = -2.5 * np.log10(newFlux/float(image_file[0].header['MJD-OBS'])) + imageDict['m_0']
-#TODO just save the old pixel rank
-                        newPixelRank = getPixelRank(imageDict['swappedData'],
-                            eventX, eventY, imageDict['segmap'], imageDict['old_best'])
-                        newAbsMag = newMagnitude - 5*np.log10(dL) - 10
-                                    # Observed number density of galaxies brighter than magnitude M (From Berger 2010)
-
-#TODO check correctness
-                        newProperties = finalProperties[:] #copy list
-                        oldMagnitude = newProperties[6]
-                        newProperties[6] = newMagnitude
-                        newProperties[7] = newAbsMag
-                        newProperties[17] = newPixelRank
-                        oldChanceCoincidence = newProperties[18]
-                        #adjust chanceCoincidence for change in magnitude
-                        newProperties[18] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
-#TODO make sure above math is correct
-                    #TODO fix out of bounds possibility
-                    numColumnsOnLeft = 1 + (imageDict['filterNum'] - 3)*len(perImageHeaders)
-                    # repair cache
-                    cache = cache[:numColumnsOnLeft] + newProperties\
-                            + cache[numColumnsOnLeft + len(perImageHeaders):]
-                    BAD_IMAGES.remove(imageDict)
-
-            if chanceCoincidence[bestCandidate] > LIKELIHOOD_THRESH:
-                self.errorProtocol("unlikely")
-
-            ''' end getData block'''
+        '''
             #collect data for redshift plot
             if PLOT_REDSHIFTS and filterNum == 6:
                 raise Exception("needs fixing, indices are wrong here")
@@ -869,10 +790,9 @@ def extraction(filenames):
 #            plt.show()
 #            plt.close()
 #
-    # write last data
-    cache.extend([FILLER_VAL]*(1+4*len(perImageHeaders)-len(cache)))
+
+    '''
     if WRITE_CSV:
-        csvwriter.writerow(cache)
         destfile.close()
     if PRINT_DATA:
         print(cache)
@@ -917,7 +837,6 @@ if __name__ == "__main__":
             global sdssTable
             global chanceCoincidence
             global separation
-            global filename_d
             global filename
             global blacklist
             global swappedData
@@ -997,5 +916,4 @@ if __name__ == "__main__":
     global eventY
     global idNum
     global filterNum
-    global filename_d
 '''

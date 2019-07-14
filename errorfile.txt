@@ -1,3 +1,0 @@
-correcting 480552.5
-0
-'NoneType' object is not iterable C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts/psc480552.5.fits
