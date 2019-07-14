@@ -91,7 +91,7 @@ for f in to_check:
 SPECIFIED = [SOURCEDIR + '/ps1hosts/psc480552.6.fits']
 RANGE = (0,40)
 m0collector = [None, None, None, [], [], [], []]
-
+BAD_COUNT = 0
 '''make header'''
 HEADER =['ID']
 #perImageHeaders = ['KronRad', 'separation', 'x', 'y', 'RA', 'DEC', 'KronMag', 'Angle', 'Ellipticity']
@@ -117,7 +117,12 @@ def namegen():
 class Image:    
     def __init__(self, idNumString, filterNum, event):
 #TODO get all of this work out of the init?
-        event = event
+        
+#TODO unneccessary or redundant?
+        self.idNumString = idNumString
+        self.idNum = int(idNumString)
+        self.filterNum = filterNum
+        self.event = event
         filename = SOURCE_DIR + "/psc%s.%s.fits" % (idNumString, filterNum)
         w = WCS(filename)
         
@@ -204,17 +209,17 @@ class Image:
             sdssTable = fullSdssTable.groups[sdssTableGroupIndex[idNumString]]
 
         # the last argument is 1 b/c first pixel of FITS should be 1,1 not 0,0?
-        ra, dec = w.all_pix2world(self.objects['x'], self.objects['y'], 1)
-        self.objCoords = SkyCoord(ra*u.deg, dec*u.deg, frame='icrs') # coords of all objs
+        self.ra, self.dec = w.all_pix2world(self.objects['x'], self.objects['y'], 1)
+        self.objCoords = SkyCoord(self.ra*u.deg, self.dec*u.deg, frame='icrs') # coords of all objs
 
         # for collecting mags and fluxes to calculate the zero for this file
         colRealMags = []
         #colRealMags = Table([[]]*8, names=magNames)
         colFluxes = []
-        photozs = [None]*len(self.objects)
+        self.photozs = [None]*len(self.objects)
         for i in range(len(self.objects)):
-            curRa = ra[i]
-            curDec = dec[i]
+            curRa = self.ra[i]
+            curDec = self.dec[i]
             if sdssTable:
                 # for each object, iterate through table until finding object
                 #at that location
@@ -228,7 +233,7 @@ class Image:
                            and sdssTable['z'][j] \
                            and not np.isnan(sdssTable['z'][j]) \
                            and sdssTable['z'][j] != -9999.0:
-                               photozs[i] = sdssTable['z'][j]
+                               self.photozs[i] = sdssTable['z'][j]
 
                         # if its a star, and its not right on the event, blacklist
                         if sdssTable['type'][j] == 6 \
@@ -311,29 +316,80 @@ class Image:
                 self.chanceCoincidence[i] = 1
             
             self.ellipticity = 1 - (self.objects['b'][bestCandidate]/self.objects['a'][bestCandidate])
+
+            #remove mpc for dimensionless math and convert to kpc
+            dA = cosmo.angular_diameter_distance(event_z)*1000/u.Mpc # in kpc.
+            self.area = self.objects['npix'] * (degPerPix*(np.pi/180.)*dA)**2 #kpc^2
+            dL = cosmo.luminosity_distance(event_z)*1000/u.Mpc # in kpc
+            self.absMag = self.magnitude - 5*np.log10(dL) - 10
+            # separation is in arcseconds
+            self.separationKpc = self.separation * (1./3600.) * (np.pi/180.)*dA
+            self.kronradKpc = kronrad * degPerPix*(np.pi/180.)*dA
+            
             image_file.close()
    
     def attemptBestCandidate(self):
-        bestCandidate = np.argmin(self.chanceCoincidence)
+        self.bestCandidate = np.argmin(self.chanceCoincidence)
         # Correct bestCandidate choice for closer redshift if similar prob.
-        try:
-            eventz = float(zdict[idNumString])
-        except KeyError: # no redshift for this event:
-            eventz = 0.
-        else:
-#TODO check
-#TODO check relationsihp with fixing
-            photoz_matched = False
-            if self.separation[bestCandidate] > CHECK_DISTANCE:
-                #check for an object with photoz within 10% of event redshift
-                for k in range(len(photozs)):
-                    if photozs[k] and abs(photozs[k] - eventz)/eventz < 0.1:
-                        bestCandidate = k
-                        if photoz_matched:
-                            self.errorProtocol("multiple matching photozs")
+        self.eventz = float(zdict[self.idNumString])
+#TODO change to absolute separation
+        photoz_matched = False
+        if self.separation[self.bestCandidate] > CHECK_DISTANCE:
+            #check for an object with photoz within 10% of event redshift
+            for k in range(len(self.photozs)):
+                if self.photozs[k] and abs(self.photozs[k] - self.eventz)/self.eventz < 0.1:
+                    self.bestCandidate = k
+                    if photoz_matched:
+                        self.errorProtocol("multiple matching photozs")
 #TODO green circle all in plot
                         photoz_matched = True
-        return (bestCandidate, photoz_matched)
+        return photoz_matched
+    
+    def check_at(coords):
+        #TODO
+    
+    def modifyFinalDataFrom(data):
+        
+        #TODO
+    
+    def getFinalData():    
+        '''Get "real" host location and redshifts'''
+        hostRa = hostsData[idNumString]['host_ra']
+        hostDec = hostsData[idNumString]['host_dec']
+        try:
+            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
+            #convert to decimal deg:
+            hostRa = hostCoords.ra.deg
+            hostDec = hostCoords.dec.deg
+            offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
+                    if hostRa else None
+            hectoZ = hostsData[idNumString]['redshift']
+        except ValueError:
+            if len(hostRa) > 12: # hecto gave multiple host galaxies
+                hostRa = "multiple"
+                hostDec = "multiple"
+                offby = None
+                hectoZ = "multiple"
+            else:
+                raise
+                
+        pixelRank = self.getPixelRank()
+        bestCandidate = self.bestCandidate
+        finalProperties = [self.kronradKpc[bestCandidate],
+                           self.separationKpc[bestCandidate],
+                           self.area[bestCandidate],
+                           self.separationKpc[bestCandidate] / self.area[bestCandidate],
+                           self.objects['x'][bestCandidate] - self.event['x'],
+                           self.objects['y'][bestCandidate] - self.event['y'],
+                           self.magnitude[bestCandidate],
+                           self.absMag[bestCandidate],
+                           self.objects['theta'][bestCandidate],
+                           self.ellipticity,
+                           self.ra[bestCandidate], hostRa,
+                           self.dec[bestCandidate], hostDec,
+                           offby, self.eventz, self.photozs[bestCandidate], pixelRank,
+                           self.chanceCoincidence[bestCandidate]]
+        return finalProperties
     
     def plot(self, myVmin=None, myVmax=None, target=None):
         green = target if target else [self.bestCandidate]
@@ -374,10 +430,11 @@ class Image:
         plt.show()
         plt.close()
 
-    def getPixelRank(self, target):
+    def getPixelRank(self):
         global a
         global pixels
         global location
+        target = self.bestCandidate
         a = np.where(self.segmap == target+1)
         pixels = []
         for k in range(len(a[0])):
@@ -411,8 +468,6 @@ class Image:
 
 
 def extraction(filenames):
-
-    
     all_redshifts = {}
     all_kronMags = {}
     all_kronRads = {}
@@ -425,8 +480,11 @@ def extraction(filenames):
 #TODO combine with plotRedshifts method
     zdict = {}
     zfile = open('new_ps1z.dat', 'r')
-    zfile.readline() #get rid of header
+    zfile.readline() #get rid of heade
 
+#100014, 300220, and 380108 have not in zdict
+# 100014, 150381, 360140 have not in sdss
+        
     for line in zfile:
         parts = line.split()
         eventId = parts[0][3:]
@@ -434,6 +492,11 @@ def extraction(filenames):
         zdict[eventId] = redshift
 
     zfile.close()
+    #not in zdict, looked up from ps1 website 
+    #http://telescopes.rc.fas.harvard.edu/ps1/2014/alerts/
+    zdict['100014'] = 0.357
+    zdict['300220'] = 0.094
+    zdict['380108'] = 0.159
 
     '''load event type dictionary'''
     typeDict = {}
@@ -509,15 +572,15 @@ def extraction(filenames):
         event['x'], event['y'] = w.all_world2pix(event['ra'], event['dec'], 1)
         
         images = []
-        initialBestCandidates = []
         good_locations = []
         bad_locations = []
         good_photozs = []
         bad_photozs = []
         for x in range(3,7):
             images[x] = Image(idNumString, x, event)
-            initialBestCandidates[x], photozMatched = images[x].attemptBestCandidate()
-            if images[x].objCoords[initialBestCandidates[x]].separation(event['coords']) < MINDIST:
+            photozMatched = images[x].attemptBestCandidate()
+#TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
+            if images[x].objCoords[x.bestCandidate].separation(event['coords']) < MINDIST:
                 good_locations.append(x)
             else:
                 bad_locations.append(x)
@@ -525,79 +588,44 @@ def extraction(filenames):
                 good_photozs.append(x)
             else:
                 bad_photozs = []
-                
-        if good_locations:
-            fix
-        elif good_photozs:
-            fix
-        else:
         
-        #BEST CANDIDATE LOGIC HERE
-
+        '''choose candidates'''        
+        if good_locations:
+            filter_to_use = good_locations[0]
+            goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
+#TODO do I use object at event coords or good coords?
+            for x in bad_locations:
+                images[x].bestCandidate = images[x].check_at(event['coords'])
+        elif good_photozs:
+            filter_to_use = good_photozs[0]
+            goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
+            #use object at that location in all images
+            for x in range(3,7):
+                images[x].bestCandidate = images[x].check_at(goodCoords)
+        else:
+            images[3].errorProtocol("UNABLE TO FIND GOOD CANDIDATE FOR THIS EVENT")
+            global BAD_COUNT
+            BAD_COUNT += 1
+            continue
+        
+        cache = [None]*6
+        # get final data from the known good filter first
+        cache[filter_to_use] = images[filter_to_use].getFinalData(images[filter_to_use].bestCandidate)
+        for i in range(3,7):
+            if i == filter_to_use: #alread done above
+                pass
+            elif images[i].bestCandidate == None:
+                cache[i] = modifyFinalDataFrom(cache[filter_to_use])
+            else:
+                cache[i] = images[i].getFinalData()
+                
+        csvwriter.writerow(cache[3].extend(cache[4].extend(cache[5].extend(cache[6]))))
 
         if PLOT_ALL:
-            for image in images:
+            for image in images[3:]:
                 image.plot()
                 image.plot(myVmin = 0, myVmax = 1000)
                 
-        
-                
-        '''Get "real" host location and redshifts'''
-        hostRa = hostsData[idNumString]['host_ra']
-        hostDec = hostsData[idNumString]['host_dec']
-        try:
-            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
-            #convert to decimal deg:
-            hostRa = hostCoords.ra.deg
-            hostDec = hostCoords.dec.deg
-            offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
-                    if hostRa else None
-            hectoZ = hostsData[idNumString]['redshift']
-        except ValueError:
-            if len(hostRa) > 12: # hecto gave multiple host galaxies
-                hostRa = "multiple"
-                hostDec = "multiple"
-                offby = None
-                hectoZ = "multiple"
-            else:
-                raise
-                
-
-#100014, 300220, and 380108 have not in zdict
-#                100014, 150381, 360140 have not in sdss
-# SO RIGHT NOW 100014 has 0 redshift
-        if eventz:
-            z = eventz
-        elif idNum == 100014:
-            z = 0.357 #from ps1 website cone search
-        else:
-            z = photozs[bestCandidate]
-#TODO check how often
-        #remove mpc for dimensionless math and convert to kpc
-        dA = cosmo.angular_diameter_distance(z)*1000/u.Mpc # in kpc.
-        self.area = self.objects['npix'] * (degPerPix*(np.pi/180.)*dA)**2 #kpc^2
-        dL = cosmo.luminosity_distance(z)*1000/u.Mpc # in kpc
-        absMag = self.magnitude - 5*np.log10(dL) - 10
-        # separation is in arcseconds
-        self.separationKpc = self.separation * (1./3600.) * (np.pi/180.)*dA
-        kronradKpc = kronrad * degPerPix*(np.pi/180.)*dA
-
-        pixelRank = getPixelRank(swappedData, eventX, eventY, segmap, bestCandidate)
-
-        finalProperties = [kronradKpc[bestCandidate],
-                           self.separationKpc[bestCandidate],
-                           area[bestCandidate],
-                           self.separationKpc[bestCandidate] / area[bestCandidate],
-                           self.objects['x'][bestCandidate] - eventX,
-                           self.objects['y'][bestCandidate] - eventY,
-                           self.magnitude[bestCandidate],
-                           absMag[bestCandidate],
-                           self.objects['theta'][bestCandidate],
-                           self.ellipticity,
-                           ra[bestCandidate], hostRa,
-                           dec[bestCandidate], hostDec,
-                           offby, eventz, photozs[bestCandidate], pixelRank,
-                           chanceCoincidence[bestCandidate]]
         
         
         
@@ -655,10 +683,7 @@ def extraction(filenames):
                             newEllipticity = 1 - (imageDict['objects']['b'][newBestCandidate]/
                                                 imageDict['objects']['a'][newBestCandidate])
                             newOffby = hostCoords.separation(imageDict['objCoords'][newBestCandidate]).arcsec
-                            newPixelRank = getPixelRank(imageDict['swappedData'],
-                                                        eventX, eventY,
-                                                        imageDict['segmap'],
-                                                        newBestCandidate)
+                            newPixelRank = getPixelRank()
 
                             newProperties = [imageDict['kronradKpc'][newBestCandidate],
                                             imageDict['separationKpc'][newBestCandidate],
