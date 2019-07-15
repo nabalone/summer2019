@@ -212,6 +212,10 @@ def extraction(filenames):
     global photozs
     global eventX
     global eventY
+    global BAD_IMAGES
+    global GOOD_LOCATIONS
+    global GOOD_PHOTOZS
+    global BAD_TO_GOOD
 
 
     all_realMags = [[], [], [], [], [], [], []]
@@ -268,9 +272,11 @@ def extraction(filenames):
         eventId = parts[0][3:]
         redshift = float(parts[1])
         zdict[eventId] = redshift
-
     zfile.close()
-
+    zdict['100014'] = 0.357
+    zdict['300220'] = 0.094
+    zdict['380108'] = 0.159
+    
     '''load event type dictionary'''
     typeDict = {}
     typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
@@ -327,9 +333,16 @@ def extraction(filenames):
         # filter number is between second to last dot and last dot
         filterNum = int(dotSplit[-2]) # filter of this specific image
 
+        
         # if you are on a new event numbeer,
         # fill the old row, write it, reset filter to 2, reset cache
         if lastIdNum != idNum:
+            cache = []
+            BAD_IMAGES = []
+            GOOD_LOCATIONS = []
+            GOOD_PHOTOZS = []
+            BAD_TO_GOOD = []
+        '''
             for imageDict in BAD_IMAGES:
                 # these are for an event for which we found no host in center:
                 errorProtocol('far', specified_file=str(lastIdNum) + '.' + \
@@ -349,7 +362,7 @@ def extraction(filenames):
         # fill any missing data in current row
         for i in range(filterNum - lastFilter - 1):
             cache.extend([FILLER_VAL]*len(perImageHeaders))
-
+        '''
         image_file = fits.open(filename)
 
 
@@ -609,18 +622,18 @@ def extraction(filenames):
             bestCandidate = np.argmin(chanceCoincidence)
 
             # Correct bestCandidate choice for closer redshift if similar prob.
-            try:
-                eventz = float(zdict[idNumString])
-            except KeyError: # no redshift for this event:
-                eventz = 0.
-            else:
+            eventz = float(zdict[idNumString])
 #TODO check
 #TODO check relationsihp with fixing
-                if separation[bestCandidate] > CHECK_DISTANCE:
-                    #check for an object with photoz within 10% of event redshift
-                    for k in range(len(photozs)):
-                        if photozs[k] and abs(photozs[k] - eventz)/eventz < 0.1:
-                            bestCandidate = k
+            if separation[bestCandidate] > CHECK_DISTANCE:
+                #check for an object with photoz within 10% of event redshift
+                photozCorrected = False
+                for k in range(len(photozs)):
+                    if photozs[k] and abs(photozs[k] - eventz)/eventz < 0.1:
+                        if photozCorrected:
+                            errorProtocol("multiple matching photozs")
+                        photozCorrected = True
+                        bestCandidate = k
 
             ellipticity = 1 - (objects['b'][bestCandidate]/objects['a'][bestCandidate])
 
@@ -661,12 +674,7 @@ def extraction(filenames):
 #100014, 300220, and 380108 have not in zdict
 #                100014, 150381, 360140 have not in sdss
 # SO RIGHT NOW 100014 has 0 redshift
-            if eventz:
-                z = eventz
-            elif idNum == 100014:
-                z = 0.357 #from ps1 website cone search
-            else:
-                z = photozs[bestCandidate]
+
 #TODO check how often
             #remove mpc for dimensionless math and convert to kpc
             dA = cosmo.angular_diameter_distance(z)*1000/u.Mpc # in kpc.
@@ -710,32 +718,31 @@ def extraction(filenames):
                             'chanceCoincidence': chanceCoincidence,
                             'newFluxParams': newFluxParams,
                             'finalProperties':finalProperties}
-            BAD_IMAGES.append(badImageDict)
 
             cache.extend(finalProperties)
-                
-            # check if all images are in the same place
-            first_location = BAD_IMAGES[0]
-            for im in BAD_IMAGES:
-#TODO 
-'''
-1. if all are in same place, do nothing.
-2. if one is in event location, use it, correct others
-3. elif one has good photoz use it, flag photoz chosen
-4. else use one with best chance coincidence and error flag
-'''
-#TODO in earlier photoz checking, see if multiple have good photozs and flag 
+            
+            if objCoords[bestCandidate].separation(eventCoords) < MINDIST:
+                GOOD_LOCATIONS.append((finalProperties, newFluxParams))
+            elif photozs[bestCandidate] and abs(photozs[bestCandidate] - eventz)/eventz < 0.1:
+                GOOD_PHOTOZS.append((finalProperties, newFluxParams))
+            else:
+                BAD_IMAGES.append(badImageDict)
+                BAD_TO_GOOD.append((finalProperties, newFluxParams))
 
 
-                errstring = "correcting " + idNumString + '.' + str(filterNum) + '\n'
-                print(errstring)
-                with open(ERRORFILE, 'a+') as errorfile:
-                    errorfile.write(errstring)
-                finalProperties, newFluxParams = GOOD_IMAGE
+            def correct(good, bad):
+                global cache
+                finalProperties, newFluxParams = good
                 #TODO check indices are correct
                 goodCoords = SkyCoord(finalProperties[10], #new ra[bestCandidate]
                                       finalProperties[12], unit=u.deg) #(ra,dec)
-                for imageDict in BAD_IMAGES:
+                for imageDict in bad:
+                    '''
+                    errstring = "correcting " + idNumString + '.' + str(bad['filterNum']) + '\n'
+                    print(errstring)
+                    with open(ERRORFILE, 'a+') as errorfile:
+                        errorfile.write(errstring)
+                    '''
                     fixed = False
                     for k in range(len(imageDict['objCoords'])):
                         # look for an object at the new good location
@@ -794,10 +801,37 @@ def extraction(filenames):
                     # repair cache
                     cache = cache[:numColumnsOnLeft] + newProperties\
                             + cache[numColumnsOnLeft + len(perImageHeaders):]
-                    BAD_IMAGES.remove(imageDict)
+                    #BAD_IMAGES.remove(imageDict)
 
-            if chanceCoincidence[bestCandidate] > LIKELIHOOD_THRESH:
-                errorProtocol("unlikely")
+                
+            # check if all images are in the same place
+            if filterNum == 6:
+                if len(GOOD_LOCATIONS) + len(GOOD_PHOTOZS) + len(BAD_IMAGES) < 4:
+                    continue
+                elif GOOD_LOCATIONS:
+                    correct(GOOD_LOCATIONS[0], GOOD_PHOTOZS.extend(BAD_IMAGES))
+                elif GOOD_PHOTOZS:
+                    errorProtocol("Chosen by photoz")
+                    correct(GOOD_PHOTOZS[0], GOOD_PHOTOZS[1:].extend(BAD_IMAGES))
+                else:
+                    minChanceCoincidence = BAD_IMAGES[0]['chanceCoincidence']
+                    minOwner = 0
+                    for j in range(len(BAD_IMAGES)):
+                       if BAD_IMAGES[j]['chanceCoincidence'] < minChanceCoincidence:
+                           minChanceCoincidence = BAD_IMAGES[j]['chanceCoincidence']
+                           minOwner = j
+                    errorProtocol("NO GOOD CANDIDATE, USING BEST CHANCE: %s" % minChanceCoincidence)
+                    correct(BAD_TO_GOOD[j], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
+                if WRITE_CSV:
+                    csvwriter.writerow(cache)
+                '''
+                1. if all are in same place, do nothing.
+                2. if one is in event location, use it, correct others
+                3. elif one has good photoz use it, flag photoz chosen
+                4. else use one with best chance coincidence and error flag
+                '''
+#TODO in earlier photoz checking, see if multiple have good photozs and flag 
+
 
             ''' end getData block'''
             #collect data for redshift plot
