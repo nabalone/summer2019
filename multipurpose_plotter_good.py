@@ -109,18 +109,19 @@ def run(X_PROP, Y_PROP):
     # plot magnitude vs. area
     plot_args = []
     for snType in TYPES:
-        g1 = np.array(x_prop[snType])
+        g1 = np.array(y_prop[snType])
         r2 = np.array(r1[snType])
         dif = g1 - r2
-        y_prop[snType] = np.array(y_prop[snType])
-        plt.plot(dif, y_prop[snType], TYPE_COLORS[snType], marker='.', label=snType)
+        #y_prop[snType] = np.array(y_prop[snType])
+        plt.plot(x_prop[snType], dif, TYPE_COLORS[snType], marker='.', label=snType)
         #x_prop[snType]
     #plt.plot(*plot_args)
     plt.xlabel(X_PROP)
-    plt.ylabel(Y_PROP)
+    plt.ylabel("G - R (Absolute Magnitude)")#Y_PROP)
 #    plt.xscale("log")
     plt.legend()
-    plt.savefig(PLOT_DIR + trim(X_PROP) + '_vs_' + trim(Y_PROP) + ".png", dpi=150)
+    plt.savefig("redshift_vs_g-r.png", dpi=150)
+    #plt.savefig(PLOT_DIR + trim(X_PROP) + '_vs_' + trim(Y_PROP) + ".png", dpi=150)
     plt.show()
     plt.close()
   
