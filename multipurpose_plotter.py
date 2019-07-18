@@ -52,6 +52,9 @@ for i in range(3,7):
         HEADER.append(val + '_' + str(i))
 HEADER = np.array(HEADER)
 
+X_PROP = 'Z'
+Y_PROP = 'Abs_mag'
+
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 COLORS = {'SNIa':'#d73027', 'SNIbc':'#fc8d59', 'SLSNe':'k',#'#fee090', 
           'SNII':'#91bfdb', 'SNIIn':'#4575b4'}
@@ -76,7 +79,21 @@ def pad(n):
         n = '0' + n
     return n
 
-def run(X_PROP, Y_PROP):
+with open(CSVFILE, 'r') as f:
+    r = csv.reader(f)
+    r.readrow()
+    r.readrow()
+    for row in r:
+        idNum = row[0]
+        sn_type = typeDict[pad(idNum)]
+        x_prop[sn_type].append(row[x_prop_num])
+        y_prop[sn_type].append(row[y_prop_num])
+        
+
+areas = {}
+# plot magnitude vs. area
+for snType in TYPES:
+    plt.plot(x_prop[snType], y_prop[snType], TYPE_COLORS[snType])
     
     x_prop_num = np.where(HEADER==X_PROP)[0][0]
     y_prop_num = np.where(HEADER==Y_PROP)[0][0]
