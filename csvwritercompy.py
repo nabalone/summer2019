@@ -33,11 +33,11 @@ from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 from sdssTableGroupIndex import sdssTableGroupIndex
 
-ERRORFILE = 'errorfile.txt'
+ERRORFILE = 'errorfile2.txt'
 SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
-THRESHOLD = 1.5
+THRESHOLD = 0.9
 MINAREA = 5
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
 SUBTRACT_BACKGROUND = True
@@ -63,7 +63,7 @@ FILTER_M0s = [None, None, None,
 
 
 #USAGE FLAGS:
-WRITE_CSV = "\galaxiesdata.csv" # filename to write to or None
+WRITE_CSV = "\galaxiesdata2.csv" # filename to write to or None
 MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
 PLOT_REDSHIFTS = False
@@ -79,7 +79,7 @@ PRINT_DATA = False
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
 PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
-PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
+PLOT_DIR = os.getcwd() + '/plots2' # where to put plot images
 ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
 FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
@@ -90,7 +90,7 @@ for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
 SPECIFIED = [SOURCEDIR + '/ps1hosts/psc170078.4.fits']
-RANGE = (0,400)
+RANGE = (400, 1900)
 m0collector = [None, None, None, [], [], [], []]
 
 '''make header'''
@@ -685,7 +685,7 @@ def extraction(filenames):
             dA = cosmo.angular_diameter_distance(z)*1000/u.Mpc # in kpc.
             area = objects['npix'] * (degPerPix*(np.pi/180.)*dA)**2 #kpc^2
             dL = cosmo.luminosity_distance(z)*1000/u.Mpc # in kpc
-            absMag = magnitude - 5*np.log10(dL) - 10
+            absMag = magnitude - 5*np.log10(dL) - 10 + 2.5 * np.log10(1.+z)
             # separation is in arcseconds
             separationKpc = separation * (1./3600.) * (np.pi/180.)*dA
             kronradKpc = kronrad * degPerPix*(np.pi/180.)*dA
