@@ -1,3 +1,10 @@
-correcting 480552.5
+Note: raising threshold to 1.8 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.4.fits 
+Note: raising threshold to 1.8 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.5.fits 
+Note: raising threshold to 2.1 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.5.fits 
+Note: raising threshold to 2.4 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.5.fits 
+Note: raising threshold to 2.7 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.5.fits 
+Note: raising threshold to 3.0 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.5.fits 
+Note: raising threshold to 3.3 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.5.fits 
+Note: raising threshold to 1.8 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.6.fits 
 0
-'NoneType' object is not iterable C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts/psc480552.5.fits
+Chosen by photoz C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000010.6.fits
