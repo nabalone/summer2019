@@ -37,7 +37,8 @@ ERRORFILE = 'errorfile2.txt'
 SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
-THRESHOLD = 0.9
+THRESHOLD = 1.5
+#TODO threshold may be unused
 MINAREA = 5
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
 SUBTRACT_BACKGROUND = True
@@ -492,7 +493,8 @@ def extraction(filenames):
         ''' '''
         
         # start with default threshold, if it fails then use a higher one
-        recursiveExtraction(THRESHOLD)
+        three_sigma = bkg.global_rms
+        recursiveExtraction(three_sigma)
         flux = []
         for i in range(len(kronrad)):
             try:
@@ -830,7 +832,12 @@ def extraction(filenames):
                     errorProtocol("NO GOOD CANDIDATE, USING BEST CHANCE: %s" % minChanceCoincidence)
                     correct(BAD_TO_GOOD[j], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
                 if WRITE_CSV:
-                    csvwriter.writerow(cache)
+                    #check if there are any nans in cache
+                    if np.where(np.isnan(cache))[0].any():
+                        errorProtocol('Nans found in final cache')
+                        cache = []
+                    else:
+                        csvwriter.writerow(cache)
                 '''
                 1. if all are in same place, do nothing.
                 2. if one is in event location, use it, correct others

@@ -1,0 +1,33 @@
+Bumps:
+
+CNN:
+-nans in image, used nan_to_num
+-pad images that were on edge and so are not square
+
+SEP:
+-galaxies that are half out of the image
+-picking bright stars instead because formula (cite) for galaxies. Cross referenced with SDSS catalog.
+	-some objects both classified as star and galaxy. use primary object's classification
+	-sometimes star is marked right in center of image. listed number(about 10?) out of the 500. Remove sn light? unlist if at location 	of event?
+-images are 3/4 years
+- adjusted deblending
+- background as variance? because worked best
+- if too narrow an object, flux calculation fails, skip over object if not in 
+- area is number of pixels
+- big problem- few slsne, no host visible for them. will have to fake the data.
+- if no galaxy found at center, use photoz from sdss of galaxies in image
+- sometimes dif. objects selected in different filters. If image found at center in 1, that location used for all. Kronrad, area, etc. kept; magnitude calculated by flux w/i same radius. Esp b/c chance coincidence formula doesn't work in g filter
+- flux and mag calculated same as in se, using 2.5? kronrad
+- pixel rank 0 if not in
+- For some images with a very bright star near host, a higher threshold is necessary to distinguish host from bright object even with deblending. Raise by 0.3 until it works. Despite loss of accuaracy here
+- get rid of nans
+- get rid of outliers?
+-nondetection flag
+subtact bkgrnd or not?
+-limitations of sep rather than se?
+-what thresh and minarea to use?
+-avoid cutting because so few
+-coords, ircs vs fk5
+
+- high efficiency, low purity in finding sn1bcs by agressively choosing where they cluster (e.g. pixel rank vs. redshift)
+- importance of balancing weights or creating synthetic data because so many more slsne
