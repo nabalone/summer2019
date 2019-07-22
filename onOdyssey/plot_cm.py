@@ -53,29 +53,29 @@ def namegen():
     global namecount
     namecount += 1
     return str(namecount)
+        
 
-
-def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='',
+def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='', 
                           cmap=plt.cm.Blues, importances=None):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
-
+    
     # Compute confusion matrix
     cm = confusion_matrix(y_true, y_pred)
-
+    
     #normalize
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
     classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn',  'SLSNe'])
     classes = classes[unique_labels(y_true, y_pred)]
-
+    
     bal_score = str(balanced_score(cm))[:4]
     diag = str(diagonalishness(cm))
     info_str = "bal_score:" + bal_score \
                 + " diag:" + diag + '\n' \
                 + str(to_include)
-
+    
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
     ax.figure.colorbar(im, ax=ax)
@@ -86,11 +86,11 @@ def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='',
            xticklabels=classes, yticklabels=classes,
            ylabel='True label',
            xlabel='Predicted label')
-
+    
     # Rotate the tick labels and set their alignment.
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
              rotation_mode="anchor")
-
+    
     # Loop over data dimensions and create text annotations.
     fmt = '.2f' if True else 'd'
     thresh = cm.max() / 2.
@@ -101,8 +101,10 @@ def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='',
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
     number = namegen()
-    #plt.show()
+    
     plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + str(ADD_RANDOM) \
                 + name_extension + '.png')#number + '.png')
-    print("cm saved")
-    plt.close()
+    plt.show()
+    plt.close()    
+    print(1)
+  
