@@ -10,7 +10,8 @@ sdssTableGroupIndex.py, sdss_queries.dat, new_ps1z.dat, 'ps1confirmed_only_sne_w
 hosts.dat
 
 '''
-
+global fwhms
+fwhms = []
 import numpy as np
 import pandas as pd
 import os
@@ -90,8 +91,8 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc170078.4.fits']
-RANGE = (400, 1900)
+SPECIFIED = ['C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc100020.3.fits']
+RANGE = (0,100)
 m0collector = [None, None, None, [], [], [], []]
 
 '''make header'''
@@ -511,7 +512,7 @@ def extraction(filenames):
                            recursiveExtraction(attemptedThresh + 0.3)
                            return
                     # otherwise blacklist and give an arbitrary valid kronrad
-                    blacklist.add(i)
+                    #blacklist.add(i)
                     kronrad[i] = 0.1
 
         ''' '''
@@ -547,6 +548,7 @@ def extraction(filenames):
         #colRealMags = Table([[]]*8, names=magNames)
         colFluxes = []
         photozs = [None]*len(objects)
+        stars = []
         for i in range(len(objects)):
             curRa = ra[i]
             curDec = dec[i]
@@ -570,17 +572,41 @@ def extraction(filenames):
                             and not abs(sdssTable['ra'][j] - eventRa)*u.deg < MINDIST \
                             and not abs(sdssTable['dec'][j] - eventDec)*u.deg < MINDIST:
                             blacklist.add(i)
+                            print(3)
 
                         #if its a star brighter than 21, use its magnitude in zero point calculation
-                        if sdssTable['type'][j] == 6 and sdssTable[FILTERS[filterNum]][j] < 21. \
+                        if sdssTable['type'][j] == 6 \
                             and objects['x'][i] - 2.5 * kronrad[i] >= 0 \
                             and objects['x'][i] + 2.5 * kronrad[i] <= maxX \
                             and objects['y'][i] - 2.5 * kronrad[i] >= 0 \
                             and objects['y'][i] + 2.5 * kronrad[i] <= maxY:
                                 colRealMags.append(sdssTable[FILTERS[filterNum]][j])
                                 colFluxes.append(flux[i])
+                                stars.append(i)
 #TODO check that star is completely in frame before use
                         break
+        if colFluxes:
+            print(2)
+            errorProtocol("see")
+            dimmest_star_obj = stars[np.argmin(colFluxes)]
+            x = objects['x'][dimmest_star_obj]
+            y = objects['y'][dimmest_star_obj]
+            print x
+            print y
+            global arr_y
+            arr_y = swappedData[y][x-30:x+30]
+            print arr_y
+            try:
+                if arr_y[0] > arr_y[30] or arr_y[59]> arr_y[30]:
+                    print("failure")
+                    continue
+            except:
+                continue
+            global fwhms
+            fwhms.append(FWHM(arr_y))
+        print(1)
+        
+        continue
 
         try:
             colFluxes = np.array(colFluxes)
@@ -1031,7 +1057,7 @@ def main():
     start = time.time()
     #figure out which files to use based on value specified at top
     if FILES == 'all' or FILES =='range' or FILES =='new random':
-        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3-6].fits'))
+        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3].fits'))
         if FILES == 'range':
             extraction(filenames[RANGE[0]:RANGE[1]])
         elif FILES == 'new random':
