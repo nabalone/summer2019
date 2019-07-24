@@ -28,18 +28,17 @@ from astropy.wcs import WCS
 
 from astropy import units as u
 from astropy.coordinates import SkyCoord
-from astroquery.sdss import SDSS
+#from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
-from astropy.table import Table, vstack
+from astropy.table import Table#, vstack
 from sdssTableGroupIndex import sdssTableGroupIndex
 
 ERRORFILE = 'errorfile2.txt'
 SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
-THRESHOLD = 1.5
-#TODO threshold may be unused
-MINAREA = 5
+THRESHOLD = 3.
+MINAREA = 4
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
 SUBTRACT_BACKGROUND = True
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
@@ -47,6 +46,7 @@ FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag
 LIKELIHOOD_THRESH = 0.2
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
+LOWEST_MAG = 40
 # meds used for m_0 if no sdss stars in image, or if m_0 is an outlier
 # meaning outside of upper/lower bounds
 #FILTER_M0s = [None, None, None,
@@ -57,10 +57,10 @@ TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': '
 
 #update from first 120 files:
 FILTER_M0s = [None, None, None,
-              {'upper': 23.54, 'default': 23.04, 'lower': 22.54}, # filter 3
-              {'upper': 23.49, 'default': 22.99, 'lower': 22.49}, # filter 4
-              {'upper': 24.29, 'default': 23.79, 'lower': 23.29}, # filter 5
-              {'upper': 24.23, 'default': 23.73, 'lower': 23.23}] # filter 6
+              {'upper': 23.41, 'default': 22.918, 'lower': 22.41}, # filter 3
+              {'upper': 23.32, 'default': 22.822, 'lower': 22.32}, # filter 4
+              {'upper': 24.15, 'default': 23.652, 'lower': 23.15}, # filter 5
+              {'upper': 24.04, 'default': 23.540, 'lower': 23.04}] # filter 6
 
 
 #USAGE FLAGS:
@@ -81,8 +81,8 @@ CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcs
 PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots2' # where to put plot images
-ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
-FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
+FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -90,14 +90,17 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc170078.4.fits']
-RANGE = (400, 1900)
+SPECIFIED = [SOURCEDIR + '/ps1hosts/psc070242.3.fits',
+             SOURCEDIR + '/ps1hosts/psc070242.4.fits',
+             SOURCEDIR + '/ps1hosts/psc070242.5.fits',
+             SOURCEDIR + '/ps1hosts/psc070242.6.fits']
+RANGE = (400, 450)
 m0collector = [None, None, None, [], [], [], []]
 
 '''make header'''
 HEADER =['ID']
 #perImageHeaders = ['KronRad', 'separation', 'x', 'y', 'RA', 'DEC', 'KronMag', 'Angle', 'Ellipticity']
-perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/area (kpc)',
+perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/sqrt(area) (kpc)',
                    'x', 'y','KronMag', 'Abs. Mag', 'Angle',
                    'Ellipticity', 'RA', 'Host RA', 'DEC', 'Host Dec',
                    'Discrepency (arcsecs)', 'Z', 'SDSS Photoz', 'pixelRank', 'chance coincidence']
@@ -117,14 +120,14 @@ def namegen():
     return PLOT_DIR + "\galaxyimage" + str(namecount) + ".png"
 
 def plot(data, objects, blacklist, bestCandidate, myVmin=None, myVmax=None,
-         myEventX = None, myEventY = None, special_plot_location=None):
+         myEventX = None, myEventY = None, special_plot_location=None, title=''):
     # make the destination directory if it does not exist
     if not os.path.isdir(PLOT_DIR):
         os.mkdir(PLOT_DIR)
         
     special_plot_dir = ''
     if special_plot_location:
-        special_plot_dir = PLOT_DIR + special_plot_location
+        special_plot_dir = PLOT_DIR + special_plot_location + '.png'
             
     to_circle = range(len(objects))
 
@@ -156,6 +159,7 @@ def plot(data, objects, blacklist, bestCandidate, myVmin=None, myVmax=None,
         else:
             e.set_edgecolor('red')
         ax.add_artist(e)
+    plt.title(title)
     name = special_plot_dir if special_plot_dir else namegen()
     plt.savefig(name, dpi=150)
     plt.show()
@@ -174,7 +178,7 @@ def getPixelRank(swappedData, eventX, eventY, segmap, bestCandidate):
         a, b = x
         return swappedData[a][b]
     #if pixel not in object
-    if not (int(eventX, int(eventY))) in pixels:
+    if not (int(eventX), int(eventY)) in pixels:
         return 0
     pixels.sort(key = sortkey)
     location = pixels.index((int(eventX), int(eventY)))
@@ -275,14 +279,19 @@ def extraction(filenames):
         chosen = green if green else bestCandidate
 
         special_plot_location = '/NoGood/' + e if e[:5] == "Best." else None
+        special_plot_location2 = '/NoGood/' + e + 'b' if e[:5] == "Best." else None
         if not os.path.isdir(PLOT_DIR + '/NoGood/'):
             os.mkdir(PLOT_DIR + '/NoGood/')
 
         if PLOT_ERR:
+            padded_e = e + '                                                                         '
+            my_title = padded_e[:30] + '\n' + curFile[-16:]
             plot(swappedData, objects, blacklist, chosen, myVmin = 0, myVmax = 1000,
-                 myEventX = eventX, myEventY = eventY, special_plot_location=special_plot_location)
+                 myEventX = eventX, myEventY = eventY, 
+                 special_plot_location=special_plot_location, title=my_title)
             plot(swappedData, objects, blacklist, chosen,
-                 myEventX = eventX, myEventY = eventY, special_plot_location=special_plot_location)
+                 myEventX = eventX, myEventY = eventY, 
+                 special_plot_location=special_plot_location2, title=my_title)
 #        if ONLY_FLAG_ERRORS or e=='far' or e=='unlikely':
 #            return
 #        else:
@@ -431,6 +440,7 @@ def extraction(filenames):
 
         #fix byte order
         swappedData = image_data.byteswap(True).newbyteorder()
+        
         global bkg
         # subtracting out background
         bkg = sep.Background(swappedData)
@@ -517,8 +527,15 @@ def extraction(filenames):
         ''' '''
         
         # start with default threshold, if it fails then use a higher one
-        three_sigma = bkg.globalrms
-        recursiveExtraction(three_sigma)
+        #three_sigma = 3. * bkg.globalrms
+
+        recursiveExtraction(THRESHOLD)
+               
+        #remove any nans, replace with cell saturation
+        #TODO better solution?
+        sat = image_file[0].header['HIERARCH CELL.SATURATION']
+        swappedData[np.isnan(swappedData)] = sat
+        
         flux = []
         for i in range(len(kronrad)):
             try:
@@ -579,7 +596,6 @@ def extraction(filenames):
                             and objects['y'][i] + 2.5 * kronrad[i] <= maxY:
                                 colRealMags.append(sdssTable[FILTERS[filterNum]][j])
                                 colFluxes.append(flux[i])
-#TODO check that star is completely in frame before use
                         break
 
         try:
@@ -606,6 +622,7 @@ def extraction(filenames):
 
             colMyMags = -2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS'])) + m_0
             magnitude = -2.5 * np.log10(flux/float(image_file[0].header['MJD-OBS'])) + m_0
+            magnitude[np.where(np.isnan(magnitude))] = LOWEST_MAG
 #TODO combine?
 
 
@@ -720,10 +737,31 @@ def extraction(filenames):
 
             pixelRank = getPixelRank(swappedData, eventX, eventY, segmap, bestCandidate)
 
+            defaultFinalProperties = [0.30403927,
+                               4.994190376,
+                               23.8021051,
+                               4.994190376 / np.sqrt(23.8021051),
+                               1.76036170982996,
+                               2.2982183944304,
+                               LOWEST_MAG,
+                               30 - 5*np.log10(dL) - 10 + 2.5 * np.log10(1.+z),
+                               0.6233475209645,
+                               0.302230141541,
+                               eventRa, hostRa,
+                               eventDec, hostDec,
+                               0, eventz, eventz, 0,
+                               1]
+            defaultFluxParams =  (swappedData,
+                               120,
+                               120,
+                               3,
+                               3,
+                               0, 2.5*0.30403927)
+            
             finalProperties = [kronradKpc[bestCandidate],
                                separationKpc[bestCandidate],
                                area[bestCandidate],
-                               separationKpc[bestCandidate] / area[bestCandidate],
+                               separationKpc[bestCandidate] / np.sqrt(area[bestCandidate]),
                                objects['x'][bestCandidate] - eventX,
                                objects['y'][bestCandidate] - eventY,
                                magnitude[bestCandidate],
@@ -753,6 +791,13 @@ def extraction(filenames):
                             'finalProperties':finalProperties}
 
             cache.extend(finalProperties)
+            
+            #check for objects cut off
+            if objects['x'][bestCandidate] + 2.5* kronradKpc[bestCandidate] > maxX or \
+                objects['x'][bestCandidate] - 2.5* kronradKpc[bestCandidate] < 0 or \
+                objects['y'][bestCandidate] + 2.5* kronradKpc[bestCandidate] > maxY or \
+                objects['y'][bestCandidate] - 2.5* kronradKpc[bestCandidate] < 0:
+                    errorProtocol("cut off object")
             
             if objCoords[bestCandidate].separation(eventCoords) < MINDIST:
                 GOOD_LOCATIONS.append((finalProperties, newFluxParams))
@@ -794,7 +839,7 @@ def extraction(filenames):
                                             imageDict['separationKpc'][newBestCandidate],
                                             imageDict['area'][newBestCandidate],
                                             imageDict['separationKpc'][newBestCandidate] /\
-                                            imageDict['area'][newBestCandidate],
+                                            np.sqrt(imageDict['area'][newBestCandidate]),
                                             imageDict['objects']['x'][newBestCandidate] - eventX,
                                             imageDict['objects']['y'][newBestCandidate] - eventY,
                                             imageDict['magnitude'][newBestCandidate],
@@ -813,7 +858,11 @@ def extraction(filenames):
                     if not fixed: # no objects in center detected in bad image, use data from good image
                         # but update magnitude
                         newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
-                        newMagnitude = -2.5 * np.log10(newFlux/float(image_file[0].header['MJD-OBS'])) + imageDict['m_0']
+                        if newFlux > 0:
+                            newMagnitude = -2.5 * np.log10(newFlux/float(image_file[0].header['MJD-OBS'])) + imageDict['m_0']
+                        else:
+                            newMagnitude = LOWEST_MAG
+                            
 #TODO just save the old pixel rank
                         newPixelRank = getPixelRank(imageDict['swappedData'],
                             eventX, eventY, imageDict['segmap'], imageDict['old_best'])
@@ -841,14 +890,7 @@ def extraction(filenames):
             # check if all images are in the same place
             if filterNum == 6:
                 
-                # find minimum chance coincidence object
-                minChanceCoincidence = BAD_IMAGES[0]['chanceCoincidence'][BAD_IMAGES[0]['old_best']]
-                minOwner = 0
-                for j in range(len(BAD_IMAGES)):
-                    d = BAD_IMAGES[j]
-                    if d['chanceCoincidence'][d['old_best']] < minChanceCoincidence:
-                       minChanceCoincidence = d['chanceCoincidence'][d['old_best']]
-                       minOwner = j
+
                            
                 if len(GOOD_LOCATIONS) + len(GOOD_PHOTOZS) + len(BAD_IMAGES) < 4:
                     continue
@@ -858,17 +900,31 @@ def extraction(filenames):
                     errorProtocol("Chosen by photoz")
 #TODO check if photoz and good chance candidate, not same, who should take priority                      
                     correct(GOOD_PHOTOZS[0], GOOD_PHOTOZS_TO_BAD[1:] + BAD_IMAGES)
-                elif minChanceCoincidence <= 0.02:
-                    errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
-                    correct(BAD_TO_GOOD[j], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
                 else:
-                    errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
-                    cache = []
+                    # find minimum chance coincidence object
+                    minChanceCoincidence = BAD_IMAGES[0]['chanceCoincidence'][BAD_IMAGES[0]['old_best']]
+                    minOwner = 0
+                    for j in range(len(BAD_IMAGES)):
+                        d = BAD_IMAGES[j]
+                        if d['chanceCoincidence'][d['old_best']] < minChanceCoincidence:
+                           minChanceCoincidence = d['chanceCoincidence'][d['old_best']]
+                           minOwner = j
+                    if minChanceCoincidence <= 0.02:
+                        errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
+                        correct(BAD_TO_GOOD[j], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
+                    else:
+                        errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
+                        correct((defaultFinalProperties, defaultFluxParams), BAD_IMAGES)
                 if WRITE_CSV:
                     #check if there are any nans in cache
-                    if np.where(np.isnan(cache))[0].any():
-                        errorProtocol('Nans found in final cache')
-                        cache = []
+                    for item in cache:
+                        try:
+                            if np.isnan(float(item)):
+                                errorProtocol('Nans found in final cache')
+                                break
+                                #cache = []
+                        except (TypeError, ValueError): #non number
+                            pass
                     else:
                         csvwriter.writerow(cache)
                 '''
@@ -935,7 +991,8 @@ def extraction(filenames):
         surface_brightness = {}
         # plot magnitude vs. surface brightness
         for snType in TYPES:
-            surface_brightness[snType] = all_kronMags[snType]/areas[snType]
+            areas[snType] = np.array(areas[snType])
+            surface_brightness[snType] = all_kronMags[snType]/np.sqrt(areas[snType])
             plt.plot(all_redshifts[snType], surface_brightness[snType], TYPE_COLORS[snType])
 
         plt.xlabel('Redshifts')
@@ -1053,6 +1110,9 @@ def main():
         raise Exception('invalid FILE specification')
     end = time.time()
     print(end - start)
+    global m0collector
+    m0collector = np.array(m0collector)
+    np.save("mOcollector", m0collector)
 
 if __name__ == "__main__":
      main()

@@ -80,7 +80,7 @@ PRINT_DATA = False
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
 PLOT_ALL = False
-PLOT_ERR =  True #plots only files that give errors or low probability
+PLOT_ERR =  False #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots2' # where to put plot images
 ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
 FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
@@ -595,7 +595,6 @@ def extraction(filenames):
             print y
             global arr_y
             arr_y = swappedData[y][x-30:x+30]
-            print arr_y
             try:
                 if arr_y[0] > arr_y[30] or arr_y[59]> arr_y[30]:
                     print("failure")
@@ -1057,7 +1056,7 @@ def main():
     start = time.time()
     #figure out which files to use based on value specified at top
     if FILES == 'all' or FILES =='range' or FILES =='new random':
-        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3].fits'))
+        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[6].fits'))
         if FILES == 'range':
             extraction(filenames[RANGE[0]:RANGE[1]])
         elif FILES == 'new random':
