@@ -160,7 +160,8 @@ def plot(data, objects, blacklist, bestCandidate, myVmin=None, myVmax=None,
             e.set_edgecolor('red')
         ax.add_artist(e)
     plt.title(title)
-    name = special_plot_dir if special_plot_dir else namegen()
+    genname = namegen()
+    name = special_plot_dir if special_plot_dir else genname
     plt.savefig(name, dpi=150)
     plt.show()
     plt.close()
@@ -681,8 +682,10 @@ def extraction(filenames):
                     if photozs[k] and abs(photozs[k] - eventz)/eventz < 0.1:
                         if photozCorrected:
                             errorProtocol("multiple matching photozs")
+                            if chanceCoincidence[k] < chanceCoincidence[bestCandidate]:
+                                 bestCandidate = k
                         photozCorrected = True
-                        bestCandidate = k
+                       
 
             ellipticity = 1 - (objects['b'][bestCandidate]/objects['a'][bestCandidate])
 
