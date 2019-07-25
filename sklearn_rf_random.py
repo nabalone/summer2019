@@ -21,7 +21,7 @@ from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.utils.multiclass import unique_labels
-from sklearn.model_selection import LeaveOneOut, cross_val_predict
+from sklearn.model_selection import LeaveOneOut, cross_val_predict, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 import random
 from imblearn.over_sampling import SMOTE
@@ -210,25 +210,31 @@ def collect(num_random):
                 X.append(chooseAll(row, num_random))
                 y.append(type_to_int[typeDict[pad(int(row[0]))]])
     X = pca_whiten(X)
+    X = np.array(X)
+    y = np.array(y)
     return (X, y)
 
 def run(X, y, n_est, name_extension):
 #        clf = RandomForestClassifier(n_estimators = n_estimators, class_weight = 'balanced_subsample')
         loo = LeaveOneOut()
+        skf = StratifiedKFold(n_splits=9)
 
         y_pred = np.zeros(len(y))
-
-        for train_index, test_index in loo.split(X):
+        count=0
+        for train_index, test_index in skf.split(X, y):
+            print(count)
+            count += 1
+            
             #print('Currently training',test_index[0],' of ',len(X))
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
 
-            sampler = SMOTE(random_state=7)
+            sampler = SMOTE(sampling_strategy={0:290,1:710,2:500,3:710,4:500}, random_state=7)
             X_res, y_res = sampler.fit_resample(X_train, y_train)
-            Xr_train, Xr_test, yr_train, yr_test = \
-                train_test_split(X_res, y_res, test_size=0.33, random_state=42)
+            if count < 2:
+                np.save("deletable_yres", np.array(y_res))
             clf = RandomForestClassifier(n_estimators=n_est)
-            clf.fit(Xr_train,yr_train)
+            clf.fit(X_res,y_res)
             y_pred[test_index] = clf.predict(X_test)
         np.save(name_extension, y_pred)
         plot_confusion_matrix(y, y_pred, name_extension)
@@ -243,15 +249,15 @@ start = time.time()
 #    csvwriter.writerow(x)
 #    for combo in allCombos[1:]:
 #        run(combo)
-X0, y0 = resample(*collect(0))
-X1, y1 = resample(*collect(1))
-
+#X0, y0 = collect(0)
+X1, y1 = collect(1)
+#print(y1)
 # print('c')
 # run(X0, y0, 100, 'rf_0rands_100ests_a')
 # print('d')
 # run(X0, y0, 100, 'rf_0rands_100ests_b')
 # print('e')
-run(X1, y1, 100, 'rf_1rands_100ests_a')
+run(X1, y1, 50, 'rf_1rands_50ests_a')
 # print('f')
 # run(X1, y1, 100, 'rf_1rands_100ests_b')
 # print('a')
