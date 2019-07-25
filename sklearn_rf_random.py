@@ -25,6 +25,9 @@ from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.ensemble import RandomForestClassifier
 import random
 from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import LeaveOneOut,train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
 random.seed(7)
 PLOT_DIR = os.getcwd() + '/confusions_RF_whitened/'
@@ -171,14 +174,14 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
 #    return ax
 
 
-def resample(X, y):
-    sm = SMOTE(sampling_strategy='not majority', random_state=7)
-    X_res, y_res = sm.fit_resample(X, y)
-    random.seed(7)
-    random.shuffle(X_res)
-    random.seed(7)
-    random.shuffle(y_res)
-    return (X_res, y_res)
+# def resample(X, y):
+#     sm = SMOTE(sampling_strategy='not majority', random_state=7)
+#     X_res, y_res = sm.fit_resample(X, y)
+#     random.seed(7)
+#     random.shuffle(X_res)
+#     random.seed(7)
+#     random.shuffle(y_res)
+#     return (X_res, y_res)
 
 def pca_whiten(X):
     X = np.array(X)
@@ -206,20 +209,30 @@ def collect(num_random):
             if len(row) == 1 + 4*len(headers):
                 X.append(chooseAll(row, num_random))
                 y.append(type_to_int[typeDict[pad(int(row[0]))]])
+    X = pca_whiten(X)
     return (X, y)
 
-def run(X, y, n_estimators, name_extension):
-        clf = RandomForestClassifier(n_estimators = n_estimators, class_weight = 'balanced_subsample')
+def run(X, y, n_est, name_extension):
+#        clf = RandomForestClassifier(n_estimators = n_estimators, class_weight = 'balanced_subsample')
+        loo = LeaveOneOut()
 
-        if True: # WHITEN:
-            X = pca_whiten(X)
-        #clf.fit(X, y)
-        #loo = LeaveOneOut()
-        y_pred = cross_val_predict(clf, X, y, cv=100)
+        y_pred = np.zeros(len(y))
+
+        for train_index, test_index in loo.split(X):
+            #print('Currently training',test_index[0],' of ',len(X))
+            X_train, X_test = X[train_index], X[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+
+            sampler = SMOTE(random_state=7)
+            X_res, y_res = sampler.fit_resample(X_train, y_train)
+            Xr_train, Xr_test, yr_train, yr_test = \
+                train_test_split(X_res, y_res, test_size=0.33, random_state=42)
+            clf = RandomForestClassifier(n_estimators=n_est)
+            clf.fit(Xr_train,yr_train)
+            y_pred[test_index] = clf.predict(X_test)
         np.save(name_extension, y_pred)
         plot_confusion_matrix(y, y_pred, name_extension)
         print(clf.feature_importances_)
-
 
 import time
 start = time.time()
