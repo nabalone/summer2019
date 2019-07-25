@@ -3,6 +3,7 @@ Bumps:
 CNN:
 -nans in image, used nan_to_num
 -pad images that were on edge and so are not square
+-overfitting, using rotations
 
 SEP:
 -galaxies that are half out of the image
@@ -28,6 +29,9 @@ subtact bkgrnd or not?
 -what thresh and minarea to use?
 -avoid cutting because so few
 -coords, ircs vs fk5
+-don't make an outlier cut on kronrad because lose a slsne 330114 which gets host detected, but large kronrad because very dim?? 
+-10% no detection, almost all really nondetections
+-too many matching photozs
 
 - high efficiency, low purity in finding sn1bcs by agressively choosing where they cluster (e.g. pixel rank vs. redshift)
 - importance of balancing weights or creating synthetic data because so many more slsne

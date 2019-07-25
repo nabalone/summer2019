@@ -75,14 +75,14 @@ MAGFILE = 'newmagtest.csv'
 #ACTUALLY< REMOVING MAG WRITER
 #if MAG_TEST_ALL or MAG_TEST_STDEV:
 #    WRITE_CSV = False
-PRINT_DATA = False
+PRINT_DATA = True
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
-PLOT_ALL = False
+PLOT_ALL = True
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots2' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -90,10 +90,10 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc070242.3.fits',
-             SOURCEDIR + '/ps1hosts/psc070242.4.fits',
-             SOURCEDIR + '/ps1hosts/psc070242.5.fits',
-             SOURCEDIR + '/ps1hosts/psc070242.6.fits']
+SPECIFIED = [SOURCEDIR + '/ps1hosts/psc330114.3.fits',
+             SOURCEDIR + '/ps1hosts/psc330114.4.fits',
+             SOURCEDIR + '/ps1hosts/psc330114.5.fits',
+             SOURCEDIR + '/ps1hosts/psc330114.6.fits']
 RANGE = (400, 450)
 m0collector = [None, None, None, [], [], [], []]
 
