@@ -28,6 +28,8 @@ from imblearn.over_sampling import SMOTE
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import LeaveOneOut,train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import scipy
+import math
 
 random.seed(7)
 PLOT_DIR = os.getcwd() + '/confusions_RF_whitened/'
@@ -67,6 +69,7 @@ def pad(n):
     while len(n) < 6:
         n = '0' + n
     return n
+
 
 def chooseProps(row, to_include):
     limited_row = []
@@ -127,6 +130,7 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
 
     #normalize
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    print(str(cm))
     classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn',  'SLSNe'])
     classes = classes[unique_labels(y_true, y_pred)]
 
@@ -135,7 +139,7 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
     info_str = "bal_score:" + bal_score \
                 + " diag:" + diag + '\n' \
                 + str(name_extension)
-
+    print(info_str)
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
     ax.figure.colorbar(im, ax=ax)
@@ -229,11 +233,13 @@ def run(X, y, n_est, name_extension):
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
 
-            sampler = SMOTE(sampling_strategy={0:290,1:710,2:500,3:710,4:500}, random_state=7)
+            sampler = SMOTE(sampling_strategy={0:290,1:10000,2:1000,3:10000,4:1000}, random_state=7)
+            #X_res, y_res = X_train, y_train
             X_res, y_res = sampler.fit_resample(X_train, y_train)
             if count < 2:
                 np.save("deletable_yres", np.array(y_res))
-            clf = RandomForestClassifier(n_estimators=n_est)
+            clf = RandomForestClassifier(n_estimators=n_est) 
+                    #class_weight = {0:0.00001, 1:2000000000, 2:100, 3:3000000000, 4:2000})
             clf.fit(X_res,y_res)
             y_pred[test_index] = clf.predict(X_test)
         np.save(name_extension, y_pred)
