@@ -12,7 +12,7 @@ CLASS_WEIGHT = 'balanced' #{0:0.0000045,  1:5540000000,  2:111,  3:1000000000,  
         #0:0.28,  1:5.44,  2:1.07,  3:3.92,  4:7.54
 WHITEN = True
 USE_RF = False #otherwise SVM
-
+CSV_FILE = '/goodFifthRun/galaxiesdata.csv'
 import csv
 import os
 from sklearn import svm
@@ -30,12 +30,16 @@ from sklearn.model_selection import LeaveOneOut,train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import scipy
 import math
+from sklearn import preprocessing
+import random 
+import pandas as pd
 
 random.seed(7)
 PLOT_DIR = os.getcwd() + '/confusions_RF_whitened/'
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
 
+'''unused'''
 headers = 'KronRad (kpc)_3,separation (kpc)_3,area (kpc^2)_3,sep/area (kpc)_3,x_3,y_3,KronMag_3,Abs. Mag_3,Angle_3,Ellipticity_3,RA_3,Host RA_3,DEC_3,Host Dec_3,Discrepency (arcsecs)_3,Z_3,SDSS Photoz_3,pixelRank_3,chance coincidence_3'
 headers = headers.split(',')
 for i in range(len(headers)):
@@ -45,14 +49,19 @@ for i in range(len(headers)):
     indexDict[headers[i]] = []
     for j in range(4):
         indexDict[headers[i]].append(1+i+j*len(headers))
-
 goodHeaderIndices = [0,1,2,7,9,15,17,18]
 allCombos = [[]]
 for i in goodHeaderIndices:
     copy = allCombos[:]
     for row in copy:
         allCombos.append(row + [headers[i]])
-
+cols1 = ['KronRad (kpc)_3', 'separation (kpc)_3', 'area (kpc^2)_3', 'sep/sqrt(area) (kpc)_3', \
+ 'KronMag_3', 'Abs. Mag_3','Ellipticity_3', 'Z_3', 'pixelRank_3', 'chance coincidence_3']
+cols = cols1[:]
+for i in range(4,7):
+    for e in cols1:
+        cols.append(e[:-1] + str(i))
+        
 '''load event type dictionary'''
 typeDict = {}
 typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
@@ -63,14 +72,15 @@ for line in typefile:
     eventType = parts[1]
     typeDict[eventId] = eventType
 typefile.close()
-
+    
+'''make event id number in int form into string form, 0 padded'''
 def pad(n):
     n = str(n)
     while len(n) < 6:
         n = '0' + n
     return n
 
-
+'''unused'''
 def chooseProps(row, to_include):
     limited_row = []
     for prop in to_include:
@@ -80,7 +90,8 @@ def chooseProps(row, to_include):
             limited_row.append(row[ind])
     return limited_row
 
-def chooseAll(row, num_random):
+'''unused'''
+def chooseAll_bad(row, num_random):
     limited_row = []
     x = 19
     for i in range(4):
@@ -88,15 +99,33 @@ def chooseAll(row, num_random):
         limited_row.extend(row[offset: offset + 4])
         limited_row.extend(row[offset + 6: offset + 8])
         limited_row.append(row[offset + 9])
-        limited_row.append(row[offset + 15])
+        #limited_row.append(row[offset + 15])
         limited_row.append(row[offset + 17])
         limited_row.append(row[offset + 18])
-        for i in range(num_random):
-            limited_row.append(random.random())
+    for i in range(num_random):
+        limited_row.append(random.random())
     return limited_row
+
+'''getting columns from csv file with pandas'''   
+def chooseAll(csvfile, num_random):  
+    data = pd.read_csv(csvfile)
+    print(data)
+    X = data.loc[:, cols].as_matrix()
+    X = np.nan_to_num(X)
+    y = []
+    # lookup identified type of event and add to y
+    for i in data['ID']:
+        y.append(type_to_int[typeDict[pad(int(i))]])
+    #add num_random random numbers to end
+    for i in range(num_random)
+        rand = np.random.normal(size=len(y))
+        X = np.vstack((X.T, rand)).T
+    return (X, y)
+    
 
 type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
 
+'''made up metric for loosely ranking confusion matrices'''
 def diagonalishness(m):
     count = 0
     for i in range(len(m)):
@@ -106,6 +135,7 @@ def diagonalishness(m):
             count += 1
     return count
 
+'''correctness per type average'''
 def balanced_score(m):
     count = 0
     for i in range(len(m)):
@@ -187,6 +217,7 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
 #     random.shuffle(y_res)
 #     return (X_res, y_res)
 
+'''unused'''
 def pca_whiten(X):
     X = np.array(X)
     return PCA(whiten=True).fit_transform(X)
@@ -195,6 +226,7 @@ def collect(num_random):
     X = []
     y = []
 
+    '''
     with open(os.getcwd() + '/goodSeventhRun/galaxiesdata7_no_outliers.csv') as csvfile:
         csvreader = csv.reader(csvfile)
         #throw away header and blank line
@@ -213,17 +245,23 @@ def collect(num_random):
             if len(row) == 1 + 4*len(headers):
                 X.append(chooseAll(row, num_random))
                 y.append(type_to_int[typeDict[pad(int(row[0]))]])
-    X = pca_whiten(X)
+    #X = pca_whiten(X)
+    '''
+    X, y = chooseAll(os.getcwd() + CSV_FILE, num_random)
+    print(X.shape)
+    X = preprocessing.scale(X)
     X = np.array(X)
     y = np.array(y)
+    
+    #np.random.shuffle(y)
     return (X, y)
 
 def run(X, y, n_est, name_extension):
-#        clf = RandomForestClassifier(n_estimators = n_estimators, class_weight = 'balanced_subsample')
+#       clf = RandomForestClassifier(n_estimators = n_estimators, class_weight = 'balanced_subsample')
         loo = LeaveOneOut()
         skf = StratifiedKFold(n_splits=9)
 
-        y_pred = np.zeros(len(y))
+        y_pred = np.zeros(len(y)) - 1
         count=0
         for train_index, test_index in skf.split(X, y):
             print(count)
@@ -233,18 +271,29 @@ def run(X, y, n_est, name_extension):
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
 
-            sampler = SMOTE(sampling_strategy={0:290,1:10000,2:1000,3:10000,4:1000}, random_state=7)
+            sampler = SMOTE(sampling_strategy='all')#'not majority') #{0:290,1:10000,2:1000,3:10000,4:1000}, random_state=7)
             #X_res, y_res = X_train, y_train
             X_res, y_res = sampler.fit_resample(X_train, y_train)
+            new_ind = np.random.permutation(range(len(y_res)))
+            X_res = X_res[new_ind,:]
+            y_res = y_res[new_ind]
             if count < 2:
                 np.save("deletable_yres", np.array(y_res))
-            clf = RandomForestClassifier(n_estimators=n_est) 
+            clf = RandomForestClassifier(n_estimators=n_est)
                     #class_weight = {0:0.00001, 1:2000000000, 2:100, 3:3000000000, 4:2000})
             clf.fit(X_res,y_res)
             y_pred[test_index] = clf.predict(X_test)
+            #print(y_pred[test_index])
+            #print(y_test)
+            #print('\n')
         np.save(name_extension, y_pred)
         plot_confusion_matrix(y, y_pred, name_extension)
-        print(clf.feature_importances_)
+        importances = clf.feature_importances_
+        print(y_pred)
+        plt.bar(range(len(importances)), importances)
+        print(importances)
+        plt.savefig("importances.png")
+        print(y)
 
 import time
 start = time.time()
@@ -263,7 +312,7 @@ X1, y1 = collect(1)
 # print('d')
 # run(X0, y0, 100, 'rf_0rands_100ests_b')
 # print('e')
-run(X1, y1, 50, 'rf_1rands_50ests_a')
+run(X1, y1, 100, 'rf_1rands_50ests_a')
 # print('f')
 # run(X1, y1, 100, 'rf_1rands_100ests_b')
 # print('a')
