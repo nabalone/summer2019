@@ -12,42 +12,39 @@ from io import BytesIO
 import scipy
 import warnings
 
-import pandas as pd
-from astropy.coordinates import SkyCoord
-from astropy import units as u
-
 # Coordinates in Degrees
-#RA = 149.7495973
-#151.7120204
-#DEC = 3.157574165
-#1.6927538
+RA = 151.7120204
+DEC = 1.6927538
 
-def get_boundaries(RA, DEC):
-    # Image size in arcmin
-    search_diameter = 1
-    search_diameter_pixels = int(search_diameter / 0.25 * 60)
+# Image size in arcmin
+search_diameter = 1
+search_diameter_pixels = int(search_diameter / 0.25 * 60)
 
-    # Get box of edges
-    ra_min = RA - search_diameter / 60
-    ra_max = RA + search_diameter / 60
-    dec_min = DEC - search_diameter / 60
-    dec_max = DEC + search_diameter / 60
+# Filter of image
+mag_filter = 'r'
 
-    # Output image shape (pixels)
-    shape = (search_diameter_pixels, search_diameter_pixels)
+# Output Name
+template_filename = 'template.fits'
 
-    # Create a new WCS object.  The number of axes must be set
-    # from the start
-    w = WCS(naxis=2)
+# Get box of edges
+ra_min = RA - search_diameter / 60
+ra_max = RA + search_diameter / 60
+dec_min = DEC - search_diameter / 60
+dec_max = DEC + search_diameter / 60
 
-    # Vector properties may be set with Python lists, or Numpy arrays
-    w.wcs.crpix = [shape[0] / 2, shape[1] / 2]
-    w.wcs.cdelt = np.array([0.25 / 3600, 0.25 / 3600])
-    w.wcs.crval = [RA, DEC]
-    w.wcs.ctype = ["RA---TAN", "DEC--TAN"]
-    w.wcs.pc = [[-1,0],[0,1]]
-    
-    return (ra_min, ra_max, dec_min, dec_max, w, shape)
+# Output image shape (pixels)
+shape = (search_diameter_pixels, search_diameter_pixels)
+
+# Create a new WCS object.  The number of axes must be set
+# from the start
+w = WCS(naxis=2)
+
+# Vector properties may be set with Python lists, or Numpy arrays
+w.wcs.crpix = [shape[0] / 2, shape[1] / 2]
+w.wcs.cdelt = np.array([0.25 / 3600, 0.25 / 3600])
+w.wcs.crval = [RA, DEC]
+w.wcs.ctype = ["RA---TAN", "DEC--TAN"]
+w.wcs.pc = [[-1,0],[0,1]]
 
 def download_ps1_image(filename, saveas=None):
     """
@@ -149,58 +146,9 @@ def assemble_reference(refdatas, wcs, shape):
     refdata = CCDData(refdata_reproj, wcs=wcs, mask=refdata_foot == 0., unit='adu')
     return refdata
 
-def run(RA, DEC, filter, template_filename): 
-    ra_min, ra_max, dec_min, dec_max, w, shape = get_boundaries(RA, DEC)
-    refdatas = download_references(ra_min, dec_min, ra_max, dec_max, filter)
-
-    refdata = assemble_reference(refdatas, w, shape)
-    refdata.write(template_filename, overwrite=True)
-    
-'''make event id number in int form into string form, 0 padded'''
-def pad(n):
-    n = str(n)
-    while len(n) < 6:
-        n = '0' + n
-    return n
-    
-    
-filter_to_num = {'g':3, 'r':4, 'i':5, 'z':6}
-    
-namecount = 0
-def namegen(type, filter):
-    global namecount
-    namecount += 1
-    idNum = pad(namecount)
-    return idNum, "3pi_hosts/3pi%s.%s.fits" % (idNum, filter_to_num[filter])
-
-def main():
-    typedict = {}
-    zdict_3pi = {}
-    for file in ['3pi/SLSNe_clean.csv', '3pi/SNIIn_clean.csv' '3pi/SNIbc_clean']:
-        data = pd.read_csv(file)
-        type = file[:-4]
-        for i in range(len(data)):
-            ra = data['R.A.'][i].split(',')[0]
-            dec = data['Dec.'][i].split(',')[0]
-            z = data['z'][i]
-            
-            # roundabout conversion to decimal degrees
-            coords = SkyCoord(ra, dec, unit=(u.hourangle, u.deg))
-            ra = coords.ra.deg
-            dec = coords.dec.deg
-            
-            for filter in ['g', 'r', 'i', 'z']:
-                idNum, filename = namegen(type, filter)
-                run(ra, dec, filter, filename)
-                typedict[idNum] = type
-                zdict_3pi[idNum] = z
-    with open("zdict_3pi.txt", 'w+') as f:
-        json.dump(zdict, f)
-        
-    with open('typedict_3pi.txt', 'w+') as g:
-        json.dump(typedict, g)
-    
-                
-        
-if __name__ == "__main__":
-    main()
+refdatas = download_references(ra_min, dec_min, ra_max, dec_max, mag_filter)
+print(refdatas)
+print(w)
+print(shape)
+refdata = assemble_reference(refdatas, w, shape)
+refdata.write(template_filename, overwrite=True)
