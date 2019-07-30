@@ -26,59 +26,40 @@ from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
+import json
 
 start = time.time()
 errs= []
 SOURCEDIR = "C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 
 filenames = ['sn1bc_clean.csv', 'sniin_clean.csv', 'slsne_clean.csv']
-fileset = set()
-for f in filenames:
-    dotSplit = f.split('.')
-    idNumString = dotSplit[-3].split('c')[-1]
-    fileset.add(idNumString)
-    
-    
-db = pd.read_table('alertstable_v3',sep=None,index_col = False, 
-               engine='python')
-db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False, 
-                engine='python')
-db = db.append(db2,ignore_index=True)
+
+idnumdict = json.load('idnumdict_3py.txt')
     
 full_table = None    
 index = 0
 eventdict = {}
-for f in sorted(list(fileset)):
-    filename = glob.glob(SOURCEDIR + '/psc' + f + '.[3-6].fits')[0]
-    image_file = fits.open(filename)
-    
-    # get event pixel coords
-    w = WCS(filename)
-    event = db.where(db['eventID'] == int(f)).dropna()
-    eventRa = event['ra'].values[0] #values gives np arrays
-    eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
-        # converting to degrees
+for filename in filenames:
+    data = pd.read_csv(filename)
+    type = file[:-4]
+    for i in range(len(data)):
+        eventRa = data['R.A.'][i].split(',')[0]
+        eventDec = data['Dec.'][i].split(',')[0]
+        z = data['z'][i]
+        name = data['Name'][i]
+    # converting to degrees
     eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
     eventRa = eventCoords.ra.deg
     eventDec = eventCoords.dec.deg
-    
-    eventX, eventY = w.all_world2pix(eventRa, eventDec, 1)
-    
 
-    # to get image dimensions in wcs:
-    maxX = image_file[0].header['NAXIS1']
-    maxY = image_file[0].header['NAXIS2']
-    maxRa, maxDec = w.all_pix2world(1,maxY,1)
-    minRa, minDec = w.all_pix2world(maxX,1,1)
 
     # fix formatting
-    maxRa = maxRa.item(0)*u.deg
-    minRa = minRa.item(0)*u.deg
-    maxDec = maxDec.item(0)*u.deg
-    minDec = minDec.item(0)*u.deg
-        
-    
-    
+    image_halfwidth = 0.00833 # = 0.5 arcmin
+    maxRa = eventRa + image_halfwidth
+    minRa = eventRa - image_halfwidth
+    maxDec = eventDec + image_halfwidth
+    minDec = eventDec - image_halfwidth
+ 
     # make query
     query = "SELECT p.ra, p.dec, p.type, p.modelMag_g, p.modelMag_r, \
                 p.modelMag_i, p.modelMag_z, pz.z\
@@ -89,7 +70,8 @@ for f in sorted(list(fileset)):
     if not sdssTable:
         continue
     sdssTable['idnum'] = [f]*len(sdssTable)
-    eventdict[f] = index
+    idNum = idnumdict[name]
+    eventdict[idNum] = index
     index += 1
     if not full_table:
         full_table = sdssTable
@@ -107,8 +89,8 @@ for f in sorted(list(fileset)):
 full_table.write('sdss_queries.dat', format='ascii', overwrite=True)
 'sdss_queries.dat'
 
-with open('sdss_queries_index.txt', 'w+') as indexfile:
-    indexfile.write(str(eventdict))
+with open('sdss_queries_index_psTo3pi.txt', 'w+') as indexfile:
+    json.dump(eventdict, indexfile) #indexfile.write(str(eventdict))
     
 end = time.time()
 print end - start
