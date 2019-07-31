@@ -32,26 +32,29 @@ start = time.time()
 errs= []
 SOURCEDIR = "C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 
-filenames = ['sn1bc_clean.csv', 'sniin_clean.csv', 'slsne_clean.csv']
+#filenames = ['sn1bc_clean.csv', 'sniin_clean.csv', 'slsne_clean.csv']
 
-idnumdict = json.load('idnumdict_3py.txt')
+#idnumdict = json.load('idnumdict_3py.txt')
     
 full_table = None    
 index = 0
 eventdict = {}
-for filename in filenames:
-    data = pd.read_csv(filename)
-    type = file[:-4]
-    for i in range(len(data)):
-        eventRa = data['R.A.'][i].split(',')[0]
-        eventDec = data['Dec.'][i].split(',')[0]
-        z = data['z'][i]
-        name = data['Name'][i]
-    # converting to degrees
-    eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
-    eventRa = eventCoords.ra.deg
-    eventDec = eventCoords.dec.deg
 
+data = pd.read_csv('3pi/all_additions.csv')
+for r in data.iterrows():
+    row = r[1]
+    idNum, name, typ, ra, dec, z, _phot = row
+    eventRa = ra.split(',')[0]            
+    eventDec = dec.split(',')[0]            
+    z = z.split(',')[0]   
+
+    # converting to degrees
+    try:
+        eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
+        eventRa = eventCoords.ra.deg
+        eventDec = eventCoords.dec.deg
+    except Exception as e: #probably RA > 24
+        print("ERRROR with coords: %s" % index)
 
     # fix formatting
     image_halfwidth = 0.00833 # = 0.5 arcmin
