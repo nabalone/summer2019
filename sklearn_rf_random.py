@@ -12,7 +12,7 @@ CLASS_WEIGHT = 'balanced' #{0:0.0000045,  1:5540000000,  2:111,  3:1000000000,  
         #0:0.28,  1:5.44,  2:1.07,  3:3.92,  4:7.54
 WHITEN = True
 USE_RF = False #otherwise SVM
-CSV_FILE = '/goodFifthRun/galaxiesdata.csv'
+CSV_FILE = '/goodSeventhRun/galaxiesdata7_no_outliers.csv'
 import csv
 import os
 from sklearn import svm
@@ -117,7 +117,7 @@ def chooseAll(csvfile, num_random):
     for i in data['ID']:
         y.append(type_to_int[typeDict[pad(int(i))]])
     #add num_random random numbers to end
-    for i in range(num_random)
+    for i in range(num_random):
         rand = np.random.normal(size=len(y))
         X = np.vstack((X.T, rand)).T
     return (X, y)

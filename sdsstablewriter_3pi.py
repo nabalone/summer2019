@@ -10,7 +10,7 @@ import os
 import glob
 import random
 import csv
-import sep
+#import sep
 import ast
 import sys
 import matplotlib.pyplot as plt
@@ -30,7 +30,7 @@ import json
 
 start = time.time()
 errs= []
-SOURCEDIR = "C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
+#SOURCEDIR = "C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 
 #filenames = ['sn1bc_clean.csv', 'sniin_clean.csv', 'slsne_clean.csv']
 
@@ -55,6 +55,7 @@ for r in data.iterrows():
         eventDec = eventCoords.dec.deg
     except Exception as e: #probably RA > 24
         print("ERRROR with coords: %s" % index)
+        continue
 
     # fix formatting
     image_halfwidth = 0.00833 # = 0.5 arcmin
@@ -72,8 +73,7 @@ for r in data.iterrows():
     sdssTable = SDSS.query_sql(query)
     if not sdssTable:
         continue
-    sdssTable['idnum'] = [f]*len(sdssTable)
-    idNum = idnumdict[name]
+    sdssTable['idnum'] = [idNum]*len(sdssTable)
     eventdict[idNum] = index
     index += 1
     if not full_table:
@@ -85,15 +85,15 @@ for r in data.iterrows():
             sdssTable.replace_column('z', [0]*len(sdssTable))
             full_table = vstack([full_table, sdssTable])
             #raise
-            #errs.append(str(f) + str(e))
+            errs.append(str(idNum) + str(e))
     
 #full_table = full_table.group_by('idnum')
 
 full_table.write('sdss_queries.dat', format='ascii', overwrite=True)
 'sdss_queries.dat'
 
-with open('sdss_queries_index_psTo3pi.txt', 'w+') as indexfile:
+with open('sdss_queries_index_3pi.txt', 'w+') as indexfile:
     json.dump(eventdict, indexfile) #indexfile.write(str(eventdict))
     
 end = time.time()
-print end - start
+print(end - start)
