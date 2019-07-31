@@ -31,7 +31,7 @@ from astropy.coordinates import SkyCoord
 #from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table#, vstack
-from sdssTableGroupIndex import sdssTableGroupIndex
+#from sdssTableGroupIndex import sdssTableGroupIndex
 
 ERRORFILE = 'errorfile2.txt'
 SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
@@ -197,7 +197,7 @@ def FWHM(arr_y):
     return right - left
 
 
-def extraction(filenames):
+def extraction(filenames, additional=False):
     ''' My stupid workaround for debugging, so I can access the variables from the console'''
     global objects
     global bestCandidate
@@ -299,55 +299,72 @@ def extraction(filenames):
 #            print("raising")
 #            raise Exception("error caught")
 
-    ''' load event redshifts' dictionary '''
-#TODO combine with plotRedshifts method
-    zdict = {}
-    zfile = open('new_ps1z.dat', 'r')
-    zfile.readline() #get rid of header
-
-    for line in zfile:
-        parts = line.split()
-        eventId = parts[0][3:]
-        redshift = float(parts[1])
-        zdict[eventId] = redshift
-    zfile.close()
-    zdict['100014'] = 0.357
-    zdict['300220'] = 0.094
-    zdict['380108'] = 0.159
+    if additional:
+        '''load data for the only in 3pi additions'''
+        threepi_db = pd.read_csv('3pi/all_additions.csv')
+        
+        with open("sdss_query_index") as s:
+            sdssTableGroupIndex = json.load(s)
+         
+        '''load prerun sdss queries'''
+        fullSdssTable = Table.read('sdss_queries_3pi.dat', format='ascii')
+        fullSdssTable = fullSdssTable.group_by('idnum')
     
-    zdict_3pi = json.load('zdict_3pi.txt')
-    typeDict_3pi = json.load('typeDict_3pi.txt')
-    
-    
-    '''load event type dictionary'''
-    typeDict = {}
-    typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
-    typefile.readline() #get rid of header
-    for line in typefile:
-        parts = line.split()
-        eventId = parts[0][3:]
-        eventType = parts[1]
-        typeDict[eventId] = eventType
-    typefile.close()
+    else:
+        ''' load event redshifts' dictionary '''
+        zdict = {}
+        zfile = open('new_ps1z.dat', 'r')
+        zfile.readline() #get rid of header
 
-    '''load event location dictionary'''
-    db = pd.read_table('alertstable_v3',sep=None,index_col = False,
-                   engine='python')
-    db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
-                    engine='python')
-    db = db.append(db2,ignore_index=True)
+        for line in zfile:
+            parts = line.split()
+            eventId = parts[0][3:]
+            redshift = float(parts[1])
+            zdict[eventId] = redshift
+        zfile.close()
+        zdict['100014'] = 0.357
+        zdict['300220'] = 0.094
+        zdict['380108'] = 0.159
+        
 
-    '''load prerun sdss queries'''
-    fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
-    fullSdssTable = fullSdssTable.group_by('idnum')
+        '''load event type dictionary'''
+        typeDict = {}
+        typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+        typefile.readline() #get rid of header
+        for line in typefile:
+            parts = line.split()
+            eventId = parts[0][3:]
+            eventType = parts[1]
+            typeDict[eventId] = eventType
+        typefile.close()
 
+        '''load event location dictionary'''
+        db = pd.read_table('alertstable_v3',sep=None,index_col = False,
+                       engine='python')
+        db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
+                        engine='python')
+        db = db.append(db2,ignore_index=True)
+
+        
+        with open("sdss_query_index") as s:
+            sdssTableGroupIndex = json.load(s)
+
+        '''load prerun sdss queries'''
+        fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
+        fullSdssTable = fullSdssTable.group_by('idnum')
+
+#TODO check appending works ok
     if WRITE_CSV:
         #create destination directory if it does not exist
         if not os.path.isdir(DESTDIR):
             os.mkdir(DESTDIR)
-        destfile = open(DESTDIR + WRITE_CSV, "w+")
-        csvwriter = csv.writer(destfile)
-        csvwriter.writerow(HEADER)
+        if not additional:
+            destfile = open(DESTDIR + WRITE_CSV, "w+")
+            csvwriter = csv.writer(destfile)
+            csvwriter.writerow(HEADER)
+        else:
+            destfile = open(DESTDIR + WRITE_CSV, "a+")
+            csvwriter = csv.writer(destfile)            
     if PRINT_DATA:
         print(HEADER)
 
@@ -370,13 +387,14 @@ def extraction(filenames):
         dotSplit = filename.split('.')
         # transient identifier is everything after the last 'c' but before
         # the second to last dot
-        idNumString = dotSplit[-3].split('c')[-1] #used for getting hectospec data
+#TODO check
+        idNumString = dotSplit[-3][-6:]#.split('c')[-1] #used for getting hectospec data
         idNum  = int(idNumString)
         # filter number is between second to last dot and last dot
         filterNum = int(dotSplit[-2]) # filter of this specific image
 
         
-        # if you are on a new event numbeer,
+        # if you are on a new event number,
         # fill the old row, write it, reset filter to 2, reset cache
         if lastIdNum != idNum:
             cache = [idNum]
@@ -409,12 +427,18 @@ def extraction(filenames):
         image_file = fits.open(filename)
 
 
-
-        ''' get data on the image '''
-        # find pixel coordinates of event
-        event = db.where(db['eventID'] == idNum).dropna()
-        eventRa = event['ra'].values[0] #values gives np arrays
-        eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
+        if not additional:
+            ''' get data on the image '''
+            # find pixel coordinates of event
+            event = db.where(db['eventID'] == idNum).dropna()
+            eventRa = event['ra'].values[0] #values gives np arrays
+            eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
+        
+        else:
+            event = db_3.iloc(int(idNum))
+            #event = db_3pi.where(db_3pi[list(db_3pi.columns)[0]] == idNum).dropna()
+            eventRa = event['R.A.'].split(',')[0] #values gives np arrays
+            eventDec = event['Dec.'].split(',')[0] #'hh:mm:ss.sss'
 
         # converting to degrees
         eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
@@ -425,7 +449,7 @@ def extraction(filenames):
         # get event pixel coords
         w = WCS(filename)
         eventX, eventY = w.all_world2pix(eventRa, eventDec, 1)
-
+#TODO check if header for fits is ok
         # to get image dimensions in wcs:
         maxX = image_file[0].header['NAXIS1']
         maxY = image_file[0].header['NAXIS2']
@@ -437,6 +461,12 @@ def extraction(filenames):
         minRa = minRa.item(0)*u.deg
         maxDec = maxDec.item(0)*u.deg
         minDec = minDec.item(0)*u.deg
+        
+        if abs(maxRa - eventRa) > 0.01 or \
+            abs(minRa - eventRa) > 0.01 or \
+            abs(maxDec - eventDec) > 0.01 or \
+            abs(minDec - eventDec) > 0.01:
+                errorProtocol("Check for coordinate conversion error")
 
 
 
@@ -538,7 +568,11 @@ def extraction(filenames):
                
         #remove any nans, replace with cell saturation
         #TODO better solution?
-        sat = image_file[0].header['HIERARCH CELL.SATURATION']
+        if not additional:
+            sat = image_file[0].header['HIERARCH CELL.SATURATION']
+        else:
+#TODO fix
+            sat = 100000
         swappedData[np.isnan(swappedData)] = sat
         
         flux = []
@@ -673,8 +707,12 @@ def extraction(filenames):
                 chanceCoincidence[i] = 1
             bestCandidate = np.argmin(chanceCoincidence)
 
+            
             # Correct bestCandidate choice for closer redshift if similar prob.
-            eventz = float(zdict[idNumString])
+            if not additional:
+                eventz = float(zdict[idNumString])
+            else:
+                eventz = event.z.split(',')[0]
 #TODO check
 #TODO check relationsihp with fixing
             if separation[bestCandidate] > CHECK_DISTANCE:
@@ -695,30 +733,36 @@ def extraction(filenames):
 
             image_file.close()
 #TODO remove repitition of calculations between filter nums
-
-            '''Get "real" host location and redshifts'''
-            with open('hosts.dat', 'r') as hostsfile:
-                hostsData = hostsfile.read()
-            # convert to dictionary from dictionary string
-            hostsData = ast.literal_eval(hostsData)
-            hostRa = hostsData[idNumString]['host_ra']
-            hostDec = hostsData[idNumString]['host_dec']
-            try:
-                hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
-                #convert to decimal deg:
-                hostRa = hostCoords.ra.deg
-                hostDec = hostCoords.dec.deg
-                offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
-                        if hostRa else None
-                hectoZ = hostsData[idNumString]['redshift']
-            except ValueError:
-                if len(hostRa) > 12: # hecto gave multiple host galaxies
-                    hostRa = "multiple"
-                    hostDec = "multiple"
-                    offby = None
-                    hectoZ = "multiple"
-                else:
-                    raise
+            if not additional:
+                '''Get "real" host location and redshifts'''
+                with open('hosts.dat', 'r') as hostsfile:
+                    hostsData = hostsfile.read()
+                # convert to dictionary from dictionary string
+                hostsData = ast.literal_eval(hostsData)
+                hostRa = hostsData[idNumString]['host_ra']
+                hostDec = hostsData[idNumString]['host_dec']
+                try:
+                    hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
+                    #convert to decimal deg:
+                    hostRa = hostCoords.ra.deg
+                    hostDec = hostCoords.dec.deg
+                    offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
+                            if hostRa else None
+                    hectoZ = hostsData[idNumString]['redshift']
+                except ValueError:
+                    if len(hostRa) > 12: # hecto gave multiple host galaxies
+                        hostRa = "multiple"
+                        hostDec = "multiple"
+                        offby = None
+                        hectoZ = "multiple"
+                    else:
+                        raise
+                        
+            else:
+                hostRa= "3pi"
+                hostDec = "3pi"
+                offby = None
+                hectoZ = "3pi"
 
             if PLOT_ALL:
                 print(filename)
