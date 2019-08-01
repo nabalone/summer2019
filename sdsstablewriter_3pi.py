@@ -89,7 +89,7 @@ for r in data.iterrows():
     
 #full_table = full_table.group_by('idnum')
 
-full_table.write('sdss_queries.dat', format='ascii', overwrite=True)
+full_table.write('sdss_queries_3pi.dat', format='ascii', overwrite=True)
 'sdss_queries.dat'
 
 with open('sdss_queries_index_3pi.txt', 'w+') as indexfile:

@@ -31,6 +31,7 @@ from astropy.coordinates import SkyCoord
 #from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table#, vstack
+import json
 #from sdssTableGroupIndex import sdssTableGroupIndex
 
 ERRORFILE = 'errorfile2.txt'
@@ -64,6 +65,7 @@ FILTER_M0s = [None, None, None,
 
 
 #USAGE FLAGS:
+USE_3PI = True
 WRITE_CSV = "\galaxiesdata2.csv" # filename to write to or None
 MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
@@ -301,9 +303,9 @@ def extraction(filenames, additional=False):
 
     if additional:
         '''load data for the only in 3pi additions'''
-        threepi_db = pd.read_csv('3pi/all_additions.csv')
+        db_3pi = pd.read_csv('3pi/all_additions.csv')
         
-        with open("sdss_query_index") as s:
+        with open("sdss_queries_index_3pi.txt") as s:
             sdssTableGroupIndex = json.load(s)
          
         '''load prerun sdss queries'''
@@ -346,7 +348,7 @@ def extraction(filenames, additional=False):
         db = db.append(db2,ignore_index=True)
 
         
-        with open("sdss_query_index") as s:
+        with open("sdss_queries_index.txt") as s:
             sdssTableGroupIndex = json.load(s)
 
         '''load prerun sdss queries'''
@@ -354,7 +356,8 @@ def extraction(filenames, additional=False):
         fullSdssTable = fullSdssTable.group_by('idnum')
 
 #TODO check appending works ok
-    if WRITE_CSV:
+    if WRITE_CSV: #additionals always come after originals, so we can
+    #write fresh incl. header if originals and append if additionals
         #create destination directory if it does not exist
         if not os.path.isdir(DESTDIR):
             os.mkdir(DESTDIR)
@@ -435,7 +438,7 @@ def extraction(filenames, additional=False):
             eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
         
         else:
-            event = db_3.iloc(int(idNum))
+            event = db_3pi.iloc(int(idNum))
             #event = db_3pi.where(db_3pi[list(db_3pi.columns)[0]] == idNum).dropna()
             eventRa = event['R.A.'].split(',')[0] #values gives np arrays
             eventDec = event['Dec.'].split(',')[0] #'hh:mm:ss.sss'
@@ -568,7 +571,7 @@ def extraction(filenames, additional=False):
                
         #remove any nans, replace with cell saturation
         #TODO better solution?
-        if not additional:
+        if not USE_3PI:
             sat = image_file[0].header['HIERARCH CELL.SATURATION']
         else:
 #TODO fix
@@ -1139,24 +1142,45 @@ def main():
     start = time.time()
     #figure out which files to use based on value specified at top
     if FILES == 'all' or FILES =='range' or FILES =='new random':
-        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3-6].fits'))
+    
+        if not USE_3PI:
+            filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3-6].fits'))
+        else:
+            filenames = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/3pi*.[3-6].fits'))
+            filenames_3pi = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/3pi*.[3-6].fits'))
+            
+        # If USE_3PI, in addition to usual extraction on orig. data, extract on  3pi additions 
         if FILES == 'range':
             extraction(filenames[RANGE[0]:RANGE[1]])
+            if USE_3PI:
+                extraction(filenames_3pi[RANGE[0]:RANGE[1]], additional=True)
+                
         elif FILES == 'new random':
             randFiles = []
             for i in range(20):
                 randFiles.append(filenames[int(len(filenames)*random.random())])
             extraction(randFiles)
+            if USE_3PI:
+                randFiles_3pi = []
+                for i in range(20):
+                    randFiles_3pi.append(filenames_3pi[int(len(filenames_3pi)*random.random())])
+                extraction(randFiles_3pi, additional=True)
+                
         elif FILES =='all':
             extraction(filenames)
+            if USE_3PI:
+                extraction(filenames_3pi, additional=True)
     elif FILES == 'preset random':
+        if USE_3PI: 
+            errorProtocol("WARNING PRESET RANDOM OPTION DOES NOT USE 3PI ADDITIONS")
         from presetrandomfiles import fileset
         extraction(fileset[:60])
+        
     elif FILES == 'nonsquare':
         from nonsquare import fileset
         extraction(fileset)
     elif FILES == 'specified':
-        extraction(SPECIFIED)
+        extraction(SPECIFIED, additional=USE_3PI)
     else:
         raise Exception('invalid FILE specification')
     end = time.time()
