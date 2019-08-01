@@ -26,10 +26,11 @@ from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
+import os
 
 start = time.time()
 errs= []
-SOURCEDIR = "C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
+SOURCEDIR = os.getcwd() + "/ps1hosts"
 
 filenames = sorted(glob.glob(SOURCEDIR + '/psc*.[3-6].fits'))
 fileset = set()
@@ -38,6 +39,7 @@ for f in filenames:
     idNumString = dotSplit[-3].split('c')[-1]
     fileset.add(idNumString)
     
+print(len(fileset))
     
 db = pd.read_table('alertstable_v3',sep=None,index_col = False, 
                engine='python')
@@ -80,6 +82,7 @@ for f in sorted(list(fileset)):
     
     
     # make query
+    print(f)
     query = "SELECT p.ra, p.dec, p.type, p.modelMag_g, p.modelMag_r, \
                 p.modelMag_i, p.modelMag_z, pz.z\
             FROM Photoz AS pz RIGHT JOIN PhotoObj AS p ON pz.objid = p.objid \
@@ -111,4 +114,4 @@ with open('sdss_queries_index.txt', 'w+') as indexfile:
     indexfile.write(str(eventdict))
     
 end = time.time()
-print end - start
+print(end - start)
