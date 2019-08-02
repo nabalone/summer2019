@@ -32,6 +32,8 @@ subtact bkgrnd or not?
 -don't make an outlier cut on kronrad because lose a slsne 330114 which gets host detected, but large kronrad because very dim?? 
 -10% no detection, almost all really nondetections
 -too many matching photozs
+-flux / exposure time
+
 
 - high efficiency, low purity in finding sn1bcs by agressively choosing where they cluster (e.g. pixel rank vs. redshift)
 - importance of balancing weights or creating synthetic data because so many more slsne

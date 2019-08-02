@@ -26,10 +26,10 @@ def augment(images, num):
             else:
                 aug_images.append(ndimage.rotate(images[j], rots[int((i*m +j) % 39)], reshape=False))
                 
-                
+'''            
 X_aug = augment(X, 11)
 for data in X_aug:
     plt.imshow(data, interpolation='nearest', cmap='gray')
     plt.savefig(namegen())
     plt.close()
-    
+'''

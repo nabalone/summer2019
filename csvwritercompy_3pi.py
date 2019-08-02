@@ -35,7 +35,7 @@ import json
 #from sdssTableGroupIndex import sdssTableGroupIndex
 
 ERRORFILE = 'errorfile2.txt'
-SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
+SOURCEDIR = os.getcwd()
 DESTDIR = os.getcwd()
 FILLER_VAL = None
 THRESHOLD = 3.
@@ -57,16 +57,17 @@ LOWEST_MAG = 40
 #              {'upper': 24.125, 'default': 23.625, 'lower': 23.125}] # filter 6
 
 #update from first 120 files:
-FILTER_M0s = [None, None, None,
-              {'upper': 23.41, 'default': 22.918, 'lower': 22.41}, # filter 3
-              {'upper': 23.32, 'default': 22.822, 'lower': 22.32}, # filter 4
-              {'upper': 24.15, 'default': 23.652, 'lower': 23.15}, # filter 5
-              {'upper': 24.04, 'default': 23.540, 'lower': 23.04}] # filter 6
-
+#FILTER_M0s = [None, None, None,
+#              {'upper': 23.41, 'default': 22.918, 'lower': 22.41}, # filter 3
+#              {'upper': 23.32, 'default': 22.822, 'lower': 22.32}, # filter 4
+#              {'upper': 24.15, 'default': 23.652, 'lower': 23.15}, # filter 5
+#              {'upper': 24.04, 'default': 23.540, 'lower': 23.04}] # filter 6
+FILTER_M0s = [None, None, None, 25.02, 24.95, 24.93, 24.88]
+FILTER_M0s_3pi = [None, None, None,  32.5327192, 3.075, 32.7676, 31.9376]
 
 #USAGE FLAGS:
 USE_3PI = True
-WRITE_CSV = "\galaxiesdata2.csv" # filename to write to or None
+WRITE_CSV = "/hello.csv" # filename to write to or None
 MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
 PLOT_REDSHIFTS = False
@@ -77,14 +78,17 @@ MAGFILE = 'newmagtest.csv'
 #ACTUALLY< REMOVING MAG WRITER
 #if MAG_TEST_ALL or MAG_TEST_STDEV:
 #    WRITE_CSV = False
-PRINT_DATA = True
+PRINT_DATA = False
 
+FORCED = []
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
-PLOT_ALL = True
+PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
-PLOT_DIR = os.getcwd() + '/plots2' # where to put plot images
-ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+PLOT_DIR = os.getcwd() + '/plots3' # where to put plot images
+if not os.path.isdir(PLOT_DIR):
+    os.mkdir(PLOT_DIR)
+ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
+FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -92,11 +96,8 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc330114.3.fits',
-             SOURCEDIR + '/ps1hosts/psc330114.4.fits',
-             SOURCEDIR + '/ps1hosts/psc330114.5.fits',
-             SOURCEDIR + '/ps1hosts/psc330114.6.fits']
-RANGE = (400, 450)
+SPECIFIED = [SOURCEDIR + '/3pi_hosts/ps_000006.3.fits']
+RANGE = (0, 100)
 m0collector = [None, None, None, [], [], [], []]
 
 '''make header'''
@@ -119,7 +120,7 @@ namecount = 0
 def namegen():
     global namecount
     namecount += 1
-    return PLOT_DIR + "\galaxyimage" + str(namecount) + ".png"
+    return PLOT_DIR + "/galaxyimage" + str(namecount) + ".png"
 
 def plot(data, objects, blacklist, bestCandidate, myVmin=None, myVmax=None,
          myEventX = None, myEventY = None, special_plot_location=None, title=''):
@@ -280,12 +281,14 @@ def extraction(filenames, additional=False):
             errorfile.write(errorString)
 
         chosen = green if green else bestCandidate
-
+        
+        if not os.path.isdir(PLOT_DIR + '/NoGood/'):
+            os.mkdir(PLOT_DIR + '/NoGood/')
         special_plot_location = '/NoGood/' + e if e[:5] == "Best." else None
         special_plot_location2 = '/NoGood/' + e + 'b' if e[:5] == "Best." else None
         if not os.path.isdir(PLOT_DIR + '/NoGood/'):
             os.mkdir(PLOT_DIR + '/NoGood/')
-
+        e = str(e)
         if PLOT_ERR:
             padded_e = e + '                                                                         '
             my_title = padded_e[:30] + '\n' + curFile[-16:]
@@ -363,8 +366,10 @@ def extraction(filenames, additional=False):
             os.mkdir(DESTDIR)
         if not additional:
             destfile = open(DESTDIR + WRITE_CSV, "w+")
+            print(DESTDIR + WRITE_CSV)
             csvwriter = csv.writer(destfile)
             csvwriter.writerow(HEADER)
+            print("written1")
         else:
             destfile = open(DESTDIR + WRITE_CSV, "a+")
             csvwriter = csv.writer(destfile)            
@@ -438,7 +443,7 @@ def extraction(filenames, additional=False):
             eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
         
         else:
-            event = db_3pi.iloc(int(idNum))
+            event = db_3pi.iloc[int(idNum)]
             #event = db_3pi.where(db_3pi[list(db_3pi.columns)[0]] == idNum).dropna()
             eventRa = event['R.A.'].split(',')[0] #values gives np arrays
             eventDec = event['Dec.'].split(',')[0] #'hh:mm:ss.sss'
@@ -456,6 +461,7 @@ def extraction(filenames, additional=False):
         # to get image dimensions in wcs:
         maxX = image_file[0].header['NAXIS1']
         maxY = image_file[0].header['NAXIS2']
+        '''
         maxRa, maxDec = w.all_pix2world(1,maxY,1)
         minRa, minDec = w.all_pix2world(maxX,1,1)
 
@@ -465,11 +471,21 @@ def extraction(filenames, additional=False):
         maxDec = maxDec.item(0)*u.deg
         minDec = minDec.item(0)*u.deg
         
-        if abs(maxRa - eventRa) > 0.01 or \
-            abs(minRa - eventRa) > 0.01 or \
-            abs(maxDec - eventDec) > 0.01 or \
-            abs(minDec - eventDec) > 0.01:
+        #print(eventRa)
+        #print(eventDec)
+        print(maxRa/u.deg - minRa/u.deg)
+        print(maxDec/u.deg - minDec/u.deg)
+        #print(eventRa - minRa/u.deg)
+        #print(maxRa/u.deg - eventRa)
+        #print(eventDec - minDec/u.deg)
+        #print(maxDec/u.deg - eventDec)
+        if abs(maxRa/u.deg - eventRa) > 0.01 or \
+            abs(minRa/u.deg - eventRa) > 0.01 or \
+            abs(maxDec/u.deg - eventDec) > 0.01 or \
+            abs(minDec/u.deg - eventDec) > 0.01:
                 errorProtocol("Check for coordinate conversion error")
+        '''
+#TODO make sure SDSS queries are taking the right region and size
 
 
 
@@ -533,6 +549,10 @@ def extraction(filenames, additional=False):
                                           err=bkg.globalrms, #var=noise_data2 ,
                                   minarea = MINAREA, deblend_cont = DEBLEND_CONT,
                                   segmentation_map = True)
+                                  
+            if len(objects) < 1:
+                errorProtocol("No objects detected")
+                return -1
 
             # how to calculate kron radius and flux from
             # https://sep.readthedocs.io/en/v1.0.x/apertures.html
@@ -561,13 +581,33 @@ def extraction(filenames, additional=False):
                     # otherwise blacklist and give an arbitrary valid kronrad
                     blacklist.add(i)
                     kronrad[i] = 0.1
+                    
+            return 0
 
         ''' '''
         
         # start with default threshold, if it fails then use a higher one
         #three_sigma = 3. * bkg.globalrms
 
-        recursiveExtraction(THRESHOLD)
+        returnval = recursiveExtraction(THRESHOLD)
+        if returnval < 0:
+            badImageDict = {'filterNum': filterNum, 'objects': None,
+                    'kronradKpc': None, 'separationKpc': None,
+                    'area': None,
+                    'magnitude': None, 'absMag': None,
+                    'objCoords': [], 'photozs': None,
+                    'm_0': None, 'swappedData': swappedData,
+                    'segmap': None, 'old_best': 0,
+                    'chanceCoincidence': [1],
+                    'newFluxParams': None,
+                    'finalProperties':None}
+                    
+            BAD_IMAGES.append(badImageDict)
+
+            cache.extend([FILLER_VAL]*len(perImageHeaders))
+            
+        
+            continue
                
         #remove any nans, replace with cell saturation
         #TODO better solution?
@@ -644,8 +684,13 @@ def extraction(filenames, additional=False):
             colFluxes = np.array(colFluxes)
 
 #            magcache = [idNum, filterNum]
-            m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS']))
+            if not USE_3PI: #convert to flux from counts 
+                colFluxes = colFluxes/float(image_file[0].header['EXPTIME'])
+#            magcache = [idNum, filterNum]
+            m_0s = colRealMags + 2.5 * np.log10(colFluxes)
             m_0s = m_0s[~np.isnan(m_0s)] #remove nans
+            
+            default_m0s = FILTER_M0s_3pi if USE_3PI else FILTER_M0s
             if m_0s.any():
                 m_0 = np.median(m_0s)
                 global m0collector
@@ -653,17 +698,20 @@ def extraction(filenames, additional=False):
 
             #no SDSS stars to calculate zero point
             else:
-                    m_0 = FILTER_M0s[filterNum]['default']
+                    m_0 = default_m0s[filterNum]
                     colFluxes = np.array([])
                     colRealMags = np.array([])
 
             # m_0 is outlier, use default
-            if m_0 > FILTER_M0s[filterNum]['upper'] or \
-                m_0 < FILTER_M0s[filterNum]['lower']:
-                    m_0 = FILTER_M0s[filterNum]['default']
-
-            colMyMags = -2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS'])) + m_0
-            magnitude = -2.5 * np.log10(flux/float(image_file[0].header['MJD-OBS'])) + m_0
+            if m_0 > default_m0s[filterNum] + 1. or \
+                m_0 < default_m0s[filterNum] - 1:
+                    m_0 = default_m0s[filterNum]
+            
+            if not USE_3PI:
+                flux = flux/float(image_file[0].header['EXPTIME'])
+            
+            colMyMags = -2.5 * np.log10(colFluxes) + m_0
+            magnitude = -2.5 * np.log10(flux) + m_0
             magnitude[np.where(np.isnan(magnitude))] = LOWEST_MAG
 #TODO combine?
 
@@ -708,14 +756,18 @@ def extraction(filenames, additional=False):
             # exclude any blacklisted
             for i in blacklist:
                 chanceCoincidence[i] = 1
-            bestCandidate = np.argmin(chanceCoincidence)
+                
+            try:
+                bestCandidate = np.argmin(chanceCoincidence)
+            except:
+                errorProtocol('blah')
 
             
             # Correct bestCandidate choice for closer redshift if similar prob.
             if not additional:
                 eventz = float(zdict[idNumString])
             else:
-                eventz = event.z.split(',')[0]
+                eventz = float(event.z.split(',')[0])
 #TODO check
 #TODO check relationsihp with fixing
             if separation[bestCandidate] > CHECK_DISTANCE:
@@ -758,6 +810,8 @@ def extraction(filenames, additional=False):
                         hostDec = "multiple"
                         offby = None
                         hectoZ = "multiple"
+#TODO fix or remove offby. hostcoords is used to later calculate updated offby
+                        hostCoords = SkyCoord(0,0, unit=u.deg)
                     else:
                         raise
                         
@@ -883,7 +937,8 @@ def extraction(filenames, additional=False):
                             newBestCandidate = k
                             newEllipticity = 1 - (imageDict['objects']['b'][newBestCandidate]/
                                                 imageDict['objects']['a'][newBestCandidate])
-                            newOffby = hostCoords.separation(imageDict['objCoords'][newBestCandidate]).arcsec
+#TODO fix newOffby
+                            newOffby = -1 #hostCoords.separation(imageDict['objCoords'][newBestCandidate]).arcsec
                             newPixelRank = getPixelRank(imageDict['swappedData'],
                                                         eventX, eventY,
                                                         imageDict['segmap'],
@@ -911,15 +966,18 @@ def extraction(filenames, additional=False):
                             break
                     if not fixed: # no objects in center detected in bad image, use data from good image
                         # but update magnitude
+                        FORCED.append((filename, imageDict['filterNum']))
                         newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
                         if newFlux > 0:
-                            newMagnitude = -2.5 * np.log10(newFlux/float(image_file[0].header['MJD-OBS'])) + imageDict['m_0']
+                            if not USE_3PI:
+                                newFlux = newFlux/float(image_file[0].header['EXPTIME'])
+                            newMagnitude = -2.5 * np.log10(newFlux) + imageDict['m_0']
                         else:
                             newMagnitude = LOWEST_MAG
                             
 #TODO just save the old pixel rank
-                        newPixelRank = getPixelRank(imageDict['swappedData'],
-                            eventX, eventY, imageDict['segmap'], imageDict['old_best'])
+                        newPixelRank = 0.5 #getPixelRank(imageDict['swappedData'],
+                            #eventX, eventY, imageDict['segmap'], imageDict['old_best'])
                         newAbsMag = newMagnitude - 5*np.log10(dL) - 10
                                     # Observed number density of galaxies brighter than magnitude M (From Berger 2010)
 
@@ -965,7 +1023,7 @@ def extraction(filenames, additional=False):
                            minOwner = j
                     if minChanceCoincidence <= 0.02:
                         errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
-                        correct(BAD_TO_GOOD[j], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
+                        correct(BAD_TO_GOOD[minOwner], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
                     else:
                         errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
                         correct((defaultFinalProperties, defaultFluxParams), BAD_IMAGES)
@@ -1132,6 +1190,7 @@ def extraction(filenames, additional=False):
     cache.extend([FILLER_VAL]*(1+4*len(perImageHeaders)-len(cache)))
     if WRITE_CSV:
         csvwriter.writerow(cache)
+        print("Written")
         destfile.close()
     if PRINT_DATA:
         print(cache)
@@ -1146,7 +1205,7 @@ def main():
         if not USE_3PI:
             filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3-6].fits'))
         else:
-            filenames = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/3pi*.[3-6].fits'))
+            filenames = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/ps_*.[3-6].fits'))
             filenames_3pi = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/3pi*.[3-6].fits'))
             
         # If USE_3PI, in addition to usual extraction on orig. data, extract on  3pi additions 
@@ -1180,7 +1239,17 @@ def main():
         from nonsquare import fileset
         extraction(fileset)
     elif FILES == 'specified':
-        extraction(SPECIFIED, additional=USE_3PI)
+        if SPECIFIED[0][-16:-13] == '3pi':
+            addl = True
+            if not USE_3PI:
+                raise Exception("Specified 3pi image, must set USE_3PI")
+        elif SPECIFIED[0][-16:-14] == 'ps':
+            addl = False
+            if SPECIFIED[0][-16:-13] == 'psc' and USE_3PI:
+                raise Exception("Specified NON 3pi image, must unset USE_3PI")
+            elif SPECIFIED[0][-16:-13] == 'ps_' and not USE_3PI:
+                raise Exception("Specified 3pi image, must set USE_3PI")
+        extraction(SPECIFIED, additional=addl)
     else:
         raise Exception('invalid FILE specification')
     end = time.time()
@@ -1188,6 +1257,8 @@ def main():
     global m0collector
     m0collector = np.array(m0collector)
     np.save("mOcollector", m0collector)
+    print(len(FORCED))
+    print(str(FORCED))
 
 if __name__ == "__main__":
      main()
