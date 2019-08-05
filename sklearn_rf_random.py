@@ -165,10 +165,10 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
     classes = classes[unique_labels(y_true, y_pred)]
 
     bal_score = str(balanced_score(cm))[:4]
-    diag = str(diagonalishness(cm))
-    info_str = "bal_score:" + bal_score \
-                + " diag:" + diag + '\n' \
-                + str(name_extension)
+    #diag = str(diagonalishness(cm))
+    info_str = "bal_score:" + bal_score" 
+                #+ " diag:" + diag + '\n' 
+                #+ str(name_extension)
     print(info_str)
     fig, ax = plt.subplots()
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
@@ -263,7 +263,7 @@ def run(X, y, n_est, name_extension):
 
         y_pred = np.zeros(len(y)) - 1
         count=0
-        for train_index, test_index in skf.split(X, y):
+        for train_index, test_index in loo.split(y):
             print(count)
             count += 1
             
@@ -292,7 +292,7 @@ def run(X, y, n_est, name_extension):
         print(y_pred)
         plt.bar(range(len(importances)), importances)
         print(importances)
-        plt.savefig("importances.png")
+        plt.savefig("importances_final.png")
         print(y)
 
 import time
@@ -305,14 +305,14 @@ start = time.time()
 #    for combo in allCombos[1:]:
 #        run(combo)
 #X0, y0 = collect(0)
-X1, y1 = collect(1)
+X1, y1 = collect(2)
 #print(y1)
 # print('c')
 # run(X0, y0, 100, 'rf_0rands_100ests_a')
 # print('d')
 # run(X0, y0, 100, 'rf_0rands_100ests_b')
 # print('e')
-run(X1, y1, 100, 'rf_1rands_50ests_a')
+run(X1, y1, 200, 'final')
 # print('f')
 # run(X1, y1, 100, 'rf_1rands_100ests_b')
 # print('a')

@@ -1,4 +1,5 @@
-
+'''NOTE I forgot about the need to balance class weights in data generation.
+May need to use "flow" fxn instead'''
 from __future__ import print_function
 import keras
 from keras.datasets import cifar10
@@ -80,16 +81,13 @@ else:
 
     #make balanced class weights
     a = compute_class_weight('balanced', np.unique(y_orig), y_orig)
-    sampleweights = []
-    for sample in y_train:
-        sampleweights.append(a[sample])
-    sampleweights = np.array(sampleweights)
-    model.fit(x_train, y_train,
-              batch_size=batch_size,
-              epochs=epochs,
-              #validation_data=(x_test, y_test),
-              sample_weight=sampleweights,
-              shuffle=true)
+    datagen = ImageDataGenerator(
+        rotation_range=180,  # randomly rotate images in the range (degrees, 0 to 180))
+        horizontal_flip=True,  # randomly flip images
+        vertical_flip=True)  # randomly flip images
+    
+    datagen.fit(X_train)
+
     # Save model and weights
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
