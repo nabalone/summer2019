@@ -52,8 +52,8 @@ for i in range(3,7):
         HEADER.append(val + '_' + str(i))
 HEADER = np.array(HEADER)
 
-X_PROP = 'Z'
-Y_PROP = 'Abs_mag'
+X_PROP = 'Z_4'
+Y_PROP = 'KronRad (kpc)_4'
 
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 COLORS = {'SNIa':'#d73027', 'SNIbc':'#fc8d59', 'SLSNe':'k',#'#fee090', 
@@ -78,6 +78,10 @@ def pad(n):
     while len(n) < 6:
         n = '0' + n
     return n
+
+x_prop_num = np.where(HEADER==X_PROP)[0][0]
+y_prop_num = np.where(HEADER==Y_PROP)[0][0]
+
 
 with open(CSVFILE, 'r') as f:
     r = csv.reader(f)
@@ -142,23 +146,25 @@ for snType in TYPES:
     z= np.arange(0., 2., 0.1)
     dL = cosmo.luminosity_distance(z)*1000/u.Mpc # in kpc
     minMag = 25 - 5*np.log10(dL) - 10 + 2.5 * np.log10(1.+z)
-    plt.plot(z, minMag, label="limiting magnitude")
+    #plt.plot(z, minMag, label="limiting magnitude")
     #plt.plot(*plot_args)
     #plt.xlabel(X_PROP)
     #plt.ylabel(Y_PROP)
     #plt.xlabel('Absolute Magnitude (R band)')
     
-    plt.ylabel(r'Abs. Mag$_r$')
+    plt.ylabel(r'Kron Radius$_r$')
     plt.xlabel('Redshift')
-    plt.ylim(-12, -28)
-    #plt.yscale("log")
+    #plt.ylim(-12, -24)
+    plt.xscale("log")
+    plt.yscale("log")
     font = {
         'weight' : 'normal',
         'size'   : 16}
 
     plt.rc('font', **font)
-    plt.legend(ncol=2, loc='best', bbox_to_anchor=(0.225, 0., 0.5, 0.5))
-    plt.savefig(PLOT_DIR + trim(X_PROP) + '_vs_' + trim(Y_PROP) + "4.png", dpi=150)
+    #plt.legend(loc='best', bbox_to_anchor=(1, 0.8))
+    plt.gcf().subplots_adjust(bottom=0.15, left=0.15)
+    plt.savefig(PLOT_DIR + '/' + trim(X_PROP) + '_vs_' + trim(Y_PROP) + "4.png", dpi=150)
     plt.show()
     plt.close()
  
