@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.utils.multiclass import unique_labels
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.ensemble import RandomForestClassifier
-PLOT_DIR = os.getcwd() + 'cm_plot'#\\deletable\\'#'/confusions_svm_whitened_cv100/'
+PLOT_DIR = os.getcwd() + '/cm_plot'#\\deletable\\'#'/confusions_svm_whitened_cv100/'
 ADD_RANDOM = 0
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
@@ -55,7 +55,7 @@ def namegen():
     return str(namecount)
         
 
-def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='', 
+def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extension='', 
                           cmap=plt.cm.Blues, importances=None):
     """
     This function prints and plots the confusion matrix.
@@ -63,13 +63,13 @@ def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='',
     """
     
     # Compute confusion matrix
-    cm = confusion_matrix(y_true, y_pred)
+    cm = confusion_matrix(y_true, y_pred)#s if not cmx.any else cmx
     
     #normalize
-    cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-    classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn',  'SLSNe'])
-    classes = classes[unique_labels(y_true, y_pred)]
-    
+    #cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    #classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn',  'SLSNe'])
+    #classes = classes[unique_labels(y_true, y_pred)]
+    classes = np.array(['SNIa','CC'])
     bal_score = str(balanced_score(cm))[:4]
     diag = str(diagonalishness(cm))
     info_str = "bal_score:" + bal_score \
@@ -86,11 +86,15 @@ def plot_confusion_matrix(y_true, y_pred, to_include='', name_extension='',
            xticklabels=classes, yticklabels=classes,
            ylabel='True label',
            xlabel='Predicted label')
+    #ax.tick_params(axis='both', which='major', labelsize=10)
     
     # Rotate the tick labels and set their alignment.
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
              rotation_mode="anchor")
-    
+    font = {
+    'weight' : 'normal',
+    'size'   : 10}
+    plt.rc('font', **font)
     # Loop over data dimensions and create text annotations.
     fmt = '.2f' if True else 'd'
     thresh = cm.max() / 2.

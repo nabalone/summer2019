@@ -35,11 +35,11 @@ from astropy import units as u
 '''
 import os
 
-PLOT_DIR = os.getcwd() + '/msc_plots/'
+PLOT_DIR = os.getcwd()# + '/msc_plots/'
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
     
-CSVFILE =  os.getcwd() + "/goodFourthRun/galaxiesdata.csv"
+CSVFILE =  os.getcwd() + '/goodSeventhRun/galaxiesdata7_no_outliers.csv'
 #'C:\\Users\\Faith\\Desktop\\NoeySummer2019\\copied from vav usb\\goodFifthRun\\galaxiesdata2.csv'#
 HEADER =['ID']
 #perImageHeaders = ['KronRad', 'separation', 'x', 'y', 'RA', 'DEC', 'KronMag', 'Angle', 'Ellipticity']
@@ -81,8 +81,16 @@ def pad(n):
 
 with open(CSVFILE, 'r') as f:
     r = csv.reader(f)
-    r.readrow()
-    r.readrow()
+    r.next()#readrow()
+    r.next()#readrow()
+    x_prop = {}
+    y_prop = {}
+    r1 = {}
+    for t in TYPES:
+        x_prop[t] = []
+        y_prop[t] = []
+        r1[t] = []
+
     for row in r:
         idNum = row[0]
         sn_type = typeDict[pad(idNum)]
