@@ -34,6 +34,8 @@ from sklearn import preprocessing
 import random 
 import pandas as pd
 
+COLLAPSE = True
+
 random.seed(7)
 PLOT_DIR = os.getcwd() + '/confusions_RF_whitened/'
 if not os.path.isdir(PLOT_DIR):
@@ -116,6 +118,7 @@ def chooseAll(csvfile, num_random):
     # lookup identified type of event and add to y
     for i in data['ID']:
         y.append(type_to_int[typeDict[pad(int(i))]])
+    np.save('y_actual_collapsed', y, allow_pickle=True)
     #add num_random random numbers to end
     for i in range(num_random):
         rand = np.random.normal(size=len(y))
@@ -166,7 +169,7 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
 
     bal_score = str(balanced_score(cm))[:4]
     #diag = str(diagonalishness(cm))
-    info_str = "bal_score:" + bal_score" 
+    info_str = "bal_score:" + bal_score
                 #+ " diag:" + diag + '\n' 
                 #+ str(name_extension)
     print(info_str)
@@ -251,7 +254,14 @@ def collect(num_random):
     print(X.shape)
     X = preprocessing.scale(X)
     X = np.array(X)
+    
+    if COLLAPSE:
+        for i in range(len(y)):
+            if y[i] > 0:
+                y[i]=1
+    
     y = np.array(y)
+    
     
     #np.random.shuffle(y)
     return (X, y)
@@ -292,7 +302,9 @@ def run(X, y, n_est, name_extension):
         print(y_pred)
         plt.bar(range(len(importances)), importances)
         print(importances)
-        plt.savefig("importances_final.png")
+        importances = np.array(importances)
+        np.save("importances_collapsed", importances, allow_pickle=True, fix_imports=True)
+        plt.savefig("importances_final_collapsed.png")
         print(y)
 
 import time
@@ -312,7 +324,7 @@ X1, y1 = collect(2)
 # print('d')
 # run(X0, y0, 100, 'rf_0rands_100ests_b')
 # print('e')
-run(X1, y1, 200, 'final')
+run(X1, y1, 200, 'final_collapsed')
 # print('f')
 # run(X1, y1, 100, 'rf_1rands_100ests_b')
 # print('a')
