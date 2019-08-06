@@ -7,6 +7,8 @@ Created on Wed Jul 10 13:35:10 2019
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+from astropy.cosmology import Planck13 as cosmo
+from astropy import units as u
 '''SLSNe:
 330114
 340195
@@ -24,11 +26,11 @@ import matplotlib.pyplot as plt
 '''
 import os
 
-PLOT_DIR = os.getcwd() + '/goodFifthRun/msc_plots_xlog/'
+PLOT_DIR = os.getcwd() + '/final_plots'
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
     
-CSVFILE = os.getcwd() + "/goodFifthRun/galaxiesdata2.csv"
+CSVFILE = os.getcwd() + '/goodSeventhRun/galaxiesdata7_no_outliers.csv'
 
 HEADER =['ID']
 #perImageHeaders = ['KronRad', 'separation', 'x', 'y', 'RA', 'DEC', 'KronMag', 'Angle', 'Ellipticity']
@@ -43,6 +45,10 @@ HEADER = np.array(HEADER)
 
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
+
+COLORS = {'SNIa':'#d73027', 'SNIbc':'#fc8d59', 'SLSNe':'k',#'#fee090', 
+          'SNII':'#91bfdb', 'SNIIn':'#4575b4'}
+MARKERS = {'SNIIn':'s', 'SNIa':'*', 'SNII': 'v', 'SNIbc':'^', 'SLSNe': 'o'}
 
 '''load event type dictionary'''
 typeDict = {}
@@ -61,7 +67,7 @@ def pad(n):
         n = '0' + n
     return n
 
-def run(X_PROP, Y_PROP):
+def run(X_PROP, Y_PROP, plot_lim_mag=False):
     
     x_prop_num = np.where(HEADER==X_PROP)[0][0]
     y_prop_num = np.where(HEADER==Y_PROP)[0][0]
@@ -105,22 +111,36 @@ def run(X_PROP, Y_PROP):
         fixed = fixed.replace("/", "Per")
         return fixed
     
-    areas = {}
-    # plot magnitude vs. area
-    plot_args = []
+    if plot_lim_mag:
+        z= np.arange(0., 2., 0.1)
+        dL = cosmo.luminosity_distance(z)*1000/u.Mpc # in kpc
+        minMag = 25 - 5*np.log10(dL) - 10 + 2.5 * np.log10(1.+z)
+        plt.plot(z, minMag, label="limiting magnitude")
+    
     for snType in TYPES:
         g1 = np.array(y_prop[snType])
         r2 = np.array(r1[snType])
         dif = g1 - r2
         #y_prop[snType] = np.array(y_prop[snType])
-        plt.plot(x_prop[snType], dif, TYPE_COLORS[snType], marker='.', label=snType)
+        plt.plot(x_prop[snType], dif, 
+                 marker=MARKERS[snType], ms='5', linestyle="None", 
+                 color=COLORS[snType], label=snType)
         #x_prop[snType]
     #plt.plot(*plot_args)
-    plt.xlabel(X_PROP)
+    
+    font = {
+        'weight' : 'normal',
+        'size'   : 16}
+
+    plt.rc('font', **font)
+    
+    plt.xlabel("Redshift")
     plt.ylabel("G - R (Absolute Magnitude)")#Y_PROP)
 #    plt.xscale("log")
-    plt.legend()
-    plt.savefig("redshift_vs_g-r.png", dpi=150)
+    plt.legend(bbox_to_anchor=(1.1, 1.2))
+    #plt.tight_layout()
+    plt.gcf().subplots_adjust(bottom=0.15)
+    plt.savefig(PLOT_DIR + "/redshift_vs_g-r.png", dpi=150)
     #plt.savefig(PLOT_DIR + trim(X_PROP) + '_vs_' + trim(Y_PROP) + ".png", dpi=150)
     plt.show()
     plt.close()
