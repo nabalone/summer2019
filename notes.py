@@ -44,3 +44,10 @@ preprocessing
  
  
  ../vvillar/ps1_host/fits/
+ 
+ batch size smaller
+
+switch to a gpu to go faster
+reduce number of filters
+make sure pooling after.
+can batch size the evaluating

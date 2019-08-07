@@ -31,11 +31,10 @@ from astropy.coordinates import SkyCoord
 #from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table#, vstack
-import json
-#from sdssTableGroupIndex import sdssTableGroupIndex
+from sdssTableGroupIndex import sdssTableGroupIndex
 
 ERRORFILE = 'errorfile2.txt'
-SOURCEDIR = os.getcwd()
+SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
 THRESHOLD = 3.
@@ -57,17 +56,15 @@ LOWEST_MAG = 40
 #              {'upper': 24.125, 'default': 23.625, 'lower': 23.125}] # filter 6
 
 #update from first 120 files:
-#FILTER_M0s = [None, None, None,
-#              {'upper': 23.41, 'default': 22.918, 'lower': 22.41}, # filter 3
-#              {'upper': 23.32, 'default': 22.822, 'lower': 22.32}, # filter 4
-#              {'upper': 24.15, 'default': 23.652, 'lower': 23.15}, # filter 5
-#              {'upper': 24.04, 'default': 23.540, 'lower': 23.04}] # filter 6
-FILTER_M0s = [None, None, None, 25.02, 24.95, 24.93, 24.88]
-FILTER_M0s_3pi = [None, None, None,  32.5327192, 3.075, 32.7676, 31.9376]
+FILTER_M0s = [None, None, None,
+              {'upper': 23.41, 'default': 22.918, 'lower': 22.41}, # filter 3
+              {'upper': 23.32, 'default': 22.822, 'lower': 22.32}, # filter 4
+              {'upper': 24.15, 'default': 23.652, 'lower': 23.15}, # filter 5
+              {'upper': 24.04, 'default': 23.540, 'lower': 23.04}] # filter 6
+
 
 #USAGE FLAGS:
-USE_3PI = True
-WRITE_CSV = "/hello.csv" # filename to write to or None
+WRITE_CSV = "\galaxiesdata2.csv" # filename to write to or None
 MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
 PLOT_REDSHIFTS = False
@@ -78,17 +75,14 @@ MAGFILE = 'newmagtest.csv'
 #ACTUALLY< REMOVING MAG WRITER
 #if MAG_TEST_ALL or MAG_TEST_STDEV:
 #    WRITE_CSV = False
-PRINT_DATA = False
+PRINT_DATA = True
 
-FORCED = []
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
-PLOT_ALL = False
+PLOT_ALL = True
 PLOT_ERR =  True #plots only files that give errors or low probability
-PLOT_DIR = os.getcwd() + '/plots3' # where to put plot images
-if not os.path.isdir(PLOT_DIR):
-    os.mkdir(PLOT_DIR)
-ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
-FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+PLOT_DIR = os.getcwd() + '/plots2' # where to put plot images
+ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
+FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -96,8 +90,11 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/3pi_hosts/ps_000006.3.fits']
-RANGE = (0, 100)
+SPECIFIED = [SOURCEDIR + '/ps1hosts/psc330114.3.fits',
+             SOURCEDIR + '/ps1hosts/psc330114.4.fits',
+             SOURCEDIR + '/ps1hosts/psc330114.5.fits',
+             SOURCEDIR + '/ps1hosts/psc330114.6.fits']
+RANGE = (400, 450)
 m0collector = [None, None, None, [], [], [], []]
 
 '''make header'''
@@ -120,7 +117,7 @@ namecount = 0
 def namegen():
     global namecount
     namecount += 1
-    return PLOT_DIR + "/galaxyimage" + str(namecount) + ".png"
+    return PLOT_DIR + "\galaxyimage" + str(namecount) + ".png"
 
 def plot(data, objects, blacklist, bestCandidate, myVmin=None, myVmax=None,
          myEventX = None, myEventY = None, special_plot_location=None, title=''):
@@ -200,7 +197,7 @@ def FWHM(arr_y):
     return right - left
 
 
-def extraction(filenames, additional=False):
+def extraction(filenames):
     ''' My stupid workaround for debugging, so I can access the variables from the console'''
     global objects
     global bestCandidate
@@ -281,14 +278,12 @@ def extraction(filenames, additional=False):
             errorfile.write(errorString)
 
         chosen = green if green else bestCandidate
-        
-        if not os.path.isdir(PLOT_DIR + '/NoGood/'):
-            os.mkdir(PLOT_DIR + '/NoGood/')
+
         special_plot_location = '/NoGood/' + e if e[:5] == "Best." else None
         special_plot_location2 = '/NoGood/' + e + 'b' if e[:5] == "Best." else None
         if not os.path.isdir(PLOT_DIR + '/NoGood/'):
             os.mkdir(PLOT_DIR + '/NoGood/')
-        e = str(e)
+
         if PLOT_ERR:
             padded_e = e + '                                                                         '
             my_title = padded_e[:30] + '\n' + curFile[-16:]
@@ -304,75 +299,51 @@ def extraction(filenames, additional=False):
 #            print("raising")
 #            raise Exception("error caught")
 
-    if additional:
-        '''load data for the only in 3pi additions'''
-        db_3pi = pd.read_csv('3pi/all_additions.csv')
-        
-        with open("sdss_queries_index_3pi.txt") as s:
-            sdssTableGroupIndex = json.load(s)
-         
-        '''load prerun sdss queries'''
-        fullSdssTable = Table.read('sdss_queries_3pi.dat', format='ascii')
-        fullSdssTable = fullSdssTable.group_by('idnum')
+    ''' load event redshifts' dictionary '''
+#TODO combine with plotRedshifts method
+    zdict = {}
+    zfile = open('new_ps1z.dat', 'r')
+    zfile.readline() #get rid of header
+
+    for line in zfile:
+        parts = line.split()
+        eventId = parts[0][3:]
+        redshift = float(parts[1])
+        zdict[eventId] = redshift
+    zfile.close()
+    zdict['100014'] = 0.357
+    zdict['300220'] = 0.094
+    zdict['380108'] = 0.159
     
-    else:
-        ''' load event redshifts' dictionary '''
-        zdict = {}
-        zfile = open('new_ps1z.dat', 'r')
-        zfile.readline() #get rid of header
+    '''load event type dictionary'''
+    typeDict = {}
+    typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+    typefile.readline() #get rid of header
+    for line in typefile:
+        parts = line.split()
+        eventId = parts[0][3:]
+        eventType = parts[1]
+        typeDict[eventId] = eventType
+    typefile.close()
 
-        for line in zfile:
-            parts = line.split()
-            eventId = parts[0][3:]
-            redshift = float(parts[1])
-            zdict[eventId] = redshift
-        zfile.close()
-        zdict['100014'] = 0.357
-        zdict['300220'] = 0.094
-        zdict['380108'] = 0.159
-        
+    '''load event location dictionary'''
+    db = pd.read_table('alertstable_v3',sep=None,index_col = False,
+                   engine='python')
+    db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
+                    engine='python')
+    db = db.append(db2,ignore_index=True)
 
-        '''load event type dictionary'''
-        typeDict = {}
-        typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
-        typefile.readline() #get rid of header
-        for line in typefile:
-            parts = line.split()
-            eventId = parts[0][3:]
-            eventType = parts[1]
-            typeDict[eventId] = eventType
-        typefile.close()
+    '''load prerun sdss queries'''
+    fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
+    fullSdssTable = fullSdssTable.group_by('idnum')
 
-        '''load event location dictionary'''
-        db = pd.read_table('alertstable_v3',sep=None,index_col = False,
-                       engine='python')
-        db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
-                        engine='python')
-        db = db.append(db2,ignore_index=True)
-
-        
-        with open("sdss_queries_index.txt") as s:
-            sdssTableGroupIndex = json.load(s)
-
-        '''load prerun sdss queries'''
-        fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
-        fullSdssTable = fullSdssTable.group_by('idnum')
-
-#TODO check appending works ok
-    if WRITE_CSV: #additionals always come after originals, so we can
-    #write fresh incl. header if originals and append if additionals
+    if WRITE_CSV:
         #create destination directory if it does not exist
         if not os.path.isdir(DESTDIR):
             os.mkdir(DESTDIR)
-        if not additional:
-            destfile = open(DESTDIR + WRITE_CSV, "w+")
-            print(DESTDIR + WRITE_CSV)
-            csvwriter = csv.writer(destfile)
-            csvwriter.writerow(HEADER)
-            print("written1")
-        else:
-            destfile = open(DESTDIR + WRITE_CSV, "a+")
-            csvwriter = csv.writer(destfile)            
+        destfile = open(DESTDIR + WRITE_CSV, "w+")
+        csvwriter = csv.writer(destfile)
+        csvwriter.writerow(HEADER)
     if PRINT_DATA:
         print(HEADER)
 
@@ -391,16 +362,17 @@ def extraction(filenames, additional=False):
         bestCandidate = None
 
         # to extract transient and filter number from filename of the form
-        # */xxx190369.6.fits
+        # */psc190369.6.fits
         dotSplit = filename.split('.')
-
-        idNumString = dotSplit[-3][-6:]
+        # transient identifier is everything after the last 'c' but before
+        # the second to last dot
+        idNumString = dotSplit[-3].split('c')[-1] #used for getting hectospec data
         idNum  = int(idNumString)
         # filter number is between second to last dot and last dot
         filterNum = int(dotSplit[-2]) # filter of this specific image
 
         
-        # if you are on a new event number,
+        # if you are on a new event numbeer,
         # fill the old row, write it, reset filter to 2, reset cache
         if lastIdNum != idNum:
             cache = [idNum]
@@ -433,18 +405,12 @@ def extraction(filenames, additional=False):
         image_file = fits.open(filename)
 
 
-        if not additional:
-            ''' get data on the image '''
-            # find pixel coordinates of event
-            event = db.where(db['eventID'] == idNum).dropna()
-            eventRa = event['ra'].values[0] #values gives np arrays
-            eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
-        
-        else:
-            event = db_3pi.iloc[int(idNum)]
-            #event = db_3pi.where(db_3pi[list(db_3pi.columns)[0]] == idNum).dropna()
-            eventRa = event['R.A.'].split(',')[0] #values gives np arrays
-            eventDec = event['Dec.'].split(',')[0] #'hh:mm:ss.sss'
+
+        ''' get data on the image '''
+        # find pixel coordinates of event
+        event = db.where(db['eventID'] == idNum).dropna()
+        eventRa = event['ra'].values[0] #values gives np arrays
+        eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
 
         # converting to degrees
         eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
@@ -455,11 +421,10 @@ def extraction(filenames, additional=False):
         # get event pixel coords
         w = WCS(filename)
         eventX, eventY = w.all_world2pix(eventRa, eventDec, 1)
-#TODO check if header for fits is ok
+
         # to get image dimensions in wcs:
         maxX = image_file[0].header['NAXIS1']
         maxY = image_file[0].header['NAXIS2']
-        '''
         maxRa, maxDec = w.all_pix2world(1,maxY,1)
         minRa, minDec = w.all_pix2world(maxX,1,1)
 
@@ -468,22 +433,6 @@ def extraction(filenames, additional=False):
         minRa = minRa.item(0)*u.deg
         maxDec = maxDec.item(0)*u.deg
         minDec = minDec.item(0)*u.deg
-        
-        #print(eventRa)
-        #print(eventDec)
-        print(maxRa/u.deg - minRa/u.deg)
-        print(maxDec/u.deg - minDec/u.deg)
-        #print(eventRa - minRa/u.deg)
-        #print(maxRa/u.deg - eventRa)
-        #print(eventDec - minDec/u.deg)
-        #print(maxDec/u.deg - eventDec)
-        if abs(maxRa/u.deg - eventRa) > 0.01 or \
-            abs(minRa/u.deg - eventRa) > 0.01 or \
-            abs(maxDec/u.deg - eventDec) > 0.01 or \
-            abs(minDec/u.deg - eventDec) > 0.01:
-                errorProtocol("Check for coordinate conversion error")
-        '''
-#TODO make sure SDSS queries are taking the right region and size
 
 
 
@@ -547,10 +496,6 @@ def extraction(filenames, additional=False):
                                           err=bkg.globalrms, #var=noise_data2 ,
                                   minarea = MINAREA, deblend_cont = DEBLEND_CONT,
                                   segmentation_map = True)
-                                  
-            if len(objects) < 1:
-                errorProtocol("No objects detected")
-                return -1
 
             # how to calculate kron radius and flux from
             # https://sep.readthedocs.io/en/v1.0.x/apertures.html
@@ -579,41 +524,17 @@ def extraction(filenames, additional=False):
                     # otherwise blacklist and give an arbitrary valid kronrad
                     blacklist.add(i)
                     kronrad[i] = 0.1
-                    
-            return 0
 
         ''' '''
         
         # start with default threshold, if it fails then use a higher one
         #three_sigma = 3. * bkg.globalrms
 
-        returnval = recursiveExtraction(THRESHOLD)
-        if returnval < 0:
-            badImageDict = {'filterNum': filterNum, 'objects': None,
-                    'kronradKpc': None, 'separationKpc': None,
-                    'area': None,
-                    'magnitude': None, 'absMag': None,
-                    'objCoords': [], 'photozs': None,
-                    'm_0': None, 'swappedData': swappedData,
-                    'segmap': None, 'old_best': 0,
-                    'chanceCoincidence': [1],
-                    'newFluxParams': None,
-                    'finalProperties':None}
-                    
-            BAD_IMAGES.append(badImageDict)
-
-            cache.extend([FILLER_VAL]*len(perImageHeaders))
-            
-        
-            continue
+        recursiveExtraction(THRESHOLD)
                
         #remove any nans, replace with cell saturation
         #TODO better solution?
-        if not USE_3PI:
-            sat = image_file[0].header['HIERARCH CELL.SATURATION']
-        else:
-#TODO fix
-            sat = 100000
+        sat = image_file[0].header['HIERARCH CELL.SATURATION']
         swappedData[np.isnan(swappedData)] = sat
         
         flux = []
@@ -682,13 +603,8 @@ def extraction(filenames, additional=False):
             colFluxes = np.array(colFluxes)
 
 #            magcache = [idNum, filterNum]
-            if not USE_3PI: #convert to flux from counts 
-                colFluxes = colFluxes/float(image_file[0].header['EXPTIME'])
-#            magcache = [idNum, filterNum]
-            m_0s = colRealMags + 2.5 * np.log10(colFluxes)
+            m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS']))
             m_0s = m_0s[~np.isnan(m_0s)] #remove nans
-            
-            default_m0s = FILTER_M0s_3pi if USE_3PI else FILTER_M0s
             if m_0s.any():
                 m_0 = np.median(m_0s)
                 global m0collector
@@ -696,20 +612,17 @@ def extraction(filenames, additional=False):
 
             #no SDSS stars to calculate zero point
             else:
-                    m_0 = default_m0s[filterNum]
+                    m_0 = FILTER_M0s[filterNum]['default']
                     colFluxes = np.array([])
                     colRealMags = np.array([])
 
             # m_0 is outlier, use default
-            if m_0 > default_m0s[filterNum] + 1. or \
-                m_0 < default_m0s[filterNum] - 1:
-                    m_0 = default_m0s[filterNum]
-            
-            if not USE_3PI:
-                flux = flux/float(image_file[0].header['EXPTIME'])
-            
-            colMyMags = -2.5 * np.log10(colFluxes) + m_0
-            magnitude = -2.5 * np.log10(flux) + m_0
+            if m_0 > FILTER_M0s[filterNum]['upper'] or \
+                m_0 < FILTER_M0s[filterNum]['lower']:
+                    m_0 = FILTER_M0s[filterNum]['default']
+
+            colMyMags = -2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS'])) + m_0
+            magnitude = -2.5 * np.log10(flux/float(image_file[0].header['MJD-OBS'])) + m_0
             magnitude[np.where(np.isnan(magnitude))] = LOWEST_MAG
 #TODO combine?
 
@@ -754,18 +667,10 @@ def extraction(filenames, additional=False):
             # exclude any blacklisted
             for i in blacklist:
                 chanceCoincidence[i] = 1
-                
-            try:
-                bestCandidate = np.argmin(chanceCoincidence)
-            except:
-                errorProtocol('blah')
+            bestCandidate = np.argmin(chanceCoincidence)
 
-            
             # Correct bestCandidate choice for closer redshift if similar prob.
-            if not additional:
-                eventz = float(zdict[idNumString])
-            else:
-                eventz = float(event.z.split(',')[0])
+            eventz = float(zdict[idNumString])
 #TODO check
 #TODO check relationsihp with fixing
             if separation[bestCandidate] > CHECK_DISTANCE:
@@ -786,38 +691,30 @@ def extraction(filenames, additional=False):
 
             image_file.close()
 #TODO remove repitition of calculations between filter nums
-            if not additional:
-                '''Get "real" host location and redshifts'''
-                with open('hosts.dat', 'r') as hostsfile:
-                    hostsData = hostsfile.read()
-                # convert to dictionary from dictionary string
-                hostsData = ast.literal_eval(hostsData)
-                hostRa = hostsData[idNumString]['host_ra']
-                hostDec = hostsData[idNumString]['host_dec']
-                try:
-                    hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
-                    #convert to decimal deg:
-                    hostRa = hostCoords.ra.deg
-                    hostDec = hostCoords.dec.deg
-                    offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
-                            if hostRa else None
-                    hectoZ = hostsData[idNumString]['redshift']
-                except ValueError:
-                    if len(hostRa) > 12: # hecto gave multiple host galaxies
-                        hostRa = "multiple"
-                        hostDec = "multiple"
-                        offby = None
-                        hectoZ = "multiple"
-#TODO fix or remove offby. hostcoords is used to later calculate updated offby
-                        hostCoords = SkyCoord(0,0, unit=u.deg)
-                    else:
-                        raise
-                        
-            else:
-                hostRa= "3pi"
-                hostDec = "3pi"
-                offby = None
-                hectoZ = "3pi"
+
+            '''Get "real" host location and redshifts'''
+            with open('hosts.dat', 'r') as hostsfile:
+                hostsData = hostsfile.read()
+            # convert to dictionary from dictionary string
+            hostsData = ast.literal_eval(hostsData)
+            hostRa = hostsData[idNumString]['host_ra']
+            hostDec = hostsData[idNumString]['host_dec']
+            try:
+                hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
+                #convert to decimal deg:
+                hostRa = hostCoords.ra.deg
+                hostDec = hostCoords.dec.deg
+                offby = hostCoords.separation(objCoords[bestCandidate]).arcsec\
+                        if hostRa else None
+                hectoZ = hostsData[idNumString]['redshift']
+            except ValueError:
+                if len(hostRa) > 12: # hecto gave multiple host galaxies
+                    hostRa = "multiple"
+                    hostDec = "multiple"
+                    offby = None
+                    hectoZ = "multiple"
+                else:
+                    raise
 
             if PLOT_ALL:
                 print(filename)
@@ -935,8 +832,7 @@ def extraction(filenames, additional=False):
                             newBestCandidate = k
                             newEllipticity = 1 - (imageDict['objects']['b'][newBestCandidate]/
                                                 imageDict['objects']['a'][newBestCandidate])
-#TODO fix newOffby
-                            newOffby = -1 #hostCoords.separation(imageDict['objCoords'][newBestCandidate]).arcsec
+                            newOffby = hostCoords.separation(imageDict['objCoords'][newBestCandidate]).arcsec
                             newPixelRank = getPixelRank(imageDict['swappedData'],
                                                         eventX, eventY,
                                                         imageDict['segmap'],
@@ -964,18 +860,15 @@ def extraction(filenames, additional=False):
                             break
                     if not fixed: # no objects in center detected in bad image, use data from good image
                         # but update magnitude
-                        FORCED.append((filename, imageDict['filterNum']))
                         newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
                         if newFlux > 0:
-                            if not USE_3PI:
-                                newFlux = newFlux/float(image_file[0].header['EXPTIME'])
-                            newMagnitude = -2.5 * np.log10(newFlux) + imageDict['m_0']
+                            newMagnitude = -2.5 * np.log10(newFlux/float(image_file[0].header['MJD-OBS'])) + imageDict['m_0']
                         else:
                             newMagnitude = LOWEST_MAG
                             
 #TODO just save the old pixel rank
-                        newPixelRank = 0.5 #getPixelRank(imageDict['swappedData'],
-                            #eventX, eventY, imageDict['segmap'], imageDict['old_best'])
+                        newPixelRank = getPixelRank(imageDict['swappedData'],
+                            eventX, eventY, imageDict['segmap'], imageDict['old_best'])
                         newAbsMag = newMagnitude - 5*np.log10(dL) - 10
                                     # Observed number density of galaxies brighter than magnitude M (From Berger 2010)
 
@@ -1021,7 +914,7 @@ def extraction(filenames, additional=False):
                            minOwner = j
                     if minChanceCoincidence <= 0.02:
                         errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
-                        correct(BAD_TO_GOOD[minOwner], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
+                        correct(BAD_TO_GOOD[j], BAD_IMAGES[:minOwner] + BAD_IMAGES[minOwner + 1:])
                     else:
                         errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
                         correct((defaultFinalProperties, defaultFluxParams), BAD_IMAGES)
@@ -1188,7 +1081,6 @@ def extraction(filenames, additional=False):
     cache.extend([FILLER_VAL]*(1+4*len(perImageHeaders)-len(cache)))
     if WRITE_CSV:
         csvwriter.writerow(cache)
-        print("Written")
         destfile.close()
     if PRINT_DATA:
         print(cache)
@@ -1199,55 +1091,24 @@ def main():
     start = time.time()
     #figure out which files to use based on value specified at top
     if FILES == 'all' or FILES =='range' or FILES =='new random':
-    
-        if not USE_3PI:
-            filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3-6].fits'))
-        else:
-            filenames = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/ps_*.[3-6].fits'))
-            filenames_3pi = sorted(glob.glob(SOURCEDIR + '/3pi_hosts/3pi*.[3-6].fits'))
-            
-        # If USE_3PI, in addition to usual extraction on orig. data, extract on  3pi additions 
+        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.[3-6].fits'))
         if FILES == 'range':
             extraction(filenames[RANGE[0]:RANGE[1]])
-            if USE_3PI:
-                extraction(filenames_3pi[RANGE[0]:RANGE[1]], additional=True)
-                
         elif FILES == 'new random':
             randFiles = []
             for i in range(20):
                 randFiles.append(filenames[int(len(filenames)*random.random())])
             extraction(randFiles)
-            if USE_3PI:
-                randFiles_3pi = []
-                for i in range(20):
-                    randFiles_3pi.append(filenames_3pi[int(len(filenames_3pi)*random.random())])
-                extraction(randFiles_3pi, additional=True)
-                
         elif FILES =='all':
             extraction(filenames)
-            if USE_3PI:
-                extraction(filenames_3pi, additional=True)
     elif FILES == 'preset random':
-        if USE_3PI: 
-            errorProtocol("WARNING PRESET RANDOM OPTION DOES NOT USE 3PI ADDITIONS")
         from presetrandomfiles import fileset
         extraction(fileset[:60])
-        
     elif FILES == 'nonsquare':
         from nonsquare import fileset
         extraction(fileset)
     elif FILES == 'specified':
-        if SPECIFIED[0][-16:-13] == '3pi':
-            addl = True
-            if not USE_3PI:
-                raise Exception("Specified 3pi image, must set USE_3PI")
-        elif SPECIFIED[0][-16:-14] == 'ps':
-            addl = False
-            if SPECIFIED[0][-16:-13] == 'psc' and USE_3PI:
-                raise Exception("Specified NON 3pi image, must unset USE_3PI")
-            elif SPECIFIED[0][-16:-13] == 'ps_' and not USE_3PI:
-                raise Exception("Specified 3pi image, must set USE_3PI")
-        extraction(SPECIFIED, additional=addl)
+        extraction(SPECIFIED)
     else:
         raise Exception('invalid FILE specification')
     end = time.time()
@@ -1255,8 +1116,6 @@ def main():
     global m0collector
     m0collector = np.array(m0collector)
     np.save("mOcollector", m0collector)
-    print(len(FORCED))
-    print(str(FORCED))
 
 if __name__ == "__main__":
      main()
