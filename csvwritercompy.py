@@ -15,7 +15,7 @@ import pandas as pd
 import os
 import glob
 import random
-import csv
+#import csv
 import sep
 import ast
 import json
@@ -38,7 +38,8 @@ SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noe
 DESTDIR = os.getcwd()
 FILLER_VAL = None
 THRESHOLD = 3
-MINAREA = 4
+PSF = 4 #the FWHM
+MINAREA = 3 * (PSF/2)**2
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
 SUBTRACT_BACKGROUND = True
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
@@ -47,9 +48,17 @@ LIKELIHOOD_THRESH = 0.2
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
 FILENAME_PREFIX = SOURCEDIR + "/ps1hosts/psc"
-LOWEST_MAG = 40
+LOWEST_MAG = 26 #limiting mag is 25
+#TODO does it make sense to do limiting mag + 1? same in default final props
+
 # meds used for m_0 if no sdss stars in image, or if m_0 is an outlier
 # meaning outside of upper/lower bounds
+
+#TODO make note: to change a per-filter property, change in 3 places
+
+#TODO make each property into an object?
+
+    
 
 FILTER_M0s = (None, None, None, 22.918, 22.822, 23.652, 23.540) 
 # FILTER_M0s[i] is the average magnitude zero point in filter i, use by default if no stars for calibration
@@ -73,7 +82,7 @@ CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcs
 PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
-ONLY_FLAG_ERRORS = False # catch errors, print filename, move on
+ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
 FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
@@ -87,18 +96,19 @@ RANGE = (0,40)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
-HEADER =['ID']
+COLUMNS =['ID', 'hostRa', 'hostDec', 'offby', 'hectoZ', 'redshift_dif']
 #perImageHeaders = ['KronRad', 'separation', 'x', 'y', 'RA', 'DEC', 'KronMag', 'Angle', 'Ellipticity']
-#Note which are for debugging purposes
+#TODO Note which are for debugging purposes
 
-#TODO maybe collect some only once per file?
+
 perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/area (kpc)',
                    'x', 'y','KronMag', 'Abs. Mag', 'Angle',
-                   'Ellipticity', 'RA', 'Host RA', 'DEC', 'Host Dec',
-                   'Discrepency (arcsecs)', 'Z', 'SDSS Photoz', 'pixelRank', 'chance coincidence']
+                   'Ellipticity', 'RA',  'DEC', 
+                   'Discrepency (arcsecs)', 'pixelRank', 'chance coincidence',
+                   'host_found']
 for i in range(3,7):
     for val in perImageHeaders:
-        HEADER.append(val + '_' + str(i))
+        COLUMNS.append(val + '_' + str(i))
 
 # remove error file
 if os.path.exists(ERRORFILE):
@@ -127,7 +137,7 @@ class Image:
         self.eventz = float(zdict[self.idNumString])
         
     def run(self):
-        filename = FILENAME_PREFIX + "%s.%s.fits" % (idNumString, filterNum)
+        filename = FILENAME_PREFIX + "%s.%s.fits" % (self.idNumString, self.filterNum)
         w = WCS(filename)
         
         
@@ -152,14 +162,14 @@ class Image:
         #fix byte order
         self.swappedData = image_data.byteswap(True).newbyteorder()
         # subtracting out background
-        bkg = sep.Background(self.swappedData)
+        self.bkg = sep.Background(self.swappedData)
         if SUBTRACT_BACKGROUND:
             self.swappedData = self.swappedData - self.bkg
         
         
         def recursiveExtraction(attemptedThresh):
             self.objects, self.segmap = sep.extract(self.swappedData, attemptedThresh,
-                                          err=bkg.globalrms, #var=noise_data2 ,
+                                          err=self.bkg.globalrms, #var=noise_data2 ,
                                   minarea = MINAREA, deblend_cont = DEBLEND_CONT,
                                   segmentation_map = True)
 
@@ -287,6 +297,7 @@ class Image:
         colMyMags = -2.5 * np.log10(colFluxes/self.exposure_time) + self.m_0
         self.magnitude = -2.5 * np.log10(flux/self.exposure_time) + self.m_0
         self.magnitude[np.where(np.isnan(self.magnitude))] = LOWEST_MAG
+
 #TODO combine?
 #            if MAG_TEST_STDEV:
 #                csvwriter.writerow(magcache)
@@ -336,7 +347,8 @@ class Image:
         # separation is in arcseconds
         self.separationKpc = self.separation * (1./3600.) * (np.pi/180.)*dA
         self.kronradKpc = self.kronrad * degPerPix*(np.pi/180.)*dA
-        
+        self.default_dist = PSF/2*degPerPix*(np.pi/180.)*dA
+        self.absLimMag = LOWEST_MAG - 5*np.log10(self.dL) - 10 + 2.5 * np.log10(1.+self.eventz)
         image_file.close()
         
 # TODO filter out all filler data before smoting
@@ -387,59 +399,81 @@ class Image:
 #TODO just save the old pixel rank
         newPixelRank = self.getPixelRank(target=used_bestCandidate, segmap=used_segmap)
         newAbsMag = newMagnitude - 5*np.log10(self.dL) - 10
-    
-        newProperties = data[:] #copy list
-        oldMagnitude = newProperties[6]
-        newProperties[6] = newMagnitude
-        newProperties[7] = newAbsMag
-        newProperties[17] = newPixelRank
-        oldChanceCoincidence = newProperties[18]
+        
+        f = self.filternum 
+        #newProperties = data[:] #copy list
+        old_filternum = data.keys()[0][-1]
+        oldMagnitude = data['KronMag_%s' % old_filternum]
+        new_data = {}
+        for (k, v) in data.iteritems():
+            new_key = k[:-1] + str(self.filterNum)
+            new_data[new_key] = v
+        new_data['KronMag_%s' % f] = newMagnitude
+        new_data['Abs. Mag_%s' % f] = newAbsMag
+        new_data['pixelRank_%s' % f] = newPixelRank
+        new_data['KronRad (kpc)_%s' % f] = newMagnitude
+        #newProperties[6] = newMagnitude
+        #newProperties[7] = newAbsMag
+        #newProperties[17] = newPixelRank
+        oldChanceCoincidence = data['chanceCoincidence_%s' % old_filternum]
+        #oldChanceCoincidence = newProperties[18]
+#TODO check length, make sure this works
         #adjust chanceCoincidence for change in magnitude
-        newProperties[18] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
+        new_data['chanceCoincidence_%s' % f] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
 #TODO make sure above math is correct
-
+        new_data['host_found_%s' % f] = 0
     
     def getFinalData(self):    
         '''Get "real" host location and redshifts'''
-        hostRa = hostsData[self.idNumString]['host_ra']
-        hostDec = hostsData[self.idNumString]['host_dec']
-        try:
-            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
-            #convert to decimal deg:
-            hostRa = hostCoords.ra.deg
-            hostDec = hostCoords.dec.deg
-            offby = hostCoords.separation(self.objCoords[self.bestCandidate]).arcsec\
-                    if hostRa else None
-            hectoZ = hostsData[self.idNumString]['redshift']
-        except ValueError:
-            if len(hostRa) > 12: # hecto gave multiple host galaxies
-                hostRa = "multiple"
-                hostDec = "multiple"
-                offby = None
-                hectoZ = "multiple"
-            else:
-                raise
-                
-        pixelRank = self.getPixelRank()
+        finalDict = {}
+        f = self.filternum               
         bestCandidate = self.bestCandidate
-        finalProperties = [self.kronradKpc[bestCandidate],
-                           self.separationKpc[bestCandidate],
-                           self.area[bestCandidate],
-                           self.separationKpc[bestCandidate] / self.area[bestCandidate],
-                           self.objects['x'][bestCandidate] - self.event['x'],
-                           self.objects['y'][bestCandidate] - self.event['y'],
-                           self.magnitude[bestCandidate],
-                           self.absMag[bestCandidate],
-                           self.objects['theta'][bestCandidate],
-                           self.ellipticity[bestCandidate],
-                           self.ra[bestCandidate], hostRa,
-                           self.dec[bestCandidate], hostDec,
-                           offby, self.eventz, self.photozs[bestCandidate], pixelRank,
-                           self.chanceCoincidence[bestCandidate]]
-        return finalProperties
-    
+        finalDict['KronRad (kpc)_%s' % f] = self.kronradKpc[bestCandidate]
+        finalDict['separation (kpc)_%s' % f] = self.separationKpc[bestCandidate]
+        finalDict['area (kpc^2)_%s' % f] = self.area[bestCandidate]
+        finalDict['sep/sqrt(area) (kpc)_%s' % f] = self.separationKpc[bestCandidate] /\
+            np.sqrt(self.area[bestCandidate])
+        finalDict['x_%s' % f] = self.objects['x'][bestCandidate] - self.event['x']
+        finalDict['y_%s' % f] = self.objects['y'][bestCandidate] - self.event['y']
+        finalDict['KronMag_%s' % f] = self.magnitude[bestCandidate]
+        finalDict['Abs. Mag_%s' % f] = self.absMag[bestCandidate]
+        finalDict['Angle_%s' % f] = self.objects['theta'][bestCandidate]
+        finalDict['Ellipticity_%s' % f] =  self.ellipticity[bestCandidate]
+        finalDict['RA_%s' % f] = self.ra[bestCandidate]
+        finalDict['DEC_%s' % f] = self.dec[bestCandidate]
+        finalDict['Discrepency (arcsecs)_%s' % f] = self.dec[bestCandidate]
+        finalDict['pixelRank_%s' % f] = self.getPixelRank()
+        finalDict['chanceCoincidence_%s' % f] = self.chanceCoincidence[bestCandidate]
+        finalDict['host_found_%s' % f] = 1  
+    return finalProperties
+
+    def getDefaultData(self):
+        defaultFinalProperties = {}
+        for f in range(3,7):
+            defaultFinalProperties['KronRad (kpc)_%s' % f] = self.default_dist #PSF/2 pixels
+            defaultFinalProperties['separation (kpc)_%s' % f] = self.default_dist/2 #1 pixel
+            defaultFinalProperties['area (kpc^2)_%s' % f] = \
+                np.pi * (self.default_dist) ** 2 #psf/2
+            defaultFinalProperties['sep/sqrt(area) (kpc)_%s' % f] = \
+                defaultFinalProperties['separation (kpc)_%s' % f] /\
+                np.sqrt(defaultFinalProperties['area (kpc^2)_%s' % f])
+            defaultFinalProperties['x_%s' % f] = 0
+            defaultFinalProperties['y_%s' % f] = 0
+            defaultFinalProperties['KronMag_%s' % f] = LOWEST_MAG
+            defaultFinalProperties['Abs. Mag_%s' % f] = self.absLimMag
+            defaultFinalProperties['Angle_%s' % f] = 0
+            defaultFinalProperties['Ellipticity_%s' % f] =  0.3
+            defaultFinalProperties['RA_%s' % f] = self.event['ra']
+            defaultFinalProperties['DEC_%s' % f] = self.event['dec']
+            defaultFinalProperties['Discrepency (arcsecs)_%s' % f] = None
+            defaultFinalProperties['pixelRank_%s' % f] = 0.5
+            defaultFinalProperties['chanceCoincidence_%s' % f] = 1
+            #TODO note that redshift_offset of -1 indicates no photoz, positive is difference
+            defaultFinalProperties['host_found_%s' % f] = 0
+    return defaultFinalProperties
+   
     def plot(self, myVmin=None, myVmax=None, target=None):
-        green = target if target else [self.bestCandidate]
+        green = [target] if target else [self.bestCandidate]
         # make the destination directory if it does not exist
         if not os.path.isdir(PLOT_DIR):
             os.mkdir(PLOT_DIR)
@@ -502,7 +536,7 @@ class Image:
     
     
     def errorProtocol(self, e, target=None):
-            curFile = self.idNum + '.' + self.filterNum
+            curFile = self.idNumString + '.' + str(self.filterNum)
             errorString = str(namecount) + '\n' + str(e) + " " + curFile + '\n'
             print(errorString)
             with open(ERRORFILE, 'a+') as errorfile:
@@ -582,6 +616,32 @@ class Supernova:
         self.idNumString = idNumString
         self.idNum = int(idNumString)
         
+    def getSnFinalData(self):
+        finalDict = {}
+        hostRa = hostsData[self.idNumString]['host_ra']
+        hostDec = hostsData[self.idNumString]['host_dec']
+        try:
+            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
+            #convert to decimal deg:
+            finalDict['hostRa'] = hostCoords.ra.deg
+            finalDict['hostDec'] = hostCoords.dec.deg
+            finalDict['offby'] = hostCoords.separation(self.objCoords[self.bestCandidate]).arcsec\
+                    if hostRa else None
+            finalDict['hectoZ'] = hostsData[self.idNumString]['redshift']
+        except ValueError:
+            if len(hostRa) > 12: # hecto gave multiple host galaxies
+                finalDict['hostRa'] = "multiple"
+                finalDict['hostDec'] = "multiple"
+                finalDict['offby'] = None
+                finalDict['hectoZ'] = "multiple"
+            else:
+                raise
+                
+                #TODO note that redshift_offset of -1 indicates no photoz, positive is difference
+       finalDict['redshift_dif'] = -1
+        
+        return finalDict
+        
     def run(self):
         # find pixel coordinates of event
         # if image is cutoff and so not square, event won't be in center
@@ -599,17 +659,17 @@ class Supernova:
         event['x'], event['y'] = w.all_world2pix(event['ra'], event['dec'], 1)
         self.event = event
               
-        images = [None]*7
+        self.images = [None]*7
         good_images = []
         BAD_IMAGES = []
         good_photozs = []
         for x in range(3,7):
-            images[x] = Image(self.idNumString, x, event)
-            images[x].run()
-            photozMatched = images[x].attemptBestCandidate()
+            self.images[x] = Image(self.idNumString, x, event)
+            self.images[x].run()
+            photozMatched = self.images[x].attemptBestCandidate()
 #TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
 #TODO mindist vs. checkdist
-            if images[x].objCoords[images[x].bestCandidate].separation(event['coords']) < MINDIST:
+            if self.images[x].objCoords[self.images[x].bestCandidate].separation(event['coords']) < MINDIST:
                 good_images.append(x)
             elif photozMatched:
                 good_photozs.append(x)
@@ -619,67 +679,70 @@ class Supernova:
         
         '''choose candidates'''        
         if good_images:
-            filter_to_use = good_images[0]
+            self.filter_to_use = good_images[0]
 #TODO remove
-            goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
+            goodCoords = self.images[self.filter_to_use].objCoords[self.images[self.filter_to_use].bestCandidate]
 #TODO do I use object at event coords or good coords?
             for x in good_photozs.extend(BAD_IMAGES):
-                images[x].correct_bestCandidate_to(goodCoords, filter_to_use)
+                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
         elif good_photozs:
 #TODO pick in chance coincidence
-            filter_to_use = good_photozs[0]
-            goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
+            self.filter_to_use = good_photozs[0]
+            goodCoords = self.images[self.filter_to_use].objCoords[self.images[self.filter_to_use].bestCandidate]
             #use object at that location in all images
             for x in range(3,7):
-                images[x].correct_bestCandidate_to(goodCoords, filter_to_use)
+                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
         else:
             # find minimum chance coincidence object
-            first = BAD_IMAGES[0]
+            first = self.images[BAD_IMAGES[0]]
             minChanceCoincidence = first.chanceCoincidence[first.bestCandidate]
-            minOwner = 0
-            for j in range(len(BAD_IMAGES)):
-                bestChance = BAD_IMAGES[j].chanceCoincidence[BAD_IMAGES[j].bestCandidate]
+            minOwner = BAD_IMAGES[0]
+            for num in BAD_IMAGES:
+                im = self.images[num]
+                bestChance = im.chanceCoincidence[im.bestCandidate]
                 if bestChance < minChanceCoincidence:
                    minChanceCoincidence = bestChance
-                   minOwner = j
-            filter_to_use=minOwner
+                   minOwner = num
+            self.filter_to_use=num
             if minChanceCoincidence <= 0.02:
-                images[filter_to_use].errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
-                goodCoords = images[filter_to_use].objCoords[images[filter_to_use].bestCandidate]
+                self.images[self.filter_to_use].errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
+                goodCoords = self.images[self.filter_to_use].objCoords[self.images[self.filter_to_use].bestCandidate]
                 for i in range(3,7):
-                    images[i].correct_bestCandidate_to(goodCoords, filter_to_use)
+                    self.images[i].correct_bestCandidate_to(goodCoords, self.filter_to_use)
             else:
-                images[filter_to_use].errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
+                self.images[self.filter_to_use].errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
                 global BAD_COUNT
                 BAD_COUNT += 1
-                fix
-#TODO figure out no good candidate data. PSF 
-            return [None]*7
-        
-        cache = [None]*7
-        print(filter_to_use)
-        # get final data from the known good filter first
-        cache[filter_to_use] = images[filter_to_use].getFinalData()
-        for i in range(3,7):
-            if i == filter_to_use: #alread done above
-                pass
-            elif images[i].bestCandidate == None:
-                usedbestCandidate = images[filter_to_use].bestCandidate
-                newFluxParams =  (images[i].swappedData,
-                   images[filter_to_use].objects['x'][usedbestCandidate],
-                   images[filter_to_use].objects['y'][usedbestCandidate],
-                   images[filter_to_use].objects['a'][usedbestCandidate],
-                   images[filter_to_use].objects['b'][usedbestCandidate],
-                   images[filter_to_use].objects['theta'][usedbestCandidate], 
-                   2.5*images[filter_to_use].kronradKpc[usedbestCandidate])
-                cache[i] = images[i].modifyFinalDataFrom(cache[filter_to_use], newFluxParams)
-            else:
-                cache[i] = images[i].getFinalData()
-#TODO make flattening better                
-        return (cache[3].extend(cache[4].extend(cache[5].extend(cache[6]))))
+                for x in range(3,7):
+                    row.update(self.images[x].getDefaultData())
+                    return
 
+        all_sn_data = {}
+        # get final data from the known good filter first
+        best_data = self.images[self.filter_to_use].getFinalData()
+        all_sn_data.update(best_data)
+        for i in range(3,7):
+            if i == self.filter_to_use: #alread done above
+                pass
+            elif self.images[i].bestCandidate == None:
+#TODO check correctnesss
+                usedbestCandidate = self.images[self.filter_to_use].bestCandidate
+                newFluxParams =  (self.images[i].swappedData,
+                   self.images[self.filter_to_use].objects['x'][usedbestCandidate],
+                   self.images[self.filter_to_use].objects['y'][usedbestCandidate],
+                   self.images[self.filter_to_use].objects['a'][usedbestCandidate],
+                   self.images[self.filter_to_use].objects['b'][usedbestCandidate],
+                   self.images[self.filter_to_use].objects['theta'][usedbestCandidate], 
+                   2.5*self.images[self.filter_to_use].kronradKpc[usedbestCandidate])
+                all_sn_data.update(self.images[i].modifyFinalDataFrom(bestData, newFluxParams))
+            else:
+                all_sn_data.update(self.images[i].getFinalData())
+#TODO make flattening better                
+        #return (cache[3].extend(cache[4].extend(cache[5].extend(cache[6]))))
+        return all_sn_data
+    
         if PLOT_ALL:
-            for image in images[3:]:
+            for image in self.images[3:]:
                 image.plot()
                 image.plot(myVmin = 0, myVmax = 1000)        
 
@@ -704,17 +767,16 @@ def extraction(filenames):
         if not os.path.isdir(DESTDIR):
             os.mkdir(DESTDIR)
         destfile = open(DESTDIR + WRITE_CSV, "w+")
-        csvwriter = csv.writer(destfile)
-        csvwriter.writerow(HEADER)
+        #csvwriter = csv.writer(destfile)
+        #csvwriter.writerow(HEADER)
     if PRINT_DATA:
         print(HEADER)
-
-    cache = []
 
 #    if MAG_TEST_ALL or MAG_TEST_STDEV:
 #        magdestfile = open(MAGFILE, "w+")
 #        csvwriter = csv.writer(magdestfile)
 
+    all_all_data = []
     for filename in filenames: 
         # to extract transient and filter number from filename of the form
         # */psc190369.6.fits
@@ -724,7 +786,12 @@ def extraction(filenames):
         idNumString = dotSplit[-3].split('c')[-1] #used for getting hectospec data
         # filter number is between second to last dot and last dot
         s = Supernova(idNumString)
-        csvwriter.writerow(s.run())
+        all_all_data.append(s.run())
+        #TODO column order
+        df = pd.DataFrame(all_all_data, columns=COLUMNS)
+        if WRITE_CSV:
+            df.to_csv(WRITE_CSV)
+        
                 
         '''
             #collect data for redshift plot
@@ -865,7 +932,7 @@ def extraction(filenames):
     if WRITE_CSV:
         destfile.close()
     if PRINT_DATA:
-        print(cache)
+        print(all_sn_data)
 
 def main():
 #TODO remove
@@ -896,6 +963,7 @@ def main():
         raise Exception('invalid FILE specification')
     end = time.time()
     print(end - start)
+    print("BAD COUNT: %s" % BAD_COUNT)
 
 if __name__ == "__main__":
      main()
