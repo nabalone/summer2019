@@ -8,11 +8,6 @@ import numpy as np
 import pandas as pd
 import os
 import glob
-import random
-import csv
-import sep
-import ast
-import sys
 import matplotlib.pyplot as plt
 from astropy.visualization import astropy_mpl_style
 plt.style.use(astropy_mpl_style)
@@ -84,7 +79,7 @@ for f in sorted(list(fileset)):
     # make query
     print(f)
     query = "SELECT p.ra, p.dec, p.type, p.modelMag_g, p.modelMag_r, \
-                p.modelMag_i, p.modelMag_z, pz.z\
+                p.modelMag_i, p.modelMag_z, pz.z, pz.zErr\
             FROM Photoz AS pz RIGHT JOIN PhotoObj AS p ON pz.objid = p.objid \
             WHERE p.mode = 1 AND p.ra < %s and p.ra > %s AND p.dec < %s and p.dec > %s" \
             % (maxRa, minRa, maxDec, minDec)
@@ -99,8 +94,9 @@ for f in sorted(list(fileset)):
     else:    
         try:
             full_table = vstack([full_table, sdssTable])
-        except Exception as e:
+        except Exception as e: 
             sdssTable.replace_column('z', [0]*len(sdssTable))
+            sdssTable.replace_column('zErr', [-999.]*len(sdssTable))
             full_table = vstack([full_table, sdssTable])
             #raise
             #errs.append(str(f) + str(e))

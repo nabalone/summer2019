@@ -18,19 +18,16 @@ import random
 #import csv
 import sep
 import ast
-import json
 import matplotlib.pyplot as plt
 from astropy.visualization import astropy_mpl_style
 plt.style.use(astropy_mpl_style)
 from matplotlib.patches import Ellipse, RegularPolygon
 from astropy.io import fits
 from astropy.wcs import WCS
-
 from astropy import units as u
 from astropy.coordinates import SkyCoord
-from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
-from astropy.table import Table, vstack
+from astropy.table import Table
 from sdssTableGroupIndex import sdssTableGroupIndex
 
 ERRORFILE = 'errorfile.txt'
@@ -70,7 +67,7 @@ PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -220,6 +217,7 @@ class Image:
         colRealMags = []
         colFluxes = []
         self.photozs = [None]*len(self.objects)
+        self.photozerrs = [None]*len(self.objects)
         for i in range(len(self.objects)):
             curRa = self.ra[i]
             curDec = self.dec[i]
@@ -237,6 +235,7 @@ class Image:
                            and not np.isnan(sdssTable['z'][j]) \
                            and sdssTable['z'][j] != -9999.0:
                                self.photozs[i] = sdssTable['z'][j]
+                               self.photozerrs[i] = sdssTable['zErr'][j]
 
                         # if its a star, and its not right on the event, blacklist
                         if sdssTable['type'][j] == 6 \
@@ -395,7 +394,7 @@ class Image:
     def getFinalData(self):    
         '''Get "real" host location and redshifts'''
         finalDict = {}
-        f = self.filternum               
+        f = self.filterNum               
         bestCandidate = self.bestCandidate
         finalDict['KronRad (kpc)_%s' % f] = self.kronradKpc[bestCandidate]
         finalDict['separation (kpc)_%s' % f] = self.separationKpc[bestCandidate]
@@ -414,7 +413,7 @@ class Image:
         finalDict['pixelRank_%s' % f] = self.getPixelRank()
         finalDict['chanceCoincidence_%s' % f] = self.chanceCoincidence[bestCandidate]
         finalDict['host_found_%s' % f] = 1  
-    return finalProperties
+        return finalDict
 
     def getDefaultData(self):
         defaultFinalProperties = {}
@@ -437,9 +436,22 @@ class Image:
             defaultFinalProperties['Discrepency (arcsecs)_%s' % f] = None
             defaultFinalProperties['pixelRank_%s' % f] = 0.5
             defaultFinalProperties['chanceCoincidence_%s' % f] = 1
-            #TODO note that redshift_offset of -1 indicates no photoz, positive is difference
             defaultFinalProperties['host_found_%s' % f] = 0
-    return defaultFinalProperties
+        return defaultFinalProperties
+    
+    def getPhotozDif(self):
+        photoz = self.photozs[self.bestCandidate]
+        photozerr = self.photozerrs[self.bestCandidate]
+        eventz = self.eventz
+        
+        #TODO note that redshiftdif of -1 indicates no photoz, positive is difference
+        #PHOTOZ failed or no match
+        if photoz == None or photozerr==None or photozerr < -99  or np.isnan(photozerr): 
+            return -1
+        else:
+            return abs(eventz - photoz)/photozerr
+        
+
    
     def plot(self, myVmin=None, myVmax=None, target=None):
         green = [target] if target else [self.bestCandidate]
@@ -606,8 +618,12 @@ class Supernova:
             else:
                 raise
                 
-                #TODO note that redshift_offset of -1 indicates no photoz, positive is difference
-       finalDict['redshift_dif'] = -1
+#TODO note that redshift_offset of -1 indicates no photoz, positive is difference
+        if self.used_default:
+            finalDict['redshift_dif'] = -1
+        else:
+            finalDict['redshift_dif'] = self.images[self.filter_to_use].getPhotozDif()
+
         
         return finalDict
         
@@ -650,14 +666,16 @@ class Supernova:
         if good_images:
             self.filter_to_use = good_images[0]
 #TODO remove
-            goodCoords = self.images[self.filter_to_use].objCoords[self.images[self.filter_to_use].bestCandidate]
+            goodCoords = self.images[self.filter_to_use].\
+                objCoords[self.images[self.filter_to_use].bestCandidate]
 #TODO do I use object at event coords or good coords?
-            for x in good_photozs.extend(BAD_IMAGES):
+            for x in good_photozs + BAD_IMAGES:
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
         elif good_photozs:
 #TODO pick in chance coincidence
             self.filter_to_use = good_photozs[0]
-            goodCoords = self.images[self.filter_to_use].objCoords[self.images[self.filter_to_use].bestCandidate]
+            goodCoords = self.images[self.filter_to_use].\
+                objCoords[self.images[self.filter_to_use].bestCandidate]
             #use object at that location in all images
             for x in range(3,7):
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
@@ -672,28 +690,43 @@ class Supernova:
                 if bestChance < minChanceCoincidence:
                    minChanceCoincidence = bestChance
                    minOwner = num
-            self.filter_to_use=num
+            self.filter_to_use=minOwner
             if minChanceCoincidence <= 0.02:
-                self.images[self.filter_to_use].errorProtocol("USING BEST CHANCE: %s" % minChanceCoincidence)
-                goodCoords = self.images[self.filter_to_use].objCoords[self.images[self.filter_to_use].bestCandidate]
+                self.images[self.filter_to_use].errorProtocol(
+                        "USING BEST CHANCE: %s" % minChanceCoincidence)
+                goodCoords = self.images[self.filter_to_use].\
+                    objCoords[self.images[self.filter_to_use].bestCandidate]
                 for i in range(3,7):
                     self.images[i].correct_bestCandidate_to(goodCoords, self.filter_to_use)
             else:
-                self.images[self.filter_to_use].errorProtocol("Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
+                #GET DEFAULT DATA AND RETURN
+                self.images[self.filter_to_use].errorProtocol(
+                        "Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
                 global BAD_COUNT
                 BAD_COUNT += 1
+                all_sn_data = {}
                 for x in range(3,7):
-                    row.update(self.images[x].getDefaultData())
-                    return
-
+                    all_sn_data.update(self.images[x].getDefaultData())
+                    
+                self.used_default=False
+                #get non filter dependent data
+                all_sn_data.update(self.getSnFinalData())
+                return
+            
+            
+            
+        self.used_default = True
         all_sn_data = {}
         # get final data from the known good filter first
         best_data = self.images[self.filter_to_use].getFinalData()
         all_sn_data.update(best_data)
         for i in range(3,7):
-            if i == self.filter_to_use: #alread done above
+            if i == self.filter_to_use: 
+                #already collected data for this filter above
                 pass
             elif self.images[i].bestCandidate == None:
+                # the chosen host candidate could not be found in this image
+                # modify and use data from filter_to_use which chose the host
 #TODO check correctnesss
                 usedbestCandidate = self.images[self.filter_to_use].bestCandidate
                 newFluxParams =  (self.images[i].swappedData,
@@ -703,11 +736,15 @@ class Supernova:
                    self.images[self.filter_to_use].objects['b'][usedbestCandidate],
                    self.images[self.filter_to_use].objects['theta'][usedbestCandidate], 
                    2.5*self.images[self.filter_to_use].kronradKpc[usedbestCandidate])
-                all_sn_data.update(self.images[i].modifyFinalDataFrom(bestData, newFluxParams))
+                all_sn_data.update(
+                        self.images[i].modifyFinalDataFrom(best_data, newFluxParams))
             else:
+                #get filter dependent data
                 all_sn_data.update(self.images[i].getFinalData())
+                
 #TODO make flattening better                
-        #return (cache[3].extend(cache[4].extend(cache[5].extend(cache[6]))))
+        #get non-filter-dependent data
+        all_sn_data.update(self.getSnFinalData())
         return all_sn_data
     
         if PLOT_ALL:
@@ -725,14 +762,6 @@ def extraction(filenames):
         all_kronMags[snType] = []
         all_kronRads[snType] = []
 
-    if WRITE_CSV:
-        #create destination directory if it does not exist
-        if not os.path.isdir(DESTDIR):
-            os.mkdir(DESTDIR)
-        destfile = open(DESTDIR + WRITE_CSV, "w+")
-
-    if PRINT_DATA:
-        print(HEADER)
     all_all_data = []
     for filename in filenames: 
         # to extract transient and filter number from filename of the form
@@ -743,16 +772,14 @@ def extraction(filenames):
         idNumString = dotSplit[-3].split('c')[-1] #used for getting hectospec data
         # filter number is between second to last dot and last dot
         s = Supernova(idNumString)
+#TODO fix idNumString getting
         all_all_data.append(s.run())
+        
         #TODO column order
+        print(all_all_data)
         df = pd.DataFrame(all_all_data, columns=COLUMNS)
         if WRITE_CSV:
             df.to_csv(WRITE_CSV)
- 
-    if WRITE_CSV:
-        destfile.close()
-    if PRINT_DATA:
-        print(all_sn_data)
 
 def main():
 #TODO remove
