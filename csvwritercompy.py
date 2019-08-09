@@ -50,15 +50,8 @@ TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': '
 FILENAME_PREFIX = SOURCEDIR + "/ps1hosts/psc"
 LOWEST_MAG = 26 #limiting mag is 25
 #TODO does it make sense to do limiting mag + 1? same in default final props
-
-# meds used for m_0 if no sdss stars in image, or if m_0 is an outlier
-# meaning outside of upper/lower bounds
-
 #TODO make note: to change a per-filter property, change in 3 places
-
 #TODO make each property into an object?
-
-    
 
 FILTER_M0s = (None, None, None, 22.918, 22.822, 23.652, 23.540) 
 # FILTER_M0s[i] is the average magnitude zero point in filter i, use by default if no stars for calibration
@@ -70,12 +63,6 @@ MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
 PLOT_REDSHIFTS = False
 
-MAGFILE = 'newmagtest.csv'
-#Do not write csv an mag test simultaneously because there is only 1 writer
-#TODO separate the csvwriters
-#ACTUALLY< REMOVING MAG WRITER
-#if MAG_TEST_ALL or MAG_TEST_STDEV:
-#    WRITE_CSV = False
 PRINT_DATA = False
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
@@ -97,9 +84,6 @@ m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
 COLUMNS =['ID', 'hostRa', 'hostDec', 'offby', 'hectoZ', 'redshift_dif']
-#perImageHeaders = ['KronRad', 'separation', 'x', 'y', 'RA', 'DEC', 'KronMag', 'Angle', 'Ellipticity']
-#TODO Note which are for debugging purposes
-
 
 perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/area (kpc)',
                    'x', 'y','KronMag', 'Abs. Mag', 'Angle',
@@ -234,7 +218,6 @@ class Image:
 
         # for collecting mags and fluxes to calculate the zero for this file
         colRealMags = []
-        #colRealMags = Table([[]]*8, names=magNames)
         colFluxes = []
         self.photozs = [None]*len(self.objects)
         for i in range(len(self.objects)):
@@ -274,7 +257,6 @@ class Image:
 
         colFluxes = np.array(colFluxes)
 
-#            magcache = [idNum, filterNum]
         self.exposure_time = float(image_file[0].header['EXPTIME'])
         m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(self.exposure_time))
         m_0s = m_0s[~np.isnan(m_0s)] #remove nans
@@ -299,17 +281,9 @@ class Image:
         self.magnitude[np.where(np.isnan(self.magnitude))] = LOWEST_MAG
 
 #TODO combine?
-#            if MAG_TEST_STDEV:
-#                csvwriter.writerow(magcache)
-#                raise AssertionError
         if MAG_TEST_ALL:
             all_myMags[self.filterNum].extend(colMyMags[:])
             all_realMags[self.filterNum].extend(colRealMags[:])
-#
-#                for obj in range(len(colFluxes)):
-#                    csvwriter.writerow([idNum, filterNum, colMyMags[obj],
-#                                        colRealMags[obj],
-#                                        colMyMags[obj] - colRealMags[obj]])
 #TODO remove
             for k in range(len(colMyMags)):
                 if abs(colMyMags[k] - colRealMags[k]) > 2:
@@ -401,7 +375,6 @@ class Image:
         newAbsMag = newMagnitude - 5*np.log10(self.dL) - 10
         
         f = self.filternum 
-        #newProperties = data[:] #copy list
         old_filternum = data.keys()[0][-1]
         oldMagnitude = data['KronMag_%s' % old_filternum]
         new_data = {}
@@ -412,11 +385,7 @@ class Image:
         new_data['Abs. Mag_%s' % f] = newAbsMag
         new_data['pixelRank_%s' % f] = newPixelRank
         new_data['KronRad (kpc)_%s' % f] = newMagnitude
-        #newProperties[6] = newMagnitude
-        #newProperties[7] = newAbsMag
-        #newProperties[17] = newPixelRank
         oldChanceCoincidence = data['chanceCoincidence_%s' % old_filternum]
-        #oldChanceCoincidence = newProperties[18]
 #TODO check length, make sure this works
         #adjust chanceCoincidence for change in magnitude
         new_data['chanceCoincidence_%s' % f] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
@@ -756,26 +725,14 @@ def extraction(filenames):
         all_kronMags[snType] = []
         all_kronRads[snType] = []
 
-    
-#TODO combine with plotRedshifts method
-
-
-
-
     if WRITE_CSV:
         #create destination directory if it does not exist
         if not os.path.isdir(DESTDIR):
             os.mkdir(DESTDIR)
         destfile = open(DESTDIR + WRITE_CSV, "w+")
-        #csvwriter = csv.writer(destfile)
-        #csvwriter.writerow(HEADER)
+
     if PRINT_DATA:
         print(HEADER)
-
-#    if MAG_TEST_ALL or MAG_TEST_STDEV:
-#        magdestfile = open(MAGFILE, "w+")
-#        csvwriter = csv.writer(magdestfile)
-
     all_all_data = []
     for filename in filenames: 
         # to extract transient and filter number from filename of the form
@@ -791,144 +748,7 @@ def extraction(filenames):
         df = pd.DataFrame(all_all_data, columns=COLUMNS)
         if WRITE_CSV:
             df.to_csv(WRITE_CSV)
-        
-                
-        '''
-            #collect data for redshift plot
-            if PLOT_REDSHIFTS and filterNum == 6:
-                raise Exception("needs fixing, indices are wrong here")
-                thisType = typeDict[idNumString]
-                all_redshifts[thisType].append(cache[-2])
-                all_kronMags[thisType].append(cache[-10])
-                all_kronRads[thisType].append(cache[-14])
-
-
-            lastIdNum = idNum
-            lastFilter = filterNum
-
-#TODO remove
-        except AssertionError:
-            print("here")
-            if MAG_TEST_ALL or MAG_TEST_STDEV:
-                continue
-            else:
-                raise
-        except Exception as e:
-            self.errorProtocol(e)
-    if PLOT_REDSHIFTS:
-        #TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
-
-        # plot magnitude vs. redshift
-        for snType in TYPES:
-            plt.plot(all_redshifts[snType], all_kronMags[snType], TYPE_COLORS[snType])
-
-        plt.xlabel('Redshifts')
-        plt.ylabel('Magnitudes')
-        plt.savefig('redshifts_vs_magnitudes', dpi=150)
-        plt.show()
-        plt.close()
-
-        areas = {}
-        # plot magnitude vs. area
-        for snType in TYPES:
-            all_kronMags[snType] = np.array(all_kronMags[snType])
-            all_kronRads[snType] = np.array(all_kronRads[snType])
-            areas[snType] = np.pi * all_kronRads[snType]**2
-            plt.plot(all_redshifts[snType], areas[snType], TYPE_COLORS[snType])
-
-        plt.xlabel('Redshifts')
-        plt.ylabel('Surface Areas')
-        plt.savefig('redshifts_vs_areas', dpi=150)
-        plt.show()
-        plt.close()
-
-        surface_brightness = {}
-        # plot magnitude vs. surface brightness
-        for snType in TYPES:
-            surface_brightness[snType] = all_kronMags[snType]/areas[snType]
-            plt.plot(all_redshifts[snType], surface_brightness[snType], TYPE_COLORS[snType])
-
-        plt.xlabel('Redshifts')
-        plt.ylabel('Surface Brightness')
-        plt.savefig('redshifts_vs_brightness', dpi=150)
-        plt.show()
-        plt.close()
-
-    if MAG_TEST_ALL or MAG_TEST_STDEV:
-#        all_myMags2 = np.array(all_myMags)
-#        all_realMags2 = np.array(all_realMags)
-#        #magdestfile.close()
-#        plt.plot(all_myMags2, all_realMags2 - all_myMags2, 'bo')
-#        plt.xlabel('My magnitudes')
-#        plt.ylabel('Difference')#'SDSS magnitudes')
-#        plt.savefig('magplot_mymags_vs_dif_leaving_outliers_newDefault', dpi=150)
-#        plt.show()
-#        plt.close()
-#
-#        plt.plot(all_realMags2, all_realMags2 - all_myMags2, 'bo')
-#        plt.xlabel('SDSS magnitudes')
-#        plt.ylabel('Difference')#'SDSS magnitudes')
-#        plt.savefig('magplot_sdssmags_vs_dif_leaving_outliers_newDefault', dpi=150)
-#        plt.show()
-#        plt.close()
-#
-#        plt.plot(all_myMags2, all_realMags2, 'bo')
-#        plt.xlabel('My magnitudes')
-#        plt.ylabel('SDSS Magnitudes')#'SDSS magnitudes')
-#        plt.savefig('magplot_sdssmags_vs_mymags_leaving_outliers_newDefault', dpi=150)
-#        plt.show()
-#        plt.close()
-#
-#        # plot again w/o median points
-#        all_myMags3 = []
-#        all_realMags3 = []
-#        for l in range(len(all_myMags2)):
-#            if all_myMags2[l] != all_realMags2[l]:
-#                all_myMags3.append(all_myMags2[l])
-#                all_realMags3.append(all_realMags2[l])
-#
-#        all_myMags4 = np.array(all_myMags3)
-#        all_realMags4 = np.array(all_realMags3)
-        global all_realMagsFiltered
-        global all_myMagsFiltered
-        all_realMagsFiltered = [[], [], [], [], [], [], []]
-        all_myMagsFiltered = [[], [], [], [], [], [], []]
-        for x in range(3,7):
-            for l in range(len(all_myMags)):
-                if all_myMags[l] != all_realMags[l]:
-                    all_myMagsFiltered.append(all_myMags[l])
-                    all_realMagsFiltered.append(all_realMags[l])
-
-            all_realMagsFiltered = np.array(all_realMagsFiltered)
-            all_myMagsFiltered = np.array(all_myMagsFiltered)
-            print(x)
-
-        plt.plot(all_myMagsFiltered[3], all_realMagsFiltered[3] - all_myMagsFiltered[3], 'bo',
-                 all_myMagsFiltered[4], all_realMagsFiltered[4] - all_myMagsFiltered[4], 'go',
-                 all_myMagsFiltered[5], all_realMagsFiltered[5] - all_myMagsFiltered[5], 'ro',
-                 all_myMagsFiltered[6], all_realMagsFiltered[6] - all_myMagsFiltered[6], 'yo',)
-        plt.xlabel('My magnitudes')
-        plt.ylabel('Difference')#'SDSS magnitudes')
-        plt.savefig('deletable', dpi=150)
-        plt.show()
-        plt.close()
-            #magplot_mymags_vs_dif_nonzero_outliersCoerced_noGalaxies_noDim
-#            plt.plot(all_realMagsFiltered, all_realMagsFiltered - all_myMagsFiltered, 'bo')
-#            plt.xlabel('SDSS magnitudes')
-#            plt.ylabel('Difference')#'SDSS magnitudes')
-#            plt.savefig('magplot_sdssmags_vs_dif_nonzero_leaving_outliers_newDefault'+str(x), dpi=150)
-#            plt.show()
-#            plt.close()
-#
-#            plt.plot(all_myMagsFiltered, all_realMagsFiltered, 'bo')
-#            plt.xlabel('My magnitudes')
-#            plt.ylabel('SDSS Magnitudes')#'SDSS magnitudes')
-#            plt.savefig('magplot_sdssmags_vs_mymags_nonzero_leaving_outliers_newDefault'+str(x), dpi=150)
-#            plt.show()
-#            plt.close()
-#
-
-    '''
+ 
     if WRITE_CSV:
         destfile.close()
     if PRINT_DATA:
@@ -968,90 +788,3 @@ def main():
 if __name__ == "__main__":
      main()
      
-'''
-            global objects
-            global bestCandidate
-            global magnitude
-            global sdssTable
-            global chanceCoincidence
-            global separation
-            global filename
-            global blacklist
-            global swappedData
-            global image_file
-            global ra
-            global dec
-            global hostRa
-            global hostDec
-            global eventRa
-            global eventDec
-            global colRealMags
-            global colMyMags
-            global colFluxes
-            global zdict
-            global all_myMags
-            global all_realMags
-            global BAD_IMAGES
-            global GOOD_IMAGE
-            global m_0s
-            global m_0
-            global size
-            global R_effective
-            global hostsData
-            global all_myMagsFiltered
-            global all_realMagsFiltered
-            global all_redshifts
-            global all_kronMags
-            global all_kronRads
-            global kronrad
-            global flux
-            global z
-            global photozs
-            global eventz
-
-            global segmap
-
-    # My stupid workaround for debugging, so I can access the variables from the console
-    global objects
-    global bestCandidate
-    global magnitude
-    global sdssTable
-    global chanceCoincidence
-    global separation
-    global filename
-    global blacklist
-    global swappedData
-    global image_file
-    global ra
-    global dec
-    global hostRa
-    global hostDec
-    global eventRa
-    global eventDec
-    global colRealMags
-    global colMyMags
-    global colFluxes
-    global zdict
-    global all_myMags
-    global all_realMags
-    global BAD_IMAGES
-    global GOOD_IMAGE
-    global m_0s
-    global m_0
-    global size
-    global R_effective
-    global hostsData
-    global all_myMagsFiltered
-    global all_realMagsFiltered
-    global all_redshifts
-    global all_kronMags
-    global all_kronRads
-    global kronrad
-    global flux
-    global z
-    global photozs
-    global eventX
-    global eventY
-    global idNum
-    global filterNum
-'''
