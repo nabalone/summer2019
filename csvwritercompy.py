@@ -55,7 +55,7 @@ FILTER_M0s = (None, None, None, 22.918, 22.822, 23.652, 23.540)
 # Also use if star calibration yields outlier (> 1 away from average value)
 
 #USAGE FLAGS:
-WRITE_CSV = "\galaxiesdata.csv" # filename to write to or None
+WRITE_CSV = "/galaxiesdata.csv" # filename to write to or None
 MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
 PLOT_REDSHIFTS = False
@@ -76,16 +76,16 @@ for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
 SPECIFIED = [SOURCEDIR + '/ps1hosts/psc480552.6.fits']
-RANGE = (0,40)
+RANGE = (0,10)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
 COLUMNS =['ID', 'hostRa', 'hostDec', 'offby', 'hectoZ', 'redshift_dif']
 
-perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/area (kpc)',
+perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/sqrt(area) (kpc)',
                    'x', 'y','KronMag', 'Abs. Mag', 'Angle',
                    'Ellipticity', 'RA',  'DEC', 
-                   'Discrepency (arcsecs)', 'pixelRank', 'chance coincidence',
+                   'Discrepency (arcsecs)', 'pixelRank', 'chanceCoincidence',
                    'host_found']
 for i in range(3,7):
     for val in perImageHeaders:
@@ -116,6 +116,8 @@ class Image:
         self.filterNum = filterNum
         self.event = event
         self.eventz = float(zdict[self.idNumString])
+        
+        self.bestCandidate = None
         
     def run(self):
         filename = FILENAME_PREFIX + "%s.%s.fits" % (self.idNumString, self.filterNum)
@@ -216,6 +218,7 @@ class Image:
         # for collecting mags and fluxes to calculate the zero for this file
         colRealMags = []
         colFluxes = []
+#TODO check magnitude correctness
         self.photozs = [None]*len(self.objects)
         self.photozerrs = [None]*len(self.objects)
         for i in range(len(self.objects)):
@@ -356,7 +359,7 @@ class Image:
         return photoz_matched
     
     def correct_bestCandidate_to(self, goodcoords, used_filter):
-        if used_filter.filterNum == self.filterNum:
+        if used_filter == self.filterNum:
             return
         self.bestCandidate = None
         for k in range(len(self.objCoords)):
@@ -364,16 +367,16 @@ class Image:
                 self.bestCandidate = k
 #TODO return true or false, check
     
-    def modifyFinalDataFrom(self, data, newFluxParams, used_bestCandidate, used_segmap):
+    def modifyFinalDataFrom(self, data, newFluxParams):#, used_bestCandidate, used_segmap):
         # no objects in correct location detected in bad image, 
         #use data from good image but update magnitude
         newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
         newMagnitude = -2.5 * np.log10(self.exposure_time) + self.m_0
-#TODO just save the old pixel rank
-        newPixelRank = self.getPixelRank(target=used_bestCandidate, segmap=used_segmap)
+#TODO make sure this is correct just save the old pixel rank
+        #newPixelRank = self.getPixelRank(target=used_bestCandidate, segmap=used_segmap)
         newAbsMag = newMagnitude - 5*np.log10(self.dL) - 10
         
-        f = self.filternum 
+        f = self.filterNum 
         old_filternum = data.keys()[0][-1]
         oldMagnitude = data['KronMag_%s' % old_filternum]
         new_data = {}
@@ -382,7 +385,7 @@ class Image:
             new_data[new_key] = v
         new_data['KronMag_%s' % f] = newMagnitude
         new_data['Abs. Mag_%s' % f] = newAbsMag
-        new_data['pixelRank_%s' % f] = newPixelRank
+        #new_data['pixelRank_%s' % f] = newPixelRank
         new_data['KronRad (kpc)_%s' % f] = newMagnitude
         oldChanceCoincidence = data['chanceCoincidence_%s' % old_filternum]
 #TODO check length, make sure this works
@@ -390,6 +393,7 @@ class Image:
         new_data['chanceCoincidence_%s' % f] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
 #TODO make sure above math is correct
         new_data['host_found_%s' % f] = 0
+        return new_data
     
     def getFinalData(self):    
         '''Get "real" host location and redshifts'''
@@ -598,8 +602,9 @@ class Supernova:
         self.idNum = int(idNumString)
         
     def getSnFinalData(self):
-        finalDict = {}
+        finalDict = {'ID':self.idNum}
         hostRa = hostsData[self.idNumString]['host_ra']
+        print(hostRa)
         hostDec = hostsData[self.idNumString]['host_dec']
         try:
             hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
@@ -711,7 +716,7 @@ class Supernova:
                 self.used_default=False
                 #get non filter dependent data
                 all_sn_data.update(self.getSnFinalData())
-                return
+                return all_sn_data
             
             
             
@@ -764,6 +769,11 @@ def extraction(filenames):
 
     all_all_data = []
     for filename in filenames: 
+        # filename will be the #3 (g) filter file of the sn
+        # check that all 4 filters are present, otherwise skip
+        # filename will end with xxx123456.n.fits where n is filternum
+        if len(glob.glob(filename[:-6] + '[3-6]' + filename[-5:])) != 4:
+            continue
         # to extract transient and filter number from filename of the form
         # */psc190369.6.fits
         dotSplit = filename.split('.')
@@ -779,7 +789,7 @@ def extraction(filenames):
         print(all_all_data)
         df = pd.DataFrame(all_all_data, columns=COLUMNS)
         if WRITE_CSV:
-            df.to_csv(WRITE_CSV)
+            df.to_csv(DESTDIR + WRITE_CSV)
 
 def main():
 #TODO remove
