@@ -30,6 +30,7 @@ from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table
 from sdssTableGroupIndex import sdssTableGroupIndex
 
+#TODO comment all constants
 ERRORFILE = 'errorfile.txt'
 SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
@@ -46,7 +47,6 @@ TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
 FILENAME_PREFIX = SOURCEDIR + "/ps1hosts/psc"
 LOWEST_MAG = 26 #limiting mag is 25
-#TODO does it make sense to do limiting mag + 1? same in default final props
 #TODO make note: to change a per-filter property, change in 3 places
 #TODO make each property into an object?
 
@@ -76,7 +76,7 @@ for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
 SPECIFIED = [SOURCEDIR + '/ps1hosts/psc480552.6.fits']
-RANGE = (0,10)
+RANGE = (0,100)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
@@ -106,27 +106,23 @@ def namegen():
     namecount += 1
     return PLOT_DIR + "\galaxyimage" + str(namecount) + ".png"
 
+#Four Image objects are created per Supernova object, one for each filter
 class Image:    
     def __init__(self, idNumString, filterNum, event):
-#TODO get all of this work out of the init? Make a run method?
-        
-#TODO unneccessary or redundant?
         self.idNumString = idNumString
         self.idNum = int(idNumString)
         self.filterNum = filterNum
         self.event = event
-        self.eventz = float(zdict[self.idNumString])
-        
+        self.eventz = float(zdict[self.idNumString])       
         self.bestCandidate = None
         
+    # Extract and collect data from image
     def run(self):
         filename = FILENAME_PREFIX + "%s.%s.fits" % (self.idNumString, self.filterNum)
         w = WCS(filename)
-        
-        
         image_file = fits.open(filename)
         
-        # to get image dimensions in wcs:
+        # to get image corner coordinates in wcs:
         self.maxX = image_file[0].header['NAXIS1']
         self.maxY = image_file[0].header['NAXIS2']
         maxRa, maxDec = w.all_pix2world(1,self.maxY,1)
@@ -148,11 +144,28 @@ class Image:
         self.bkg = sep.Background(self.swappedData)
         if SUBTRACT_BACKGROUND:
             self.swappedData = self.swappedData - self.bkg
+            
+#TODO does this need to be after the recursive extraction?                
+        # remove any nan pixels in image, which are due to saturation
+        # replace with cell saturation value for closest magnitude accuracy
+        #TODO better solution?
+        sat = image_file[0].header['HIERARCH CELL.SATURATION']
+        self.swappedData[np.isnan(self.swappedData)] = sat
         
-        
+        # If there is a bright/oversaturated object too close by to an object,  
+        # and extraction threshold is too low, SEP kronrad calculation will fail.
+        # Function will then call itself to retry with threshold raised by 0.3.
+        # Higher thresh. may unfortunately cause failure to detect fainter objects.
+        # as well as lowered detected magnitude and possibly kronradius, 
+        # which are currently not corrected for.
         def recursiveExtraction(attemptedThresh):
+            # Segmap: Array of integers with same shape as data. Pixels not belonging 
+            # to any object have value 0. All pixels belonging to the i-th 
+            # object (e.g., objects[i]) have value i+1
+            # used for calculating pixel rank 
+            # TODO and possibly detecting if event location is in an object
             self.objects, self.segmap = sep.extract(self.swappedData, attemptedThresh,
-                                          err=self.bkg.globalrms, #var=noise_data2 ,
+                                          err=self.bkg.globalrms, 
                                   minarea = MINAREA, deblend_cont = DEBLEND_CONT,
                                   segmentation_map = True)
 
@@ -166,11 +179,15 @@ class Image:
             self.blacklist = set()
 
             for i in range(len(self.objects)):
-                # remove any 'nan' kronrads and blacklist the objects
-                #check if ki is nan:
+#TODO incorrect@!!!!!!!!!!!!!
+                # An objcect may have a 'nan' kronrad for 2 reasons. 
+                # Usually because object is too long and narrow, 
+                # unlikely to be the host anyway.
+                # Ocassionally because a nearby bright star disrupted calculation
+                # We assume the former and blacklist (ignore) object unless it
+                # is near event site, in which case we raise threshold just in case 
+                # of the latter
                 if np.isnan(self.kronrad[i]):
-                    #if an object near event (likely host) fails,
-                    # redo getting objects using a higher thresh
                     if abs(self.objects['x'][i] - self.event['x']) < 20 and \
                        abs(self.objects['y'][i] - self.event['y']) < 20:
                            noteString = "Note: raising threshold to %s \n" \
@@ -182,15 +199,8 @@ class Image:
                     self.blacklist.add(i)
                     self.kronrad[i] = 0.1
 
-        ''' '''
-        
         # start with default threshold, if it fails then use a higher one
         recursiveExtraction(THRESHOLD)
-        
-        #remove any nans, replace with cell saturation
-        #TODO better solution?
-        sat = image_file[0].header['HIERARCH CELL.SATURATION']
-        self.swappedData[np.isnan(self.swappedData)] = sat
         
         flux = []
         for i in range(len(self.kronrad)):
@@ -201,23 +211,33 @@ class Image:
                                         2.5*self.kronrad[i], subpix=1)
                 flux.append(thisflux)
             except:
+                # probably because object was too narrow. Ignore object
+#TODO make sure ok
+                self.blacklist.add(i)
                 flux.append(0)
                 self.errorProtocol("Warning: failed flux calculation on ")
         flux = np.array(flux)
 
+        # fullSdssTable should contain pre-saved querries of event locations, 
+        # with objects grouped by query
+        # sdssTableGroupIndex maps a group in the table to an event ID number
         if self.idNumString not in sdssTableGroupIndex:
+            # no objects in SDSS near this event location
             sdssTable = None
         else:
             sdssTable = fullSdssTable.groups[sdssTableGroupIndex[self.idNumString]]
 
 #TODO the last argument is 1 b/c first pixel of FITS should be 1,1 not 0,0?
 #TODO icrs?
+            
+        # get WCS coords of all detected objects
         self.ra, self.dec = w.all_pix2world(self.objects['x'], self.objects['y'], 1)
         self.objCoords = SkyCoord(self.ra*u.deg, self.dec*u.deg, frame='icrs') # coords of all objs
 
-        # for collecting mags and fluxes to calculate the zero for this file
+        # for collecting mags and fluxes to calculate the zero point for this file
         colRealMags = []
         colFluxes = []
+        
 #TODO check magnitude correctness
         self.photozs = [None]*len(self.objects)
         self.photozerrs = [None]*len(self.objects)
@@ -232,7 +252,8 @@ class Image:
                     if abs(sdssTable['ra'][j] - curRa)*u.deg < MINDIST\
                         and abs(sdssTable['dec'][j] - curDec)*u.deg < MINDIST:
 
-                        # if there's a valid photz, store for future comparison
+                        # if there's a valid photoz, store for future comparison
+                        # TYPE 3 is a galaxy, TYPE 6 is a star
                         if sdssTable['type'][j] == 3 \
                            and sdssTable['z'][j] \
                            and not np.isnan(sdssTable['z'][j]) \
@@ -240,13 +261,15 @@ class Image:
                                self.photozs[i] = sdssTable['z'][j]
                                self.photozerrs[i] = sdssTable['zErr'][j]
 
-                        # if its a star, and its not right on the event, blacklist
+                        # if its a star (coded by type 6), 
+                        # and its not right on the event, blacklist
                         if sdssTable['type'][j] == 6 \
                             and not abs(sdssTable['ra'][j] - self.event['ra'])*u.deg < MINDIST \
                             and not abs(sdssTable['dec'][j] - self.event['dec'])*u.deg < MINDIST:
                             self.blacklist.add(i)
 
-                        #if its a star brighter than 21, use its magnitude in zero point calculation
+                        # if it's a star brighter than 21 
+                        # and it's flux range is not cut off by image edges,
                         if sdssTable['type'][j] == 6 and sdssTable[FILTERS[self.filterNum]][j] < 21. \
                             and self.objects['x'][i] - 2.5 * self.kronrad[i] >= 0 \
                             and self.objects['x'][i] + 2.5 * self.kronrad[i] <= self.maxX \
@@ -254,17 +277,17 @@ class Image:
                             and self.objects['y'][i] + 2.5 * self.kronrad[i] <= self.maxY:
                                 colRealMags.append(sdssTable[FILTERS[self.filterNum]][j])
                                 colFluxes.append(flux[i])
-#TODO check that star is completely in frame before use
                         break
 
         colFluxes = np.array(colFluxes)
 
+        # calculate zero points from stars using SDSS magnitudes (colRealMags)
         self.exposure_time = float(image_file[0].header['EXPTIME'])
         m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(self.exposure_time))
-        m_0s = m_0s[~np.isnan(m_0s)] #remove nans
+        m_0s = m_0s[~np.isnan(m_0s)] # remove nans
         if m_0s.any():
             self.m_0 = np.median(m_0s)
-            global m0collector
+            global m0collector # for calculating median zero points for future runs
             m0collector[self.filterNum].append(self.m_0)
 
         #no SDSS stars to calculate zero point
@@ -273,26 +296,25 @@ class Image:
                 colFluxes = np.array([])
                 colRealMags = np.array([])
 
-        # m_0 is outlier, use default
+        # if detected m_0 is an outlier, use default instead
         if abs(self.m_0 - FILTER_M0s[self.filterNum]) > 1:
                 self.m_0 = FILTER_M0s[self.filterNum]
 
-
-        colMyMags = -2.5 * np.log10(colFluxes/self.exposure_time) + self.m_0
+        # calculate all magnitudes using the new zero point
         self.magnitude = -2.5 * np.log10(flux/self.exposure_time) + self.m_0
         self.magnitude[np.where(np.isnan(self.magnitude))] = LOWEST_MAG
 
-#TODO combine?
+        #For debugging zero point detection. Can be removed
         if MAG_TEST_ALL:
+            colMyMags = -2.5 * np.log10(colFluxes/self.exposure_time) + self.m_0
             all_myMags[self.filterNum].extend(colMyMags[:])
             all_realMags[self.filterNum].extend(colRealMags[:])
-#TODO remove
             for k in range(len(colMyMags)):
                 if abs(colMyMags[k] - colRealMags[k]) > 2:
                     self.errorProtocol("outlier: ")
 
         '''Chance Coincidence Calculation'''
-        #size is half light radius
+        # size is half light radius
         size, _flag = sep.flux_radius(self.swappedData, self.objects['x'], self.objects['y'],
                           6.*self.objects['a'], 0.5, normflux=flux, subpix=5)
 
@@ -309,13 +331,16 @@ class Image:
 
         # Probability of chance coincidence
         self.chanceCoincidence = 1 - np.exp(-np.pi * R_effective ** 2 * sigma)
-        # exclude any blacklisted
+        # exclude any blacklisted by setting chanceCoincidence to 1, 
+        # so will never be chosen as most likely candidate
         for i in self.blacklist:
             self.chanceCoincidence[i] = 1
         
+        # Calculate ellipticities
         self.ellipticity = 1 - (self.objects['b']/self.objects['a'])
 
-        #remove mpc for dimensionless math and convert to kpc
+        # Calculate absolute quantities, convert to kpc, and 
+        # remove units for dimensionless math
         dA = cosmo.angular_diameter_distance(self.eventz)*1000/u.Mpc # in kpc.
         self.area = self.objects['npix'] * (degPerPix*(np.pi/180.)*dA)**2 #kpc^2
         self.dL = cosmo.luminosity_distance(self.eventz)*1000/u.Mpc # in kpc
@@ -329,17 +354,27 @@ class Image:
         
 # TODO filter out all filler data before smoting
    
+    # returns true IFF pixel corresponding to event location is in object
+    def isEventIn(self, objNum):
+        objMap = np.where(self.segmap == self.objects[objNum]+1)
+        return (int(self.event['x']), int(self.event['y'])) in objMap
+    
+    #sets self.bestCandidate. Returns True if chosen by matching redshift,
+    # meaning object with lowest chanceCoincidence was not touching event.
+    # returns False otherwise
     def attemptBestCandidate(self):
         self.bestCandidate = np.argmin(self.chanceCoincidence)
-        # Correct bestCandidate choice for closer redshift if similar prob.
-#TODO change to absolute separation
-#TODO use ovals!
-        photoz_matched = False
-        if self.separation[self.bestCandidate] > CHECK_DISTANCE:
+        photoz_matched = False # whether bestCandidate was chosen by photoz
+        # If a candidate not touching event location is chosen, check if any 
+        # other objects have photoz matching event redshift, use if so
+#TODO ask Ashley if this is okay
+        if not self.isEventIn(self.bestCandidate):
+        #if self.separation[self.bestCandidate] > CHECK_DISTANCE:
             if self.chanceCoincidence[self.bestCandidate] < 0.02:
                 self.errorProtocol("warning, checking for matching photozs for far but likely candidate")
              
-            #check for an object with photoz within 10% of event redshift
+            # check for objects with photoz within 10% of event redshift
+            # choose matching redshift object with lowest chance coincidence
             for k in range(len(self.photozs)):
                 if self.photozs[k] and abs(self.photozs[k] - self.eventz)/self.eventz < 0.1:
                     if photoz_matched:
@@ -348,14 +383,13 @@ class Image:
                                self.bestCandidate = k
                         photoz_matched = True
 
-        #check for objects cut off
+        #check if best candidate is cut off by image boundaries
         if self.objects['x'][self.bestCandidate] + 2.5* self.kronradKpc[self.bestCandidate] > self.maxX or \
             self.objects['x'][self.bestCandidate] - 2.5* self.kronradKpc[self.bestCandidate] < 0 or \
             self.objects['y'][self.bestCandidate] + 2.5* self.kronradKpc[self.bestCandidate] > self.maxY or \
             self.objects['y'][self.bestCandidate] - 2.5* self.kronradKpc[self.bestCandidate] < 0:
                 self.errorProtocol("cut off object")                        
-                        
-#TODO green circle all in plot
+#TODO extrapolate                     
         return photoz_matched
     
     def correct_bestCandidate_to(self, goodcoords, used_filter):
@@ -509,7 +543,7 @@ class Image:
         pixels = []
         for k in range(len(a[0])):
             pixels.append((a[0][k], a[1][k])) #list of tuples of coords
-        if not (int(self.event['x']), int(self.event['y'])) in pixels:
+        if not  in pixels:
             return 0
         
         def sortkey(x):
@@ -601,18 +635,19 @@ class Supernova:
         self.idNumString = idNumString
         self.idNum = int(idNumString)
         
-    def getSnFinalData(self):
+    def getSnFinalData(self, chosen_loc):
         finalDict = {'ID':self.idNum}
         hostRa = hostsData[self.idNumString]['host_ra']
-        print(hostRa)
         hostDec = hostsData[self.idNumString]['host_dec']
         try:
             hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
             #convert to decimal deg:
             finalDict['hostRa'] = hostCoords.ra.deg
             finalDict['hostDec'] = hostCoords.dec.deg
-            finalDict['offby'] = hostCoords.separation(self.objCoords[self.bestCandidate]).arcsec\
-                    if hostRa else None
+            if hostRa and chosen_loc:
+                finalDict['offby'] = hostCoords.separation(chosen_loc).arcsec
+            else:
+                finalDict['offby'] =None
             finalDict['hectoZ'] = hostsData[self.idNumString]['redshift']
         except ValueError:
             if len(hostRa) > 12: # hecto gave multiple host galaxies
@@ -715,15 +750,17 @@ class Supernova:
                     
                 self.used_default=False
                 #get non filter dependent data
-                all_sn_data.update(self.getSnFinalData())
+                all_sn_data.update(self.getSnFinalData(None))
+                print('ID: %s' % self.idNum)
                 return all_sn_data
             
             
             
         self.used_default = True
         all_sn_data = {}
+        chosen_im = self.images[self.filter_to_use]
         # get final data from the known good filter first
-        best_data = self.images[self.filter_to_use].getFinalData()
+        best_data = chosen_im.getFinalData()
         all_sn_data.update(best_data)
         for i in range(3,7):
             if i == self.filter_to_use: 
@@ -735,12 +772,12 @@ class Supernova:
 #TODO check correctnesss
                 usedbestCandidate = self.images[self.filter_to_use].bestCandidate
                 newFluxParams =  (self.images[i].swappedData,
-                   self.images[self.filter_to_use].objects['x'][usedbestCandidate],
-                   self.images[self.filter_to_use].objects['y'][usedbestCandidate],
-                   self.images[self.filter_to_use].objects['a'][usedbestCandidate],
-                   self.images[self.filter_to_use].objects['b'][usedbestCandidate],
-                   self.images[self.filter_to_use].objects['theta'][usedbestCandidate], 
-                   2.5*self.images[self.filter_to_use].kronradKpc[usedbestCandidate])
+                   chosen_im.objects['x'][usedbestCandidate],
+                   chosen_im.objects['y'][usedbestCandidate],
+                   chosen_im.objects['a'][usedbestCandidate],
+                   chosen_im.objects['b'][usedbestCandidate],
+                   chosen_im.objects['theta'][usedbestCandidate], 
+                   2.5*chosen_im.kronradKpc[usedbestCandidate])
                 all_sn_data.update(
                         self.images[i].modifyFinalDataFrom(best_data, newFluxParams))
             else:
@@ -749,7 +786,8 @@ class Supernova:
                 
 #TODO make flattening better                
         #get non-filter-dependent data
-        all_sn_data.update(self.getSnFinalData())
+        chosen_loc = chosen_im.objCoords[chosen_im.bestCandidate]
+        all_sn_data.update(self.getSnFinalData(chosen_loc))
         return all_sn_data
     
         if PLOT_ALL:
@@ -786,7 +824,7 @@ def extraction(filenames):
         all_all_data.append(s.run())
         
         #TODO column order
-        print(all_all_data)
+        #print(all_all_data)
         df = pd.DataFrame(all_all_data, columns=COLUMNS)
         if WRITE_CSV:
             df.to_csv(DESTDIR + WRITE_CSV)
