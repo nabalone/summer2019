@@ -392,6 +392,64 @@ class Image:
 #TODO extrapolate                     
         return photoz_matched
     
+    def sum_ellipse_extrapolated(data, x0, y0, a, b, theta1, r):
+        theta = np.pi/2 - theta1
+        if theta == 0.:
+            theta=0.0001 #to avoid divide by 0 errors
+        copy = np.copy(data)
+        x_len = len(data)
+        y_len = len(data[0])
+        
+        def in_ellipse(x,y,r):
+            return ((x-x0)*np.cos(theta) + (y-y0)*np.sin(theta))**2/a**2 + \
+                ((x-x0)*np.sin(theta) - (y-y0)*np.cos(theta))**2/b**2 < r**2 
+                
+        def in_quarter(x,y,q_key):
+            # q_key of 0: lower x side is cutoff, use quarter with higheset x values
+            if q_key==0:
+                    return ((x-x0) > (y-y0)/np.tan(theta)) and\
+                           ((x-x0) > (y-y0)/ -1 * np.tan(theta))
+            elif q_key==1: #use lowest x value
+                    return ((x-x0) < (y-y0)/np.tan(theta)) and\
+                           ((x-x0) < (y-y0)/ -1 * np.tan(theta))
+            elif q_key==2: #use highest y vals
+                    return (y-y0 > np.tan(theta)*(x-x0)) and\
+                           (y-y0 > -1/np.tan(theta)*(x-x0))
+            elif q_key==3: # use lowest y vals
+                    return (y-y0 < np.tan(theta)*(x-x0)) and\
+                           (y-y0 < -1/np.tan(theta)*(x-x0))  
+            else:
+                raise ValueError("Invalid quartile key")
+                                
+        #check edges to see where elliipse gets cut off, 
+        #keep most-intact quarter of ellipse and zero out all else        
+        cutoff_sides = [0]*4 #num. pixels in ellipse crossing [x=0, x=xmax, y=0, y=ymax]
+        for y in range(y_len):
+            if in_ellipse(0,y,1): #ellipse extends past x=0 edge
+                cutoff_sides[0] += 1
+            if in_ellipse(x_len-1,y,1):#ellipse extends past x=xmax edge
+                cutoff_sides[1]+=1
+                
+        for x in range(x_len):
+            if in_ellipse(x,0,1): #ellipse extends past y=0 edge
+                cutoff_sides[2] += 1
+            if in_ellipse(x, y_len-1,1):#ellipse extends past y=ymax edge
+                cutoff_sides[3]+=1
+                
+        cutoff_side = np.argmax(cutoff_sides)
+        for x in range(x_len):
+            for y in range(y_len):
+                if not in_quarter(x,y,cutoff_side):
+                    copy[x][y]=0
+        
+        # set all pixels outside object flux-ellipse bounds to 0
+        for x in range(len(data)):
+            for y in range(len(data[0])):
+                if not in_ellipse(x,y,r):
+                    copy[x][y] = 0
+        return 4. * np.sum(copy)
+
+ 
     def correct_bestCandidate_to(self, goodcoords, used_filter):
         if used_filter == self.filterNum:
             return
