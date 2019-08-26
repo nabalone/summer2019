@@ -1,0 +1,51 @@
+#For figuring calibrating magnitudes
+#magNames = ['modelMag_z', 'modelMag_i', 'modelMag_r', 'modelMag_g',
+#            'psfMag_z', 'psfMag_i', 'psfMag_r', 'psfMag_g']
+
+
+#                            curMags = []
+#                            for n in magNames:
+#                                curMags.append(sdssTable[n][j])
+#                            # flux[x] corresponds to the xth row of colRealMags
+#                            colRealMags.add_row(curMags)
+
+                #collect m_0s
+                #final_m_0[x] corresponds to the filter magNames[x]
+                #final_m_0s = {}
+                #colMyMags = {}
+				
+				
+				                # alternate calculation, I have verified it matches
+#                alt_offsetMags = - 2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS']))
+#                alt_difs = colRealMags - alt_offsetMags
+#                alt_medDif = np.median(alt_difs)
+#                alt_colMyMags = alt_offsetMags + alt_medDif
+                
+                
+#               for filt in magNames:
+                    #format filter column into an ndarray
+    #TODO clean up line below
+#                    colFilterMags = np.array(str(colRealMags[filt]).split()[2:], dtype = 'float64')
+#                    m_0s = colFilterMags + 2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS']))
+#    
+#                    magcache.extend([filt, np.std(m_0s)])
+#                    
+#                    m_0 = np.median(m_0s)
+#                    final_m_0s[filt] = m_0
+#                    colMyMags = -2.5 * np.log10(colFluxes/float(image_file[0].header['MJD-OBS'])) + m_0
+                #TODO remove!! for magstd testing!
+				
+				
+#                    magCache = [idNum, filterNum]
+#                    for filter in magNames:
+#                        magCache.extend([None, filter[-1], final_m_0s[filter], colMyMags[filter][obj], 
+#                                        colRealMags[filter][obj], colMyMags[filter][obj] - colRealMags[filter][obj]])
+				
+				
+				                #csvwriter.writerow(magCache)
+                #csvwriter.writerow([None]*50)
+            # colRealMags = np.array(colRealMags)
+			
+			            #np.sqrt(((objects['x']-120)**2) + ((objects['y']-120)**2))
+            # m_0s = colRealMags + 2.5 * np.log10(colFluxes)
+            # m_0 = np.median(m_0s)

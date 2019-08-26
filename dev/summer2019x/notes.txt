@@ -1,0 +1,59 @@
+psfmag, kron mag which is 
+
+if psfmag - kronmag < 0.05, its a star for any color
+
+
+query_sql, use the sql
+
+query = "select ra, dec, mode, type from photoobj_all where mode = 1 and ra > minRa and ra < maxRa
+and dec > minDec and dec < maxDec"
+
+sdssTable = SDSS.query_sql(query)
+
+
+
+check outliers, calculate scatter
+plot w/0 the zeros?
+make 3 plots size vs. redshift, surface brightness vs.redshift, mag with more data (out to redshift 1), color code by sn type, full run noting errors
+
+spearation squared
+count pixels instead of kronrad
+if radius > separation
+flux / area (per arcsecond squared)
+2.5*log flux/area ? 
+
+use offset
+and offset/size of galaxy (area or kron radius)
+
+pixel ranking of location relative to 
+
+relative brightness of galaxy and transient?
+
+Do we use redshift? try with and without. Calculate abs. values mag,size
+
+k correction only
+
+
+maybe if ambiguous, search sdss, photozs
+go to website
+
+
+
+find pixel ranking
+use redshift, do absoluted qtys
+pixels 
+
+panstarrs website to check redshifts
+
+nu_0 = nu_e / 1+z
+
+how to calculated true distance
+
+astropy.cosmology
+import Planck13 as csomo 
+
+
+np.where, read in file, np.percentile
+
+7/5 notes
+When there is no galaxy very close to the event, it is tricky to optimize behavior. Sometimes it picks one in one object in one filter and another in another. Should I force it to pick the same object? I think so. It is difficult to fine-tune parameters because they affect such a small number of images. The photoz checking usually activates in one filter but not another. Should I prioritize it/force other filters to match? How close should the photoz be to the eventz? I'm thinking a chanceCoincidence difference of 20% to get within 0.1 of the eventz is a good threshold? I'm not sure how many it will affect without running on the whole sample. To few activations to subsample. Also, deblending starts mattering. In 590123.3 it overdeblends, losing the candidate with the matching redshift. in 9003 I think it combines 2 galaxies. Don't know if it deblends too much or too little. Specific notes: in 50296, it picks a farther one with chance coincidence 0.006 instead of 0.008 but the farther one which it picks has the close redshift, but looks like it is actually 2 sdss galaxies combined. In 160103.3, it flips, doesn't really matter because all candidates are really bad. In 180313 it fixed filter 4 but not 5 because the chance coincidence difference was 1.8. In 590123, flipped 6 but not 4 (cc dif of 0.17) or 5(cc dif of 1.3). In 3 the good candidate was deblended into 2. In 100014, no eventz nor photoz, look up. 

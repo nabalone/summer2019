@@ -1,0 +1,3 @@
+notes2
+
+ cd /n/holylfs03/LABS/berger_lab/
