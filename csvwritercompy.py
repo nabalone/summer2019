@@ -36,6 +36,7 @@ SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noe
 DESTDIR = os.getcwd()
 FILLER_VAL = None
 THRESHOLD = 3
+MAXTHRESH = 30 # raise threshhold until this if necessary
 PSF = 4 #the FWHM
 MINAREA = 3 * (PSF/2)**2
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
@@ -146,11 +147,6 @@ class Image:
             self.swappedData = self.swappedData - self.bkg
             
 #TODO does this need to be after the recursive extraction?                
-        # remove any nan pixels in image, which are due to saturation
-        # replace with cell saturation value for closest magnitude accuracy
-        #TODO better solution?
-        sat = image_file[0].header['HIERARCH CELL.SATURATION']
-        self.swappedData[np.isnan(self.swappedData)] = sat
         
         # If there is a bright/oversaturated object too close by to an object,  
         # and extraction threshold is too low, SEP kronrad calculation will fail.
@@ -181,40 +177,50 @@ class Image:
             for i in range(len(self.objects)):
 #TODO incorrect@!!!!!!!!!!!!!
                 # An objcect may have a 'nan' kronrad for 2 reasons. 
-                # Usually because object is too long and narrow, 
-                # unlikely to be the host anyway.
-                # Ocassionally because a nearby bright star disrupted calculation
-                # We assume the former and blacklist (ignore) object unless it
-                # is near event site, in which case we raise threshold just in case 
-                # of the latter
+                # Usually because object is too long and narrow or cut off, 
+                # unlikely to be the host anyway, or an oversaturated object 
+                # with nan pixel values. If object is near event, likely host galaxy
+                # is getting merged with an oversaturated object, raise 
+                # threshhold until they are separated 
                 if np.isnan(self.kronrad[i]):
+                    #if self.isEventIn(i):
                     if abs(self.objects['x'][i] - self.event['x']) < 20 and \
                        abs(self.objects['y'][i] - self.event['y']) < 20:
                            noteString = "Note: raising threshold to %s \n" \
                                %(attemptedThresh + 0.3)
                            self.errorProtocol(noteString)
-                           recursiveExtraction(attemptedThresh + 0.3)
-                           return
+                           if attemptedThresh >= MAXTHRESH:
+                               return
+                           else:
+                               recursiveExtraction(attemptedThresh + 0.3)
+                               return
                     # otherwise blacklist and give an arbitrary valid kronrad
                     self.blacklist.add(i)
                     self.kronrad[i] = 0.1
 
-        # start with default threshold, if it fails then use a higher one
+        # start with default threshold
         recursiveExtraction(THRESHOLD)
+        
+        # remove any nan pixels in image, which are due to saturation
+        # replace with cell saturation value for closest magnitude accuracy
+        # this must be done after recursiveExtraction to make sure we are 
+        # separating host from oversaturated objects
+        #TODO better solution?
+        sat = image_file[0].header['HIERARCH CELL.SATURATION']
+        self.swappedData[np.isnan(self.swappedData)] = sat
         
         flux = []
         for i in range(len(self.kronrad)):
             try:
-                thisflux, _fluxerr, _flag = sep.sum_ellipse(self.swappedData, self.objects['x'][i],
-                                        self.objects['y'][i], self.objects['a'][i],
-                                        self.objects['b'][i], self.objects['theta'][i],
-                                        2.5*self.kronrad[i], subpix=1)
+                thisflux, _fluxerr, _flag = self.sum_ellipse_extrapolated(i)
                 flux.append(thisflux)
             except:
                 # probably because object was too narrow. Ignore object
 #TODO make sure ok
+#TODO was it flux or kronrad which failed on narrow objects?
                 self.blacklist.add(i)
                 flux.append(0)
+                self.bestCandidate = i
                 self.errorProtocol("Warning: failed flux calculation on ")
         flux = np.array(flux)
 
@@ -356,7 +362,7 @@ class Image:
    
     # returns true IFF pixel corresponding to event location is in object
     def isEventIn(self, objNum):
-        objMap = np.where(self.segmap == self.objects[objNum]+1)
+        objMap = np.where(self.segmap == objNum+1)
         return (int(self.event['x']), int(self.event['y'])) in objMap
     
     #sets self.bestCandidate. Returns True if chosen by matching redshift,
@@ -382,18 +388,22 @@ class Image:
                         if self.chanceCoincidence[k] < self.chanceCoincidence[self.bestCandidate]:
                                self.bestCandidate = k
                         photoz_matched = True
-
-        #check if best candidate is cut off by image boundaries
-        if self.objects['x'][self.bestCandidate] + 2.5* self.kronradKpc[self.bestCandidate] > self.maxX or \
-            self.objects['x'][self.bestCandidate] - 2.5* self.kronradKpc[self.bestCandidate] < 0 or \
-            self.objects['y'][self.bestCandidate] + 2.5* self.kronradKpc[self.bestCandidate] > self.maxY or \
-            self.objects['y'][self.bestCandidate] - 2.5* self.kronradKpc[self.bestCandidate] < 0:
-                self.errorProtocol("cut off object")                        
-#TODO extrapolate                     
+                  
         return photoz_matched
     
-    def sum_ellipse_extrapolated(data, x0, y0, a, b, theta1, r):
-        theta = np.pi/2 - theta1
+    # Like sep.sum_ellipse but extrapolates if cut-off objects.
+    # Assumes symmetry. If cut-off, returns 4*flux in most-intact quarter
+    # otherwise, use sep.sum_ellipse
+    def sum_ellipse_extrapolated(self, objNum):
+        data = self.swappedData
+        x0 = self.objects['x'][objNum]
+        y0 = self.objects['y'][objNum]
+        a = self.objects['a'][objNum]
+        b = self.objects['b'][objNum]
+        theta_orig = self.objects['theta'][objNum]
+        r = 2.5*self.kronrad[objNum]
+        
+        theta = np.pi/2 - theta_orig
         if theta == 0.:
             theta=0.0001 #to avoid divide by 0 errors
         copy = np.copy(data)
@@ -422,7 +432,6 @@ class Image:
                 raise ValueError("Invalid quartile key")
                                 
         #check edges to see where elliipse gets cut off, 
-        #keep most-intact quarter of ellipse and zero out all else        
         cutoff_sides = [0]*4 #num. pixels in ellipse crossing [x=0, x=xmax, y=0, y=ymax]
         for y in range(y_len):
             if in_ellipse(0,y,1): #ellipse extends past x=0 edge
@@ -436,20 +445,31 @@ class Image:
             if in_ellipse(x, y_len-1,1):#ellipse extends past y=ymax edge
                 cutoff_sides[3]+=1
                 
-        cutoff_side = np.argmax(cutoff_sides)
-        for x in range(x_len):
-            for y in range(y_len):
-                if not in_quarter(x,y,cutoff_side):
-                    copy[x][y]=0
-        
-        # set all pixels outside object flux-ellipse bounds to 0
-        for x in range(len(data)):
-            for y in range(len(data[0])):
-                if not in_ellipse(x,y,r):
-                    copy[x][y] = 0
-        return 4. * np.sum(copy)
+        # Object is not cut off so we can just use sep.sum_ellipse
+        if not np.any(cutoff_sides):   
+            return sep.sum_ellipse(data,x0, y0, a, b, theta_orig, r, subpix=1)
+        else:
+            
+            # set all pixels outside object flux-ellipse bounds to 0
+            for x in range(len(data)):
+                for y in range(len(data[0])):
+                    if not in_ellipse(x,y,r):
+                        copy[x][y] = 0
+            
+            # set everything outside most-intact-quarter to 0
+            cutoff_side = np.argmax(cutoff_sides)
+            for x in range(x_len):
+                for y in range(y_len):
+                    if not in_quarter(x,y,cutoff_side):
+                        copy[x][y]=0
+                        
+            #four times flux in most-intact-quarter of galaxy
+            return 4. * np.sum(copy)
 
- 
+    # So all filters will use the same selected host galaxy. goodcoords are the
+    # coordinates of the most likely candidate out of all 4 filters. Best 
+    # candidate was chosen in used_filter. 
+    # Sets bestCandidate to object matching goodcoords, if none return None
     def correct_bestCandidate_to(self, goodcoords, used_filter):
         if used_filter == self.filterNum:
             return
@@ -457,14 +477,13 @@ class Image:
         for k in range(len(self.objCoords)):
             if self.objCoords[k].separation(goodcoords) < MINDIST:
                 self.bestCandidate = k
-#TODO return true or false, check
     
-    def modifyFinalDataFrom(self, data, newFluxParams):#, used_bestCandidate, used_segmap):
-        # no objects in correct location detected in bad image, 
-        #use data from good image but update magnitude
+    # use data from the filter in which host was chosen, but update magnitude
+    # Because no objects in location of chosen host were detected in current filter
+    def modifyFinalDataFrom(self, data, newFluxParams):
         newFlux, _fluxerr, _flag = sep.sum_ellipse(*newFluxParams, subpix=1)
         newMagnitude = -2.5 * np.log10(self.exposure_time) + self.m_0
-#TODO make sure this is correct just save the old pixel rank
+#TODO make sure this is correct: old pixel rank used
         #newPixelRank = self.getPixelRank(target=used_bestCandidate, segmap=used_segmap)
         newAbsMag = newMagnitude - 5*np.log10(self.dL) - 10
         
@@ -481,14 +500,14 @@ class Image:
         new_data['KronRad (kpc)_%s' % f] = newMagnitude
         oldChanceCoincidence = data['chanceCoincidence_%s' % old_filternum]
 #TODO check length, make sure this works
-        #adjust chanceCoincidence for change in magnitude
+        #adjust chanceCoincidence for the new magnitude
         new_data['chanceCoincidence_%s' % f] = 1 - (1 - oldChanceCoincidence)**(10**(0.33*(newMagnitude - oldMagnitude)))
 #TODO make sure above math is correct
         new_data['host_found_%s' % f] = 0
         return new_data
     
+    # returns host data from this filter to be entered into csv
     def getFinalData(self):    
-        '''Get "real" host location and redshifts'''
         finalDict = {}
         f = self.filterNum               
         bestCandidate = self.bestCandidate
@@ -511,6 +530,7 @@ class Image:
         finalDict['host_found_%s' % f] = 1  
         return finalDict
 
+    # If no likely hosts were detected in any filter for this event
     def getDefaultData(self):
         defaultFinalProperties = {}
         for f in range(3,7):
@@ -535,12 +555,13 @@ class Image:
             defaultFinalProperties['host_found_%s' % f] = 0
         return defaultFinalProperties
     
+    # returns |Redshift_SN - Photoz_galaxy| / Photoz error on galaxy 
+    # or -1 if no SDSS photoz best candidate galaxy
     def getPhotozDif(self):
         photoz = self.photozs[self.bestCandidate]
         photozerr = self.photozerrs[self.bestCandidate]
         eventz = self.eventz
         
-        #TODO note that redshiftdif of -1 indicates no photoz, positive is difference
         #PHOTOZ failed or no match
         if photoz == None or photozerr==None or photozerr < -99  or np.isnan(photozerr): 
             return -1
@@ -548,7 +569,10 @@ class Image:
             return abs(eventz - photoz)/photozerr
         
 
-   
+    # saves and displays image with SDSS identified stars and 
+    # blacklisted (disqualified) objects circled in blue,
+    # best host candidate circled in green, all other detected objects circled
+    # in red, event location marked with purple triangle. Saves to PLOT_DIR
     def plot(self, myVmin=None, myVmax=None, target=None):
         green = [target] if target else [self.bestCandidate]
         # make the destination directory if it does not exist
@@ -590,6 +614,7 @@ class Image:
 
     def getPixelRank(self, target=None, segmap=None):
 #TODO global???
+#TODO make sure it is correct best candidate
         global a
         global pixels
         global location
@@ -601,7 +626,7 @@ class Image:
         pixels = []
         for k in range(len(a[0])):
             pixels.append((a[0][k], a[1][k])) #list of tuples of coords
-        if not  in pixels:
+        if not (int(self.event['x']), int(self.event['y'])) in pixels:
             return 0
         
         def sortkey(x):
@@ -611,7 +636,7 @@ class Image:
         location = pixels.index((int(self.event['x']), int(self.event['y'])))
         return float(location)/float(len(pixels))
     
-    
+    # loggging
     def errorProtocol(self, e, target=None):
             curFile = self.idNumString + '.' + str(self.filterNum)
             errorString = str(namecount) + '\n' + str(e) + " " + curFile + '\n'
@@ -630,62 +655,61 @@ class Image:
                 print("raising")
                 raise
 
-
-'''load event type dictionary'''
-typeDict = {}
-typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
-typefile.readline() #get rid of header
-for line in typefile:
-    parts = line.split()
-    eventId = parts[0][3:]
-    eventType = parts[1]
-    typeDict[eventId] = eventType
-typefile.close()
-
-
-''' load event redshifts' dictionary '''
-global zdict
-zdict = {}
-zfile = open('new_ps1z.dat', 'r')
-zfile.readline() #get rid of heade
-
-for line in zfile:
-    parts = line.split()
-    eventId = parts[0][3:]
-    redshift = float(parts[1])
-    zdict[eventId] = redshift
-
-zfile.close()
-#not in zdict, looked up from ps1 website 
-#http://telescopes.rc.fas.harvard.edu/ps1/2014/alerts/
-zdict['100014'] = 0.357
-zdict['300220'] = 0.094
-zdict['380108'] = 0.159
-
-
-
-'''load event location dictionary'''
-db = pd.read_table('alertstable_v3',sep=None,index_col = False,
-               engine='python')
-db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
-                engine='python')
-db = db.append(db2,ignore_index=True)
-
-
-
-'''load prerun sdss queries'''
-global fullSdssTable
-fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
-fullSdssTable = fullSdssTable.group_by('idnum')
-
-
-'''load real host data'''
-global hostsData
-# not sure if I should be able to json.load this, but I can't and this works
-with open('hosts.dat', 'r') as hostsfile:
-        hostsData = hostsfile.read()
-# convert to dictionary from dictionary string
-hostsData = ast.literal_eval(hostsData)
+def pre_load_dictionaries():
+    '''load event type dictionary'''
+    typeDict = {}
+    typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+    typefile.readline() #get rid of header
+    for line in typefile:
+        parts = line.split()
+        eventId = parts[0][3:]
+        eventType = parts[1]
+        typeDict[eventId] = eventType
+    typefile.close()
+    
+    
+    ''' load event redshifts' dictionary '''
+    global zdict
+    zdict = {}
+    zfile = open('new_ps1z.dat', 'r')
+    zfile.readline() #get rid of heade
+    
+    for line in zfile:
+        parts = line.split()
+        eventId = parts[0][3:]
+        redshift = float(parts[1])
+        zdict[eventId] = redshift
+    
+    zfile.close()
+    #not in zdict, looked up from ps1 website 
+    #http://telescopes.rc.fas.harvard.edu/ps1/2014/alerts/
+    zdict['100014'] = 0.357
+    zdict['300220'] = 0.094
+    zdict['380108'] = 0.159
+    
+    
+    
+    '''load event location dictionary'''
+    db = pd.read_table('alertstable_v3',sep=None,index_col = False,
+                   engine='python')
+    db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
+                    engine='python')
+    db = db.append(db2,ignore_index=True)
+    
+    
+    
+    '''load prerun sdss queries'''
+    global fullSdssTable
+    fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
+    fullSdssTable = fullSdssTable.group_by('idnum')
+    
+    
+    '''load real host data'''
+    global hostsData
+    # not sure if I should be able to json.load this, but it fails and this works
+    with open('hosts.dat', 'r') as hostsfile:
+            hostsData = hostsfile.read()
+    hostsData = ast.literal_eval(hostsData)
 
 class Supernova:
     
@@ -888,7 +912,6 @@ def extraction(filenames):
             df.to_csv(DESTDIR + WRITE_CSV)
 
 def main():
-#TODO remove
     import time
     start = time.time()
     #figure out which files to use based on value specified at top
@@ -915,7 +938,7 @@ def main():
     else:
         raise Exception('invalid FILE specification')
     end = time.time()
-    print(end - start)
+    print("Time: %s " % (end - start))
     print("BAD COUNT: %s" % BAD_COUNT)
 
 if __name__ == "__main__":
