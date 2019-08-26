@@ -68,7 +68,7 @@ PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
 
 #TODO delete
 SPECIFIED = []
@@ -76,8 +76,8 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc480552.6.fits']
-RANGE = (0,100)
+SPECIFIED = [SOURCEDIR + '/ps1hosts/psc000137.3.fits']
+RANGE = (0,20)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
@@ -92,7 +92,7 @@ for i in range(3,7):
     for val in perImageHeaders:
         COLUMNS.append(val + '_' + str(i))
 
-# remove error file
+# clear any previous logs from errorfile
 if os.path.exists(ERRORFILE):
   os.remove(ERRORFILE)
   
@@ -183,7 +183,6 @@ class Image:
                 # is getting merged with an oversaturated object, raise 
                 # threshhold until they are separated 
                 if np.isnan(self.kronrad[i]):
-                    #if self.isEventIn(i):
                     if abs(self.objects['x'][i] - self.event['x']) < 20 and \
                        abs(self.objects['y'][i] - self.event['y']) < 20:
                            noteString = "Note: raising threshold to %s \n" \
@@ -362,8 +361,11 @@ class Image:
    
     # returns true IFF pixel corresponding to event location is in object
     def isEventIn(self, objNum):
-        objMap = np.where(self.segmap == objNum+1)
-        return (int(self.event['x']), int(self.event['y'])) in objMap
+        x, y = int(self.event['x']), int(self.event['y'])
+        # NOTE SEP'S SEGMAP INDEXES Y-FIRST; INDICES ARE ROTATED SUCH THAT 
+        # OBJECT N IS CENTERED AROUND segmap[objects['y'][N]][objects['x'][N]]
+        return self.segmap[y][x]==objNum + 1
+
     
     #sets self.bestCandidate. Returns True if chosen by matching redshift,
     # meaning object with lowest chanceCoincidence was not touching event.
@@ -573,7 +575,7 @@ class Image:
     # blacklisted (disqualified) objects circled in blue,
     # best host candidate circled in green, all other detected objects circled
     # in red, event location marked with purple triangle. Saves to PLOT_DIR
-    def plot(self, myVmin=None, myVmax=None, target=None):
+    def plot(self, myVmin=None, myVmax=None, target=None, title=''):
         green = [target] if target else [self.bestCandidate]
         # make the destination directory if it does not exist
         if not os.path.isdir(PLOT_DIR):
@@ -608,16 +610,14 @@ class Image:
             else:
                 e.set_edgecolor('red')
             ax.add_artist(e)
+        plt.title(title)
         plt.savefig(namegen(), dpi=150)
         plt.show()
         plt.close()
 
     def getPixelRank(self, target=None, segmap=None):
-#TODO global???
-#TODO make sure it is correct best candidate
-        global a
-        global pixels
-        global location
+        # NOTE SEP'S SEGMAP INDEXES Y-FIRST; INDICES ARE ROTATED SUCH THAT 
+        # OBJECT N IS CENTERED AROUND segmap[objects['y'][N]][objects['x'][N]]
         if not target:
             target = self.bestCandidate
         if not segmap:
@@ -626,14 +626,14 @@ class Image:
         pixels = []
         for k in range(len(a[0])):
             pixels.append((a[0][k], a[1][k])) #list of tuples of coords
-        if not (int(self.event['x']), int(self.event['y'])) in pixels:
+        if not (int(self.event['y']), int(self.event['x'])) in pixels:
             return 0
         
         def sortkey(x):
             a, b = x
             return self.swappedData[a][b]        
         pixels.sort(key = sortkey)
-        location = pixels.index((int(self.event['x']), int(self.event['y'])))
+        location = pixels.index((int(self.event['y']), int(self.event['x'])))
         return float(location)/float(len(pixels))
     
     # loggging
@@ -645,9 +645,11 @@ class Image:
                 errorfile.write(errorString)
 
             chosen = target if target else self.bestCandidate
-    
+            e = str(e)
             if PLOT_ERR:
-                self.plot(myVmin = 0, myVmax = 1000, target=chosen)
+                padded_e = e + '                                                                         '
+                my_title = padded_e[:30] + '\n' + curFile[-16:]
+                self.plot(myVmin = 0, myVmax = 1000, target=chosen, title=my_title)
                 self.plot()
             if ONLY_FLAG_ERRORS or e=='far' or e=='unlikely':
                 return
