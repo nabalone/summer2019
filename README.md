@@ -1,7 +1,7 @@
 # Supernova Classification by Host Galaxy with Machine Learning
 ### Center for Astrophysics | Harvard and Smithsonian 
 
-_Code in process of formatting for publication_ <p>
+_Formatting for publication in proccess_ <p>
 This software classifies supernovae by type (Ia, Ibc, II, IIn, or Superluminous) using archival images of the supernova's host galaxy. \n
 The main scripts are  
 Host galaxy detection and property extraction: src/host_property_extractor.py  
