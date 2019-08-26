@@ -1,0 +1,45 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+2019-07-22 17:40:19.591420: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-07-22 17:40:19.602994: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2095094999 Hz
+2019-07-22 17:40:19.603403: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x55ae319ff9b0 executing computations on platform Host. Devices:
+2019-07-22 17:40:19.603481: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+[[1. 0. 0. 0. 0.]
+ [1. 0. 0. 0. 0.]
+ [1. 0. 0. 0. 0.]
+ ...
+ [1. 0. 0. 0. 0.]
+ [1. 0. 0. 0. 0.]
+ [0. 0. 1. 0. 0.]]
+[0 0 0 0 2 0 0 0 0 0 2 2 3 0 0 2 0 0 0 0 0 0 0 0 0 3 2 0 0 0 0 0 0 0 0 0 0
+ 2 0 0 0 3 0 0 0 0 0 2 2 0 2 0 0 2 0 0 0 0 2 2 2 2 2 0 0 2 2 0 0 0 0 2 3 2
+ 0 0 0 0 0 0 1 2 0 1 2 0 0 0 0 0 0 0 0 0 3 2 2 0 0 0 0 0 0 0 0 2 2 0 0 2 0
+ 0 2 0 2 0 0 0 2 3 1 0 0 0 0 0 3 0 0 0 2 0 0 0 0 0 0 0 0 2 2 3 0 2 0 0 2 0
+ 0 2 0 0 0 0 0 0 0 0 1 4 0 0 0 2 0 2 0 0 0 0 0 0 4 0 0 0 0 0 0 0 0 4 2 0 0
+ 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 2 4 0 0 0 3 0 0 0 0
+ 0 0 0 0 0 0 2 0 0 4 1 2 0 1 3 0 1 1 0 0 0 0 2 3 0 1 0 0 0 1 0 0 0 0 4 0 0
+ 0 0 0 0 2 0 0 0 2 0 0 0 0 2 0 0 2 0 0 4 2 0 0 0 2 3 0 0 0 2 0 2 0 0 1 0 0
+ 2 1 0 4 2 0 0 0 0 0 2 0 0 0 1 0 0 0 0 0 2 0 0 3 1 0 0 3 0 0 0 0 0 0 0 0 3
+ 0 0 2 0 0 2 2 0 2 0 0 0 0 0 4 0 0 0 2 0 0 0 0 0 0 0 2 0 0 0 0 3 0 2 0 0 0
+ 0 2 0 0 0 2 0 2 3 0 0 0 0 0 0 0 0 0 2 0 0 0 2 0 0 0 0 2 2 1 2 0 0 2]
+
+ 32/404 [=>............................] - ETA: 31s
+ 64/404 [===>..........................] - ETA: 27s
+ 96/404 [======>.......................] - ETA: 24s
+128/404 [========>.....................] - ETA: 21s
+160/404 [==========>...................] - ETA: 19s
+192/404 [=============>................] - ETA: 17s
+224/404 [===============>..............] - ETA: 14s
+256/404 [==================>...........] - ETA: 11s
+288/404 [====================>.........] - ETA: 9s 
+320/404 [======================>.......] - ETA: 6s
+352/404 [=========================>....] - ETA: 4s
+384/404 [===========================>..] - ETA: 1s
+404/404 [==============================] - 33s 81ms/step
+Test loss: 0.31917028497941424
+Test accuracy: 0.9801980192118352

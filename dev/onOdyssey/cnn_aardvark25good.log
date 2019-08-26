@@ -1,0 +1,92 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-07-22 16:07:08.719872: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-07-22 16:07:08.731789: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2095094999 Hz
+2019-07-22 16:07:08.732233: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x558b23ea6ea0 executing computations on platform Host. Devices:
+2019-07-22 16:07:08.732318: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+Not using data augmentation.
+Epoch 1/25
+
+404/404 [==============================] - 132s 328ms/step - loss: 1.6082 - acc: 0.2550
+Epoch 2/25
+
+404/404 [==============================] - 100s 247ms/step - loss: 0.9577 - acc: 0.7054
+Epoch 3/25
+
+404/404 [==============================] - 100s 247ms/step - loss: 1.3727 - acc: 0.7079
+Epoch 4/25
+
+404/404 [==============================] - 102s 253ms/step - loss: 0.7518 - acc: 0.7822
+Epoch 5/25
+
+404/404 [==============================] - 97s 240ms/step - loss: 0.8650 - acc: 0.4703
+Epoch 6/25
+
+404/404 [==============================] - 101s 250ms/step - loss: 0.8783 - acc: 0.6906
+Epoch 7/25
+
+404/404 [==============================] - 100s 247ms/step - loss: 0.8298 - acc: 0.8317
+Epoch 8/25
+
+404/404 [==============================] - 99s 245ms/step - loss: 0.6727 - acc: 0.8243
+Epoch 9/25
+
+404/404 [==============================] - 97s 240ms/step - loss: 0.5736 - acc: 0.7970
+Epoch 10/25
+
+404/404 [==============================] - 102s 253ms/step - loss: 0.6573 - acc: 0.7822
+Epoch 11/25
+
+404/404 [==============================] - 97s 241ms/step - loss: 0.6436 - acc: 0.7871
+Epoch 12/25
+
+404/404 [==============================] - 100s 248ms/step - loss: 0.5292 - acc: 0.8168
+Epoch 13/25
+
+404/404 [==============================] - 99s 246ms/step - loss: 0.4944 - acc: 0.8515
+Epoch 14/25
+
+404/404 [==============================] - 100s 248ms/step - loss: 0.5179 - acc: 0.8614
+Epoch 15/25
+
+404/404 [==============================] - 98s 241ms/step - loss: 0.5183 - acc: 0.8688
+Epoch 16/25
+
+404/404 [==============================] - 99s 245ms/step - loss: 0.4790 - acc: 0.8738
+Epoch 17/25
+
+404/404 [==============================] - 99s 244ms/step - loss: 0.4204 - acc: 0.8713
+Epoch 18/25
+
+404/404 [==============================] - 99s 245ms/step - loss: 0.4215 - acc: 0.8564
+Epoch 19/25
+
+404/404 [==============================] - 97s 240ms/step - loss: 0.4049 - acc: 0.8589
+Epoch 20/25
+
+404/404 [==============================] - 99s 245ms/step - loss: 0.3760 - acc: 0.8713
+Epoch 21/25
+
+404/404 [==============================] - 96s 238ms/step - loss: 0.3528 - acc: 0.8738
+Epoch 22/25
+
+404/404 [==============================] - 100s 248ms/step - loss: 0.3365 - acc: 0.8837
+Epoch 23/25
+
+404/404 [==============================] - 99s 245ms/step - loss: 0.3264 - acc: 0.8960
+Epoch 24/25
+
+404/404 [==============================] - 97s 241ms/step - loss: 0.3156 - acc: 0.9010
+Epoch 25/25
+
+404/404 [==============================] - 98s 242ms/step - loss: 0.3005 - acc: 0.9035
+Saved trained model at /n/holylfs03/LABS/berger_lab/nchou/saved_models/aardvark25.h5 
+Traceback (most recent call last):
+  File "cnn_aardvark.py", line 76, in <module>
+    y_pred = model.predict(x_test)
+NameError: name 'x_test' is not defined

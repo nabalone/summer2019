@@ -1,0 +1,20 @@
+0
+Chosen by photoz C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000010.6.fits
+2
+No objects detected C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000011.3.fits
+4
+warning, checking for matching photozs for far but likely candidate C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000034.4.fits
+6
+USING BEST CHANCE: 5.893922017108366e-10 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000034.6.fits
+8
+Chosen by photoz C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000076.6.fits
+10
+warning, checking for matching photozs for far but likely candidate C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000091.4.fits
+12
+USING BEST CHANCE: 1.727740173151915e-11 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000091.6.fits
+14
+USING BEST CHANCE: 9.745537710159624e-13 C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000142.6.fits
+16
+warning, checking for matching photozs for far but likely candidate C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000190.3.fits
+18
+warning, checking for matching photozs for far but likely candidate C:\Users\Faith\Desktop\NoeySummer2019\summer2019/3pi_hosts\ps_000190.4.fits

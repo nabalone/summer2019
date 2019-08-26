@@ -1,0 +1,466 @@
+0
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc100358.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc100358.4.fits
+2
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.000624029550331 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc100405.6.fits
+4
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00281037743613 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110030.6.fits
+6
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110033.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110033.5.fits
+8
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.011750721412 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110033.6.fits
+10
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110426.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110426.3.fits
+12
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0344362258801 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110430.6.fits
+14
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110431.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110431.5.fits
+16
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00803272327471 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110431.6.fits
+18
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0101043785073 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110468.6.fits
+20
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110478.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110478.3.fits
+22
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00678466316634 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110542.6.fits
+24
+NO GOOD CANDIDATE, USING BEST CHANCE: nan C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110567.6.fits
+26
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.4.fits
+28
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.4.fits
+30
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.4.fits
+32
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.4.fits
+34
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.4.fits
+36
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.6.fits
+38
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.6.fits
+40
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.6.fits
+42
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.6.fits
+44
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc110721.6.fits
+46
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120086.3.fits
+48
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120086.4.fits
+50
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120086.5.fits
+52
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120086.6.fits
+54
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120086.6.fits
+56
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120094.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120094.6.fits
+58
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0348686761391 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120113.6.fits
+60
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0059429726085 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120175.6.fits
+62
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00523325868223 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120225.6.fits
+64
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120333.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120333.4.fits
+66
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.650322464023 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120336.6.fits
+68
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120419.4.fits
+70
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc120419.6.fits
+72
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00133794650792 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130327.6.fits
+74
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.3.fits
+76
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.4.fits
+78
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.6.fits
+80
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130514.6.fits
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130846.4.fits 
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130846.5.fits 
+Note: raising threshold to 1.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130846.5.fits 
+82
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00254256973263 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc130846.6.fits
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.5.fits 
+Note: raising threshold to 1.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.5.fits 
+Note: raising threshold to 1.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.5.fits 
+Note: raising threshold to 2.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.5.fits 
+Note: raising threshold to 2.4 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.5.fits 
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.6.fits 
+84
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00115699518618 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131014.6.fits
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.4.fits 
+Note: raising threshold to 1.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.4.fits 
+Note: raising threshold to 1.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.4.fits 
+Note: raising threshold to 2.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.4.fits 
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 1.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 1.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 2.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 2.4 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 2.7 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 3.0 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 3.3 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 3.6 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 3.9 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 4.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 4.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 4.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 5.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 5.4 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 5.7 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 6.0 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 6.3 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 6.6 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 6.9 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 7.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 7.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 7.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 8.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 8.4 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 8.7 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 9.0 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 9.3 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 9.6 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.5.fits 
+Note: raising threshold to 1.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 1.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 1.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 2.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 2.4 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 2.7 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 3.0 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 3.3 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 3.6 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 3.9 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 4.2 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 4.5 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 4.8 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 5.1 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 5.4 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 5.7 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 6.0 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 6.3 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 6.6 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+Note: raising threshold to 6.9 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131089.6.fits 
+86
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc131094.6.fits
+88
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00224882096457 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc140418.6.fits
+90
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150381.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150381.5.fits
+92
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00132194271553 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150455.6.fits
+94
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00173756005438 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150457.6.fits
+96
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00975226482183 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150507.6.fits
+98
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00328687912412 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150576.6.fits
+100
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc150692.6.fits
+102
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc151034.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc151034.6.fits
+104
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00310291275257 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc151034.6.fits
+106
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc151425.6.fits
+108
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc160046.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc160046.3.fits
+110
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.000802267115523 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc160046.6.fits
+112
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.07144347382 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc160066.6.fits
+114
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0177296390125 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc160099.6.fits
+116
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00760828750015 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc160197.6.fits
+118
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0303088116893 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc170428.6.fits
+120
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc190230.6.fits
+122
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc190266.6.fits
+124
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00327434351815 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc190299.6.fits
+126
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00245767503908 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc300008.6.fits
+128
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00587517136989 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc300105.6.fits
+130
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc300179.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc300179.4.fits
+132
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310051.3.fits
+134
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310051.5.fits
+136
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310051.6.fits
+138
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310051.6.fits
+140
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0472738676059 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310073.6.fits
+142
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310090.3.fits
+144
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310090.3.fits
+146
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310090.4.fits
+148
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310090.4.fits
+150
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310090.6.fits
+152
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0142938917931 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc310188.6.fits
+154
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320099.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320099.3.fits
+156
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320469.3.fits
+158
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320469.4.fits
+160
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320469.5.fits
+162
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320469.6.fits
+164
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc320469.6.fits
+166
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00321032973104 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc330013.6.fits
+168
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc330027.6.fits
+170
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0207880518582 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc330106.6.fits
+172
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.191356637981 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc330107.6.fits
+174
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc330112.6.fits
+176
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc330128.5.fits
+178
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00147264136589 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc340243.6.fits
+180
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00138208934169 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc340337.6.fits
+182
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00211441831399 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc340346.6.fits
+184
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0055537351947 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350050.6.fits
+186
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00928103163823 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350092.6.fits
+188
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0129738868349 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350235.6.fits
+190
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350316.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350316.5.fits
+192
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00535779511277 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350316.6.fits
+194
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350548.6.fits
+196
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350630.6.fits
+198
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc350633.6.fits
+200
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00787217777346 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370066.6.fits
+202
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370098.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370098.3.fits
+204
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370098.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370098.6.fits
+206
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0138875017867 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370356.6.fits
+208
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370369.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370369.5.fits
+210
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0041126201191 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370369.6.fits
+212
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370394.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370394.3.fits
+214
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00302257252352 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370407.6.fits
+216
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370469.6.fits
+218
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00305938182349 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc370498.6.fits
+220
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00646934401678 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc380012.6.fits
+222
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00417120309999 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc380014.6.fits
+224
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0114415319583 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc380056.6.fits
+226
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc380318.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc380318.5.fits
+228
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc390259.6.fits
+230
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc390449.5.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc390449.5.fits
+232
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc390627.6.fits
+234
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0156675923495 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc400158.6.fits
+236
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420100.3.fits
+238
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420100.4.fits
+240
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420100.5.fits
+242
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420100.6.fits
+244
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420100.6.fits
+246
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420258.6.fits
+248
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00712695880365 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420393.6.fits
+250
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420407.3.fits
+252
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc420407.6.fits
+254
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0043290777771 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc430004.6.fits
+256
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc430005.6.fits
+258
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00617919074459 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440011.6.fits
+260
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0285580381255 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440035.6.fits
+262
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00332022064081 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440202.6.fits
+264
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440236.3.fits
+266
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440236.4.fits
+268
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440236.5.fits
+270
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440236.6.fits
+272
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440236.6.fits
+274
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440264.6.fits
+276
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0582003937516 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc440509.6.fits
+278
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00576038017933 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450008.6.fits
+280
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00157640214703 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450020.6.fits
+282
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450025.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450025.4.fits
+284
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450025.6.fits
+286
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450082.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450082.3.fits
+288
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc450339.6.fits
+290
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc460001.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc460001.4.fits
+292
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc460001.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc460001.6.fits
+294
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00513790480929 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc460003.6.fits
+296
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc460105.6.fits
+298
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc470047.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc470047.6.fits
+300
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0106946075999 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc470232.6.fits
+302
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc480058.6.fits
+304
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00404211317153 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc480464.6.fits
+306
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0028759159336 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc490007.6.fits
+308
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc500012.6.fits
+310
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00482680728004 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc500038.6.fits
+312
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.202173360377 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc500057.6.fits
+314
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0131541794536 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc500100.6.fits
+316
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc500332.6.fits
+318
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00264257304538 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc510174.6.fits
+320
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0233251338757 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc510238.6.fits
+322
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc510251.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc510251.3.fits
+324
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0025963651361 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc510251.6.fits
+326
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc520008.6.fits
+328
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc520022.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc520022.6.fits
+330
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc520071.6.fits
+332
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0275785233377 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc520188.6.fits
+334
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00175082312164 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530061.6.fits
+336
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00103378901851 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530086.6.fits
+338
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0019054369528 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530128.6.fits
+340
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00245057462878 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530175.6.fits
+342
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530219.3.fits
+344
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530219.4.fits
+346
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530240.6.fits
+348
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530249.6.fits
+350
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc530249.6.fits
+352
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00375185990204 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550005.6.fits
+354
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550041.6.fits
+356
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00914570107892 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550059.6.fits
+358
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00286802641501 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550096.6.fits
+360
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550130.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550130.3.fits
+362
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550130.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550130.4.fits
+364
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00293435393897 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550130.6.fits
+366
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00141706081584 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550190.6.fits
+368
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00191082176841 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc550197.6.fits
+370
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc560027.5.fits
+372
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc560027.5.fits
+374
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc560027.6.fits
+376
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc560027.6.fits
+378
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0035141178193 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc560033.6.fits
+380
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc560152.6.fits
+382
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc580327.3.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc580327.3.fits
+384
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc580327.6.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc580327.6.fits
+386
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0172812977753 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc580327.6.fits
+388
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590002.3.fits
+390
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590002.4.fits
+392
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590002.5.fits
+394
+multiple matching photozs C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590002.6.fits
+396
+Chosen by photoz C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590002.6.fits
+398
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.00765133723692 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590005.6.fits
+400
+NO GOOD CANDIDATE, USING BEST CHANCE: 0.0018436848767 C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590045.6.fits
+402
+Warning: failed flux calculation on C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590194.4.fits C:\Users\Noel\Desktop\Summer 2019 Astro\summer2019/ps1hosts\psc590194.4.fits
