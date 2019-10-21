@@ -4,7 +4,7 @@ Created on Wed Jul  3 12:51:52 2019
 
 @author: Noel
 """
-CLASS_WEIGHT = 'balanced' 
+CLASS_WEIGHT = 'balanced'
 WHITEN = True
 USE_RF = False #otherwise SVM
 CSV_FILE = '/goodSeventhRun/galaxiesdata7_no_outliers.csv'
@@ -26,7 +26,7 @@ from sklearn.ensemble import RandomForestClassifier
 import scipy
 import math
 from sklearn import preprocessing
-import random 
+import random
 import pandas as pd
 
 COLLAPSE = True
@@ -42,7 +42,7 @@ cols = cols1[:]
 for i in range(4,7):
     for e in cols1:
         cols.append(e[:-1] + str(i))
-        
+
 '''load event type dictionary'''
 typeDict = {}
 typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
@@ -53,7 +53,7 @@ for line in typefile:
     eventType = parts[1]
     typeDict[eventId] = eventType
 typefile.close()
-    
+
 '''make event id number in int form into string form, 0 padded'''
 def pad(n):
     n = str(n)
@@ -61,8 +61,8 @@ def pad(n):
         n = '0' + n
     return n
 
-'''getting columns from csv file with pandas'''   
-def chooseAll(csvfile, num_random):  
+'''getting columns from csv file with pandas'''
+def chooseAll(csvfile, num_random):
     data = pd.read_csv(csvfile)
     print(data)
     X = data.loc[:, cols].as_matrix()
@@ -77,7 +77,7 @@ def chooseAll(csvfile, num_random):
         rand = np.random.normal(size=len(y))
         X = np.vstack((X.T, rand)).T
     return (X, y)
-    
+
 
 type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
 
@@ -106,7 +106,7 @@ def namegen():
 
 
 def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
-    # Copied and adapted from 
+    # Copied and adapted from
     #https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html#sphx-glr-auto-examples-model-selection-plot-confusion-matrix-py
 
     # Compute confusion matrix
@@ -121,7 +121,7 @@ def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
     bal_score = str(balanced_score(cm))[:4]
     #diag = str(diagonalishness(cm))
     info_str = "bal_score:" + bal_score
-                #+ " diag:" + diag + '\n' 
+                #+ " diag:" + diag + '\n'
                 #+ str(name_extension)
     print(info_str)
     fig, ax = plt.subplots()
@@ -159,18 +159,18 @@ def collect(num_random):
     print(X.shape)
     X = preprocessing.scale(X)
     X = np.array(X)
-    
+
     if COLLAPSE:
         for i in range(len(y)):
             if y[i] > 0:
                 y[i]=1
-    
+
     y = np.array(y)
 
     return (X, y)
 
-'''Evaulates classifier using Leave One Out cross-validation. 
-Generates confusion matrix (visualization of success and error) and plot of 
+'''Evaulates classifier using Leave One Out cross-validation.
+Generates confusion matrix (visualization of success and error) and plot of
 feature importances to classification'''
 and importance plots
 def run(X, y, n_est, name_extension):
@@ -183,7 +183,7 @@ def run(X, y, n_est, name_extension):
         for train_index, test_index in loo.split(y):
             print(count)
             count += 1
-            
+
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
 
@@ -208,20 +208,23 @@ def run(X, y, n_est, name_extension):
         np.save("importances_collapsed", importances, allow_pickle=True, fix_imports=True)
         plt.savefig("importances_final_collapsed.png")
         print(y)
+def main():
+    import time
+    start = time.time()
+    #with open(PLOT_DIR + "log.csv", "w+") as destfile:
+    #    csvwriter = csv.writer(destfile)
+    #    x = ['number', 'bal_score', 'diag']
+    #    x.extend(headers)
+    #    csvwriter.writerow(x)
+    #    for combo in allCombos[1:]:
+    #        run(combo)
+    #X0, y0 = collect(0)
+    X1, y1 = collect(2)
 
-import time
-start = time.time()
-#with open(PLOT_DIR + "log.csv", "w+") as destfile:
-#    csvwriter = csv.writer(destfile)
-#    x = ['number', 'bal_score', 'diag']
-#    x.extend(headers)
-#    csvwriter.writerow(x)
-#    for combo in allCombos[1:]:
-#        run(combo)
-#X0, y0 = collect(0)
-X1, y1 = collect(2)
+    run(X1, y1, 200, 'final_collapsed')
 
-run(X1, y1, 200, 'final_collapsed')
+    end = time.time()
+    print(end - start)
 
-end = time.time()
-print(end - start)
+if __name__=='__main__':
+    main()

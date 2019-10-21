@@ -32,7 +32,10 @@ from sdssTableGroupIndex import sdssTableGroupIndex
 
 #TODO comment all constants
 ERRORFILE = 'errorfile.txt'
-SOURCEDIR = os.getcwd() #"/mnt/d/Summer 2019 Astro" #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
+SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
+DICTDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
+#os.getcwd() #"/mnt/d/Summer 2019 Astro" 
+#"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
 THRESHOLD = 3
@@ -46,16 +49,18 @@ FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag
 LIKELIHOOD_THRESH = 0.2
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
-FILENAME_PREFIX = SOURCEDIR + "/ps1hosts/psc"
+FILENAME_PREFIX = SOURCEDIR + "/psc"
 LOWEST_MAG = 26 #limiting mag is 25
 #TODO make note: to change a per-filter property, change in 3 places
 #TODO make each property into an object?
 
 FILTER_M0s = (None, None, None, 22.918, 22.822, 23.652, 23.540) 
-# FILTER_M0s[i] is the average magnitude zero point in filter i, use by default if no stars for calibration
+# FILTER_M0s[i] is the average magnitude zero point in filter i, 
+#use by default if no stars for calibration
 # Also use if star calibration yields outlier (> 1 away from average value)
 
 #USAGE FLAGS:
+#TODO MAKE ARGPARSER!!!!
 WRITE_CSV = "/galaxiesdata.csv" # filename to write to or None
 MAG_TEST_ALL = False
 MAG_TEST_STDEV = False
@@ -68,15 +73,17 @@ PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 'specified', 'nonsquare
+FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 
+#'specified', 'nonsquare'
+
 
 #TODO delete
 SPECIFIED = []
 to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
-    SPECIFIED.extend(glob.glob((SOURCEDIR + '/ps1hosts/psc*%i*.[3-6].fits' % f)))
+    SPECIFIED.extend(glob.glob((SOURCEDIR + '/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/ps1hosts/psc000137.3.fits']
+SPECIFIED = [SOURCEDIR + '/psc000137.3.fits']
 RANGE = (200,300)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
@@ -214,7 +221,7 @@ class Image:
                 thisflux, _fluxerr, _flag = self.sum_ellipse_extrapolated(i)
                 flux.append(thisflux)
             except:
-                # probably because object was too narrow. Ignore object
+                # probably object was cut off at edge of image. Ignore object
 #TODO make sure ok
 #TODO was it flux or kronrad which failed on narrow objects?
                 self.blacklist.add(i)
@@ -490,10 +497,10 @@ class Image:
         newAbsMag = newMagnitude - 5*np.log10(self.dL) - 10
         
         f = self.filterNum 
-        old_filternum = data.keys()[0][-1]
+        old_filternum = list(data.keys())[0][-1]
         oldMagnitude = data['KronMag_%s' % old_filternum]
         new_data = {}
-        for (k, v) in data.iteritems():
+        for (k, v) in data.items():
             new_key = k[:-1] + str(self.filterNum)
             new_data[new_key] = v
         new_data['KronMag_%s' % f] = newMagnitude
@@ -660,7 +667,7 @@ class Image:
 def pre_load_dictionaries():
     '''load event type dictionary'''
     typeDict = {}
-    typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+    typefile = open(DICTDIR + '/ps1confirmed_only_sne_without_outlier.txt', 'r')
     typefile.readline() #get rid of header
     for line in typefile:
         parts = line.split()
@@ -673,7 +680,7 @@ def pre_load_dictionaries():
     ''' load event redshifts' dictionary '''
     global zdict
     zdict = {}
-    zfile = open('new_ps1z.dat', 'r')
+    zfile = open(DICTDIR + '/new_ps1z.dat', 'r')
     zfile.readline() #get rid of heade
     
     for line in zfile:
@@ -692,9 +699,10 @@ def pre_load_dictionaries():
     
     
     '''load event location dictionary'''
-    db = pd.read_table('alertstable_v3',sep=None,index_col = False,
+    global db
+    db = pd.read_csv(DICTDIR + '/alertstable_v3',sep=None,index_col = False,
                    engine='python')
-    db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
+    db2 = pd.read_csv(DICTDIR + '/alertstable_v3.lasthalf',sep=None,index_col = False,
                     engine='python')
     db = db.append(db2,ignore_index=True)
     
@@ -702,15 +710,15 @@ def pre_load_dictionaries():
     
     '''load prerun sdss queries'''
     global fullSdssTable
-    fullSdssTable = Table.read('sdss_queries.dat', format='ascii')
+    fullSdssTable = Table.read(DICTDIR + '/sdss_queries.dat', format='ascii')
     fullSdssTable = fullSdssTable.group_by('idnum')
     
     
     '''load real host data'''
     global hostsData
-    # not sure if I should be able to json.load this, but it fails and this works
-    with open('hosts.dat', 'r') as hostsfile:
+    with open(DICTDIR + '/hosts.dat', 'r') as hostsfile:
             hostsData = hostsfile.read()
+# not sure if I should be able to json.load this, but it fails and this works
     hostsData = ast.literal_eval(hostsData)
 
 class Supernova:
@@ -881,6 +889,9 @@ class Supernova:
 
 
 def extraction(filenames):
+    # Sn data tables neccessary for running
+    pre_load_dictionaries()
+    
     all_redshifts = {}
     all_kronMags = {}
     all_kronRads = {}
@@ -919,7 +930,7 @@ def main():
     #figure out which files to use based on value specified at top
     if FILES == 'all' or FILES =='range' or FILES =='new random':
         #CHANGED now only looks for .3 files, assuming the rest are there
-        filenames = sorted(glob.glob(SOURCEDIR + '/ps1hosts/psc*.3.fits'))
+        filenames = sorted(glob.glob(SOURCEDIR + '/psc*.3.fits'))
         if FILES == 'range':
             extraction(filenames[RANGE[0]:RANGE[1]])
         elif FILES == 'new random':
