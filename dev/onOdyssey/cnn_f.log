@@ -1,0 +1,61 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+cnn_aardvark_aug_concat.py:229: UserWarning: Update your `Model` call to the Keras 2 API: `Model(inputs=Tensor("in..., outputs=Tensor("de...)`
+  model = Model(input=ins, output=dense2)
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-10-20 22:49:10.884494: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2019-10-20 22:49:10.890105: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2900000000 Hz
+2019-10-20 22:49:10.890215: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x561d096366e0 executing computations on platform Host. Devices:
+2019-10-20 22:49:10.890236: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+Train on 1000 samples, validate on 1000 samples
+Epoch 1/25
+
+1000/1000 [==============================] - 158s 158ms/step - loss: 1.6111 - acc: 0.1940 - val_loss: 1.6046 - val_acc: 0.1940
+Epoch 2/25
+
+1000/1000 [==============================] - 169s 169ms/step - loss: 1.5992 - acc: 0.2980 - val_loss: 1.5998 - val_acc: 0.1900
+Epoch 3/25
+
+1000/1000 [==============================] - 170s 170ms/step - loss: 1.5846 - acc: 0.3390 - val_loss: 1.5944 - val_acc: 0.1780
+Epoch 4/25
+
+1000/1000 [==============================] - 169s 169ms/step - loss: 1.5681 - acc: 0.3340 - val_loss: 1.5886 - val_acc: 0.1810
+Epoch 5/25
+
+1000/1000 [==============================] - 171s 171ms/step - loss: 1.5498 - acc: 0.3420 - val_loss: 1.5825 - val_acc: 0.1980
+Epoch 6/25
+
+1000/1000 [==============================] - 169s 169ms/step - loss: 1.5298 - acc: 0.3620 - val_loss: 1.5762 - val_acc: 0.2090
+Epoch 7/25
+
+1000/1000 [==============================] - 169s 169ms/step - loss: 1.5081 - acc: 0.3740 - val_loss: 1.5697 - val_acc: 0.2150
+Epoch 8/25
+
+1000/1000 [==============================] - 163s 163ms/step - loss: 1.4850 - acc: 0.3930 - val_loss: 1.5632 - val_acc: 0.2190
+Epoch 9/25
+
+1000/1000 [==============================] - 171s 171ms/step - loss: 1.4603 - acc: 0.4140 - val_loss: 1.5572 - val_acc: 0.2410
+Epoch 10/25
+
+1000/1000 [==============================] - 170s 170ms/step - loss: 1.4345 - acc: 0.5140 - val_loss: 1.5518 - val_acc: 0.3190
+Restoring model weights from the end of the best epoch
+Traceback (most recent call last):
+  File "cnn_aardvark_aug_concat.py", line 294, in <module>
+    main()
+  File "cnn_aardvark_aug_concat.py", line 262, in main
+    shuffle=True)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/engine/training.py", line 1039, in fit
+    validation_steps=validation_steps)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/engine/training_arrays.py", line 217, in fit_loop
+    callbacks.on_epoch_end(epoch, epoch_logs)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/callbacks.py", line 79, in on_epoch_end
+    callback.on_epoch_end(epoch, logs)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/callbacks.py", line 557, in on_epoch_end
+    self.model.set_weights(self.best_weights)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/engine/network.py", line 504, in set_weights
+    layer_weights = weights[:num_param]
+TypeError: 'NoneType' object is not subscriptable
