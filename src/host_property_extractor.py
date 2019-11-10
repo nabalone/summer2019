@@ -30,6 +30,16 @@ from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table
 from sdssTableGroupIndex import sdssTableGroupIndex
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--mask', action='store_true', 
+                    help='only generate mask and date files for cnn')
+args = parser.parse_args()
+
+#TODO Fix
+args.mask=True
+print(args.mask)
+
 #TODO comment all constants
 ERRORFILE = 'errorfile.txt'
 SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
@@ -70,7 +80,7 @@ PRINT_DATA = False
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
 PLOT_ALL = False
-PLOT_ERR =  True #plots only files that give errors or low probability
+PLOT_ERR =  False #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
 FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 
@@ -83,8 +93,11 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/psc000137.3.fits']
-RANGE = (200,300)
+SPECIFIED = [SOURCEDIR + '/psc470240.3.fits', 
+             SOURCEDIR + '/psc470240.4.fits',
+             SOURCEDIR + '/psc470240.5.fits',
+             SOURCEDIR + '/psc470240.6.fits']
+RANGE = (310, 476)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
@@ -378,6 +391,10 @@ class Image:
     # meaning object with lowest chanceCoincidence was not touching event.
     # returns False otherwise
     def attemptBestCandidate(self):
+        if len(self.objects) == 0: # no objects were detected in this image
+            self.bestCandidate = None
+            return False
+        
         self.bestCandidate = np.argmin(self.chanceCoincidence)
         photoz_matched = False # whether bestCandidate was chosen by photoz
         # If a candidate not touching event location is chosen, check if any 
@@ -666,6 +683,7 @@ class Image:
 
 def pre_load_dictionaries():
     '''load event type dictionary'''
+    global typeDict
     typeDict = {}
     typefile = open(DICTDIR + '/ps1confirmed_only_sne_without_outlier.txt', 'r')
     typefile.readline() #get rid of header
@@ -755,8 +773,7 @@ class Supernova:
             finalDict['redshift_dif'] = -1
         else:
             finalDict['redshift_dif'] = self.images[self.filter_to_use].getPhotozDif()
-
-        
+  
         return finalDict
         
     def run(self):
@@ -786,7 +803,8 @@ class Supernova:
             photozMatched = self.images[x].attemptBestCandidate()
 #TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
 #TODO mindist vs. checkdist
-            if self.images[x].objCoords[self.images[x].bestCandidate].separation(event['coords']) < MINDIST:
+            if self.images[x].bestCandidate != None and \
+                self.images[x].objCoords[self.images[x].bestCandidate].separation(event['coords']) < MINDIST:
                 good_images.append(x)
             elif photozMatched:
                 good_photozs.append(x)
@@ -811,14 +829,22 @@ class Supernova:
             #use object at that location in all images
             for x in range(3,7):
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
+#TODO test all combinations of good images, bad_images, no objects images            
         else:
             # find minimum chance coincidence object
             first = self.images[BAD_IMAGES[0]]
-            minChanceCoincidence = first.chanceCoincidence[first.bestCandidate]
+            if len(first.objects) > 0:
+                minChanceCoincidence = first.chanceCoincidence[first.bestCandidate]
+            else:
+                # no objects were detected in image
+                minChanceCoincidence = 2
             minOwner = BAD_IMAGES[0]
             for num in BAD_IMAGES:
                 im = self.images[num]
-                bestChance = im.chanceCoincidence[im.bestCandidate]
+                if len(im.objects) > 0:
+                    bestChance = im.chanceCoincidence[im.bestCandidate]
+                else: # no objects were detected in image
+                    bestChance = 2
                 if bestChance < minChanceCoincidence:
                    minChanceCoincidence = bestChance
                    minOwner = num
@@ -831,7 +857,7 @@ class Supernova:
                 for i in range(3,7):
                     self.images[i].correct_bestCandidate_to(goodCoords, self.filter_to_use)
             else:
-                #GET DEFAULT DATA AND RETURN
+                #no good candidates at all, GET DEFAULT DATA AND RETURN
                 self.images[self.filter_to_use].errorProtocol(
                         "Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
                 global BAD_COUNT
@@ -839,12 +865,18 @@ class Supernova:
                 all_sn_data = {}
                 for x in range(3,7):
                     all_sn_data.update(self.images[x].getDefaultData())
-                    
+#TODO make sure used_default is correct                    
                 self.used_default=False
                 #get non filter dependent data
                 all_sn_data.update(self.getSnFinalData(None))
                 print('ID: %s' % self.idNum)
-                return all_sn_data
+                if args.mask:
+                    np.save('masks/mask_%s'%self.idNumString, np.zeros((240,240)))
+                    print('bad mask saved %s' % self.idNumString)
+                    return#((np.zeros((240,240)), 
+                            #[self.images[0], self.images[1], self.images[2], self.images[3]]))
+                else:
+                    return all_sn_data
             
             
             
@@ -856,8 +888,16 @@ class Supernova:
         all_sn_data.update(best_data)
         for i in range(3,7):
             if i == self.filter_to_use: 
-                #already collected data for this filter above
-                pass
+                if args.mask: # only collecting mask
+                    mask = self.images[i].segmap
+                    mask = np.where(mask == self.images[i].bestCandidate + 1, 1, 0)
+                    print('good mask saved %s' % self.idNumString)
+                    np.save('masks/mask_%s'%self.idNumString, mask)
+                    return #(mask, 
+                            #[self.images[0], self.images[1], self.images[2], self.images[3]])
+                else:
+                    #already collected data for this filter above
+                    pass
             elif self.images[i].bestCandidate == None:
                 # the chosen host candidate could not be found in this image
                 # modify and use data from filter_to_use which chose the host
@@ -901,6 +941,13 @@ def extraction(filenames):
         all_kronRads[snType] = []
 
     all_all_data = []
+    
+    if args.mask:
+        if not os.path.isdir('masks'):
+            os.mkdir('masks')
+        #masks = [[],[],[],[],[]]
+        #dats = [[],[],[],[],[]]
+        #numDict = {'SNIa':0, 'SNIbc':1, 'SNII': 2, 'SNIIn':3, 'SLSNe':4}
     for filename in filenames: 
         # filename will be the #3 (g) filter file of the sn
         # check that all 4 filters are present, otherwise skip
@@ -916,13 +963,30 @@ def extraction(filenames):
         # filter number is between second to last dot and last dot
         s = Supernova(idNumString)
 #TODO fix idNumString getting
-        all_all_data.append(s.run())
         
-        #TODO column order
-        #print(all_all_data)
-        df = pd.DataFrame(all_all_data, columns=COLUMNS)
-        if WRITE_CSV:
-            df.to_csv(DESTDIR + WRITE_CSV)
+        if args.mask:
+            print(filename)
+            s.run()
+#            mask, dat = s.run()
+#            dat = np.array(dat)
+#            mask = np.array(mask)
+#            typ = numDict[typeDict[idNumString]]
+#            masks[typ].append(mask)
+#            dats[typ].append(dat)
+        else:            
+            all_all_data.append(s.run())
+            
+            #TODO column order
+            #print(all_all_data)
+            df = pd.DataFrame(all_all_data, columns=COLUMNS)
+            if WRITE_CSV:
+                df.to_csv(DESTDIR + WRITE_CSV)
+                
+#    if args.mask:
+#        for i in range(5):
+#            np.save('masks_%s'%i, masks[i])
+#            np.save('x_all2_%s'%i, dats[i])
+            
 
 def main():
     import time
