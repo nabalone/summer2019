@@ -83,7 +83,7 @@ PLOT_ALL = False
 PLOT_ERR =  False #plots only files that give errors or low probability
 PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'range' #options are 'all', 'preset random', 'new random', 'range', 
+FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 
 #'specified', 'nonsquare'
 
 
@@ -97,7 +97,7 @@ SPECIFIED = [SOURCEDIR + '/psc470240.3.fits',
              SOURCEDIR + '/psc470240.4.fits',
              SOURCEDIR + '/psc470240.5.fits',
              SOURCEDIR + '/psc470240.6.fits']
-RANGE = (310, 476)
+RANGE = (310, 320)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
@@ -812,6 +812,9 @@ class Supernova:
                 BAD_IMAGES.append(x)
 
         
+        if args.mask:
+            global masks
+        
         '''choose candidates'''        
         if good_images:
             self.filter_to_use = good_images[0]
@@ -871,8 +874,10 @@ class Supernova:
                 all_sn_data.update(self.getSnFinalData(None))
                 print('ID: %s' % self.idNum)
                 if args.mask:
-                    np.save('masks/mask_%s'%self.idNumString, np.zeros((240,240)))
-                    print('bad mask saved %s' % self.idNumString)
+                    #global masks
+                    masks[self.idNumString] = np.zeros((240,240))
+                    #np.save('masks/mask_%s'%self.idNumString, np.zeros((240,240)))
+                    print('bad mask %s' % self.idNumString)
                     return#((np.zeros((240,240)), 
                             #[self.images[0], self.images[1], self.images[2], self.images[3]]))
                 else:
@@ -891,8 +896,10 @@ class Supernova:
                 if args.mask: # only collecting mask
                     mask = self.images[i].segmap
                     mask = np.where(mask == self.images[i].bestCandidate + 1, 1, 0)
-                    print('good mask saved %s' % self.idNumString)
-                    np.save('masks/mask_%s'%self.idNumString, mask)
+                    #global masks
+                    masks[self.idNumString] = mask
+                    print('good mask %s' % self.idNumString)
+                    #np.save('masks/mask_%s'%self.idNumString, mask)
                     return #(mask, 
                             #[self.images[0], self.images[1], self.images[2], self.images[3]])
                 else:
@@ -943,8 +950,10 @@ def extraction(filenames):
     all_all_data = []
     
     if args.mask:
-        if not os.path.isdir('masks'):
-            os.mkdir('masks')
+        global masks
+        masks = {}
+        #if not os.path.isdir('masks'):
+        #    os.mkdir('masks')
         #masks = [[],[],[],[],[]]
         #dats = [[],[],[],[],[]]
         #numDict = {'SNIa':0, 'SNIbc':1, 'SNII': 2, 'SNIIn':3, 'SLSNe':4}
@@ -982,7 +991,9 @@ def extraction(filenames):
             if WRITE_CSV:
                 df.to_csv(DESTDIR + WRITE_CSV)
                 
-#    if args.mask:
+    if args.mask:
+        np.savez('all_masks', **masks)
+        print('saved all masks')
 #        for i in range(5):
 #            np.save('masks_%s'%i, masks[i])
 #            np.save('x_all2_%s'%i, dats[i])
