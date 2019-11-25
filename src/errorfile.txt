@@ -1,242 +1,3097 @@
 0
+Warning: failed flux calculation on  000010.3
+0
+Warning: failed flux calculation on  000010.4
+0
+Note: raising threshold to 3.3 
+ 000010.5
+0
+Warning: failed flux calculation on  000010.5
+0
+Warning: failed flux calculation on  000010.6
+0
+USING BEST CHANCE: 0.0003058428107038935 000010.4
+0
+warning, checking for matching photozs for far but likely candidate 000011.4
+0
+warning, checking for matching photozs for far but likely candidate 000011.5
+0
+warning, checking for matching photozs for far but likely candidate 000011.6
+0
+USING BEST CHANCE: 0.00937555014801461 000011.6
+0
+warning, checking for matching photozs for far but likely candidate 000034.4
+0
+warning, checking for matching photozs for far but likely candidate 000034.5
+0
+USING BEST CHANCE: 0.0006072973373113522 000076.6
+0
+Warning: failed flux calculation on  000091.3
+0
+Warning: failed flux calculation on  000091.3
+0
+Warning: failed flux calculation on  000091.4
+0
+Warning: failed flux calculation on  000091.4
+0
+Warning: failed flux calculation on  000091.4
+0
+Warning: failed flux calculation on  000091.5
+0
+Warning: failed flux calculation on  000091.5
+0
+Warning: failed flux calculation on  000091.5
+0
+Warning: failed flux calculation on  000091.6
+0
+Warning: failed flux calculation on  000091.6
+0
+Warning: failed flux calculation on  000091.6
+0
+Best.0.02465728898460129.NO_GOOD_CANIDIDATE 000091.4
+0
+Warning: failed flux calculation on  000137.5
+0
+warning, checking for matching photozs for far but likely candidate 000142.3
+0
+Warning: failed flux calculation on  000142.5
+0
+USING BEST CHANCE: 0.0012773460233885814 000142.6
+0
+Warning: failed flux calculation on  000196.3
+0
+Warning: failed flux calculation on  000196.3
+0
+warning, checking for matching photozs for far but likely candidate 000196.3
+0
+Warning: failed flux calculation on  000196.4
+0
+Warning: failed flux calculation on  000196.4
+0
+Warning: failed flux calculation on  000196.5
+0
+Warning: failed flux calculation on  000196.5
+0
+Warning: failed flux calculation on  000196.6
+0
+Warning: failed flux calculation on  000196.6
+0
+warning, checking for matching photozs for far but likely candidate 000199.3
+0
+warning, checking for matching photozs for far but likely candidate 000199.4
+0
+warning, checking for matching photozs for far but likely candidate 000199.5
+0
+warning, checking for matching photozs for far but likely candidate 000199.6
+0
+USING BEST CHANCE: 0.010045296401028359 000199.4
+0
+Warning: failed flux calculation on  000202.3
+0
+Warning: failed flux calculation on  000202.4
+0
+Warning: failed flux calculation on  000202.5
+0
+Warning: failed flux calculation on  000202.6
+0
+Best.0.1485388915034166.NO_GOOD_CANIDIDATE 000202.5
+0
+Warning: failed flux calculation on  000215.5
+0
+Warning: failed flux calculation on  000215.5
+0
+Warning: failed flux calculation on  000215.6
+0
+Best.0.028038176483134114.NO_GOOD_CANIDIDATE 000215.4
+0
+Warning: failed flux calculation on  000218.3
+0
+Warning: failed flux calculation on  000218.3
+0
+Warning: failed flux calculation on  000218.3
+0
+Warning: failed flux calculation on  000218.4
+0
+Warning: failed flux calculation on  000218.4
+0
+Warning: failed flux calculation on  000218.4
+0
+Warning: failed flux calculation on  000218.4
+0
+Warning: failed flux calculation on  000218.5
+0
+Warning: failed flux calculation on  000218.5
+0
+Warning: failed flux calculation on  000218.5
+0
+Warning: failed flux calculation on  000218.5
+0
+Warning: failed flux calculation on  000218.6
+0
+Warning: failed flux calculation on  000218.6
+0
+Warning: failed flux calculation on  000218.6
+0
+Warning: failed flux calculation on  000218.6
+0
+USING BEST CHANCE: 0.0009094473020089255 000218.4
+0
+Warning: failed flux calculation on  000220.3
+0
+warning, checking for matching photozs for far but likely candidate 000220.3
+0
+Warning: failed flux calculation on  000220.4
+0
+Warning: failed flux calculation on  000220.4
+0
+warning, checking for matching photozs for far but likely candidate 000220.4
+0
+Warning: failed flux calculation on  000220.5
+0
+Warning: failed flux calculation on  000220.5
+0
+Warning: failed flux calculation on  000220.6
+0
+Warning: failed flux calculation on  000220.6
+0
+warning, checking for matching photozs for far but likely candidate 000220.6
+0
+USING BEST CHANCE: 0.0011178228443250449 000220.6
+0
+Warning: failed flux calculation on  000236.4
+0
+Warning: failed flux calculation on  000236.5
+0
+Warning: failed flux calculation on  000236.6
+0
+USING BEST CHANCE: 0.0007668966236950014 000236.4
+0
+Warning: failed flux calculation on  000248.3
+0
+Warning: failed flux calculation on  000248.4
+0
+Warning: failed flux calculation on  000248.5
+0
+Warning: failed flux calculation on  000248.6
+0
+USING BEST CHANCE: 0.0013245587477880294 010010.4
+0
+Warning: failed flux calculation on  010043.4
+0
+Warning: failed flux calculation on  010043.5
+0
+Warning: failed flux calculation on  010043.6
+0
+Best.0.06969662502707252.NO_GOOD_CANIDIDATE 010043.4
+0
+Warning: failed flux calculation on  010163.3
+0
+Warning: failed flux calculation on  010163.4
+0
+Warning: failed flux calculation on  010163.5
+0
+Warning: failed flux calculation on  010163.6
+0
+Warning: failed flux calculation on  010411.4
+0
+Warning: failed flux calculation on  010411.4
+0
+Warning: failed flux calculation on  010411.5
+0
+Warning: failed flux calculation on  010411.5
+0
+Warning: failed flux calculation on  010411.5
+0
+Warning: failed flux calculation on  010411.6
+0
+Warning: failed flux calculation on  010411.6
+0
+Warning: failed flux calculation on  020021.3
+0
+Warning: failed flux calculation on  020021.4
+0
+Warning: failed flux calculation on  020021.5
+0
+Warning: failed flux calculation on  020021.5
+0
+Warning: failed flux calculation on  020021.6
+0
+USING BEST CHANCE: 0.0012135085508782062 020027.4
+0
+warning, checking for matching photozs for far but likely candidate 020075.6
+0
+Warning: failed flux calculation on  020082.4
+0
+Warning: failed flux calculation on  020082.5
+0
+Warning: failed flux calculation on  020082.6
+0
+Warning: failed flux calculation on  020090.4
+0
+Warning: failed flux calculation on  020090.5
+0
+Warning: failed flux calculation on  020090.5
+0
+Warning: failed flux calculation on  020090.6
+0
+Warning: failed flux calculation on  020090.6
+0
+USING BEST CHANCE: 0.0011704138600090452 020090.6
+0
+Warning: failed flux calculation on  020096.3
+0
+warning, checking for matching photozs for far but likely candidate 020096.3
+0
+Warning: failed flux calculation on  020096.4
+0
+Warning: failed flux calculation on  020096.4
+0
+Warning: failed flux calculation on  020096.4
+0
+warning, checking for matching photozs for far but likely candidate 020096.4
+0
+Warning: failed flux calculation on  020096.5
+0
+Warning: failed flux calculation on  020096.5
+0
+Warning: failed flux calculation on  020096.5
+0
+Warning: failed flux calculation on  020096.5
+0
+warning, checking for matching photozs for far but likely candidate 020096.5
+0
+Warning: failed flux calculation on  020096.6
+0
+Warning: failed flux calculation on  020096.6
+0
+Warning: failed flux calculation on  020096.6
+0
+warning, checking for matching photozs for far but likely candidate 020096.6
+0
+USING BEST CHANCE: 0.0057472067147148476 020096.6
+0
+Warning: failed flux calculation on  020121.5
+0
+Warning: failed flux calculation on  020121.6
+0
+USING BEST CHANCE: 0.0004902654132863393 020121.6
+0
+warning, checking for matching photozs for far but likely candidate 020132.3
+0
+warning, checking for matching photozs for far but likely candidate 020132.4
+0
+warning, checking for matching photozs for far but likely candidate 020132.6
+0
+USING BEST CHANCE: 0.0008224232124020014 020132.4
+0
+Warning: failed flux calculation on  020176.3
+0
+Warning: failed flux calculation on  020176.4
+0
+warning, checking for matching photozs for far but likely candidate 020176.4
+0
+Warning: failed flux calculation on  020176.5
+0
+warning, checking for matching photozs for far but likely candidate 020176.5
+0
+Warning: failed flux calculation on  020176.6
+0
+Warning: failed flux calculation on  020200.4
+0
+Warning: failed flux calculation on  020200.5
+0
+USING BEST CHANCE: 0.0011794762319156105 020200.4
+0
+Warning: failed flux calculation on  030006.3
+0
+Warning: failed flux calculation on  030006.4
+0
+Warning: failed flux calculation on  030006.4
+0
+warning, checking for matching photozs for far but likely candidate 030006.4
+0
+Warning: failed flux calculation on  030006.5
+0
+Warning: failed flux calculation on  030006.5
+0
+warning, checking for matching photozs for far but likely candidate 030006.5
+0
+Warning: failed flux calculation on  030006.6
+0
+Warning: failed flux calculation on  030006.6
+0
+warning, checking for matching photozs for far but likely candidate 030006.6
+0
+USING BEST CHANCE: 0.00576974016858689 030006.4
+0
+Warning: failed flux calculation on  030010.3
+0
+Warning: failed flux calculation on  030010.4
+0
+Warning: failed flux calculation on  030010.5
+0
+Warning: failed flux calculation on  030010.5
+0
+Warning: failed flux calculation on  030010.6
+0
+Warning: failed flux calculation on  030010.6
+0
+warning, checking for matching photozs for far but likely candidate 030066.3
+0
+warning, checking for matching photozs for far but likely candidate 030066.5
+0
+warning, checking for matching photozs for far but likely candidate 030066.6
+0
+warning, checking for matching photozs for far but likely candidate 030129.4
+0
+Warning: failed flux calculation on  030129.5
+0
+warning, checking for matching photozs for far but likely candidate 030129.5
+0
+Warning: failed flux calculation on  030129.6
+0
+warning, checking for matching photozs for far but likely candidate 030129.6
+0
+USING BEST CHANCE: 0.008730411029631235 030129.6
+0
+Warning: failed flux calculation on  040137.3
+0
+Warning: failed flux calculation on  040137.4
+0
+Warning: failed flux calculation on  040137.5
+0
+Warning: failed flux calculation on  040137.6
+0
+Best.0.03315196635266504.NO_GOOD_CANIDIDATE 040137.4
+0
+Warning: failed flux calculation on  040146.5
+0
+Warning: failed flux calculation on  040146.5
+0
+Warning: failed flux calculation on  040146.6
+0
+USING BEST CHANCE: 0.0008718206109288307 040146.4
+0
+Warning: failed flux calculation on  040150.3
+0
+Warning: failed flux calculation on  040150.4
+0
+Warning: failed flux calculation on  040150.4
+0
+Warning: failed flux calculation on  040150.5
+0
+Warning: failed flux calculation on  040150.5
+0
+Warning: failed flux calculation on  040150.5
+0
+Warning: failed flux calculation on  040150.6
+0
+Warning: failed flux calculation on  040150.6
+0
+Warning: failed flux calculation on  040150.6
+0
+Best.0.07229887900142218.NO_GOOD_CANIDIDATE 040150.4
+0
+Best.0.03010240745727455.NO_GOOD_CANIDIDATE 040166.4
+0
+warning, checking for matching photozs for far but likely candidate 040201.4
+0
+warning, checking for matching photozs for far but likely candidate 040201.5
+0
+warning, checking for matching photozs for far but likely candidate 040201.6
+0
+USING BEST CHANCE: 0.008234698946547492 040201.6
+0
+Warning: failed flux calculation on  040301.3
+0
+Warning: failed flux calculation on  040301.3
+0
+Warning: failed flux calculation on  040301.4
+0
+Warning: failed flux calculation on  040301.4
+0
+Warning: failed flux calculation on  040301.5
+0
+Warning: failed flux calculation on  040301.5
+0
+Warning: failed flux calculation on  040301.5
+0
+Warning: failed flux calculation on  040301.6
+0
+Warning: failed flux calculation on  040301.6
+0
+Warning: failed flux calculation on  040662.5
+0
+Warning: failed flux calculation on  040780.3
+0
+Warning: failed flux calculation on  040780.3
+0
+Warning: failed flux calculation on  040780.4
+0
+Warning: failed flux calculation on  040780.4
+0
+Warning: failed flux calculation on  040780.5
+0
+Warning: failed flux calculation on  040780.5
+0
+Warning: failed flux calculation on  040780.5
+0
+Warning: failed flux calculation on  040780.6
+0
+Warning: failed flux calculation on  040780.6
+0
+Warning: failed flux calculation on  040782.4
+0
+Warning: failed flux calculation on  040782.5
+0
+Warning: failed flux calculation on  040782.6
+0
+Best.0.2471655380261809.NO_GOOD_CANIDIDATE 050003.5
+0
+Warning: failed flux calculation on  050044.4
+0
+Warning: failed flux calculation on  050044.4
+0
+Warning: failed flux calculation on  050044.5
+0
+Warning: failed flux calculation on  050044.5
+0
+Warning: failed flux calculation on  050044.6
+0
+warning, checking for matching photozs for far but likely candidate 050081.3
+0
+USING BEST CHANCE: 0.004228657463477781 050081.4
+0
+Warning: failed flux calculation on  050201.3
+0
+Warning: failed flux calculation on  050201.4
+0
+Warning: failed flux calculation on  050201.5
+0
+Warning: failed flux calculation on  050201.6
+0
+warning, checking for matching photozs for far but likely candidate 050201.6
+0
+USING BEST CHANCE: 0.019344793826621798 050201.6
+0
+Warning: failed flux calculation on  050203.3
+0
+Warning: failed flux calculation on  050203.4
+0
+warning, checking for matching photozs for far but likely candidate 050203.4
+0
+Warning: failed flux calculation on  050203.5
+0
+warning, checking for matching photozs for far but likely candidate 050203.5
+0
+Warning: failed flux calculation on  050203.6
+0
+warning, checking for matching photozs for far but likely candidate 050203.6
+0
+USING BEST CHANCE: 0.012719005136246131 050203.6
+0
+Warning: failed flux calculation on  050221.4
+0
+Warning: failed flux calculation on  050221.5
+0
+Warning: failed flux calculation on  050221.6
+0
+Best.0.1238432050230378.NO_GOOD_CANIDIDATE 050221.6
+0
+Warning: failed flux calculation on  050291.3
+0
+warning, checking for matching photozs for far but likely candidate 050291.3
+0
+Warning: failed flux calculation on  050291.4
+0
+Warning: failed flux calculation on  050291.4
+0
+Warning: failed flux calculation on  050291.4
+0
+Warning: failed flux calculation on  050291.4
+0
+Warning: failed flux calculation on  050291.5
+0
+Warning: failed flux calculation on  050291.5
+0
+Warning: failed flux calculation on  050291.5
+0
+Warning: failed flux calculation on  050291.5
+0
+Warning: failed flux calculation on  050291.5
+0
+Warning: failed flux calculation on  050291.6
+0
+Warning: failed flux calculation on  050291.6
+0
+Warning: failed flux calculation on  050291.6
+0
+Warning: failed flux calculation on  050291.6
+0
+warning, checking for matching photozs for far but likely candidate 050291.6
+0
+USING BEST CHANCE: 0.0019467161201933703 050291.6
+0
+Warning: failed flux calculation on  050293.4
+0
+Warning: failed flux calculation on  050293.4
+0
+warning, checking for matching photozs for far but likely candidate 050293.4
+0
+Warning: failed flux calculation on  050293.5
+0
+Warning: failed flux calculation on  050293.5
+0
+Warning: failed flux calculation on  050293.5
+0
+warning, checking for matching photozs for far but likely candidate 050293.5
+0
+Warning: failed flux calculation on  050293.6
+0
+Warning: failed flux calculation on  050293.6
+0
+Warning: failed flux calculation on  050293.6
+0
+warning, checking for matching photozs for far but likely candidate 050293.6
+0
+USING BEST CHANCE: 0.012958674243062518 050293.4
+0
+warning, checking for matching photozs for far but likely candidate 050296.3
+0
+warning, checking for matching photozs for far but likely candidate 050296.4
+0
+USING BEST CHANCE: 0.001307973399798823 050296.4
+0
+Warning: failed flux calculation on  050577.5
+0
+warning, checking for matching photozs for far but likely candidate 050580.4
+0
+warning, checking for matching photozs for far but likely candidate 050580.6
+0
+warning, checking for matching photozs for far but likely candidate 050581.3
+0
+USING BEST CHANCE: 0.001325218491892488 050581.4
+0
+warning, checking for matching photozs for far but likely candidate 050596.5
+0
+warning, checking for matching photozs for far but likely candidate 050596.6
+0
+USING BEST CHANCE: 0.0009924112771091398 050596.6
+0
+Warning: failed flux calculation on  050601.3
+0
+Warning: failed flux calculation on  050601.4
+0
+Warning: failed flux calculation on  050601.5
+0
+Warning: failed flux calculation on  050601.6
+0
+Best.0.0817593070119591.NO_GOOD_CANIDIDATE 050601.4
+0
+Warning: failed flux calculation on  050607.4
+0
+Warning: failed flux calculation on  050607.5
+0
+Warning: failed flux calculation on  050607.6
+0
+USING BEST CHANCE: 0.0005592037654346127 060230.4
+0
+Warning: failed flux calculation on  060270.3
+0
+Warning: failed flux calculation on  060270.4
+0
+Warning: failed flux calculation on  060270.5
+0
+Warning: failed flux calculation on  060270.6
+0
+Best.0.20779444220480647.NO_GOOD_CANIDIDATE 060270.6
+0
+USING BEST CHANCE: 0.00065516779502095 060284.4
+0
+USING BEST CHANCE: 0.0005530708065770717 061196.4
+0
+Warning: failed flux calculation on  070242.4
+0
+Warning: failed flux calculation on  070242.5
+0
+Warning: failed flux calculation on  070242.6
+0
+Best.0.03507724070091156.NO_GOOD_CANIDIDATE 070242.4
+0
+Warning: failed flux calculation on  070763.3
+0
+Warning: failed flux calculation on  070763.4
+0
+Warning: failed flux calculation on  070763.4
+0
+Warning: failed flux calculation on  070763.5
+0
+Warning: failed flux calculation on  070763.5
+0
+Warning: failed flux calculation on  070763.5
+0
+Warning: failed flux calculation on  070763.6
+0
+Warning: failed flux calculation on  070763.6
+0
+Best.0.023988968528943833.NO_GOOD_CANIDIDATE 070763.6
+0
+warning, checking for matching photozs for far but likely candidate 070955.3
+0
+warning, checking for matching photozs for far but likely candidate 070955.4
+0
+warning, checking for matching photozs for far but likely candidate 070955.5
+0
+warning, checking for matching photozs for far but likely candidate 070955.6
+0
+Warning: failed flux calculation on  080308.4
+0
+Warning: failed flux calculation on  080308.4
+0
+Warning: failed flux calculation on  080308.5
+0
+Warning: failed flux calculation on  080308.5
+0
+Warning: failed flux calculation on  080308.5
+0
+Warning: failed flux calculation on  080308.6
+0
+warning, checking for matching photozs for far but likely candidate 080646.3
+0
+warning, checking for matching photozs for far but likely candidate 080723.3
+0
+Warning: failed flux calculation on  080723.5
+0
+warning, checking for matching photozs for far but likely candidate 080735.6
+0
+Warning: failed flux calculation on  080762.3
+0
+Warning: failed flux calculation on  080762.4
+0
+Warning: failed flux calculation on  080762.5
+0
+Warning: failed flux calculation on  080762.5
+0
+Warning: failed flux calculation on  080762.6
+0
+Warning: failed flux calculation on  080762.6
+0
+Best.0.029158804991325837.NO_GOOD_CANIDIDATE 080762.6
+0
+warning, checking for matching photozs for far but likely candidate 080768.3
+0
+USING BEST CHANCE: 0.0013699664170780945 080768.3
+0
+Warning: failed flux calculation on  090022.5
+0
+Warning: failed flux calculation on  090022.6
+0
+Best.0.14904238745787945.NO_GOOD_CANIDIDATE 090022.6
+0
+warning, checking for matching photozs for far but likely candidate 090034.3
+0
+Warning: failed flux calculation on  090034.6
+0
+USING BEST CHANCE: 0.001509883613981966 090034.4
+0
+Warning: failed flux calculation on  090037.3
+0
+Warning: failed flux calculation on  090037.4
+0
+Warning: failed flux calculation on  090037.5
+0
+Warning: failed flux calculation on  090037.6
+0
+Warning: failed flux calculation on  090037.6
+0
+Best.0.27946172091710475.NO_GOOD_CANIDIDATE 090201.6
+0
+Warning: failed flux calculation on  090275.3
+0
+Warning: failed flux calculation on  090275.4
+0
+Warning: failed flux calculation on  090275.4
+0
+Warning: failed flux calculation on  090275.5
+0
+Warning: failed flux calculation on  090275.5
+0
+Warning: failed flux calculation on  090275.6
+0
+Warning: failed flux calculation on  090275.6
+0
+USING BEST CHANCE: 0.001073552668742872 090275.4
+0
+warning, checking for matching photozs for far but likely candidate 091034.4
+0
+Best.0.11237075313139855.NO_GOOD_CANIDIDATE 091040.4
+0
+Warning: failed flux calculation on  091748.3
+0
+Warning: failed flux calculation on  091748.4
+0
+Warning: failed flux calculation on  091748.5
+0
+Warning: failed flux calculation on  091748.6
+0
+warning, checking for matching photozs for far but likely candidate 091869.3
+0
+USING BEST CHANCE: 0.0022819052581114496 091869.6
+0
+warning, checking for matching photozs for far but likely candidate 100014.4
+0
+warning, checking for matching photozs for far but likely candidate 100014.5
+0
+warning, checking for matching photozs for far but likely candidate 100014.6
+0
+USING BEST CHANCE: 0.006173754843302959 100014.6
+0
+Warning: failed flux calculation on  100020.3
+0
+Warning: failed flux calculation on  100020.4
+0
+Warning: failed flux calculation on  100020.5
+0
+Warning: failed flux calculation on  100020.5
+0
+Warning: failed flux calculation on  100020.6
+0
+Best.0.04445495423614809.NO_GOOD_CANIDIDATE 100020.6
+0
+Warning: failed flux calculation on  100090.3
+0
+Warning: failed flux calculation on  100090.4
+0
+Warning: failed flux calculation on  100090.4
+0
+Warning: failed flux calculation on  100090.5
+0
+Warning: failed flux calculation on  100090.5
+0
+Warning: failed flux calculation on  100090.6
+0
+Warning: failed flux calculation on  100090.6
+0
+warning, checking for matching photozs for far but likely candidate 100101.3
+0
+warning, checking for matching photozs for far but likely candidate 100101.4
+0
+warning, checking for matching photozs for far but likely candidate 100101.6
+0
+USING BEST CHANCE: 0.002325600815222595 100101.4
+0
+Warning: failed flux calculation on  100163.5
+0
+Warning: failed flux calculation on  100170.4
+0
+Warning: failed flux calculation on  100170.5
+0
+Warning: failed flux calculation on  100170.6
+0
+USING BEST CHANCE: 0.000843847234862527 100170.4
+0
+warning, checking for matching photozs for far but likely candidate 100358.4
+0
+warning, checking for matching photozs for far but likely candidate 100358.5
+0
+warning, checking for matching photozs for far but likely candidate 100358.6
+0
+Warning: failed flux calculation on  100405.4
+0
+Warning: failed flux calculation on  100405.5
+0
+Warning: failed flux calculation on  100405.6
+0
+USING BEST CHANCE: 0.0002217623167997118 100405.6
+0
+Warning: failed flux calculation on  110030.4
+0
+Warning: failed flux calculation on  110030.5
+0
+Warning: failed flux calculation on  110030.6
+0
+Warning: failed flux calculation on  110030.6
+0
+USING BEST CHANCE: 0.0009868787267069967 110030.6
+0
+Warning: failed flux calculation on  110031.3
+0
+Warning: failed flux calculation on  110031.4
+0
+Warning: failed flux calculation on  110031.5
+0
+Warning: failed flux calculation on  110031.6
+0
+warning, checking for matching photozs for far but likely candidate 110033.3
+0
+warning, checking for matching photozs for far but likely candidate 110033.4
+0
+warning, checking for matching photozs for far but likely candidate 110033.5
+0
+warning, checking for matching photozs for far but likely candidate 110033.6
+0
+USING BEST CHANCE: 0.0028619787051585854 110033.4
+0
+Warning: failed flux calculation on  110036.5
+0
+Warning: failed flux calculation on  110036.6
+0
+Warning: failed flux calculation on  110058.3
+0
+Warning: failed flux calculation on  110058.4
+0
+Warning: failed flux calculation on  110058.4
+0
+Warning: failed flux calculation on  110058.5
+0
+Warning: failed flux calculation on  110058.5
+0
+Warning: failed flux calculation on  110058.6
+0
+Warning: failed flux calculation on  110058.6
+0
+warning, checking for matching photozs for far but likely candidate 110405.6
+0
+USING BEST CHANCE: 0.013836856404533249 110405.6
+0
+warning, checking for matching photozs for far but likely candidate 110430.4
+0
+warning, checking for matching photozs for far but likely candidate 110430.5
+0
+USING BEST CHANCE: 0.004978921010633797 110430.4
+0
+Warning: failed flux calculation on  110431.3
+0
+warning, checking for matching photozs for far but likely candidate 110431.3
+0
+Warning: failed flux calculation on  110431.4
+0
+warning, checking for matching photozs for far but likely candidate 110431.4
+0
+Warning: failed flux calculation on  110431.5
+0
+Warning: failed flux calculation on  110431.6
+0
+USING BEST CHANCE: 0.0013171953314518037 110431.4
+0
+Warning: failed flux calculation on  110460.5
+0
+Warning: failed flux calculation on  110460.6
+0
+warning, checking for matching photozs for far but likely candidate 110468.3
+0
+warning, checking for matching photozs for far but likely candidate 110468.4
+0
+warning, checking for matching photozs for far but likely candidate 110468.5
+0
+warning, checking for matching photozs for far but likely candidate 110468.6
+0
+USING BEST CHANCE: 0.002494022472847468 110468.3
+0
+Warning: failed flux calculation on  110478.3
+0
+Warning: failed flux calculation on  110478.4
+0
+Warning: failed flux calculation on  110478.5
+0
+Warning: failed flux calculation on  110478.6
+0
+Best.0.35792270810098303.NO_GOOD_CANIDIDATE 110484.4
+0
+Warning: failed flux calculation on  110542.3
+0
+warning, checking for matching photozs for far but likely candidate 110542.3
+0
+Warning: failed flux calculation on  110542.4
+0
+warning, checking for matching photozs for far but likely candidate 110542.4
+0
+Warning: failed flux calculation on  110542.5
+0
+Warning: failed flux calculation on  110542.6
+0
+warning, checking for matching photozs for far but likely candidate 110542.6
+0
+USING BEST CHANCE: 0.0023890790196682277 110542.6
+0
+Warning: failed flux calculation on  110567.5
+0
+USING BEST CHANCE: 0.0006504799571938058 110567.6
+0
+Warning: failed flux calculation on  110716.3
+0
+Warning: failed flux calculation on  110716.3
+0
+Warning: failed flux calculation on  110716.4
+0
+Warning: failed flux calculation on  110716.4
+0
+Warning: failed flux calculation on  110716.5
+0
+Warning: failed flux calculation on  110716.5
+0
+Warning: failed flux calculation on  110716.6
+0
+Warning: failed flux calculation on  110716.6
+0
+Warning: failed flux calculation on  110719.5
+0
+Warning: failed flux calculation on  110719.6
+0
+warning, checking for matching photozs for far but likely candidate 110721.3
+0
+warning, checking for matching photozs for far but likely candidate 110721.4
+0
+Warning: failed flux calculation on  110721.5
+0
+Warning: failed flux calculation on  110721.6
+0
+warning, checking for matching photozs for far but likely candidate 110721.6
+0
+Warning: failed flux calculation on  110734.3
+0
+Warning: failed flux calculation on  110734.4
+0
+Warning: failed flux calculation on  110734.5
+0
+Warning: failed flux calculation on  110734.5
+0
+Warning: failed flux calculation on  110734.6
+0
+Best.0.09139531244835442.NO_GOOD_CANIDIDATE 120044.4
+0
+Warning: failed flux calculation on  120085.3
+0
+Warning: failed flux calculation on  120085.4
+0
+Warning: failed flux calculation on  120085.4
+0
+Warning: failed flux calculation on  120085.5
+0
+Warning: failed flux calculation on  120085.5
+0
+Warning: failed flux calculation on  120085.6
+0
+Warning: failed flux calculation on  120085.6
+0
+Warning: failed flux calculation on  120086.3
+0
+warning, checking for matching photozs for far but likely candidate 120086.3
+0
+Warning: failed flux calculation on  120086.4
+0
+warning, checking for matching photozs for far but likely candidate 120086.4
+0
+Warning: failed flux calculation on  120086.5
+0
+warning, checking for matching photozs for far but likely candidate 120086.5
+0
+Warning: failed flux calculation on  120086.6
+0
+warning, checking for matching photozs for far but likely candidate 120086.6
+0
+USING BEST CHANCE: 0.005758372545318635 120086.6
+0
+Best.0.11824469779398572.NO_GOOD_CANIDIDATE 120094.6
+0
+Warning: failed flux calculation on  120113.4
+0
+Warning: failed flux calculation on  120113.5
+0
+Warning: failed flux calculation on  120113.6
+0
+USING BEST CHANCE: 0.0068909501304799115 120113.4
+0
+USING BEST CHANCE: 0.0009810199913995454 120175.4
+0
+Warning: failed flux calculation on  120225.3
+0
+warning, checking for matching photozs for far but likely candidate 120225.3
+0
+Warning: failed flux calculation on  120225.4
+0
+warning, checking for matching photozs for far but likely candidate 120225.4
+0
+Warning: failed flux calculation on  120225.5
+0
+warning, checking for matching photozs for far but likely candidate 120225.5
+0
+Warning: failed flux calculation on  120225.6
+0
+warning, checking for matching photozs for far but likely candidate 120225.6
+0
+USING BEST CHANCE: 0.0010278342073505309 120225.4
+0
+Warning: failed flux calculation on  120243.3
+0
+Warning: failed flux calculation on  120243.3
+0
+warning, checking for matching photozs for far but likely candidate 120243.3
+0
+Warning: failed flux calculation on  120243.4
+0
+Warning: failed flux calculation on  120243.4
+0
+Warning: failed flux calculation on  120243.4
+0
+Warning: failed flux calculation on  120243.4
+0
+warning, checking for matching photozs for far but likely candidate 120243.4
+0
+Warning: failed flux calculation on  120243.5
+0
+Warning: failed flux calculation on  120243.5
+0
+Warning: failed flux calculation on  120243.5
+0
+Warning: failed flux calculation on  120243.5
+0
+Warning: failed flux calculation on  120243.6
+0
+Warning: failed flux calculation on  120243.6
+0
+Warning: failed flux calculation on  120243.6
+0
+Warning: failed flux calculation on  120243.6
+0
+Warning: failed flux calculation on  120333.5
+0
+Warning: failed flux calculation on  120336.3
+0
+Warning: failed flux calculation on  120336.4
+0
+Warning: failed flux calculation on  120336.5
+0
+Warning: failed flux calculation on  120336.6
+0
+warning, checking for matching photozs for far but likely candidate 120336.6
+0
+warning, checking for matching photozs for far but likely candidate 120400.4
+0
+warning, checking for matching photozs for far but likely candidate 120400.5
+0
+warning, checking for matching photozs for far but likely candidate 120400.6
+0
+USING BEST CHANCE: 0.010359305627162918 120400.6
+0
+Warning: failed flux calculation on  120444.3
+0
+Warning: failed flux calculation on  120444.4
+0
+warning, checking for matching photozs for far but likely candidate 120444.4
+0
+Warning: failed flux calculation on  120444.5
+0
+warning, checking for matching photozs for far but likely candidate 120444.5
+0
+Warning: failed flux calculation on  120444.6
+0
+Warning: failed flux calculation on  120585.4
+0
+Warning: failed flux calculation on  120585.5
+0
+Warning: failed flux calculation on  120585.5
+0
+Warning: failed flux calculation on  120585.6
+0
+Best.0.04953378482754889.NO_GOOD_CANIDIDATE 120585.6
+0
+warning, checking for matching photozs for far but likely candidate 120586.3
+0
+Warning: failed flux calculation on  130150.6
+0
+Warning: failed flux calculation on  130327.3
+0
+Warning: failed flux calculation on  130327.4
+0
+Warning: failed flux calculation on  130327.5
+0
+Warning: failed flux calculation on  130327.6
+0
+USING BEST CHANCE: 0.00039566867226537017 130327.4
+0
+Warning: failed flux calculation on  130451.3
+0
+Warning: failed flux calculation on  130451.4
+0
+Warning: failed flux calculation on  130451.5
+0
+Warning: failed flux calculation on  130451.6
+0
+warning, checking for matching photozs for far but likely candidate 130514.3
+0
+warning, checking for matching photozs for far but likely candidate 130514.4
+0
+warning, checking for matching photozs for far but likely candidate 130514.5
+0
+warning, checking for matching photozs for far but likely candidate 130514.6
+0
+USING BEST CHANCE: 0.0005482096221508526 130514.4
+0
+Warning: failed flux calculation on  130755.5
+0
+Warning: failed flux calculation on  130755.6
+0
+Warning: failed flux calculation on  130812.3
+0
+Warning: failed flux calculation on  130812.4
+0
+Warning: failed flux calculation on  130812.5
+0
+Warning: failed flux calculation on  130812.6
+0
+Warning: failed flux calculation on  130846.5
+0
+USING BEST CHANCE: 0.0005400460913377314 130846.6
+0
+Best.0.07062418136349691.NO_GOOD_CANIDIDATE 130862.4
+0
+Warning: failed flux calculation on  130942.3
+0
+warning, checking for matching photozs for far but likely candidate 130942.3
+0
+Warning: failed flux calculation on  130942.4
+0
+Warning: failed flux calculation on  130942.4
+0
+Warning: failed flux calculation on  130942.4
+0
+Warning: failed flux calculation on  130942.5
+0
+Warning: failed flux calculation on  130942.5
+0
+Warning: failed flux calculation on  130942.6
+0
+Warning: failed flux calculation on  130943.5
+0
+Warning: failed flux calculation on  130943.6
+0
+warning, checking for matching photozs for far but likely candidate 130945.3
+0
+warning, checking for matching photozs for far but likely candidate 130945.4
+0
+Warning: failed flux calculation on  130945.5
+0
+Warning: failed flux calculation on  130945.5
+0
+warning, checking for matching photozs for far but likely candidate 130945.5
+0
+Warning: failed flux calculation on  130945.6
+0
+Warning: failed flux calculation on  130945.6
+0
+warning, checking for matching photozs for far but likely candidate 130945.6
+0
+USING BEST CHANCE: 0.0019221777009871266 130945.6
+0
+Warning: failed flux calculation on  131014.6
+0
+USING BEST CHANCE: 0.0004530427910873769 131014.4
+0
+Warning: failed flux calculation on  131094.6
+0
+USING BEST CHANCE: 0.001060572311989194 131094.4
+0
+warning, checking for matching photozs for far but likely candidate 140152.6
+0
+USING BEST CHANCE: 0.0009026154093280114 140418.4
+0
+Warning: failed flux calculation on  150249.3
+0
+Warning: failed flux calculation on  150249.4
+0
+Warning: failed flux calculation on  150249.5
+0
+Warning: failed flux calculation on  150249.6
+0
+Warning: failed flux calculation on  150254.3
+0
+warning, checking for matching photozs for far but likely candidate 150254.3
+0
+Warning: failed flux calculation on  150254.4
+0
+Warning: failed flux calculation on  150254.5
+0
+Warning: failed flux calculation on  150254.5
+0
+Warning: failed flux calculation on  150254.6
+0
+Warning: failed flux calculation on  150254.6
+0
+Best.0.43464208711824603.NO_GOOD_CANIDIDATE 150381.6
+0
+Warning: failed flux calculation on  150412.5
+0
+USING BEST CHANCE: 0.00046891818686078945 150455.6
+0
+Warning: failed flux calculation on  150457.3
+0
+Warning: failed flux calculation on  150457.4
+0
+Warning: failed flux calculation on  150457.5
+0
+Warning: failed flux calculation on  150457.6
+0
+USING BEST CHANCE: 0.0006042400928015779 150457.6
+0
+Warning: failed flux calculation on  150507.5
+0
+Warning: failed flux calculation on  150507.6
+0
+USING BEST CHANCE: 0.0023757047777560603 150507.4
+0
+Warning: failed flux calculation on  150522.4
+0
+Warning: failed flux calculation on  150522.6
+0
+Warning: failed flux calculation on  150576.6
+0
+USING BEST CHANCE: 0.0010726936745878435 150576.6
+0
+Warning: failed flux calculation on  150692.4
+0
+Warning: failed flux calculation on  150692.5
+0
+Warning: failed flux calculation on  150692.6
+0
+USING BEST CHANCE: 0.0013347265066283587 150692.4
+0
+warning, checking for matching photozs for far but likely candidate 151034.3
+0
+warning, checking for matching photozs for far but likely candidate 151034.6
+0
+USING BEST CHANCE: 0.000917022422562308 151034.6
+0
+Warning: failed flux calculation on  151425.3
+0
+Warning: failed flux calculation on  151425.4
+0
+Warning: failed flux calculation on  151425.5
+0
+Warning: failed flux calculation on  151425.5
+0
+warning, checking for matching photozs for far but likely candidate 151425.5
+0
+Warning: failed flux calculation on  151425.6
+0
+warning, checking for matching photozs for far but likely candidate 151425.6
+0
+USING BEST CHANCE: 0.001502053115959301 151425.4
+0
+warning, checking for matching photozs for far but likely candidate 160039.3
+0
+warning, checking for matching photozs for far but likely candidate 160039.4
+0
+warning, checking for matching photozs for far but likely candidate 160039.5
+0
+warning, checking for matching photozs for far but likely candidate 160039.6
+0
+USING BEST CHANCE: 0.003536588836357768 160039.4
+0
+USING BEST CHANCE: 0.0002956982066861791 160046.4
+0
+Warning: failed flux calculation on  160066.6
+0
+Best.0.026174246137353085.NO_GOOD_CANIDIDATE 160066.6
+0
+Warning: failed flux calculation on  160070.5
+0
+Warning: failed flux calculation on  160070.6
+0
+USING BEST CHANCE: 0.0008990262375909719 160070.6
+0
+warning, checking for matching photozs for far but likely candidate 160099.3
+0
+warning, checking for matching photozs for far but likely candidate 160099.4
+0
+warning, checking for matching photozs for far but likely candidate 160099.5
+0
+warning, checking for matching photozs for far but likely candidate 160099.6
+0
+USING BEST CHANCE: 0.005290570431783159 160099.4
+0
+Warning: failed flux calculation on  160103.3
+0
+Warning: failed flux calculation on  160103.4
+0
+Warning: failed flux calculation on  160103.5
+0
+Warning: failed flux calculation on  160103.6
+0
+Best.0.07984190343642161.NO_GOOD_CANIDIDATE 160103.6
+0
+warning, checking for matching photozs for far but likely candidate 160197.3
+0
+warning, checking for matching photozs for far but likely candidate 160197.4
+0
+Warning: failed flux calculation on  160197.5
+0
+warning, checking for matching photozs for far but likely candidate 160197.5
+0
+warning, checking for matching photozs for far but likely candidate 160197.6
+0
+USING BEST CHANCE: 0.0026492444260668435 160197.4
+0
+Warning: failed flux calculation on  160198.3
+0
+Warning: failed flux calculation on  160198.4
+0
+Warning: failed flux calculation on  160198.5
+0
+Warning: failed flux calculation on  160198.6
+0
+warning, checking for matching photozs for far but likely candidate 160214.3
+0
+warning, checking for matching photozs for far but likely candidate 160214.4
+0
+warning, checking for matching photozs for far but likely candidate 160214.6
+0
+warning, checking for matching photozs for far but likely candidate 160287.3
+0
+Warning: failed flux calculation on  160287.4
+0
+Warning: failed flux calculation on  160287.5
+0
+Warning: failed flux calculation on  160287.6
+0
+Warning: failed flux calculation on  170428.4
+0
+Warning: failed flux calculation on  170428.5
+0
+Warning: failed flux calculation on  170428.6
+0
+Best.0.0212091293716431.NO_GOOD_CANIDIDATE 170428.5
+0
+Warning: failed flux calculation on  170532.4
+0
+Warning: failed flux calculation on  170532.5
+0
+Warning: failed flux calculation on  170532.5
+0
+Warning: failed flux calculation on  170532.6
+0
+USING BEST CHANCE: 0.0005332048939156175 180166.4
+0
+Warning: failed flux calculation on  180279.3
+0
+Warning: failed flux calculation on  180279.4
+0
+warning, checking for matching photozs for far but likely candidate 180279.4
+0
+Warning: failed flux calculation on  180279.5
+0
+Warning: failed flux calculation on  180279.6
+0
+warning, checking for matching photozs for far but likely candidate 180279.6
+0
+USING BEST CHANCE: 0.01573882035987828 180279.4
+0
+Warning: failed flux calculation on  180313.4
+0
+Warning: failed flux calculation on  180313.5
+0
+Warning: failed flux calculation on  180313.6
+0
+Best.0.04049833381881118.NO_GOOD_CANIDIDATE 180313.6
+0
+Warning: failed flux calculation on  180561.4
+0
+Warning: failed flux calculation on  180561.5
+0
+Warning: failed flux calculation on  180561.6
+0
+Warning: failed flux calculation on  190209.3
+0
+Warning: failed flux calculation on  190209.4
+0
+Warning: failed flux calculation on  190209.4
+0
+Warning: failed flux calculation on  190209.5
+0
+Warning: failed flux calculation on  190209.5
+0
+Warning: failed flux calculation on  190209.6
+0
+Warning: failed flux calculation on  190209.6
+0
+USING BEST CHANCE: 0.0007676109566212563 190230.6
+0
+Warning: failed flux calculation on  190266.3
+0
+Warning: failed flux calculation on  190266.4
+0
+Warning: failed flux calculation on  190266.5
+0
+Warning: failed flux calculation on  190266.6
+0
+USING BEST CHANCE: 0.00044790480015077794 190266.4
+0
+Warning: failed flux calculation on  190299.5
+0
+USING BEST CHANCE: 0.0008850940012516961 190299.4
+0
+USING BEST CHANCE: 0.0007455893041522499 190340.6
+0
 Warning: failed flux calculation on  300008.3
-2
+0
 Warning: failed flux calculation on  300008.4
-4
+0
 Warning: failed flux calculation on  300008.5
-6
+0
 Warning: failed flux calculation on  300008.6
-8
+0
 USING BEST CHANCE: 0.0008083632711461952 300008.4
-10
+0
 Warning: failed flux calculation on  300105.5
-12
+0
 USING BEST CHANCE: 0.001369845637445466 300105.4
-14
+0
 Warning: failed flux calculation on  300220.4
-16
+0
 Warning: failed flux calculation on  300220.6
-18
+0
 Warning: failed flux calculation on  300221.5
-20
+0
 Warning: failed flux calculation on  300221.6
-22
+0
 Warning: failed flux calculation on  310039.4
-24
+0
 Warning: failed flux calculation on  310039.5
-26
+0
 Best.0.20131240917491078.NO_GOOD_CANIDIDATE 310042.5
-28
+0
 warning, checking for matching photozs for far but likely candidate 310051.4
-30
+0
 warning, checking for matching photozs for far but likely candidate 310051.5
-32
+0
 warning, checking for matching photozs for far but likely candidate 310073.6
-34
+0
 USING BEST CHANCE: 0.01765559645918502 310073.6
-36
+0
 Warning: failed flux calculation on  310090.3
-38
+0
 warning, checking for matching photozs for far but likely candidate 310090.3
-40
+0
 Warning: failed flux calculation on  310090.4
-42
+0
 Warning: failed flux calculation on  310090.5
-44
+0
 Warning: failed flux calculation on  310090.6
-46
+0
 USING BEST CHANCE: 0.0010663578266456586 310090.6
-48
+0
 Best.0.06553590437736212.NO_GOOD_CANIDIDATE 310091.6
-50
+0
 Warning: failed flux calculation on  310146.3
-52
+0
 warning, checking for matching photozs for far but likely candidate 310146.3
-54
+0
 Warning: failed flux calculation on  310146.4
-56
+0
 warning, checking for matching photozs for far but likely candidate 310146.4
-58
+0
 Warning: failed flux calculation on  310146.5
-60
+0
 Warning: failed flux calculation on  310146.6
-62
+0
 warning, checking for matching photozs for far but likely candidate 310146.6
-64
+0
 USING BEST CHANCE: 0.0009417696851828916 310146.3
-66
+0
 Warning: failed flux calculation on  310161.5
-68
+0
 Warning: failed flux calculation on  310161.6
-70
+0
 warning, checking for matching photozs for far but likely candidate 310188.3
-72
+0
 warning, checking for matching photozs for far but likely candidate 310188.4
-74
+0
 warning, checking for matching photozs for far but likely candidate 310188.5
-76
+0
 warning, checking for matching photozs for far but likely candidate 310188.6
-78
+0
 USING BEST CHANCE: 0.005122724441841253 310188.6
-80
+0
 Warning: failed flux calculation on  310238.4
-82
+0
 Warning: failed flux calculation on  310238.5
-84
+0
 Warning: failed flux calculation on  310238.5
-86
+0
 Warning: failed flux calculation on  310238.6
-88
+0
 Warning: failed flux calculation on  310238.6
-90
+0
+Best.0.05522591011762579.NO_GOOD_CANIDIDATE 310260.4
+0
+Warning: failed flux calculation on  310359.3
+0
+Warning: failed flux calculation on  310359.4
+0
+Warning: failed flux calculation on  310359.5
+0
+Warning: failed flux calculation on  310359.6
+0
+USING BEST CHANCE: 0.0008594186440846752 310359.4
+0
 Warning: failed flux calculation on  310574.3
-92
+0
 Warning: failed flux calculation on  310574.4
-94
+0
 Warning: failed flux calculation on  310574.5
-96
+0
 Warning: failed flux calculation on  310574.6
-98
+0
 Warning: failed flux calculation on  320047.3
-100
+0
 Warning: failed flux calculation on  320047.4
-102
+0
 Warning: failed flux calculation on  320047.5
-104
+0
 Warning: failed flux calculation on  320047.5
-106
+0
 Warning: failed flux calculation on  320047.6
-108
+0
 Warning: failed flux calculation on  320047.6
-110
+0
+warning, checking for matching photozs for far but likely candidate 320099.3
+0
+warning, checking for matching photozs for far but likely candidate 320099.4
+0
+warning, checking for matching photozs for far but likely candidate 320099.5
+0
+warning, checking for matching photozs for far but likely candidate 320099.6
+0
+USING BEST CHANCE: 0.002495498756300396 320099.4
+0
 Warning: failed flux calculation on  320347.3
-112
+0
 Warning: failed flux calculation on  320347.4
-114
+0
 Warning: failed flux calculation on  320347.5
-116
+0
 Warning: failed flux calculation on  320347.6
-118
+0
 Warning: failed flux calculation on  320469.3
-120
+0
 Warning: failed flux calculation on  320469.4
-122
+0
 Warning: failed flux calculation on  320469.5
-124
+0
 Warning: failed flux calculation on  320469.6
-126
+0
 Best.0.048872795359477306.NO_GOOD_CANIDIDATE 320469.4
-128
+0
 Warning: failed flux calculation on  330013.3
-130
+0
 Warning: failed flux calculation on  330013.4
-132
+0
 Warning: failed flux calculation on  330013.5
-134
+0
 Warning: failed flux calculation on  330013.6
-136
+0
 USING BEST CHANCE: 0.0009184994577335903 330013.4
-138
+0
 Warning: failed flux calculation on  330022.3
-140
+0
 Warning: failed flux calculation on  330022.4
-142
+0
 Warning: failed flux calculation on  330022.5
-144
+0
 Warning: failed flux calculation on  330022.5
-146
+0
 Warning: failed flux calculation on  330022.6
-148
+0
 Warning: failed flux calculation on  330027.3
-150
+0
 Warning: failed flux calculation on  330027.4
-152
+0
 Warning: failed flux calculation on  330027.5
-154
+0
 Warning: failed flux calculation on  330027.6
-156
+0
 Best.0.2193799327529813.NO_GOOD_CANIDIDATE 330027.6
-158
+0
 Warning: failed flux calculation on  330040.5
-160
+0
 Best.0.05947978508112617.NO_GOOD_CANIDIDATE 330040.4
-162
+0
 Warning: failed flux calculation on  330042.5
-164
+0
 Warning: failed flux calculation on  330064.3
-166
+0
 Warning: failed flux calculation on  330064.4
-168
+0
 warning, checking for matching photozs for far but likely candidate 330064.4
-170
+0
 Warning: failed flux calculation on  330064.5
-172
+0
 warning, checking for matching photozs for far but likely candidate 330064.5
-174
+0
 Warning: failed flux calculation on  330064.6
-176
+0
 warning, checking for matching photozs for far but likely candidate 330064.6
-178
+0
 USING BEST CHANCE: 0.011932080549683421 330064.4
-180
+0
 Warning: failed flux calculation on  330076.5
-182
+0
 Warning: failed flux calculation on  330089.3
-184
+0
 Warning: failed flux calculation on  330089.4
-186
+0
 Warning: failed flux calculation on  330089.5
-188
+0
 Warning: failed flux calculation on  330089.6
-190
+0
 warning, checking for matching photozs for far but likely candidate 330106.3
-192
+0
 warning, checking for matching photozs for far but likely candidate 330106.4
-194
+0
 warning, checking for matching photozs for far but likely candidate 330106.5
-196
+0
 warning, checking for matching photozs for far but likely candidate 330106.6
-198
+0
 USING BEST CHANCE: 0.00715169009544514 330106.4
-200
+0
 Warning: failed flux calculation on  330107.3
-202
+0
 Warning: failed flux calculation on  330107.3
-204
+0
 Warning: failed flux calculation on  330107.4
-206
+0
 Warning: failed flux calculation on  330107.4
-208
+0
 Warning: failed flux calculation on  330107.5
-210
+0
 Warning: failed flux calculation on  330107.5
-212
+0
 Warning: failed flux calculation on  330107.6
-214
+0
 Warning: failed flux calculation on  330107.6
-216
+0
 Best.0.08064445865126202.NO_GOOD_CANIDIDATE 330107.4
-218
+0
 USING BEST CHANCE: 0.0004826252773822981 330112.6
-220
+0
 Warning: failed flux calculation on  330114.4
-222
+0
 Warning: failed flux calculation on  330114.5
-224
+0
 Best.0.06698847874912117.NO_GOOD_CANIDIDATE 330114.6
-226
+0
+Warning: failed flux calculation on  330128.5
+0
+Warning: failed flux calculation on  330128.5
+0
+Warning: failed flux calculation on  330128.6
+0
+Warning: failed flux calculation on  330128.6
+0
+USING BEST CHANCE: 0.0006433673762467063 330143.6
+0
+Warning: failed flux calculation on  330232.4
+0
+Warning: failed flux calculation on  330232.5
+0
+Warning: failed flux calculation on  330232.6
+0
+warning, checking for matching photozs for far but likely candidate 340169.4
+0
+warning, checking for matching photozs for far but likely candidate 340169.5
+0
+warning, checking for matching photozs for far but likely candidate 340169.6
+0
+USING BEST CHANCE: 0.013441246798648998 340169.6
+0
 Warning: failed flux calculation on  340195.3
-228
+0
 Warning: failed flux calculation on  340195.4
-230
+0
 Warning: failed flux calculation on  340195.5
-232
+0
 Warning: failed flux calculation on  340195.5
-234
+0
 Warning: failed flux calculation on  340195.6
-236
+0
 Best.0.029692414050192073.NO_GOOD_CANIDIDATE 340195.4
-238
+0
 Warning: failed flux calculation on  340211.3
-240
+0
 Warning: failed flux calculation on  340211.4
+0
+Warning: failed flux calculation on  340211.5
+0
+Warning: failed flux calculation on  340211.6
+0
+Warning: failed flux calculation on  340222.3
+0
+Warning: failed flux calculation on  340222.4
+0
+Warning: failed flux calculation on  340222.5
+0
+Warning: failed flux calculation on  340222.6
+0
+Warning: failed flux calculation on  340229.5
+0
+Warning: failed flux calculation on  340232.3
+0
+Warning: failed flux calculation on  340232.4
+0
+Warning: failed flux calculation on  340232.5
+0
+Warning: failed flux calculation on  340232.6
+0
+Warning: failed flux calculation on  340242.5
+0
+USING BEST CHANCE: 0.00045780336173140146 340243.4
+0
+Warning: failed flux calculation on  340272.3
+0
+Warning: failed flux calculation on  340272.4
+0
+Warning: failed flux calculation on  340272.5
+0
+Warning: failed flux calculation on  340272.6
+0
+warning, checking for matching photozs for far but likely candidate 340276.3
+0
+USING BEST CHANCE: 0.0006295708779850973 340276.3
+0
+warning, checking for matching photozs for far but likely candidate 340316.4
+0
+warning, checking for matching photozs for far but likely candidate 340316.5
+0
+warning, checking for matching photozs for far but likely candidate 340316.6
+0
+Warning: failed flux calculation on  340334.5
+0
+Warning: failed flux calculation on  340334.5
+0
+Warning: failed flux calculation on  340334.6
+0
+Warning: failed flux calculation on  340334.6
+0
+Best.0.22744058225819208.NO_GOOD_CANIDIDATE 340334.6
+0
+USING BEST CHANCE: 0.0004301502077505015 340337.4
+0
+USING BEST CHANCE: 0.0005533082089096419 340346.4
+0
+warning, checking for matching photozs for far but likely candidate 350050.3
+0
+warning, checking for matching photozs for far but likely candidate 350050.4
+0
+warning, checking for matching photozs for far but likely candidate 350050.6
+0
+USING BEST CHANCE: 0.001559096630544543 350050.4
+0
+warning, checking for matching photozs for far but likely candidate 350083.3
+0
+Warning: failed flux calculation on  350083.4
+0
+Warning: failed flux calculation on  350083.4
+0
+Warning: failed flux calculation on  350083.5
+0
+Warning: failed flux calculation on  350083.5
+0
+Warning: failed flux calculation on  350083.6
+0
+USING BEST CHANCE: 0.002758105665197075 350092.4
+0
+Warning: failed flux calculation on  350235.3
+0
+warning, checking for matching photozs for far but likely candidate 350235.3
+0
+Warning: failed flux calculation on  350235.4
+0
+warning, checking for matching photozs for far but likely candidate 350235.4
+0
+Warning: failed flux calculation on  350235.5
+0
+warning, checking for matching photozs for far but likely candidate 350235.5
+0
+Warning: failed flux calculation on  350235.6
+0
+warning, checking for matching photozs for far but likely candidate 350235.6
+0
+USING BEST CHANCE: 0.003597935829373511 350235.4
+0
+Warning: failed flux calculation on  350316.4
+0
+Warning: failed flux calculation on  350316.4
+0
+Warning: failed flux calculation on  350316.4
+0
+Warning: failed flux calculation on  350316.5
+0
+Warning: failed flux calculation on  350316.5
+0
+Warning: failed flux calculation on  350316.5
+0
+Warning: failed flux calculation on  350316.6
+0
+Warning: failed flux calculation on  350316.6
+0
+Warning: failed flux calculation on  350316.6
+0
+USING BEST CHANCE: 0.0015373496605366466 350316.4
+0
+Warning: failed flux calculation on  350330.5
+0
+Warning: failed flux calculation on  350330.6
+0
+Warning: failed flux calculation on  350374.3
+0
+Warning: failed flux calculation on  350374.4
+0
+Warning: failed flux calculation on  350374.5
+0
+Warning: failed flux calculation on  350374.6
+0
+Warning: failed flux calculation on  350548.4
+0
+Warning: failed flux calculation on  350548.5
+0
+USING BEST CHANCE: 0.0005343958005268323 350548.4
+0
+warning, checking for matching photozs for far but likely candidate 350607.3
+0
+warning, checking for matching photozs for far but likely candidate 350607.4
+0
+warning, checking for matching photozs for far but likely candidate 350607.5
+0
+warning, checking for matching photozs for far but likely candidate 350607.6
+0
+Warning: failed flux calculation on  350630.5
+0
+Warning: failed flux calculation on  350630.6
+0
+USING BEST CHANCE: 0.000753542284534392 350630.6
+0
+USING BEST CHANCE: 0.0009327670767879104 350633.4
+0
+Warning: failed flux calculation on  360030.5
+0
+Warning: failed flux calculation on  360030.6
+0
+warning, checking for matching photozs for far but likely candidate 360139.5
+0
+warning, checking for matching photozs for far but likely candidate 360139.6
+0
+USING BEST CHANCE: 0.006465499881938452 360139.6
+0
+Best.0.04637097789678313.NO_GOOD_CANIDIDATE 360140.6
+0
+warning, checking for matching photozs for far but likely candidate 360145.6
+0
+Warning: failed flux calculation on  360359.3
+0
+Warning: failed flux calculation on  360359.4
+0
+warning, checking for matching photozs for far but likely candidate 360359.4
+0
+Warning: failed flux calculation on  360359.5
+0
+warning, checking for matching photozs for far but likely candidate 360359.5
+0
+Warning: failed flux calculation on  360359.6
+0
+warning, checking for matching photozs for far but likely candidate 360359.6
+0
+USING BEST CHANCE: 0.010300803205218867 360359.6
+0
+warning, checking for matching photozs for far but likely candidate 370066.3
+0
+warning, checking for matching photozs for far but likely candidate 370066.4
+0
+warning, checking for matching photozs for far but likely candidate 370066.5
+0
+warning, checking for matching photozs for far but likely candidate 370066.6
+0
+USING BEST CHANCE: 0.00208335836952922 370066.4
+0
+Warning: failed flux calculation on  370098.5
+0
+Warning: failed flux calculation on  370098.5
+0
+Warning: failed flux calculation on  370286.3
+0
+Warning: failed flux calculation on  370286.4
+0
+Warning: failed flux calculation on  370286.5
+0
+Warning: failed flux calculation on  370286.6
+0
+warning, checking for matching photozs for far but likely candidate 370329.3
+0
+Warning: failed flux calculation on  370329.4
+0
+Warning: failed flux calculation on  370329.5
+0
+Warning: failed flux calculation on  370329.6
+0
+warning, checking for matching photozs for far but likely candidate 370333.5
+0
+warning, checking for matching photozs for far but likely candidate 370333.6
+0
+warning, checking for matching photozs for far but likely candidate 370356.3
+0
+warning, checking for matching photozs for far but likely candidate 370356.4
+0
+warning, checking for matching photozs for far but likely candidate 370356.6
+0
+USING BEST CHANCE: 0.004193865967104915 370356.4
+0
+USING BEST CHANCE: 0.0007229584682458823 370369.6
+0
+warning, checking for matching photozs for far but likely candidate 370394.6
+0
+USING BEST CHANCE: 0.0009713919057035003 370407.4
+0
+Warning: failed flux calculation on  370428.3
+0
+Warning: failed flux calculation on  370428.3
+0
+Warning: failed flux calculation on  370428.4
+0
+Warning: failed flux calculation on  370428.4
+0
+Warning: failed flux calculation on  370428.5
+0
+Warning: failed flux calculation on  370428.5
+0
+Warning: failed flux calculation on  370428.6
+0
+Warning: failed flux calculation on  370428.6
+0
+Warning: failed flux calculation on  370469.5
+0
+USING BEST CHANCE: 0.0009139117754042303 370469.4
+0
+Warning: failed flux calculation on  370498.3
+0
+warning, checking for matching photozs for far but likely candidate 370498.3
+0
+Warning: failed flux calculation on  370498.4
+0
+warning, checking for matching photozs for far but likely candidate 370498.4
+0
+Warning: failed flux calculation on  370498.5
+0
+warning, checking for matching photozs for far but likely candidate 370498.5
+0
+warning, checking for matching photozs for far but likely candidate 370498.6
+0
+USING BEST CHANCE: 0.00113347355763449 370498.6
+0
+Warning: failed flux calculation on  370563.3
+0
+Warning: failed flux calculation on  370563.4
+0
+Warning: failed flux calculation on  370563.5
+0
+Warning: failed flux calculation on  370563.6
+0
+Warning: failed flux calculation on  370566.3
+0
+Warning: failed flux calculation on  370566.3
+0
+Warning: failed flux calculation on  370566.3
+0
+Warning: failed flux calculation on  370566.4
+0
+Warning: failed flux calculation on  370566.4
+0
+Warning: failed flux calculation on  370566.4
+0
+Warning: failed flux calculation on  370566.5
+0
+Warning: failed flux calculation on  370566.5
+0
+Warning: failed flux calculation on  370566.5
+0
+Warning: failed flux calculation on  370566.6
+0
+Warning: failed flux calculation on  370566.6
+0
+Warning: failed flux calculation on  370566.6
+0
+Warning: failed flux calculation on  370595.3
+0
+warning, checking for matching photozs for far but likely candidate 370595.3
+0
+Warning: failed flux calculation on  370595.4
+0
+warning, checking for matching photozs for far but likely candidate 370595.4
+0
+Warning: failed flux calculation on  370595.5
+0
+Warning: failed flux calculation on  370595.6
+0
+warning, checking for matching photozs for far but likely candidate 370595.6
+0
+USING BEST CHANCE: 0.0017987874329519205 380012.4
+0
+Warning: failed flux calculation on  380014.3
+0
+Warning: failed flux calculation on  380014.4
+0
+Warning: failed flux calculation on  380014.5
+0
+Warning: failed flux calculation on  380014.6
+0
+USING BEST CHANCE: 0.0012355685794578353 380014.4
+0
+Warning: failed flux calculation on  380040.5
+0
+Best.0.02634077492910447.NO_GOOD_CANIDIDATE 380040.6
+0
+Warning: failed flux calculation on  380046.3
+0
+Warning: failed flux calculation on  380046.4
+0
+Warning: failed flux calculation on  380046.5
+0
+Warning: failed flux calculation on  380046.6
+0
+warning, checking for matching photozs for far but likely candidate 380056.6
+0
+USING BEST CHANCE: 0.001854200709080378 380056.4
+0
+Best.0.027606298462397594.NO_GOOD_CANIDIDATE 380108.6
+0
+Warning: failed flux calculation on  390259.3
+0
+warning, checking for matching photozs for far but likely candidate 390259.3
+0
+Warning: failed flux calculation on  390259.4
+0
+warning, checking for matching photozs for far but likely candidate 390259.4
+0
+Warning: failed flux calculation on  390259.5
+0
+Warning: failed flux calculation on  390259.5
+0
+warning, checking for matching photozs for far but likely candidate 390259.5
+0
+Warning: failed flux calculation on  390259.6
+0
+warning, checking for matching photozs for far but likely candidate 390259.6
+0
+USING BEST CHANCE: 0.003451432492917794 390259.4
+0
+warning, checking for matching photozs for far but likely candidate 390264.3
+0
+warning, checking for matching photozs for far but likely candidate 390264.4
+0
+warning, checking for matching photozs for far but likely candidate 390264.5
+0
+warning, checking for matching photozs for far but likely candidate 390264.6
+0
+USING BEST CHANCE: 0.006881887585795554 390264.6
+0
+Best.0.0965608650826616.NO_GOOD_CANIDIDATE 390449.4
+0
+Warning: failed flux calculation on  390471.5
+0
+Warning: failed flux calculation on  390471.5
+0
+USING BEST CHANCE: 0.0007752632014725869 390627.6
+0
+Best.0.06198530265329549.NO_GOOD_CANIDIDATE 390712.4
+0
+Warning: failed flux calculation on  400158.3
+0
+Warning: failed flux calculation on  400158.5
+0
+Warning: failed flux calculation on  400158.5
+0
+Warning: failed flux calculation on  400158.6
+0
+Warning: failed flux calculation on  400158.6
+0
+warning, checking for matching photozs for far but likely candidate 400158.6
+0
+USING BEST CHANCE: 0.003794603881486114 400158.4
+0
+warning, checking for matching photozs for far but likely candidate 420100.5
+0
+warning, checking for matching photozs for far but likely candidate 420100.6
+0
+warning, checking for matching photozs for far but likely candidate 420136.4
+0
+Warning: failed flux calculation on  420136.5
+0
+warning, checking for matching photozs for far but likely candidate 420136.5
+0
+warning, checking for matching photozs for far but likely candidate 420136.6
+0
+Warning: failed flux calculation on  420159.3
+0
+Warning: failed flux calculation on  420159.4
+0
+Warning: failed flux calculation on  420159.4
+0
+Warning: failed flux calculation on  420159.5
+0
+Warning: failed flux calculation on  420159.5
+0
+Warning: failed flux calculation on  420159.6
+0
+Warning: failed flux calculation on  420159.6
+0
+USING BEST CHANCE: 0.0003075221116607407 420159.5
+0
+Warning: failed flux calculation on  420258.4
+0
+Warning: failed flux calculation on  420258.4
+0
+Warning: failed flux calculation on  420258.4
+0
+Warning: failed flux calculation on  420258.5
+0
+Warning: failed flux calculation on  420258.5
+0
+Warning: failed flux calculation on  420258.5
+0
+Warning: failed flux calculation on  420258.5
+0
+Warning: failed flux calculation on  420258.6
+0
+Warning: failed flux calculation on  420258.6
+0
+Warning: failed flux calculation on  420258.6
+0
+Warning: failed flux calculation on  420258.6
+0
+USING BEST CHANCE: 0.0009208135956590979 420258.6
+0
+Warning: failed flux calculation on  420352.4
+0
+Warning: failed flux calculation on  420352.5
+0
+Warning: failed flux calculation on  420352.6
+0
+Warning: failed flux calculation on  420393.5
+0
+USING BEST CHANCE: 0.0023922489333310093 420393.4
+0
+warning, checking for matching photozs for far but likely candidate 420407.3
+0
+USING BEST CHANCE: 0.0011850907898032226 420407.6
+0
+Warning: failed flux calculation on  420414.5
+0
+Best.0.3323691910420564.NO_GOOD_CANIDIDATE 430003.6
+0
+warning, checking for matching photozs for far but likely candidate 430004.3
+0
+warning, checking for matching photozs for far but likely candidate 430004.6
+0
+USING BEST CHANCE: 0.0014375575992247036 430004.4
+0
+Warning: failed flux calculation on  430005.3
+0
+Warning: failed flux calculation on  430005.4
+0
+Warning: failed flux calculation on  430005.4
+0
+Warning: failed flux calculation on  430005.5
+0
+Warning: failed flux calculation on  430005.5
+0
+Warning: failed flux calculation on  430005.6
+0
+USING BEST CHANCE: 0.0009755262969914913 430005.4
+0
+Warning: failed flux calculation on  440008.3
+0
+Warning: failed flux calculation on  440008.4
+0
+Warning: failed flux calculation on  440008.5
+0
+Warning: failed flux calculation on  440008.6
+0
+warning, checking for matching photozs for far but likely candidate 440011.3
+0
+warning, checking for matching photozs for far but likely candidate 440011.4
+0
+warning, checking for matching photozs for far but likely candidate 440011.5
+0
+warning, checking for matching photozs for far but likely candidate 440011.6
+0
+USING BEST CHANCE: 0.0017979913687399263 440011.4
+0
+warning, checking for matching photozs for far but likely candidate 440035.3
+0
+warning, checking for matching photozs for far but likely candidate 440035.4
+0
+Warning: failed flux calculation on  440035.5
+0
+Warning: failed flux calculation on  440035.5
+0
+warning, checking for matching photozs for far but likely candidate 440035.5
+0
+Warning: failed flux calculation on  440035.6
+0
+warning, checking for matching photozs for far but likely candidate 440035.6
+0
+USING BEST CHANCE: 0.006364898527232765 440035.4
+0
+Warning: failed flux calculation on  440039.3
+0
+Warning: failed flux calculation on  440039.3
+0
+Warning: failed flux calculation on  440039.4
+0
+Warning: failed flux calculation on  440039.4
+0
+Warning: failed flux calculation on  440039.5
+0
+Warning: failed flux calculation on  440039.5
+0
+Warning: failed flux calculation on  440039.6
+0
+Warning: failed flux calculation on  440039.6
+0
+Best.0.025644428225526372.NO_GOOD_CANIDIDATE 440042.5
+0
+Warning: failed flux calculation on  440050.3
+0
+Warning: failed flux calculation on  440050.4
+0
+Warning: failed flux calculation on  440050.5
+0
+Warning: failed flux calculation on  440050.6
+0
+Warning: failed flux calculation on  440162.3
+0
+Warning: failed flux calculation on  440162.4
+0
+Warning: failed flux calculation on  440162.5
+0
+Warning: failed flux calculation on  440162.5
+0
+Warning: failed flux calculation on  440162.6
+0
+Warning: failed flux calculation on  440162.6
+0
+warning, checking for matching photozs for far but likely candidate 440202.3
+0
+warning, checking for matching photozs for far but likely candidate 440202.4
+0
+warning, checking for matching photozs for far but likely candidate 440202.5
+0
+warning, checking for matching photozs for far but likely candidate 440202.6
+0
+USING BEST CHANCE: 0.0008631925080127001 440202.6
+0
+Warning: failed flux calculation on  440236.3
+0
+warning, checking for matching photozs for far but likely candidate 440236.3
+0
+Warning: failed flux calculation on  440236.4
+0
+Warning: failed flux calculation on  440236.4
+0
+Warning: failed flux calculation on  440236.4
+0
+warning, checking for matching photozs for far but likely candidate 440236.4
+0
+Warning: failed flux calculation on  440236.5
+0
+Warning: failed flux calculation on  440236.5
+0
+Warning: failed flux calculation on  440236.5
+0
+warning, checking for matching photozs for far but likely candidate 440236.5
+0
+Warning: failed flux calculation on  440236.6
+0
+Warning: failed flux calculation on  440236.6
+0
+Warning: failed flux calculation on  440236.6
+0
+warning, checking for matching photozs for far but likely candidate 440236.6
+0
+USING BEST CHANCE: 0.005663909433801018 440236.6
+0
+warning, checking for matching photozs for far but likely candidate 440264.3
+0
+warning, checking for matching photozs for far but likely candidate 440264.4
+0
+warning, checking for matching photozs for far but likely candidate 440264.5
+0
+warning, checking for matching photozs for far but likely candidate 440264.6
+0
+USING BEST CHANCE: 0.0025343704285072377 440264.6
+0
+warning, checking for matching photozs for far but likely candidate 440285.3
+0
+USING BEST CHANCE: 0.0010900175800955259 440285.4
+0
+Warning: failed flux calculation on  440420.5
+0
+Best.0.04180428805743097.NO_GOOD_CANIDIDATE 440420.4
+0
+warning, checking for matching photozs for far but likely candidate 440509.4
+0
+USING BEST CHANCE: 0.01862068590992383 440509.4
+0
+warning, checking for matching photozs for far but likely candidate 440643.3
+0
+warning, checking for matching photozs for far but likely candidate 440643.4
+0
+warning, checking for matching photozs for far but likely candidate 440643.5
+0
+warning, checking for matching photozs for far but likely candidate 450008.3
+0
+Warning: failed flux calculation on  450008.4
+0
+Warning: failed flux calculation on  450008.5
+0
+Warning: failed flux calculation on  450008.6
+0
+warning, checking for matching photozs for far but likely candidate 450008.6
+0
+USING BEST CHANCE: 0.002363933929362294 450008.4
+0
+Warning: failed flux calculation on  450020.3
+0
+Warning: failed flux calculation on  450020.4
+0
+Warning: failed flux calculation on  450020.5
+0
+Warning: failed flux calculation on  450020.6
+0
+USING BEST CHANCE: 0.0005194178965243212 450020.6
+0
+warning, checking for matching photozs for far but likely candidate 450025.3
+0
+warning, checking for matching photozs for far but likely candidate 450025.4
+0
+warning, checking for matching photozs for far but likely candidate 450025.5
+0
+warning, checking for matching photozs for far but likely candidate 450025.6
+0
+USING BEST CHANCE: 0.0027033274680047237 450025.6
+0
+Warning: failed flux calculation on  450175.3
+0
+Warning: failed flux calculation on  450175.4
+0
+Warning: failed flux calculation on  450175.5
+0
+Warning: failed flux calculation on  450175.6
+0
+Best.0.024500897564084467.NO_GOOD_CANIDIDATE 450175.4
+0
+Warning: failed flux calculation on  450266.4
+0
+Warning: failed flux calculation on  450266.4
+0
+Warning: failed flux calculation on  450266.5
+0
+Warning: failed flux calculation on  450266.5
+0
+Warning: failed flux calculation on  450266.5
+0
+Warning: failed flux calculation on  450266.6
+0
+Warning: failed flux calculation on  450266.6
+0
+Warning: failed flux calculation on  450266.6
+0
+warning, checking for matching photozs for far but likely candidate 450284.4
+0
+Warning: failed flux calculation on  450284.5
+0
+warning, checking for matching photozs for far but likely candidate 450284.5
+0
+Warning: failed flux calculation on  450284.6
+0
+warning, checking for matching photozs for far but likely candidate 450339.3
+0
+warning, checking for matching photozs for far but likely candidate 450339.4
+0
+warning, checking for matching photozs for far but likely candidate 450339.5
+0
+warning, checking for matching photozs for far but likely candidate 450339.6
+0
+USING BEST CHANCE: 0.003521061130576375 450339.4
+0
+Warning: failed flux calculation on  460001.3
+0
+Warning: failed flux calculation on  460001.4
+0
+Warning: failed flux calculation on  460001.5
+0
+Warning: failed flux calculation on  460001.6
+0
+warning, checking for matching photozs for far but likely candidate 460003.3
+0
+Warning: failed flux calculation on  460003.4
+0
+warning, checking for matching photozs for far but likely candidate 460003.4
+0
+Warning: failed flux calculation on  460003.5
+0
+warning, checking for matching photozs for far but likely candidate 460003.5
+0
+warning, checking for matching photozs for far but likely candidate 460003.6
+0
+USING BEST CHANCE: 0.001929776918455972 460003.4
+0
+Best.0.03154897700917403.NO_GOOD_CANIDIDATE 460004.6
+0
+Warning: failed flux calculation on  460105.3
+0
+warning, checking for matching photozs for far but likely candidate 460105.3
+0
+Warning: failed flux calculation on  460105.4
+0
+Warning: failed flux calculation on  460105.5
+0
+Warning: failed flux calculation on  460105.6
+0
+USING BEST CHANCE: 0.0008866205335513744 460105.6
+0
+Warning: failed flux calculation on  470001.5
+0
+Best.0.05022491368263915.NO_GOOD_CANIDIDATE 470043.6
+0
+Warning: failed flux calculation on  470047.5
+0
+Warning: failed flux calculation on  470047.5
+0
+Warning: failed flux calculation on  470047.6
+0
+warning, checking for matching photozs for far but likely candidate 470232.3
+0
+warning, checking for matching photozs for far but likely candidate 470232.4
+0
+warning, checking for matching photozs for far but likely candidate 470232.5
+0
+warning, checking for matching photozs for far but likely candidate 470232.6
+0
+USING BEST CHANCE: 0.00307160013017449 470232.4
+0
+Best.0.07234681046844271.NO_GOOD_CANIDIDATE 470240.4
+0
+Warning: failed flux calculation on  470244.5
+0
+Warning: failed flux calculation on  470244.6
+0
+USING BEST CHANCE: 0.000824649619672102 480058.4
+0
+Warning: failed flux calculation on  480168.3
+0
+Warning: failed flux calculation on  480168.4
+0
+Warning: failed flux calculation on  480168.5
+0
+Warning: failed flux calculation on  480168.5
+0
+Warning: failed flux calculation on  480168.6
+0
+Warning: failed flux calculation on  480168.6
+0
+USING BEST CHANCE: 0.0012840006783306768 480464.6
+0
+Best.0.22100227484087553.NO_GOOD_CANIDIDATE 480552.4
+0
+Warning: failed flux calculation on  480845.4
+0
+Warning: failed flux calculation on  480845.5
+0
+Warning: failed flux calculation on  480845.6
+0
+USING BEST CHANCE: 0.00029422811555190886 480845.6
+0
+Warning: failed flux calculation on  490007.5
+0
+USING BEST CHANCE: 0.0007313387016170125 490007.4
+0
+Warning: failed flux calculation on  490008.3
+0
+Warning: failed flux calculation on  490008.4
+0
+Warning: failed flux calculation on  490008.5
+0
+Warning: failed flux calculation on  490008.6
+0
+Warning: failed flux calculation on  490037.3
+0
+Warning: failed flux calculation on  490037.4
+0
+Warning: failed flux calculation on  490037.4
+0
+Warning: failed flux calculation on  490037.4
+0
+Warning: failed flux calculation on  490037.5
+0
+Warning: failed flux calculation on  490037.5
+0
+Warning: failed flux calculation on  490037.5
+0
+Warning: failed flux calculation on  490037.5
+0
+warning, checking for matching photozs for far but likely candidate 490037.5
+0
+Warning: failed flux calculation on  490037.6
+0
+Warning: failed flux calculation on  490037.6
+0
+Warning: failed flux calculation on  490037.6
+0
+warning, checking for matching photozs for far but likely candidate 490037.6
+0
+Warning: failed flux calculation on  500004.5
+0
+Warning: failed flux calculation on  500012.3
+0
+Warning: failed flux calculation on  500012.4
+0
+Warning: failed flux calculation on  500012.5
+0
+warning, checking for matching photozs for far but likely candidate 500012.5
+0
+Warning: failed flux calculation on  500012.6
+0
+warning, checking for matching photozs for far but likely candidate 500012.6
+0
+USING BEST CHANCE: 0.0011123494057793115 500012.6
+0
+USING BEST CHANCE: 0.0015394965834677476 500038.4
+0
+Best.0.08344863934474167.NO_GOOD_CANIDIDATE 500057.4
+0
+warning, checking for matching photozs for far but likely candidate 500100.3
+0
+Warning: failed flux calculation on  500100.4
+0
+warning, checking for matching photozs for far but likely candidate 500100.4
+0
+Warning: failed flux calculation on  500100.5
+0
+warning, checking for matching photozs for far but likely candidate 500100.5
+0
+Warning: failed flux calculation on  500100.6
+0
+warning, checking for matching photozs for far but likely candidate 500100.6
+0
+USING BEST CHANCE: 0.005485900063262994 500100.6
+0
+USING BEST CHANCE: 0.0009152754421065668 500332.5
+0
+Warning: failed flux calculation on  510113.3
+0
+warning, checking for matching photozs for far but likely candidate 510113.3
+0
+Warning: failed flux calculation on  510113.4
+0
+warning, checking for matching photozs for far but likely candidate 510113.4
+0
+Warning: failed flux calculation on  510113.5
+0
+warning, checking for matching photozs for far but likely candidate 510113.5
+0
+Warning: failed flux calculation on  510113.6
+0
+warning, checking for matching photozs for far but likely candidate 510113.6
+0
+USING BEST CHANCE: 0.00812776563911044 510113.4
+0
+Warning: failed flux calculation on  510174.3
+0
+Warning: failed flux calculation on  510174.4
+0
+Warning: failed flux calculation on  510174.5
+0
+Warning: failed flux calculation on  510174.6
+0
+USING BEST CHANCE: 0.0006881837970209581 510174.4
+0
+USING BEST CHANCE: 0.0009493316527342532 510251.6
+0
+warning, checking for matching photozs for far but likely candidate 510266.3
+0
+warning, checking for matching photozs for far but likely candidate 510266.4
+0
+warning, checking for matching photozs for far but likely candidate 510266.6
+0
+USING BEST CHANCE: 0.0026984683295879774 510266.6
+0
+Warning: failed flux calculation on  510457.3
+0
+Warning: failed flux calculation on  510457.4
+0
+Warning: failed flux calculation on  510457.5
+0
+Warning: failed flux calculation on  510457.6
+0
+Warning: failed flux calculation on  510550.4
+0
+Warning: failed flux calculation on  510550.5
+0
+Warning: failed flux calculation on  510550.5
+0
+Warning: failed flux calculation on  510550.6
+0
+Warning: failed flux calculation on  510550.6
+0
+Warning: failed flux calculation on  510578.3
+0
+warning, checking for matching photozs for far but likely candidate 510578.3
+0
+Warning: failed flux calculation on  510578.4
+0
+warning, checking for matching photozs for far but likely candidate 510578.4
+0
+Warning: failed flux calculation on  510578.5
+0
+warning, checking for matching photozs for far but likely candidate 510578.5
+0
+Warning: failed flux calculation on  510578.6
+0
+warning, checking for matching photozs for far but likely candidate 510578.6
+0
+Best.0.039267511732938076.NO_GOOD_CANIDIDATE 510597.6
+0
+warning, checking for matching photozs for far but likely candidate 510638.4
+0
+Warning: failed flux calculation on  510638.5
+0
+Warning: failed flux calculation on  510638.5
+0
+Warning: failed flux calculation on  510638.6
+0
+USING BEST CHANCE: 0.01961839642068086 510638.4
+0
+Warning: failed flux calculation on  520008.5
+0
+USING BEST CHANCE: 0.0020092371623757765 520008.6
+0
+Warning: failed flux calculation on  520019.5
+0
+Warning: failed flux calculation on  520022.3
+0
+Warning: failed flux calculation on  520022.4
+0
+Warning: failed flux calculation on  520022.4
+0
+Warning: failed flux calculation on  520022.5
+0
+Warning: failed flux calculation on  520022.5
+0
+Warning: failed flux calculation on  520022.6
+0
+Warning: failed flux calculation on  520022.6
+0
+Warning: failed flux calculation on  520023.5
+0
+Warning: failed flux calculation on  520062.3
+0
+Warning: failed flux calculation on  520062.3
+0
+Warning: failed flux calculation on  520062.4
+0
+Warning: failed flux calculation on  520062.4
+0
+Warning: failed flux calculation on  520062.5
+0
+Warning: failed flux calculation on  520062.5
+0
+Warning: failed flux calculation on  520062.5
+0
+Warning: failed flux calculation on  520062.6
+0
+Warning: failed flux calculation on  520062.6
+0
+Warning: failed flux calculation on  520062.6
+0
+Warning: failed flux calculation on  520071.3
+0
+Warning: failed flux calculation on  520071.4
+0
+Warning: failed flux calculation on  520071.4
+0
+Warning: failed flux calculation on  520071.4
+0
+Warning: failed flux calculation on  520071.5
+0
+Warning: failed flux calculation on  520071.5
+0
+Warning: failed flux calculation on  520071.5
+0
+Warning: failed flux calculation on  520071.6
+0
+Warning: failed flux calculation on  520071.6
+0
+warning, checking for matching photozs for far but likely candidate 520107.3
+0
+warning, checking for matching photozs for far but likely candidate 520107.4
+0
+Warning: failed flux calculation on  520107.6
+0
+Warning: failed flux calculation on  520188.3
+0
+Warning: failed flux calculation on  520188.4
+0
+warning, checking for matching photozs for far but likely candidate 520188.4
+0
+Warning: failed flux calculation on  520188.5
+0
+warning, checking for matching photozs for far but likely candidate 520188.5
+0
+Warning: failed flux calculation on  520188.6
+0
+warning, checking for matching photozs for far but likely candidate 520188.6
+0
+USING BEST CHANCE: 0.009371628023610246 520188.4
+0
+Warning: failed flux calculation on  530037.3
+0
+Warning: failed flux calculation on  530037.4
+0
+Warning: failed flux calculation on  530037.4
+0
+Warning: failed flux calculation on  530037.4
+0
+Warning: failed flux calculation on  530037.4
+0
+Warning: failed flux calculation on  530037.5
+0
+Warning: failed flux calculation on  530037.5
+0
+Warning: failed flux calculation on  530037.5
+0
+Warning: failed flux calculation on  530037.5
+0
+Warning: failed flux calculation on  530037.5
+0
+Warning: failed flux calculation on  530037.6
+0
+Warning: failed flux calculation on  530037.6
+0
+Warning: failed flux calculation on  530037.6
+0
+Warning: failed flux calculation on  530037.6
+0
+USING BEST CHANCE: 0.0010257651939500345 530037.6
+0
+Warning: failed flux calculation on  530061.5
+0
+Warning: failed flux calculation on  530061.6
+0
+USING BEST CHANCE: 0.0006543799794842542 530061.6
+0
+warning, checking for matching photozs for far but likely candidate 530085.3
+0
+USING BEST CHANCE: 0.00036508114514544054 530086.6
+0
+USING BEST CHANCE: 0.0006567955851489726 530128.4
+0
+USING BEST CHANCE: 0.0009305236515353421 530175.4
+0
+warning, checking for matching photozs for far but likely candidate 530219.3
+0
+warning, checking for matching photozs for far but likely candidate 530219.4
+0
+USING BEST CHANCE: 0.0009179696552800154 530219.3
+0
+Warning: failed flux calculation on  530240.4
+0
+Warning: failed flux calculation on  530240.5
+0
+Warning: failed flux calculation on  530240.6
+0
+USING BEST CHANCE: 0.0012436342620743002 530240.4
+0
+warning, checking for matching photozs for far but likely candidate 530249.4
+0
+Warning: failed flux calculation on  530249.5
+0
+USING BEST CHANCE: 0.017304056568170578 530249.4
+0
+warning, checking for matching photozs for far but likely candidate 530251.4
+0
+warning, checking for matching photozs for far but likely candidate 530251.5
+0
+USING BEST CHANCE: 0.0011333457030745508 550005.4
+0
+Warning: failed flux calculation on  550041.6
+0
+Best.0.05638830464415445.NO_GOOD_CANIDIDATE 550041.4
+0
+warning, checking for matching photozs for far but likely candidate 550059.4
+0
+warning, checking for matching photozs for far but likely candidate 550059.5
+0
+warning, checking for matching photozs for far but likely candidate 550059.6
+0
+USING BEST CHANCE: 0.003373385405142537 550059.6
+0
+warning, checking for matching photozs for far but likely candidate 550096.3
+0
+warning, checking for matching photozs for far but likely candidate 550096.4
+0
+warning, checking for matching photozs for far but likely candidate 550096.5
+0
+warning, checking for matching photozs for far but likely candidate 550096.6
+0
+USING BEST CHANCE: 0.0007386984061968915 550096.4
+0
+Warning: failed flux calculation on  550130.4
+0
+Warning: failed flux calculation on  550130.5
+0
+Warning: failed flux calculation on  550130.6
+0
+USING BEST CHANCE: 0.0008756690718451088 550130.4
+0
+Warning: failed flux calculation on  550137.3
+0
+warning, checking for matching photozs for far but likely candidate 550137.3
+0
+Warning: failed flux calculation on  550137.4
+0
+Warning: failed flux calculation on  550137.5
+0
+Warning: failed flux calculation on  550137.6
+0
+Warning: failed flux calculation on  550154.3
+0
+Warning: failed flux calculation on  550154.4
+0
+Warning: failed flux calculation on  550154.5
+0
+Warning: failed flux calculation on  550154.6
+0
+Warning: failed flux calculation on  550155.3
+0
+warning, checking for matching photozs for far but likely candidate 550155.3
+0
+Warning: failed flux calculation on  550155.4
+0
+Warning: failed flux calculation on  550155.5
+0
+USING BEST CHANCE: 0.0004944857044210105 550190.4
+0
+USING BEST CHANCE: 0.0010720157235698524 550197.4
+0
+Warning: failed flux calculation on  550202.3
+0
+warning, checking for matching photozs for far but likely candidate 550202.3
+0
+Warning: failed flux calculation on  550202.4
+0
+Warning: failed flux calculation on  550202.5
+0
+Warning: failed flux calculation on  550202.6
+0
+Warning: failed flux calculation on  550218.3
+0
+Warning: failed flux calculation on  550218.4
+0
+Warning: failed flux calculation on  550218.5
+0
+Warning: failed flux calculation on  550218.6
+0
+Warning: failed flux calculation on  550221.5
+0
+Best.0.038665327616902.NO_GOOD_CANIDIDATE 550221.4
+0
+Warning: failed flux calculation on  560027.4
+0
+Best.0.10491617951144105.NO_GOOD_CANIDIDATE 560027.6
+0
+Warning: failed flux calculation on  560033.4
+0
+Warning: failed flux calculation on  560033.5
+0
+Warning: failed flux calculation on  560033.5
+0
+Warning: failed flux calculation on  560033.6
+0
+Warning: failed flux calculation on  560033.6
+0
+USING BEST CHANCE: 0.0011488526340753813 560033.4
+0
+Warning: failed flux calculation on  560054.3
+0
+warning, checking for matching photozs for far but likely candidate 560054.3
+0
+Warning: failed flux calculation on  560054.4
+0
+Warning: failed flux calculation on  560054.5
+0
+Warning: failed flux calculation on  560054.6
+0
+USING BEST CHANCE: 0.0024492054335094604 560054.6
+0
+Warning: failed flux calculation on  560116.5
+0
+Warning: failed flux calculation on  560116.6
+0
+warning, checking for matching photozs for far but likely candidate 560152.3
+0
+warning, checking for matching photozs for far but likely candidate 560152.4
+0
+Warning: failed flux calculation on  560152.5
+0
+warning, checking for matching photozs for far but likely candidate 560152.6
+0
+USING BEST CHANCE: 0.0013323620825502758 560152.6
+0
+warning, checking for matching photozs for far but likely candidate 570025.3
+0
+Warning: failed flux calculation on  570025.4
+0
+Warning: failed flux calculation on  570025.5
+0
+Warning: failed flux calculation on  570062.3
+0
+Warning: failed flux calculation on  570062.3
+0
+Warning: failed flux calculation on  570062.4
+0
+Warning: failed flux calculation on  570062.4
+0
+Warning: failed flux calculation on  570062.5
+0
+Warning: failed flux calculation on  570062.5
+0
+Warning: failed flux calculation on  570062.6
+0
+Warning: failed flux calculation on  570062.6
+0
+warning, checking for matching photozs for far but likely candidate 570096.3
+0
+warning, checking for matching photozs for far but likely candidate 570096.4
+0
+warning, checking for matching photozs for far but likely candidate 570096.5
+0
+warning, checking for matching photozs for far but likely candidate 570096.6
+0
+USING BEST CHANCE: 0.0005853850493433566 570096.4
+0
+USING BEST CHANCE: 0.0011175532694241985 580098.4
+0
+Warning: failed flux calculation on  580234.4
+0
+Warning: failed flux calculation on  580234.4
+0
+warning, checking for matching photozs for far but likely candidate 580234.4
+0
+Warning: failed flux calculation on  580234.5
+0
+Warning: failed flux calculation on  580234.5
+0
+Warning: failed flux calculation on  580234.5
+0
+Warning: failed flux calculation on  580234.6
+0
+Warning: failed flux calculation on  580234.6
+0
+warning, checking for matching photozs for far but likely candidate 580234.6
+0
+USING BEST CHANCE: 0.017334035736209952 580234.4
+0
+Best.0.0327576468081191.NO_GOOD_CANIDIDATE 580235.4
+0
+Warning: failed flux calculation on  580276.3
+0
+Warning: failed flux calculation on  580276.4
+0
+Warning: failed flux calculation on  580276.5
+0
+Warning: failed flux calculation on  580276.6
+0
+warning, checking for matching photozs for far but likely candidate 580289.3
+0
+warning, checking for matching photozs for far but likely candidate 580289.6
+0
+Warning: failed flux calculation on  580300.4
+0
+Warning: failed flux calculation on  580300.4
+0
+Warning: failed flux calculation on  580300.5
+0
+Warning: failed flux calculation on  580300.6
+0
+Warning: failed flux calculation on  580300.6
+0
+Warning: failed flux calculation on  580312.4
+0
+Warning: failed flux calculation on  580312.5
+0
+warning, checking for matching photozs for far but likely candidate 580327.3
+0
+Warning: failed flux calculation on  580327.4
+0
+warning, checking for matching photozs for far but likely candidate 580327.4
+0
+Warning: failed flux calculation on  580327.5
+0
+warning, checking for matching photozs for far but likely candidate 580327.5
+0
+Warning: failed flux calculation on  580327.6
+0
+warning, checking for matching photozs for far but likely candidate 580327.6
+0
+USING BEST CHANCE: 0.003993785769397462 580327.4
+0
+warning, checking for matching photozs for far but likely candidate 590002.3
+0
+warning, checking for matching photozs for far but likely candidate 590002.4
+0
+warning, checking for matching photozs for far but likely candidate 590002.5
+0
+warning, checking for matching photozs for far but likely candidate 590002.6
+0
+USING BEST CHANCE: 0.0017580896923097278 590002.6
+0
+warning, checking for matching photozs for far but likely candidate 590005.3
+0
+Warning: failed flux calculation on  590005.5
+0
+Warning: failed flux calculation on  590005.6
+0
+USING BEST CHANCE: 0.002686962488979483 590005.4
+0
+Warning: failed flux calculation on  590045.3
+0
+warning, checking for matching photozs for far but likely candidate 590045.3
+0
+Warning: failed flux calculation on  590045.4
+0
+warning, checking for matching photozs for far but likely candidate 590045.4
+0
+Warning: failed flux calculation on  590045.5
+0
+Warning: failed flux calculation on  590045.6
+0
+warning, checking for matching photozs for far but likely candidate 590045.6
+0
+USING BEST CHANCE: 0.0006868933039062552 590045.4
+0
+Best.0.1269272933368174.NO_GOOD_CANIDIDATE 590123.4
+0
+Warning: failed flux calculation on  590287.3
+0
+Warning: failed flux calculation on  590287.4
+0
+Warning: failed flux calculation on  590287.4
+0
+Warning: failed flux calculation on  590287.5
+0
+Warning: failed flux calculation on  590287.5
+0
+Warning: failed flux calculation on  590287.6
+0
+Warning: failed flux calculation on  590287.6
+0
+Best.0.162263105239851.NO_GOOD_CANIDIDATE 590287.6
