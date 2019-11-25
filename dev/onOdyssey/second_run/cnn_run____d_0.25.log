@@ -1,0 +1,163 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py:3445: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+cnn_aardvark_aug_concat.py:397: UserWarning: Update your `Model` call to the Keras 2 API: `Model(inputs=Tensor("in..., outputs=Tensor("de...)`
+  model = Model(input=ins, output=dense2)
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-11-07 09:06:50.408195: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2019-11-07 09:06:50.412190: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2900000000 Hz
+2019-11-07 09:06:50.412307: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5650a8854de0 executing computations on platform Host. Devices:
+2019-11-07 09:06:50.412327: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+[0.25]
+Train on 870 samples, validate on 290 samples
+Epoch 1/35
+
+870/870 [==============================] - 56s 64ms/step - loss: 1.6097 - acc: 0.2149 - val_loss: 1.5764 - val_acc: 0.2621
+Epoch 2/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.5653 - acc: 0.4322 - val_loss: 1.5285 - val_acc: 0.2828
+Epoch 3/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.5046 - acc: 0.3954 - val_loss: 1.4803 - val_acc: 0.2862
+Epoch 4/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.4386 - acc: 0.4368 - val_loss: 1.4476 - val_acc: 0.3483
+Epoch 5/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.3809 - acc: 0.4563 - val_loss: 1.4398 - val_acc: 0.3793
+Epoch 6/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.3304 - acc: 0.5184 - val_loss: 1.4061 - val_acc: 0.4000
+Epoch 7/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.2646 - acc: 0.5621 - val_loss: 1.4102 - val_acc: 0.3621
+Epoch 8/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.2222 - acc: 0.4989 - val_loss: 1.3994 - val_acc: 0.3759
+Epoch 9/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.1747 - acc: 0.5621 - val_loss: 1.3793 - val_acc: 0.4862
+Epoch 10/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.1229 - acc: 0.7023 - val_loss: 1.3873 - val_acc: 0.3621
+Epoch 11/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.0882 - acc: 0.5552 - val_loss: 1.3655 - val_acc: 0.4069
+Epoch 12/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.0372 - acc: 0.6080 - val_loss: 1.3602 - val_acc: 0.5138
+Epoch 13/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 1.0077 - acc: 0.7276 - val_loss: 1.3527 - val_acc: 0.5414
+Epoch 14/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.9652 - acc: 0.7115 - val_loss: 1.3553 - val_acc: 0.4655
+Epoch 15/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.9339 - acc: 0.6322 - val_loss: 1.3373 - val_acc: 0.5172
+Epoch 16/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.9009 - acc: 0.6713 - val_loss: 1.3332 - val_acc: 0.5172
+Epoch 17/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.8656 - acc: 0.6966 - val_loss: 1.3526 - val_acc: 0.5655
+Epoch 18/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.8424 - acc: 0.7161 - val_loss: 1.3291 - val_acc: 0.5759
+Epoch 19/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.8065 - acc: 0.7437 - val_loss: 1.3295 - val_acc: 0.5276
+Epoch 20/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.7837 - acc: 0.7218 - val_loss: 1.3522 - val_acc: 0.5172
+Epoch 21/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.7582 - acc: 0.6920 - val_loss: 1.3423 - val_acc: 0.5759
+Epoch 22/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.7337 - acc: 0.8138 - val_loss: 1.3419 - val_acc: 0.6172
+Epoch 23/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.7061 - acc: 0.7931 - val_loss: 1.3751 - val_acc: 0.5276
+Epoch 24/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.6923 - acc: 0.7080 - val_loss: 1.3520 - val_acc: 0.6241
+Epoch 25/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.6676 - acc: 0.8517 - val_loss: 1.3828 - val_acc: 0.6207
+Epoch 26/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.6448 - acc: 0.8471 - val_loss: 1.3881 - val_acc: 0.5448
+Epoch 27/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.6251 - acc: 0.7586 - val_loss: 1.3724 - val_acc: 0.6586
+Epoch 28/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.6112 - acc: 0.8345 - val_loss: 1.4281 - val_acc: 0.6655
+Epoch 29/35
+
+870/870 [==============================] - 47s 54ms/step - loss: 0.5946 - acc: 0.8299 - val_loss: 1.4006 - val_acc: 0.6690
+Epoch 30/35
+
+870/870 [==============================] - 46s 53ms/step - loss: 0.5658 - acc: 0.8368 - val_loss: 1.3913 - val_acc: 0.6241
+Epoch 31/35
+
+870/870 [==============================] - 46s 53ms/step - loss: 0.5606 - acc: 0.8287 - val_loss: 1.4508 - val_acc: 0.5966
+Epoch 32/35
+
+870/870 [==============================] - 46s 53ms/step - loss: 0.5464 - acc: 0.8000 - val_loss: 1.4331 - val_acc: 0.6172
+Epoch 33/35
+
+870/870 [==============================] - 46s 53ms/step - loss: 0.5254 - acc: 0.8644 - val_loss: 1.4113 - val_acc: 0.5966
+Epoch 34/35
+
+870/870 [==============================] - 46s 53ms/step - loss: 0.5152 - acc: 0.8253 - val_loss: 1.4536 - val_acc: 0.5655
+Epoch 35/35
+
+870/870 [==============================] - 46s 53ms/step - loss: 0.5011 - acc: 0.7966 - val_loss: 1.4602 - val_acc: 0.5931
+Saved trained model at /n/holylfs03/LABS/berger_lab/nchou/saved_models/aardvark_aug11.h5 
+[[1.06314085e-01 5.34021854e-02 9.86298770e-02 5.02429366e-01
+  2.39224508e-01]
+ [2.33843420e-02 9.25605297e-01 5.06741181e-02 2.32814316e-04
+  1.03497398e-04]
+ [1.14505775e-01 4.35313918e-02 1.02068529e-01 4.85391408e-01
+  2.54502863e-01]
+ ...
+ [3.56785092e-03 2.68182177e-02 7.73010552e-01 1.96386769e-01
+  2.16561384e-04]
+ [5.12237191e-01 4.21070844e-01 6.66914135e-02 5.44931481e-07
+  2.28910135e-09]
+ [8.93430784e-02 3.89309898e-02 1.24114119e-01 4.87963289e-01
+  2.59648621e-01]]
+[3 1 3 0 1 3 0 2 3 1 3 0 3 3 3 0 2 4 0 3 2 1 1 3 3 1 1 3 1 3 3 0 3 2 3 3 3
+ 3 0 0 3 3 3 1 3 3 2 3 3 1 3 3 0 0 2 3 0 3 2 3 3 0 1 1 3 3 3 3 1 3 3 3 1 1
+ 0 3 3 3 1 3 3 0 3 1 1 3 3 3 3 1 3 0 3 3 3 3 0 0 2 3 3 3 2 3 3 3 3 3 1 3 3
+ 3 1 2 1 1 3 3 3 3 3 3 3 3 3 3 1 1 3 3 2 3 3 3 0 3 3 2 3 2 3 1 3 0 0 1 3 4
+ 1 3 3 1 3 2 1 0 3 3 1 3 3 3 2 2 1 3 0 3 3 3 3 3 3 1 3 3 3 3 3 1 1 3 2 3 3
+ 0 3 1 3 3 3 3 2 3 2 3 4 2 0 0 3 0 3 3 4 3 3 3 3 3 3 3 3 0 3 1 4 3 2 3 0 2
+ 3 3 2 3 2 3 3 3 3 3 3 3 3 3 3 0 3 3 2 4 3 3 3 0 3 0 3 4 0 3 3 3 4 3 3 3 3
+ 0 1 3 0 1 3 3 2 0 3 3 3 1 2 3 3 0 2 3 3 3 3 3 3 0 1 3 3 2 0 3]
+
+ 32/290 [==>...........................] - ETA: 4s
+ 64/290 [=====>........................] - ETA: 4s
+ 96/290 [========>.....................] - ETA: 3s
+128/290 [============>.................] - ETA: 2s
+160/290 [===============>..............] - ETA: 2s
+192/290 [==================>...........] - ETA: 1s
+224/290 [======================>.......] - ETA: 1s
+256/290 [=========================>....] - ETA: 0s
+288/290 [============================>.] - ETA: 0s
+290/290 [==============================] - 5s 18ms/step
+Test loss: 1.8013340012780552
+Test accuracy: 0.41724137931034483
+[[24 14  7 11  2]
+ [ 0 19  0 39  0]
+ [13  7 19 19  0]
+ [ 1  1  3 53  0]
+ [ 0  0  0 52  6]]

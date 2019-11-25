@@ -1,0 +1,40 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+None
+Traceback (most recent call last):
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1659, in _create_c_op
+    c_op = c_api.TF_FinishOperation(op_desc)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Negative dimension size caused by subtracting 100 from 80 for 'max_pooling2d_2/MaxPool' (op: 'MaxPool') with input shapes: [?,80,80,32].
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "cnn_aardvark_aug_concat.py", line 464, in <module>
+    main()
+  File "cnn_aardvark_aug_concat.py", line 373, in main
+    pool3 = MaxPooling2D(pool_size=(args.pooling[0], args.pooling[0]))(pool2)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/engine/base_layer.py", line 457, in __call__
+    output = self.call(inputs, **kwargs)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/layers/pooling.py", line 205, in call
+    data_format=self.data_format)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/layers/pooling.py", line 268, in _pooling_function
+    pool_mode='max')
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py", line 3978, in pool2d
+    data_format=tf_data_format)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/nn_ops.py", line 2748, in max_pool
+    name=name)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/gen_nn_ops.py", line 5137, in max_pool
+    data_format=data_format, name=name)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 788, in _apply_op_helper
+    op_def=op_def)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/util/deprecation.py", line 507, in new_func
+    return func(*args, **kwargs)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3300, in create_op
+    op_def=op_def)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1823, in __init__
+    control_input_ops)
+  File "/n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1662, in _create_c_op
+    raise ValueError(str(e))
+ValueError: Negative dimension size caused by subtracting 100 from 80 for 'max_pooling2d_2/MaxPool' (op: 'MaxPool') with input shapes: [?,80,80,32].
