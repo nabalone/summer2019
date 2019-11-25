@@ -1,0 +1,8 @@
+Using TensorFlow backend.
+None
+Traceback (most recent call last):
+  File "cnn_aardvark_aug_concat.py", line 566, in <module>
+    main()
+  File "cnn_aardvark_aug_concat.py", line 298, in main
+    raise(ValueError, "NOT YET IMPLEMENTED IA WITH EXTRACTED")
+TypeError: exceptions must derive from BaseException

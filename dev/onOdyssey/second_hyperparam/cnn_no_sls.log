@@ -1,0 +1,7 @@
+Using TensorFlow backend.
+Traceback (most recent call last):
+  File "cnn_aardvark_aug_concat.py", line 407, in <module>
+    main()
+  File "cnn_aardvark_aug_concat.py", line 258, in main
+    X_train = X_train[y_train != 4]
+IndexError: boolean index did not match indexed array along dimension 0; dimension is 1000 but corresponding boolean dimension is 800

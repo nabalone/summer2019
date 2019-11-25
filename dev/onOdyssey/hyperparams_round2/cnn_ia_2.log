@@ -1,0 +1,194 @@
+10/30. using ia matrix and default lr
+
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+cnn_aardvark_aug_concat.py:298: UserWarning: Update your `Model` call to the Keras 2 API: `Model(inputs=Tensor("in..., outputs=Tensor("de...)`
+  model = Model(input=ins, output=dense2)
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-10-30 20:31:04.434089: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2019-10-30 20:31:04.439221: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2900000000 Hz
+2019-10-30 20:31:04.439331: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x558d341844a0 executing computations on platform Host. Devices:
+2019-10-30 20:31:04.439351: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+Train on 114 samples, validate on 114 samples
+Epoch 1/10
+
+ 50/114 [============>.................] - ETA: 26s - loss: 6.7696 - acc: 0.5800
+100/114 [=========================>....] - ETA: 4s - loss: 8.3771 - acc: 0.4800 
+114/114 [==============================] - 41s 357ms/step - loss: 7.7725 - acc: 0.5175 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 2/10
+
+ 50/114 [============>.................] - ETA: 12s - loss: 8.7038 - acc: 0.4600
+100/114 [=========================>....] - ETA: 2s - loss: 8.2202 - acc: 0.4900 
+114/114 [==============================] - 29s 255ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 3/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 7.4143 - acc: 0.5400
+100/114 [=========================>....] - ETA: 2s - loss: 7.5755 - acc: 0.5300 
+114/114 [==============================] - 29s 253ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 4/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 8.0590 - acc: 0.5000
+100/114 [=========================>....] - ETA: 2s - loss: 7.7367 - acc: 0.5200 
+114/114 [==============================] - 29s 252ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 5/10
+
+ 50/114 [============>.................] - ETA: 12s - loss: 8.7038 - acc: 0.4600
+100/114 [=========================>....] - ETA: 2s - loss: 8.2202 - acc: 0.4900 
+114/114 [==============================] - 29s 253ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 6/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 6.7696 - acc: 0.5800
+100/114 [=========================>....] - ETA: 2s - loss: 7.7367 - acc: 0.5200 
+114/114 [==============================] - 28s 250ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 7/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 7.0920 - acc: 0.5600
+100/114 [=========================>....] - ETA: 2s - loss: 8.0590 - acc: 0.5000 
+114/114 [==============================] - 29s 251ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 8/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 6.4472 - acc: 0.6000
+100/114 [=========================>....] - ETA: 2s - loss: 7.5755 - acc: 0.5300 
+114/114 [==============================] - 29s 250ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 9/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 7.7367 - acc: 0.5200
+100/114 [=========================>....] - ETA: 2s - loss: 7.7367 - acc: 0.5200 
+114/114 [==============================] - 29s 252ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Epoch 10/10
+
+ 50/114 [============>.................] - ETA: 11s - loss: 8.3814 - acc: 0.4800
+100/114 [=========================>....] - ETA: 2s - loss: 8.2202 - acc: 0.4900 
+114/114 [==============================] - 28s 250ms/step - loss: 8.0590 - acc: 0.5000 - val_loss: 8.0590 - val_acc: 0.5000
+Saved trained model at /n/holylfs03/LABS/berger_lab/nchou/saved_models/aardvark_aug11.h5 
+[[0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]
+ [0. 1.]]
+[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1]
+
+ 32/114 [=======>......................] - ETA: 3s
+ 64/114 [===============>..............] - ETA: 1s
+ 96/114 [========================>.....] - ETA: 0s
+114/114 [==============================] - 4s 38ms/step
+Test loss: 8.059047866285892
+Test accuracy: 0.49999999895430447
+[[ 0 57]
+ [ 0 57]]

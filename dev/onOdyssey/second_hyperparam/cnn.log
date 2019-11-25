@@ -1,0 +1,194 @@
+a
+
+b
+
+c
+
+d
+
+e
+
+f
+
+1
+
+
+2
+
+
+3
+
+
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+4
+
+
+5
+
+
+5
+
+
+404
+5
+
+
+404
+5
+
+
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-07-20 17:35:44.504629: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-07-20 17:35:44.529266: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2095315000 Hz
+2019-07-20 17:35:44.529668: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x556a6f671360 executing computations on platform Host. Devices:
+2019-07-20 17:35:44.529721: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+Epoch 1/50
+
+404/404 [==============================] - 392s 970ms/step - loss: 1.6089 - acc: 0.2748
+Epoch 2/50
+
+404/404 [==============================] - 373s 922ms/step - loss: 1.2689 - acc: 0.7054
+Epoch 3/50
+
+404/404 [==============================] - 376s 930ms/step - loss: 0.9562 - acc: 0.7054
+Epoch 4/50
+
+404/404 [==============================] - 376s 930ms/step - loss: 0.9379 - acc: 0.7252
+Epoch 5/50
+
+404/404 [==============================] - 373s 923ms/step - loss: 1.0068 - acc: 0.7054
+Epoch 6/50
+
+404/404 [==============================] - 372s 921ms/step - loss: 0.9465 - acc: 0.7426
+Epoch 7/50
+
+404/404 [==============================] - 369s 915ms/step - loss: 1.0266 - acc: 0.7079
+Epoch 8/50
+
+404/404 [==============================] - 371s 918ms/step - loss: 0.8772 - acc: 0.7376
+Epoch 9/50
+
+404/404 [==============================] - 369s 914ms/step - loss: 0.9124 - acc: 0.7079
+Epoch 10/50
+
+404/404 [==============================] - 371s 917ms/step - loss: 0.8759 - acc: 0.7500
+Epoch 11/50
+
+404/404 [==============================] - 370s 917ms/step - loss: 0.9671 - acc: 0.7079
+Epoch 12/50
+
+404/404 [==============================] - 370s 915ms/step - loss: 0.8928 - acc: 0.7698
+Epoch 13/50
+
+404/404 [==============================] - 372s 920ms/step - loss: 1.0654 - acc: 0.7104
+Epoch 14/50
+
+404/404 [==============================] - 371s 918ms/step - loss: 0.8714 - acc: 0.7772
+Epoch 15/50
+
+404/404 [==============================] - 373s 922ms/step - loss: 1.0607 - acc: 0.7252
+Epoch 16/50
+
+404/404 [==============================] - 373s 923ms/step - loss: 0.9049 - acc: 0.7698
+Epoch 17/50
+
+404/404 [==============================] - 366s 906ms/step - loss: 1.2608 - acc: 0.7153
+Epoch 18/50
+
+404/404 [==============================] - 375s 927ms/step - loss: 0.8671 - acc: 0.7921
+Epoch 19/50
+
+404/404 [==============================] - 375s 929ms/step - loss: 1.2596 - acc: 0.7277
+Epoch 20/50
+
+404/404 [==============================] - 373s 922ms/step - loss: 0.9299 - acc: 0.4134
+Epoch 21/50
+
+404/404 [==============================] - 375s 928ms/step - loss: 1.6207 - acc: 0.7178
+Epoch 22/50
+
+404/404 [==============================] - 377s 934ms/step - loss: 0.8130 - acc: 0.7797
+Epoch 23/50
+
+404/404 [==============================] - 376s 930ms/step - loss: 1.1676 - acc: 0.7401
+Epoch 24/50
+
+404/404 [==============================] - 375s 928ms/step - loss: 1.5510 - acc: 0.2822
+Epoch 25/50
+
+404/404 [==============================] - 376s 930ms/step - loss: 2.7956 - acc: 0.7104
+Epoch 26/50
+
+404/404 [==============================] - 376s 932ms/step - loss: 1.0176 - acc: 0.7500
+Epoch 27/50
+
+404/404 [==============================] - 374s 926ms/step - loss: 1.1570 - acc: 0.3342
+Epoch 28/50
+
+404/404 [==============================] - 375s 928ms/step - loss: 2.5273 - acc: 0.7178
+Epoch 29/50
+
+404/404 [==============================] - 373s 923ms/step - loss: 0.8816 - acc: 0.7550
+Epoch 30/50
+
+404/404 [==============================] - 374s 926ms/step - loss: 1.1028 - acc: 0.3416
+Epoch 31/50
+
+404/404 [==============================] - 373s 924ms/step - loss: 2.9040 - acc: 0.7228
+Epoch 32/50
+
+404/404 [==============================] - 363s 899ms/step - loss: 0.9332 - acc: 0.7550
+Epoch 33/50
+
+404/404 [==============================] - 371s 919ms/step - loss: 1.2581 - acc: 0.3366
+Epoch 34/50
+
+404/404 [==============================] - 368s 912ms/step - loss: 3.4931 - acc: 0.7178
+Epoch 35/50
+
+404/404 [==============================] - 370s 915ms/step - loss: 2.2520 - acc: 0.7351
+Epoch 36/50
+
+404/404 [==============================] - 372s 920ms/step - loss: 1.1416 - acc: 0.7450
+Epoch 37/50
+
+404/404 [==============================] - 373s 923ms/step - loss: 1.3362 - acc: 0.7599
+Epoch 38/50
+
+404/404 [==============================] - 372s 920ms/step - loss: 4.0209 - acc: 0.2351
+Epoch 39/50
+
+404/404 [==============================] - 374s 925ms/step - loss: 4.2054 - acc: 0.7054
+Epoch 40/50
+
+404/404 [==============================] - 373s 924ms/step - loss: 3.6990 - acc: 0.7228
+Epoch 41/50
+
+404/404 [==============================] - 373s 924ms/step - loss: 3.1219 - acc: 0.7376
+Epoch 42/50
+
+404/404 [==============================] - 373s 922ms/step - loss: 1.0625 - acc: 0.7624
+Epoch 43/50
+
+404/404 [==============================] - 374s 926ms/step - loss: 0.7397 - acc: 0.7896
+Epoch 44/50
+
+404/404 [==============================] - 375s 929ms/step - loss: 1.1091 - acc: 0.7599
+Epoch 45/50
+
+404/404 [==============================] - 375s 929ms/step - loss: 4.1101 - acc: 0.2574
+Epoch 46/50
+
+404/404 [==============================] - 370s 916ms/step - loss: 4.0014 - acc: 0.7178
+Epoch 47/50
+
+404/404 [==============================] - 375s 928ms/step - loss: 3.5839 - acc: 0.7252
+Epoch 48/50
+
+404/404 [==============================] - 374s 927ms/step - loss: 3.2275 - acc: 0.7351
+slurmstepd: error: *** JOB 16764239 ON holy7c19115 CANCELLED AT 2019-07-20T22:34:50 DUE TO TIME LIMIT ***

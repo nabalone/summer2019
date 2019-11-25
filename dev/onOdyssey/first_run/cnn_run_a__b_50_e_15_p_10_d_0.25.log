@@ -1,0 +1,5 @@
+Using TensorFlow backend.
+usage: cnn_aardvark_aug_concat.py [-h] [-e] [-t] [-b B] [-p POOLING]
+                                  [-d DROPOUT] [-c] [-m M] [-n N] [-s] [-a]
+                                  [-l L] [--no_sls] [--alt] [-3]
+cnn_aardvark_aug_concat.py: error: unrecognized arguments: 15
