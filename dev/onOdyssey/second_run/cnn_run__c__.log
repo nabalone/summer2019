@@ -1,0 +1,160 @@
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+cnn_aardvark_aug_concat.py:397: UserWarning: Update your `Model` call to the Keras 2 API: `Model(inputs=Tensor("in..., outputs=Tensor("de...)`
+  model = Model(input=ins, output=dense2)
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2019-11-07 09:06:28.019420: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2019-11-07 09:06:28.023416: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2900000000 Hz
+2019-11-07 09:06:28.023540: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x564989831600 executing computations on platform Host. Devices:
+2019-11-07 09:06:28.023560: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+None
+Train on 870 samples, validate on 290 samples
+Epoch 1/35
+
+870/870 [==============================] - 49s 56ms/step - loss: 1.6092 - acc: 0.1874 - val_loss: 1.5962 - val_acc: 0.2448
+Epoch 2/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.5924 - acc: 0.3655 - val_loss: 1.5788 - val_acc: 0.2586
+Epoch 3/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.5699 - acc: 0.3782 - val_loss: 1.5541 - val_acc: 0.2862
+Epoch 4/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.5392 - acc: 0.3724 - val_loss: 1.5236 - val_acc: 0.4310
+Epoch 5/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.5014 - acc: 0.5506 - val_loss: 1.4907 - val_acc: 0.4207
+Epoch 6/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.4597 - acc: 0.5138 - val_loss: 1.4648 - val_acc: 0.3862
+Epoch 7/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.4184 - acc: 0.5069 - val_loss: 1.4486 - val_acc: 0.3828
+Epoch 8/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.3852 - acc: 0.4563 - val_loss: 1.4539 - val_acc: 0.3207
+Epoch 9/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.3711 - acc: 0.3989 - val_loss: 1.4791 - val_acc: 0.2586
+Epoch 10/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.3604 - acc: 0.3241 - val_loss: 1.4181 - val_acc: 0.4000
+Epoch 11/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.2987 - acc: 0.4345 - val_loss: 1.4489 - val_acc: 0.3207
+Epoch 12/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.2893 - acc: 0.4115 - val_loss: 1.4212 - val_acc: 0.4103
+Epoch 13/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.2330 - acc: 0.5471 - val_loss: 1.4260 - val_acc: 0.2690
+Epoch 14/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.2230 - acc: 0.5437 - val_loss: 1.3945 - val_acc: 0.3862
+Epoch 15/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.1715 - acc: 0.4966 - val_loss: 1.4341 - val_acc: 0.3448
+Epoch 16/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.1676 - acc: 0.4724 - val_loss: 1.3976 - val_acc: 0.3862
+Epoch 17/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.1103 - acc: 0.5414 - val_loss: 1.4096 - val_acc: 0.4586
+Epoch 18/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.1115 - acc: 0.6253 - val_loss: 1.3801 - val_acc: 0.4897
+Epoch 19/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.0549 - acc: 0.6575 - val_loss: 1.4265 - val_acc: 0.4138
+Epoch 20/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.0521 - acc: 0.5437 - val_loss: 1.3938 - val_acc: 0.4172
+Epoch 21/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 1.0021 - acc: 0.5805 - val_loss: 1.3903 - val_acc: 0.4621
+Epoch 22/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.9983 - acc: 0.6506 - val_loss: 1.3756 - val_acc: 0.4724
+Epoch 23/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.9517 - acc: 0.6345 - val_loss: 1.4211 - val_acc: 0.4759
+Epoch 24/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.9412 - acc: 0.6046 - val_loss: 1.4034 - val_acc: 0.4897
+Epoch 25/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.9063 - acc: 0.6471 - val_loss: 1.3813 - val_acc: 0.5034
+Epoch 26/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.8880 - acc: 0.6736 - val_loss: 1.3953 - val_acc: 0.4862
+Epoch 27/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.8609 - acc: 0.6460 - val_loss: 1.4391 - val_acc: 0.4793
+Epoch 28/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.8383 - acc: 0.6437 - val_loss: 1.4510 - val_acc: 0.5483
+Epoch 29/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.8186 - acc: 0.7230 - val_loss: 1.4368 - val_acc: 0.5034
+Epoch 30/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.7916 - acc: 0.6724 - val_loss: 1.4633 - val_acc: 0.5138
+Epoch 31/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.7777 - acc: 0.6805 - val_loss: 1.4874 - val_acc: 0.5310
+Epoch 32/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.7479 - acc: 0.6954 - val_loss: 1.5086 - val_acc: 0.5586
+Epoch 33/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.7350 - acc: 0.7379 - val_loss: 1.4984 - val_acc: 0.5345
+Epoch 34/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.7069 - acc: 0.7184 - val_loss: 1.5007 - val_acc: 0.5310
+Epoch 35/35
+
+870/870 [==============================] - 48s 55ms/step - loss: 0.6936 - acc: 0.7184 - val_loss: 1.5262 - val_acc: 0.5828
+Saved trained model at /n/holylfs03/LABS/berger_lab/nchou/saved_models/aardvark_aug11.h5 
+[[6.87887892e-02 5.01467474e-02 8.27511624e-02 3.73326749e-01
+  4.24986511e-01]
+ [8.15212578e-02 7.69587100e-01 1.46086976e-01 9.83504695e-04
+  1.82120246e-03]
+ [1.46457657e-01 5.54236211e-02 1.17669955e-01 3.32025081e-01
+  3.48423719e-01]
+ ...
+ [8.71387683e-03 2.82533988e-02 8.46183956e-01 1.11309320e-01
+  5.53942658e-03]
+ [5.66416442e-01 2.41078943e-01 1.92504555e-01 2.64941336e-09
+  2.67646062e-12]
+ [1.13935165e-01 5.74934557e-02 1.55042112e-01 3.16667676e-01
+  3.56861562e-01]]
+[4 1 4 0 2 3 0 2 3 1 0 0 3 4 4 0 2 4 0 4 3 1 2 3 4 1 0 4 0 4 3 0 4 2 4 4 4
+ 3 0 0 3 4 4 1 3 3 2 3 3 1 4 0 0 0 0 4 0 3 2 4 4 0 2 1 4 4 4 4 3 4 4 4 2 1
+ 0 4 4 3 1 4 3 0 4 1 1 4 4 3 4 1 3 0 4 4 4 4 0 0 2 4 3 4 2 3 4 4 4 4 2 3 4
+ 4 1 2 1 2 3 4 4 4 3 4 3 4 4 3 0 1 3 3 2 4 4 4 0 3 3 2 3 2 3 1 3 1 0 1 3 4
+ 1 4 4 2 4 2 1 0 4 4 2 4 4 3 1 1 1 3 0 4 3 4 3 3 3 1 4 3 3 3 4 1 1 4 2 4 4
+ 0 4 1 4 4 4 4 2 3 2 3 4 2 0 1 4 0 4 3 4 4 4 4 4 4 3 4 4 0 4 1 4 4 2 4 0 2
+ 4 4 2 3 2 3 4 4 4 4 3 4 3 4 4 0 4 4 0 4 3 3 4 0 3 0 3 4 0 3 4 4 4 4 4 3 4
+ 0 1 3 0 1 4 4 2 0 4 4 4 1 2 4 3 0 2 4 4 3 3 4 4 0 1 4 3 2 0 4]
+
+ 32/290 [==>...........................] - ETA: 4s
+ 64/290 [=====>........................] - ETA: 3s
+ 96/290 [========>.....................] - ETA: 3s
+128/290 [============>.................] - ETA: 2s
+160/290 [===============>..............] - ETA: 2s
+192/290 [==================>...........] - ETA: 1s
+224/290 [======================>.......] - ETA: 1s
+256/290 [=========================>....] - ETA: 0s
+288/290 [============================>.] - ETA: 0s
+290/290 [==============================] - 5s 16ms/step
+Test loss: 1.8093675251664787
+Test accuracy: 0.496551724137931
+[[28 13  6  6  5]
+ [ 1 11  7  5 34]
+ [13  8 17 16  4]
+ [ 1  1  2 32 22]
+ [ 0  0  0  2 56]]
