@@ -29,7 +29,8 @@ from astropy.coordinates import SkyCoord
 
 cols1 = ['KronRad (kpc)_3', 'separation (kpc)_3', 'area (kpc^2)_3', 'sep/sqrt(area) (kpc)_3', \
  'KronMag_3', 'Abs. Mag_3','Ellipticity_3', 'Z_3', 'pixelRank_3', 'chance coincidence_3']
-cols = ['ID'].extend(cols1[:])
+cols = ['ID']
+cols.extend(cols1[:])
 for i in range(4,7):
     for e in cols1:
         cols.append(e[:-1] + str(i))
@@ -58,8 +59,10 @@ test_indices = [37,
  368]
 
 SOURCEDIR = os.getcwd() 
-PIXDIR = "../vvillar/ps1_host/fits/"
-CSVFILE = SOURCEDIR + '/goodSeventhRun/untouched.csv'
+BASEDIR = "../../src/"
+MASKDIR = BASEDIR
+PIXDIR = BASEDIR + "combined/"#"ps1hosts/"#../vvillar/ps1_host/fits/"
+CSVFILE = '../old_results/goodSeventhRun/galaxiesdata2.csv' # os.getcwd() + '/goodSeventhRun/untouched.csv'
 
 filenames = sorted(glob.glob(PIXDIR + 'psc*.[3].fits'))
 x_train = []
@@ -69,7 +72,7 @@ y_test = []
 
 '''load event type dictionary'''
 typeDict = {}
-typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+typefile = open(BASEDIR + 'ps1confirmed_only_sne_without_outlier.txt', 'r')
 typefile.readline() #get rid of header
 for line in typefile:
     parts = line.split()
@@ -80,7 +83,7 @@ typefile.close()
 print(4)
 
 zdict = {}
-zfile = open('new_ps1z.dat', 'r')
+zfile = open(BASEDIR + 'new_ps1z.dat', 'r')
 zfile.readline() #get rid of header
 
 for line in zfile:
@@ -96,9 +99,9 @@ zdict['380108'] = 0.159
 intDict= {'SNIa':0, 'SNIbc':1, 'SNII':2, 'SNIIn':3, 'SLSNe':4}
 
 '''load event location dictionary'''
-db = pd.read_table('alertstable_v3',sep=None,index_col = False,
+db = pd.read_table(BASEDIR + 'alertstable_v3',sep=None,index_col = False,
                engine='python')
-db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
+db2 = pd.read_table(BASEDIR + 'alertstable_v3.lasthalf',sep=None,index_col = False,
                 engine='python')
 db = db.append(db2,ignore_index=True)
 
@@ -139,6 +142,9 @@ def plot(data, myEventX, myEventY, myVmin=None, myVmax=None):
 
 #for filename in ['C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000137.3.fits']:#filenames[:1]:
 def load_data():
+
+    masks = np.load(MASKDIR + 'all_masks.npz')
+
     #x_train = []
     x_test = [[],[],[],[],[]]
     x_sep = [[],[],[],[],[]]
@@ -148,8 +154,9 @@ def load_data():
     #y_train = []
     #y_test = []
     #randfile = open('randomly_ordered_filenames2.txt', 'r')
-    filenames = glob.glob('../vvillar/ps1_host/fits/psc*.[3].fits')
+    filenames = glob.glob(PIXDIR + 'psc*.[3].fits')
     for full_filename in filenames:#index in test_indices:
+        print(full_filename)
         #filename = filenames[index]
         #full_filename = full_filename[:-1] #drop ending \n
         dotSplit = full_filename.split('.')
@@ -181,15 +188,21 @@ def load_data():
             w = WCS(filename)
             eventX, eventY = w.all_world2pix(eventRa, eventDec, 1)
             val = image_data[int(eventX), int(eventY)]
+            paddedX = None
+            paddedY = None
             if size(0, image_data) != 240:
                 if eventX < 120:
+                    paddedX = 'above'
                     image_data = pad(0, 'above', image_data)
                 else:
+                    paddedX = 'below'
                     image_data = pad(0, 'below', image_data)
             if size(1, image_data) != 240:
                 if eventY < 120:
+                    paddedY = 'above'
                     image_data = pad(1, 'above', image_data)
                 else:
+                    paddedY = 'below'
                     image_data = pad(1, 'below', image_data)
                     
             if size(0, image_data) != 240 or size(1, image_data) != 240:
@@ -200,18 +213,34 @@ def load_data():
         shp = image_data.shape
         redshift = zdict[idNumString]
         all_colors.append(np.full(shp, redshift))
+
+        #maskfiles = glob.glob('masks/mask_%s.npy'%idNumString)
+        #if len(maskfiles) > 1:
+        #    raise
+        #mask = np.load(maskfiles[0])
+        mask = masks[idNumString]
+        if paddedX:
+            mask = pad(0, paddedX, mask)
+        if paddedY:
+            mask = pad(1, paddedY, mask)
+        if mask.shape != all_colors[0].shape:
+            raise
+        all_colors.append(mask)
+
         all_colors = np.nan_to_num(np.array(all_colors))
         typ = intDict[typeDict[idNumString]]
         x_test[typ].append(all_colors)
 
         #lookup IDnum in SEP properties table from csv
         #print(np.asarray(X==idNum))
+        #print(X[0])
+        #print(X[1][0])
         rows, columns = np.asarray(X==idNum).nonzero()
         added = False
-        print(rows)
-        print(columns)
+        #print(rows)
+        #print(columns)
         for i in range(len(rows)):
-            if columns[i] == 0: # match is in the ID column
+            if columns[i] == 0: # match is in the ID columnd
                 props = X[rows[i]]
                 x_sep[typ].append(props)
                 added = True
@@ -230,8 +259,8 @@ def load_data():
     for i in range(len(x_test)):
         x_test[i] = np.array(x_test[i])
         x_test[i] = np.transpose(x_test[i], [0,2,3,1])
-        np.save("x_all_%s" % i, x_test[i])
-        np.save("x_sep_%s" % i, x_sep[i])
+        np.save("x_all2_%s" % i, x_test[i])
+        np.save("x_sep2_%s" % i, x_sep[i])
 #    x_train = np.array(x_train)
 #    x_train = np.transpose(x_train, [0,2,3,1])
     #y_test = np.array(y_test)

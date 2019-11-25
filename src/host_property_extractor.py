@@ -42,7 +42,7 @@ print(args.mask)
 
 #TODO comment all constants
 ERRORFILE = 'errorfile.txt'
-SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
+SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/combined'#ps1hosts' #pics location
 DICTDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
 #os.getcwd() #"/mnt/d/Summer 2019 Astro" 
 #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
@@ -803,6 +803,8 @@ class Supernova:
             photozMatched = self.images[x].attemptBestCandidate()
 #TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
 #TODO mindist vs. checkdist
+#TODO What if multiple galaxies are within mindist and dif ones are selected in dif filters?
+# I thought I fixed this to check if event was inside!
             if self.images[x].bestCandidate != None and \
                 self.images[x].objCoords[self.images[x].bestCandidate].separation(event['coords']) < MINDIST:
                 good_images.append(x)
@@ -825,7 +827,7 @@ class Supernova:
             for x in good_photozs + BAD_IMAGES:
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
         elif good_photozs:
-#TODO pick in chance coincidence
+#TODO pick min chance coincidence !!!
             self.filter_to_use = good_photozs[0]
             goodCoords = self.images[self.filter_to_use].\
                 objCoords[self.images[self.filter_to_use].bestCandidate]
@@ -895,7 +897,7 @@ class Supernova:
             if i == self.filter_to_use: 
                 if args.mask: # only collecting mask
                     mask = self.images[i].segmap
-                    mask = np.where(mask == self.images[i].bestCandidate + 1, 1, 0)
+                    mask = np.where(mask == self.images[i].bestCandidate + 1, 1 - self.images[i].chanceCoincidence[self.images[i].bestCandidate], 0)
                     #global masks
                     masks[self.idNumString] = mask
                     print('good mask %s' % self.idNumString)
