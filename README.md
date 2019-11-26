@@ -2,7 +2,10 @@
 ### Center for Astrophysics | Harvard and Smithsonian 
 
 _Formatting for publication in proccess_ <p>
-This software classifies supernovae by type (Ia, Ibc, II, IIn, or Superluminous) using archival images of the supernova's host galaxy. \n
+This software classifies supernovae by type (Ia, Ibc, II, IIn, or Superluminous) using archival images of the supernova's host galaxy. 
+
+Publication draft: Publication_draft.pdf
+
 The main scripts are  
 Host galaxy detection and property extraction: src/host_property_extractor.py  
 Random forrest classifier: src/random_forrest_classifier.py  
