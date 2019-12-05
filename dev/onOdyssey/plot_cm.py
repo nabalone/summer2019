@@ -166,7 +166,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
 #    plot_confusion_matrix(None, None, name_extension = letter, parsed = parser('cnn_%s.log' % letter))
 #plot_confusion_matrix(None, None, name_extension='ia')  
     
-files = glob.glob('fourthrun2/cnn_run*.log')
+files = glob.glob('fifth_run/cnn_run*.log')
 
 #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
 #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
