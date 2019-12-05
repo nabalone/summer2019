@@ -18,6 +18,7 @@ def make_plot(filename):
     plt.plot(1-np.array(accs), 'ro')
     plt.plot(1-np.array(vals), 'bo')
     plt.axis([0, 200, 0, 1])
+    plt.grid(which='both')
     plt.savefig(filename[:-4] + '.png')#[-9:-4]+'_3')
     print(filename[:-4] + '.png')
     plt.close()
@@ -25,7 +26,7 @@ def make_plot(filename):
 #for letter in ['a','b','c','d','e','f','g','h','i','j']:
     #make_plot(os.getcwd() + '/second_run/cnn_%s.log' % letter)
     
-files = glob.glob('fourthrun2/cnn_run*.log')
+files = glob.glob('fifth_run/cnn_run*.log')
 count = 0
 for fil in files:
     make_plot(fil)
