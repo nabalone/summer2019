@@ -59,26 +59,6 @@ parser.add_argument('--kfold', nargs = 1, type=int, default='-1', dest='k_fold',
 args = parser.parse_args() 
 print(sys.argv)
 #print(args.dropout)
-if args.test:
-    print("TEST NOT YET IMPLEMENTED")
-
-no_sls = args.no_sls
-if args.k_fold[0] >= 0:
-    k_folded=True
-    fold_num = args.k_fold[0]
-if args.m:
-    model_num = str(args.m[0])
-else:
-    model_num= '11'
-
-if args.l:
-    LR = float(args.l[0])
-else:
-    LR = 0.0005
-
-ia_only = args.ia_only
-three_categories = args.three_categories
-
 #TODO move utils to separate file
 
 '''DEPRECATED'''
@@ -143,9 +123,103 @@ def shuffle(X, y, X_sep=None):
     else:
         return (X[new_ind, :], y[new_ind])
 #TODO check axes
+        
+def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12, 
+                     seed_offset=0):
+    n_ia = len(np.load("x_all2_0.npy"))
+    n_ibc = len(np.load("x_all2_1.npy"))
+    n_ii = len(np.load("x_all2_2.npy"))
+    n_iin = len(np.load("x_all2_3.npy"))
+    n_sls = len(np.load("x_all2_4.npy"))
+    n_tot = n_ia + n_ibc + n_ii + n_iin + n_sls 
+    
+    if ia_only:
+        #aug_to = [286, 38, 183, 43, 22]
+        aug_to = [n_ia, 
+                    np.round(n_ia*n_ibc/(n_tot - n_ia)), 
+                    np.round(n_ia*n_ii/(n_tot - n_ia)),
+                    np.round(n_ia*n_iin/(n_tot - n_ia)),
+                    np.round(n_ia*n_sls/(n_tot - n_ia))]
+    elif three:
+        #aug_to = [286, 183, 231, 55, 103]
+        aug_to = [n_ia, 
+                    np.round(n_ia*n_ibc/(n_ibc+n_sls)),
+                    np.round(n_ia*n_ii/(n_ii+n_iin)),
+                    np.round(n_ia*n_iin/(n_ii+n_iin)),
+                    np.round(n_ia*n_sls/(n_ibc+n_sls))]
+    else:
+        aug_to = [n_ia]*5
+
+    X_train_folds = []
+    y_train_folds = []
+    X_test_folds = []
+    y_test_folds = []
+    for i in range(num_splits):
+        X_train_folds.append([])
+        y_train_folds.append([])
+        X_test_folds.append([])
+        y_test_folds.append([])
+    for i in range(5):
+        NUM = int(aug_to[i])
+        print(NUM)
+        if mask:
+            print("using mask")
+            raw = np.load("x_all2_%s.npy" % i).astype('float32')/1000000.
+            raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
+        else:
+            raw = np.load("x_all_%s.npy" % i).astype('float32')/1000000.
+            raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
+            
+        random.seed(i + seed_offset)
+        random.shuffle(raw)
+        random.seed(i+seed_offset)
+        random.shuffle(raw_sep)
+        
+        #this is dumb, don't need stratification, but ok        
+        folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
+                                     random_state=1).split(raw, [i]*len(raw)))
+        for j, (train, test) in enumerate(folds):
+            print(raw[train].shape)
+            train_aug, train_aug_sep = augment(raw[train], raw_sep[train], NUM)
+            print((np.array(train_aug)).shape)
+            X_train_folds[j].extend(crop(train_aug))
+            y_train_folds[j].extend([i]*len(train_aug))
+            
+            test_aug, test_aug_sep = augment(raw[test], raw_sep[test], len(raw[test]))            
+            X_test_folds[j].extend(crop(test_aug))
+            y_test_folds[j].extend([i]*len(test_aug))
+                     
+    extrastring = str(seed_offset) if seed_offset>0 else ''
+    if True:#k_fold
+        filname = "aug_all"
+    else:
+        filname = "aug_load_output_3"
+
+    if ia_only:
+        filname = filname + "_ia"
+    elif three:
+        filname = filname + "_three_cats"
+    if mask:
+        filname = filname + "_mask"   
+        
+    for j in range(len(y_train_folds)):
+        np.savez(filname+extrastring+'_fold_%s'%j, 
+                 X_train_folds[j], y_train_folds[j], 
+                 X_test_folds[j], y_test_folds[j])
+        
+
+            
+def crop(ls):
+    a = np.array(ls)
+    print(a.shape)
+    b = a[:, 40:-40, 40:-40]
+    return(list(b))
+            
+        
 
 def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True, 
              mask=False, k_fold=False):
+    raise Exception("THIS FUNCTION IS PROBABLY ERRONEOUS")
     if ia_only and three:
         print("CANT DO IA AND THREE")
         exit(1)
@@ -191,7 +265,7 @@ def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True,
 
     for i in range(5):
         if True: #ia_only:
-            NUM = aug_to[i]
+            NUM = int(aug_to[i])
             print(NUM)
         if mask:
             print("using mask")
@@ -208,6 +282,8 @@ def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True,
         random.shuffle(raw_sep)
         
         if k_fold:
+            print(NUM)
+            print(type(NUM))
             fulli, fullp = augment(raw, raw_sep, NUM)
             X_full.extend(fulli)
             Xsep_full.extend(fullp)
@@ -256,33 +332,51 @@ def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True,
     if not ia_only:
         np.save("y_test_aardvark_aug"+model_num+str(seed_offset), y_test)
     extrastring = str(seed_offset) if seed_offset>0 else ''
-    if ia_only:
-  
-        if k_fold:
-            np.savez("aug_all_ia"+extrastring, X_full, Xsep_full, y_full)
-        else:
-            np.savez("aug_load_output_ia3"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val) 
-    elif three:    
-        if k_fold:
-            np.savez("aug_all_three_cats"+extrastring, X_full, Xsep_full, y_full)
-        else:
-            np.savez("aug_load_output_three_cats"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)   
-    elif mask:
-        if k_fold:
-            np.savez("aug_all_mask"+extrastring, X_full, Xsep_full, y_full)
-        else:
-            np.savez("aug_load_output_3_mask"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)  
-
+    if k_fold:
+        filname = "aug_all"
     else:
- 
-        if k_fold:
-            np.savez("aug_all"+extrastring, X_full, Xsep_full, y_full)
-        else:
-            np.savez("aug_load_output_3"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)  
+        filname = "aug_load_output_3"
+
+    if ia_only:
+        filname = filname + "_ia"
+    elif three:
+        filname = filname + "_three_cats"
+
+    if mask:
+        print('mask')
+        filname = filname + "_mask"
+
+    if k_fold:
+        np.savez(filname+extrastring, X_full, Xsep_full, y_full)
+    else:
+        np.savez(filname+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val) 
+# 
+#        if k_fold:
+#            np.savez("aug_all_ia"+extrastring, X_full, Xsep_full, y_full)
+#        else:
+#            np.savez("aug_load_output_ia3"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val) 
+#    elif three:    
+#        if k_fold:
+#            np.savez("aug_all_three_cats"+extrastring, X_full, Xsep_full, y_full)
+#        else:
+#            np.savez("aug_load_output_three_cats"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)   
+#    elif mask:
+#        if k_fold:
+#            np.savez("aug_all_mask"+extrastring, X_full, Xsep_full, y_full)
+#        else:
+#            np.savez("aug_load_output_3_mask"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)  
+#
+#    else:
+# 
+#        if k_fold:
+#            np.savez("aug_all"+extrastring, X_full, Xsep_full, y_full)
+#        else:
+#            np.savez("aug_load_output_3"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)  
 
     return#(X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)   
 
 def make_splits(filename, num_splits):
+    raise Exception("this should be deprecated")
     arrs = np.load(filename)
     X_full = arrs['arr_0']
     y_full = arrs['arr_2']
@@ -290,28 +384,52 @@ def make_splits(filename, num_splits):
     for j, (train, test) in enumerate(folds):
         np.savez(filename[:-4]+'_fold_%s'%j, X_full[train], y_full[train], X_full[test], y_full[test])
 
-USE_SAVED = False
-#TODO restore
-if args.ia_only:
-    num_classes = 2
-elif three_categories:
-    num_classes = 3
-else:
-    num_classes = 5
-
-if args.n:
-    epochs = args.n[0]
-else:
-#TODO restore
-    epochs = 35
-#num_predictions = 20
-save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'aardvark_aug' + model_num + '.h5'
-
-
 
 
 def main():
+
+    if args.test:
+        print("TEST NOT YET IMPLEMENTED")
+
+    no_sls = args.no_sls
+
+    if args.k_fold[0] >= 0:
+        k_folded=True
+        fold_num = args.k_fold[0]
+    if args.m:
+        model_num = str(args.m[0])
+    else:
+        model_num= '11'
+
+    if args.l:
+        LR = float(args.l[0])
+    else:
+        LR = 0.0005
+
+    ia_only = args.ia_only
+    three_categories = args.three_categories
+
+
+    USE_SAVED = False
+    #TODO restore
+    if args.ia_only:
+        num_classes = 2
+    elif three_categories:
+        num_classes = 3
+    else:
+        num_classes = 5
+
+    if args.n:
+        epochs = args.n[0]
+    else:
+    #TODO restore
+        epochs = 35
+    #num_predictions = 20
+    save_dir = os.path.join(os.getcwd(), 'saved_models')
+    model_name = 'aardvark_aug' + model_num + '.h5'
+
+
+
     if (args.use_extracted  or args.mask) and ia_only:
         raise(ValueError, "NOT YET IMPLEMENTED IA WITH EXTRACTED")
         exit(1)
@@ -319,19 +437,37 @@ def main():
     #x_train = np.load("x_all.npy")
     #y_train = np.load("y_all.npy")
 #TODO restore
+
+    if k_folded:
+        filname = "aug_all"
+    else:
+        filname = "aug_load_output_3"
+
+    if ia_only:
+        filname = filname + "_ia"
+    elif three:
+        filname = filname + "_three_cats"
+
+    if args.mask:
+        filname = filname + "_mask"
+
+    if k_folded:
+        filname = filname + "_fold_%s"%fold_num
+    all_data = np.load(filname + '.npz')
+    
     if k_folded:
         print(1)
-        if ia_only:
-            all_data = np.load("aug_all_ia.npz")
-        elif args.use_alt:
-            raise Exception("don't use alt with k_fold")
-        elif args.mask:
-            all_data = np.load("aug_all_mask_fold_%s.npz" % fold_num)
-
-        elif three_categories:
-            all_data = np.load("aug_all_three_cats.npz")
-        else:
-            all_data =  np.load("aug_all_fold_%s.npz" % fold_num) #load()
+#        if ia_only:
+#            all_data = np.load("aug_all_ia.npz")
+#        elif args.use_alt:
+#            raise Exception("don't use alt with k_fold")
+#        elif args.mask:
+#            all_data = np.load("aug_all_mask_fold_%s.npz" % fold_num)
+#
+#        elif three_categories:
+#            all_data = np.load("aug_all_three_cats.npz")
+#        else:
+#            all_data =  np.load("aug_all_fold_%s.npz" % fold_num) #load()
         #X_full = all_data['arr_0']
         #Xsep_full = all_data['arr_1']
         #y_full = all_data['arr_2']
@@ -366,21 +502,21 @@ def main():
 
    
     else:
-        if ia_only:
-            all_data = np.load("aug_load_output_ia3.npz")
-        elif args.use_alt:
-            if args.mask:
-                all_data = np.load("aug_load_output_10_mask.npz")
-            else:
-                all_data = np.load("aug_load_output_10.npz")
-            print("loaded")
-        elif args.mask:
-            all_data = np.load("aug_load_output_mask.npz")
-    
-        elif three_categories:
-            all_data = np.load("aug_load_output_three_cats.npz")
-        else:
-            all_data =  np.load("aug_load_output3.npz") #load()
+#        if ia_only:
+#            all_data = np.load("aug_load_output_ia3.npz")
+#        elif args.use_alt:
+#            if args.mask:
+#                all_data = np.load("aug_load_output_10_mask.npz")
+#            else:
+#                all_data = np.load("aug_load_output_10.npz")
+#            print("loaded")
+#        elif args.mask:
+#            all_data = np.load("aug_load_output_mask.npz")
+#    
+#        elif three_categories:
+#            all_data = np.load("aug_load_output_three_cats.npz")
+#        else:
+#            all_data =  np.load("aug_load_output3.npz") #load()
         X_test = all_data['arr_0'] 
         y_test= all_data['arr_1']
         Xsep_test = all_data['arr_2']
@@ -569,7 +705,7 @@ def main():
               validation_data=(X_full_test, y_full_test),
               shuffle=True)
         y_pred = model.predict(X_full_test)
-        y_pred = np.argmax(y_pred, 1)
+        y_pred_2 = np.argmax(y_pred, 1)
         print(y_pred)
         arglist = sys.argv
         namestr = 'y_pred_from_'
@@ -577,7 +713,7 @@ def main():
             namestr = namestr + '_' + ar.replace('-','')
         np.save(namestr, y_pred)
         print('saved: %s'%namestr)
-        cm = confusion_matrix(y_full_test_orig, y_pred)
+        cm = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
         
 
