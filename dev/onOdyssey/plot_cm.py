@@ -57,19 +57,46 @@ def namegen():
     namecount += 1
     return str(namecount)
         
-def parser(filename, num):
-    fil = open(filename, 'r')
-    lines = fil.readlines()[-1*num:]
-    cm = []
-    for line in lines:
-        row = []
-        cut_line = line[2:-2]
-        cut_line = cut_line.split(']')[0]
-        print(cut_line)
-        nums = cut_line.split()
-        for num in nums:
-            row.append(int(num))
-        cm.append(row)
+def parser(filename, num, stack=False):
+    if stack:
+        cm = []
+        fils = glob.glob(filename[:-5] + '*' + filename[-4:])
+        if len(fils) != 4:
+            raise
+        for my_filename in fils:
+            fil = open(my_filename, 'r')
+            print(num)
+            print(type(num))
+            lines = fil.readlines()[-1*num:]
+            my_cm = []
+            for line in lines:
+                row = []
+                cut_line = line[2:-2]
+                cut_line = cut_line.split(']')[0]
+                print(cut_line)
+                nums = cut_line.split()
+                for i in nums:
+                    row.append(int(i))
+                my_cm.append(row)
+        if len(cm)==0:
+            cm = np.array(my_cm)
+        else:
+            cm = cm + np.array(my_cm)
+            
+    else:       
+        fil = open(filename, 'r')
+        lines = fil.readlines()[-1*num:]
+        cm = []
+        for line in lines:
+            row = []
+            cut_line = line[2:-2]
+            cut_line = cut_line.split(']')[0]
+            print(cut_line)
+            nums = cut_line.split()
+            for i in nums:
+                row.append(int(i))
+            cm.append(row)
+            
     return(np.array(cm))
     
 
@@ -166,7 +193,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
 #    plot_confusion_matrix(None, None, name_extension = letter, parsed = parser('cnn_%s.log' % letter))
 #plot_confusion_matrix(None, None, name_extension='ia')  
     
-files = glob.glob('fifth_run/cnn_run*.log')
+files = glob.glob('sixth_run/cnn_run*0.log')
 
 #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
 #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
@@ -182,8 +209,8 @@ for fil in files:
     print(fil)
     try:
         plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-                          parsed = parser(fil, 5))
+                          parsed = parser(fil, 5, stack=True))
     except:
-        pass
+        raise
     count += 1
     print(count)
