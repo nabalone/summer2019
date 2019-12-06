@@ -225,8 +225,8 @@ def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True,
         #if FOLD==0:
 #TODO do we want to rotate test and val sets below but just have a few rotations of them?
             testi, testp = augment(raw[:div], raw_sep[:div], int(0.2*NUM), rotate=False)#len(raw[:div])))
-            vali, valp = augment(raw[3*div:], raw_sep[3*div:], int(0.2*NUM), rotate=False)#len(raw[div:2*div]))#int(0.2*NUM))
-            traini, trainp = augment(raw[:3*div], raw_sep[:3*div], int(0.6*NUM))
+            vali, valp = augment(raw[div:2*div], raw_sep[div:2*div], int(0.2*NUM), rotate=False)#len(raw[div:2*div]))#int(0.2*NUM))
+            traini, trainp = augment(raw[2*div:], raw_sep[2*div:], int(0.6*NUM))
             X_test.extend(testi)
             y_test.extend([i]*len(testi))
             Xsep_test.extend(testp)
@@ -282,11 +282,11 @@ def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True,
 
     return#(X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)   
 
-def make_splits(filename):
+def make_splits(filename, num_splits):
     arrs = np.load(filename)
     X_full = arrs['arr_0']
     y_full = arrs['arr_2']
-    folds = list(StratifiedKFold(n_splits=4, shuffle=True, random_state=1).split(X_full, y_full))
+    folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, random_state=1).split(X_full, y_full))
     for j, (train, test) in enumerate(folds):
         np.savez(filename[:-4]+'_fold_%s'%j, X_full[train], y_full[train], X_full[test], y_full[test])
 
@@ -341,9 +341,8 @@ def main():
         y_full_test = all_data['arr_3']
 
         if ia_only: 
-            raise
-            #y_full = np.where(y_full==0, 0, 1)
-
+            y_full_train = np.where(y_full_train==0, 0, 1)
+            y_full_test = np.where(y_full_test==0, 0, 1)
     
         if three_categories:
             raise
@@ -564,15 +563,13 @@ def main():
 #            y_true_folded.extend(list(y_test_fold))
 #TODO fix in2_shape
         model = get_model(in1_shape=X_full_train.shape[1:], in2_shape=X_full_train.shape[1:])
-#        model.fit(x=X_full_train, y=y_full_train,
-#              batch_size=batch_size,
-#              epochs=epochs,
-#              validation_data=(X_full_test, y_full_test),
-#              shuffle=True)
-#        y_pred = model.predict(X_full_test)
-        print('note: not training, just testing saving')
-        y_pred = np.array([1,2,3,4])
-#        y_pred = np.argmax(y_pred, 1)
+        model.fit(x=X_full_train, y=y_full_train,
+              batch_size=batch_size,
+              epochs=epochs,
+              validation_data=(X_full_test, y_full_test),
+              shuffle=True)
+        y_pred = model.predict(X_full_test)
+        y_pred = np.argmax(y_pred, 1)
         print(y_pred)
         arglist = sys.argv
         namestr = 'y_pred_from_'
