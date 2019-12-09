@@ -180,12 +180,13 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                                      random_state=1).split(raw, [i]*len(raw)))
         for j, (train, test) in enumerate(folds):
             print(raw[train].shape)
-            train_aug, train_aug_sep = augment(raw[train], raw_sep[train], NUM)
+#TODO this has been changed from the sep
+            train_aug, train_aug_sep = augment(raw[train], [0]*len(train), NUM)
             print((np.array(train_aug)).shape)
             X_train_folds[j].extend(crop(train_aug))
             y_train_folds[j].extend([i]*len(train_aug))
             
-            test_aug, test_aug_sep = augment(raw[test], raw_sep[test], len(raw[test]))            
+            test_aug, test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test]))            
             X_test_folds[j].extend(crop(test_aug))
             y_test_folds[j].extend([i]*len(test_aug))
                      
@@ -445,7 +446,7 @@ def main():
 
     if ia_only:
         filname = filname + "_ia"
-    elif three:
+    elif three_categories:
         filname = filname + "_three_cats"
 
     if args.mask:

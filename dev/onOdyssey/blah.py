@@ -8,7 +8,8 @@ def make_plot(filename, stack=False):
     if stack:
         fils = glob.glob(filename[:-5] + '*' + filename[-4:])
         if len(fils) != 4:
-            raise
+            #TODO restore
+            pass#raise
         vals = []
         accs = []
         for my_filename in fils:
@@ -48,21 +49,27 @@ def make_plot(filename, stack=False):
                     val = float(line[val_ind+9:val_ind+15])
                     vals.append(val)
 
-    plt.plot(1-np.array(accs)/5, 'ro')
-    plt.plot(1-np.array(vals)/5, 'bo')
+    div = 4 if stack else 1
+    plt.plot(1-np.array(accs)/div, 'ro')
+    plt.plot(1-np.array(vals)/div, 'bo')
     plt.axis([0, 300, 0, 1])
     plt.grid(which='both')
-    plt.savefig(filename[:-4] + '.png')#[-9:-4]+'_3')
-    print(filename[:-4] + '.png')
+    extra = '_stack' if stack else ''
+    plt.savefig(filename[:-4] + extra + '.png')#[-9:-4]+'_3')
+    print(filename[:-4] + extra + '.png')
     plt.close()
     
 #for letter in ['a','b','c','d','e','f','g','h','i','j']:
     #make_plot(os.getcwd() + '/second_run/cnn_%s.log' % letter)
     
-files = glob.glob('sixth_run/cnn_run*0.log')
+files = glob.glob('ibc_loo_test/cnn_run*0.log')
 count = 0
 for fil in files:
+
     make_plot(fil, stack=True)
+
+        
+    
     count += 1
     print(count)
 
