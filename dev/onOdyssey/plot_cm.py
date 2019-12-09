@@ -59,10 +59,11 @@ def namegen():
         
 def parser(filename, num, stack=False):
     if stack:
-        cm = []
+        cm = []#np.zeros(5,5)
         fils = glob.glob(filename[:-5] + '*' + filename[-4:])
         if len(fils) != 4:
-            raise
+            #TODO RESTORE
+            pass#raise Exception
         for my_filename in fils:
             fil = open(my_filename, 'r')
             print(num)
@@ -77,11 +78,13 @@ def parser(filename, num, stack=False):
                 nums = cut_line.split()
                 for i in nums:
                     row.append(int(i))
+                    
                 my_cm.append(row)
-        if len(cm)==0:
-            cm = np.array(my_cm)
-        else:
-            cm = cm + np.array(my_cm)
+        #cms.append(np.array(my_cm))
+            if len(cm)==0:
+                cm = np.array(my_cm)
+            else:
+                    cm = cm + np.array(my_cm)
             
     else:       
         fil = open(filename, 'r')
@@ -112,15 +115,17 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
         #print(cm.shape)
     else:
         # Compute confusion matrix
-        cm = confusion_matrix(y_true, y_pred)#s if not cmx.any else cmx
+        #cm = confusion_matrix(y_true, y_pred)#s if not cmx.any else cmx
     
         #cm = np.array([[ 96, 104], [ 26, 174]])
+        
+        cm = [[79,121],[50,750]]
     
-#    cm = [[0.77,0.03,0.16,0.04,0.00],
-#          [0.2,0.07,0.67,0.07,0.00],
-#          [0.25,0.17,0.51,0.07,0.00],
-#          [0.72,0.06,0.17,0.00,0.06],
-#          [0.11,0.00,0.00,0.00,0.89]]
+#        cm = [[0.77,0.03,0.16,0.04,0.00],
+#              [0.2,0.07,0.67,0.07,0.00],
+#              [0.25,0.17,0.51,0.07,0.00],
+#              [0.72,0.06,0.17,0.00,0.06],
+#              [0.11,0.00,0.00,0.00,0.89]]
     cm = np.array(cm)
     #normalize
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -191,9 +196,10 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     
 #for letter in ['a','b','c','d','e','f','g','h','i','j']:
 #    plot_confusion_matrix(None, None, name_extension = letter, parsed = parser('cnn_%s.log' % letter))
-#plot_confusion_matrix(None, None, name_extension='ia')  
+#plot_confusion_matrix(None, None, name_extension='/mnt/c/Users/Noel/Desktop/summer2019/dev/onOdyssey/rf_good')
+#raise
     
-files = glob.glob('sixth_run/cnn_run*0.log')
+files = glob.glob('ibc_loo_test/cnn_run*9.log')
 
 #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
 #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
@@ -212,5 +218,4 @@ for fil in files:
                           parsed = parser(fil, 5, stack=True))
     except:
         raise
-    count += 1
-    print(count)
+
