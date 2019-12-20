@@ -115,11 +115,11 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
         #print(cm.shape)
     else:
         # Compute confusion matrix
-        #cm = confusion_matrix(y_true, y_pred)#s if not cmx.any else cmx
+        cm = confusion_matrix(y_true, y_pred)# if not cmx.any else cmx
     
         #cm = np.array([[ 96, 104], [ 26, 174]])
         
-        cm = [[79,121],[50,750]]
+        #cm = [[79,121],[50,750]]
     
 #        cm = [[0.77,0.03,0.16,0.04,0.00],
 #              [0.2,0.07,0.67,0.07,0.00],
@@ -132,6 +132,9 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     if len(cm) == 5:
         classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn',  'SLSNe'])
         order = [4,2,3,0,1]
+    elif len(cm) == 4:
+        classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn'])
+        order = [2,3,0,1]
     elif len(cm) == 3:
         classes = np.array(['SNIa', 'Ibc/SLS','II/IIn'])
         order = [1,2,0]
@@ -199,23 +202,26 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
 #plot_confusion_matrix(None, None, name_extension='/mnt/c/Users/Noel/Desktop/summer2019/dev/onOdyssey/rf_good')
 #raise
     
-files = glob.glob('ibc_loo_test/cnn_run*9.log')
-
-#fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
-#plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-#                          parsed = parser(fil, 5))
-
-#plot_confusion_matrix(None, None)
-
-#count = 0
-for fil in files:
-    #skip over the bad 100 pooling ones
- #   if '100' in fil:
-#        continue
-    print(fil)
-    try:
-        plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-                          parsed = parser(fil, 5, stack=True))
-    except:
-        raise
-
+def main():
+    files = glob.glob('eighth_run/cnn_run*.log')
+    
+    #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
+    #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
+    #                          parsed = parser(fil, 5))
+    
+    #plot_confusion_matrix(None, None)
+    
+    #count = 0
+    for fil in files:
+        #skip over the bad 100 pooling ones
+     #   if '100' in fil:
+    #        continue
+        print(fil)
+        try:
+            plot_confusion_matrix(None, None, name_extension = fil[:-4], 
+                              parsed = parser(fil, 5, stack=False))
+        except:
+            pass
+    
+if __name__ == '__main__':
+    main()
