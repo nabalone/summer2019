@@ -37,12 +37,13 @@ parser.add_argument('--mask', action='store_true',
 args = parser.parse_args()
 
 #TODO Fix
-args.mask=True
-print(args.mask)
+args.mask=False
+if args.mask:
+    print("mask making only: %s" % args.mask)
 
 #TODO comment all constants
 ERRORFILE = 'errorfile.txt'
-SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/combined'#ps1hosts' #pics location
+SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
 DICTDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
 #os.getcwd() #"/mnt/d/Summer 2019 Astro" 
 #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
@@ -79,11 +80,11 @@ PLOT_REDSHIFTS = False
 PRINT_DATA = False
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
-PLOT_ALL = False
-PLOT_ERR =  False #plots only files that give errors or low probability
-PLOT_DIR = os.getcwd() + '/plots' # where to put plot images
+PLOT_ALL = True
+PLOT_ERR =  True #plots only files that give errors or low probability
+PLOT_DIR = os.getcwd() + '/apple_plots/' # where to put plot images
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 
+FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 
 #'specified', 'nonsquare'
 
 
@@ -93,11 +94,11 @@ to_check = [160103, 180313, 590123, 50296, 90034, 50601]
 for f in to_check:
     SPECIFIED.extend(glob.glob((SOURCEDIR + '/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/psc470240.3.fits', 
-             SOURCEDIR + '/psc470240.4.fits',
-             SOURCEDIR + '/psc470240.5.fits',
-             SOURCEDIR + '/psc470240.6.fits']
-RANGE = (310, 320)
+SPECIFIED = [SOURCEDIR + '/psc020121.3.fits', 
+             SOURCEDIR + '/psc020121.4.fits',
+             SOURCEDIR + '/psc020121.5.fits',
+             SOURCEDIR + '/psc020121.6.fits']
+RANGE = (0,3)
 m0collector = [None, None, None, [], [], [], []]
 BAD_COUNT = 0
 '''make header'''
@@ -119,6 +120,22 @@ if os.path.exists(ERRORFILE):
   
 all_myMags = []
 all_realMags = []
+
+#for checking how many are in their host
+INSIDE = {}
+OUTSIDE = {}
+INSIDE['SNIa'] = set()
+INSIDE['SNIbc'] = set()
+INSIDE['SNII'] = set()
+INSIDE['SNIIn'] = set()
+INSIDE['SLSNe'] = set()
+
+OUTSIDE['SNIa'] = set()
+OUTSIDE['SNIbc'] = set()
+OUTSIDE['SNII'] = set()
+OUTSIDE['SNIIn'] = set()
+OUTSIDE['SLSNe'] = set()
+
 
 # for naming plots files
 namecount = 0
@@ -609,12 +626,12 @@ class Image:
         fig, ax = plt.subplots()
     
         if myVmax == None or myVmin == None:
-            _im = ax.imshow(self.swappedData, interpolation='nearest', cmap='gray')
+            _im = ax.imshow(self.swappedData, interpolation='nearest', cmap='gray_r')
         else:
-            _im = ax.imshow(self.swappedData, interpolation='nearest', cmap='gray',
+            _im = ax.imshow(self.swappedData, interpolation='nearest', cmap='gray_r',
                             vmin = myVmin, vmax = myVmax)
         # triangle on event location
-        p = RegularPolygon((int(self.event['x']), int(self.event['y'])), 3, radius=3)
+        p = RegularPolygon((int(self.event['x']), int(self.event['y'])), 3, radius=8)
         p.set_edgecolor('purple')
         p.set_facecolor('purple')
         ax.add_artist(p)
@@ -624,6 +641,7 @@ class Image:
             e = Ellipse(xy=(self.objects['x'][i], self.objects['y'][i]),
                         width=6*self.objects['a'][i],
                         height=6*self.objects['b'][i],
+                        lw = 3,
                         angle=self.objects['theta'][i] * 180. / np.pi)
     # TODO check if above angle conversion is correct. Where from?
             e.set_facecolor('none')
@@ -650,7 +668,11 @@ class Image:
         pixels = []
         for k in range(len(a[0])):
             pixels.append((a[0][k], a[1][k])) #list of tuples of coords
+            global INSIDE
+            INSIDE[typeDict[self.idNumString]].add(self.idNumString)
         if not (int(self.event['y']), int(self.event['x'])) in pixels:
+            global OUTSIDE
+            OUTSIDE[typeDict[self.idNumString]].add(self.idNumString)
             return 0
         
         def sortkey(x):
@@ -673,7 +695,7 @@ class Image:
             if PLOT_ERR:
                 padded_e = e + '                                                                         '
                 my_title = padded_e[:30] + '\n' + curFile[-16:]
-                self.plot(myVmin = 0, myVmax = 1000, target=chosen, title=my_title)
+                self.plot(myVmin = 0, myVmax = 3000, target=chosen, title=my_title)
                 self.plot()
             if ONLY_FLAG_ERRORS or e=='far' or e=='unlikely':
                 return
@@ -1033,7 +1055,7 @@ def main():
     end = time.time()
     print("Time: %s " % (end - start))
     print("BAD COUNT: %s" % BAD_COUNT)
-
+    np.save("m0collector", m0collector)
 if __name__ == "__main__":
      main()
      

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jul  1 16:55:35 2019
+Query SDSS database for all supernovae we have pictures for
+to get photoz and types of nearby objects
+Types are for disqualifying stars from being chosen hosts
 
-@author: Faith
+Saves queries in 'sdss_queries.dat', indexed according to
+'sdss_queries_index.txt'
 """
 import numpy as np
 import pandas as pd
@@ -22,12 +25,17 @@ from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
 import os
+PROJ_HOME = os.environ['DATA_SRCDIR']
 
 start = time.time()
 errs= []
-SOURCEDIR = os.getcwd() + "/ps1hosts"
+SOURCEDIR = PROJ_HOME + '/src'
+PIXDIR = SOURCEDIR + '/all_fits'
+OUTPUTDIR = SOURCEDIR + '/outputs'
 
-filenames = sorted(glob.glob(SOURCEDIR + '/psc*.[3-6].fits'))
+filenames = sorted(glob.glob(PIXDIR + '/psc*.[3-6].fits'))
+print(PIXDIR)
+print(len(filenames))
 fileset = set()
 for f in filenames:
     dotSplit = f.split('.')
@@ -36,9 +44,9 @@ for f in filenames:
     
 print(len(fileset))
     
-db = pd.read_table('alertstable_v3',sep=None,index_col = False, 
+db = pd.read_table(SOURCEDIR + '/alertstable_v3',sep=None,index_col = False, 
                engine='python')
-db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False, 
+db2 = pd.read_table(SOURCEDIR + '/alertstable_v3.lasthalf',sep=None,index_col = False, 
                 engine='python')
 db = db.append(db2,ignore_index=True)
     
@@ -46,7 +54,7 @@ full_table = None
 index = 0
 eventdict = {}
 for f in sorted(list(fileset)):
-    filename = glob.glob(SOURCEDIR + '/psc' + f + '.[3-6].fits')[0]
+    filename = glob.glob(PIXDIR + '/psc' + f + '.[3-6].fits')[0]
     image_file = fits.open(filename)
     
     # get event pixel coords
@@ -68,11 +76,12 @@ for f in sorted(list(fileset)):
     maxRa, maxDec = w.all_pix2world(1,maxY,1)
     minRa, minDec = w.all_pix2world(maxX,1,1)
 
-    # fix formatting
-    maxRa = maxRa.item(0)*u.deg
-    minRa = minRa.item(0)*u.deg
-    maxDec = maxDec.item(0)*u.deg
-    minDec = minDec.item(0)*u.deg
+    # Not sure why we were adding "deg" to everything before?
+    #it seems to break things
+#     maxRa = maxRa.item(0)*u.deg
+#     minRa = minRa.item(0)*u.deg
+#     maxDec = maxDec.item(0)*u.deg
+#     minDec = minDec.item(0)*u.deg
         
     
     
@@ -83,6 +92,7 @@ for f in sorted(list(fileset)):
             FROM Photoz AS pz RIGHT JOIN PhotoObj AS p ON pz.objid = p.objid \
             WHERE p.mode = 1 AND p.ra < %s and p.ra > %s AND p.dec < %s and p.dec > %s" \
             % (maxRa, minRa, maxDec, minDec)
+    print(query)
     sdssTable = SDSS.query_sql(query)
     if not sdssTable:
         continue
@@ -103,10 +113,10 @@ for f in sorted(list(fileset)):
     
 #full_table = full_table.group_by('idnum')
 
-full_table.write('sdss_queries.dat', format='ascii', overwrite=True)
-'sdss_queries.dat'
+full_table.write(OUTPUTDIR + '/sdss_queries.dat', format='ascii', overwrite=True)
 
-with open('sdss_queries_index.txt', 'w+') as indexfile:
+
+with open(OUTPUTDIR + '/sdss_queries_index.txt', 'w+') as indexfile:
     indexfile.write(str(eventdict))
     
 end = time.time()
