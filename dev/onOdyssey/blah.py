@@ -62,7 +62,7 @@ def make_plot(filename, stack=False):
 #for letter in ['a','b','c','d','e','f','g','h','i','j']:
     #make_plot(os.getcwd() + '/second_run/cnn_%s.log' % letter)
     
-files = glob.glob('ibc_loo_test/cnn_run*0.log')
+files = glob.glob('eighth_run/cnn_run*.log')
 count = 0
 for fil in files:
 
