@@ -732,11 +732,11 @@ def pre_load_dictionaries():
     zfile.close()
     #not in zdict, looked up from ps1 website 
     #http://telescopes.rc.fas.harvard.edu/ps1/2014/alerts/
-    zdict['100014'] = 0.357
-    zdict['300220'] = 0.094
-    zdict['380108'] = 0.159
-    zdict['080079'] = 0.151
-    zdict['460103'] = 0.32
+#     zdict['100014'] = 0.357
+#     zdict['300220'] = 0.094
+#     zdict['380108'] = 0.159
+#     zdict['080079'] = 0.151
+#     zdict['460103'] = 0.32
 #TODO Ask ashley if 460103 is PS1-12c
     
     
