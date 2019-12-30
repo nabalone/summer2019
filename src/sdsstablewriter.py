@@ -24,7 +24,6 @@ from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
-import os
 PROJ_HOME = os.environ['DATA_SRCDIR']
 
 start = time.time()

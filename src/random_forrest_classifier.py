@@ -25,12 +25,13 @@ from sklearn import preprocessing
 import random
 import pandas as pd
 
-from plot_cm import *
+#from plot_cm import *
 
 CLASS_WEIGHT = 'balanced'
 WHITEN = True
 USE_RF = False #otherwise SVM
-DESTDIR = "/mnt/c/Users/Noel/Desktop/summer2019/dev/apple_run"
+PROJ_HOME = os.environ['DATA_SRCDIR']
+DESTDIR = PROJ_HOME + "/dev/apple_run"
 CSV_FILE = DESTDIR + '/galaxiesdata.csv'
 
 INSIDE_ONLY = False
@@ -56,7 +57,7 @@ for i in range(4,7):
 
 '''load event type dictionary'''
 typeDict = {}
-typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+typefile = open(PROJ_HOME + '/src/ps1confirmed_added.txt', 'r')
 typefile.readline() #get rid of header
 for line in typefile:
     parts = line.split()
@@ -231,9 +232,10 @@ def run(X, y, n_est, name_extension):
             clf = RandomForestClassifier(n_estimators=n_est)
             clf.fit(X_res,y_res)
             y_pred[test_index] = clf.predict(X_test)
-
-        np.save(name_extension, y_pred)
-        plot_confusion_matrix(y, y_pred, name_extension=name_extension)
+            
+        np.save(name_extension + '_ytrue', y)
+        np.save(name_extension + '_ypred', y_pred)
+        #plot_confusion_matrix(y, y_pred, name_extension=name_extension)
         importances = clf.feature_importances_
         print(importances)
         print(y_pred)
@@ -257,8 +259,12 @@ def main():
     #X0, y0 = collect(0)
     X1, y1 = collect(1)
 
-    run(X1, y1, 200, DESTDIR + '/blah' + ext)
+    #run(X1, y1, 200, DESTDIR + '/blah' + ext)
     
+    y1 = np.array(y1)
+    y_ia = np.where(y1==0,0,1)
+    
+    run(X1, y_ia, 200, DESTDIR + '/ia' + ext)
 
     end = time.time()
     print(end - start)

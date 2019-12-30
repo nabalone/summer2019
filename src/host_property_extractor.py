@@ -29,64 +29,97 @@ from astropy.coordinates import SkyCoord
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table
 from sdssTableGroupIndex import sdssTableGroupIndex
+PROJ_HOME = os.environ['DATA_SRCDIR']
 
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--mask', action='store_true', 
                     help='only generate mask and date files for cnn')
+parser.add_argument('--use_prev', action='store_true', 
+                    help='This is not the first time script has been run; \
+                        use mag zero points and property averages from last run')
 args = parser.parse_args()
 
-#TODO Fix
-args.mask=False
-if args.mask:
-    print("mask making only: %s" % args.mask)
 
+if args.mask:
+    print("mask making only")
+    
+if args.use_prev:
+    print("Using m_0s and averages from a prev. run")
+    
 #TODO comment all constants
-ERRORFILE = 'errorfile.txt'
-SOURCEDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
-DICTDIR = '/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
+ERRORFILE = PROJ_HOME + '/outputs/errorfile.txt'
+SOURCEDIR = PROJ_HOME + '/src/all_fits' #'/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
+DICTDIR = PROJ_HOME + '/src' #/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
 #os.getcwd() #"/mnt/d/Summer 2019 Astro" 
 #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
 FILLER_VAL = None
-THRESHOLD = 3
-MAXTHRESH = 30 # raise threshhold until this if necessary
+THRESHOLD = 3 #sigma of detection
+MAXTHRESH = 30 # Do not raise threshhold beyond this
 PSF = 4 #the FWHM
 MINAREA = 3 * (PSF/2)**2
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
 SUBTRACT_BACKGROUND = True
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
 FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag_z']
-LIKELIHOOD_THRESH = 0.2
+LIKELIHOOD_THRESH = 0.2 # only choose hosts with chance coincidence must be below this 
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
-TYPE_COLORS = {'SNIIn':'co', 'SNIa':'ro', 'SNII': 'bo', 'SNIbc':'go', 'SLSNe': 'mo'}
 FILENAME_PREFIX = SOURCEDIR + "/psc"
 LOWEST_MAG = 26 #limiting mag is 25
 #TODO make note: to change a per-filter property, change in 3 places
 #TODO make each property into an object?
 
-FILTER_M0s = (None, None, None, 22.918, 22.822, 23.652, 23.540) 
-# FILTER_M0s[i] is the average magnitude zero point in filter i, 
-#use by default if no stars for calibration
-# Also use if star calibration yields outlier (> 1 away from average value)
 
 #USAGE FLAGS:
 #TODO MAKE ARGPARSER!!!!
-WRITE_CSV = "/galaxiesdata.csv" # filename to write to or None
-MAG_TEST_ALL = False
-MAG_TEST_STDEV = False
-PLOT_REDSHIFTS = False
-
-PRINT_DATA = False
+WRITE_CSV = PROJ_HOME + "/outputs/galaxiesdata.csv" # filename to write to or None
+#MAG_TEST_ALL = False
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
-PLOT_ALL = True
+PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
-PLOT_DIR = os.getcwd() + '/apple_plots/' # where to put plot images
+PLOT_DIR = PROJ_HOME + '/outputs/plots' # where to put plot images
+if not os.path.isdir(PLOT_DIR):
+    os.mkdir(PLOT_DIR)
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'specified' #options are 'all', 'preset random', 'new random', 'range', 
+FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 
 #'specified', 'nonsquare'
 
+if args.use_prev:
+    if os.path.isfile(PROJ_HOME + '/src/outputs/m0collector.npy'):
+        prev_m0s = np.load(PROJ_HOME + '/src/outputs/m0collector.npy', allow_pickle=True)
+        FILTER_M0S = [0]*3
+        for i in prev_m0s[3:]:
+                FILTER_M0S.append(np.median(i))
+    else:
+        raise Exception("Could not find m0collector.npy from previous run. \
+                            Run again without --use_prev flag?")
+    if os.path.isfile(WRITE_CSV):
+        prev_csv = pd.read_csv(WRITE_CSV)
+        AVRG_OFFSETS = []
+        AVRG_RADII = []
+        AVRG_ANGLES = []
+        AVRG_PIXELRANKS = []
+        AVRG_ELLIPTICITIES = []
+        AVRG_REDSHIFTS = []
+        for i in range(3,7):
+            AVRG_OFFSETS[i] = np.mean(prev_csv['separation (kpc)_%s']%i)
+            AVRG_RADII[i] = np.mean(prev_csv['KronRad (kpc)_%s']%i)
+            AVRG_ANGLES[i] = np.mean(prev_csv['Angle_%s']%i)
+            AVRG_PIXELRANKS[i] = np.mean(prev_csv['pixelRank_%s']%i)
+            AVRG_ELLIPTICITIES[i] = np.mean(prev_csv['Ellipticity_%s']%i)
+            AVRG_REDSHIFTS[i] = np.mean(prev_csv['redshift_%s']%i)
+
+    else:
+        raise Exception("Count not find %s from previous run. \
+                            Run again without --use_prev flag?")
+else:
+    print("using hardcoded default m0s")
+    FILTER_M0s = (None, None, None, 22.918, 22.822, 23.652, 23.540) 
+# FILTER_M0s[i] is the average magnitude zero point in filter i, 
+#use by default if no stars for calibration
+# Also use if star calibration yields outlier (> 1 away from average value)
 
 #TODO delete
 SPECIFIED = []
@@ -107,7 +140,7 @@ COLUMNS =['ID', 'hostRa', 'hostDec', 'offby', 'hectoZ', 'redshift_dif']
 perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/sqrt(area) (kpc)',
                    'x', 'y','KronMag', 'Abs. Mag', 'Angle',
                    'Ellipticity', 'RA',  'DEC', 
-                   'Discrepency (arcsecs)', 'pixelRank', 'chanceCoincidence',
+                   'Discrepency (arcsecs)', 'pixelRank', 'redshift', 'chanceCoincidence',
                    'host_found']
 for i in range(3,7):
     for val in perImageHeaders:
@@ -118,10 +151,11 @@ if os.path.exists(ERRORFILE):
   os.remove(ERRORFILE)
   
   
-all_myMags = []
-all_realMags = []
+#all_myMags = []
+#all_realMags = []
 
 #for checking how many are in their host
+# just out of curiosity
 INSIDE = {}
 OUTSIDE = {}
 INSIDE['SNIa'] = set()
@@ -139,10 +173,10 @@ OUTSIDE['SLSNe'] = set()
 
 # for naming plots files
 namecount = 0
-def namegen():
+def namecountgen():
     global namecount
     namecount += 1
-    return PLOT_DIR + "\galaxyimage" + str(namecount) + ".png"
+    return namecount
 
 #Four Image objects are created per Supernova object, one for each filter
 class Image:    
@@ -346,14 +380,14 @@ class Image:
         self.magnitude = -2.5 * np.log10(flux/self.exposure_time) + self.m_0
         self.magnitude[np.where(np.isnan(self.magnitude))] = LOWEST_MAG
 
-        #For debugging zero point detection. Can be removed
-        if MAG_TEST_ALL:
-            colMyMags = -2.5 * np.log10(colFluxes/self.exposure_time) + self.m_0
-            all_myMags[self.filterNum].extend(colMyMags[:])
-            all_realMags[self.filterNum].extend(colRealMags[:])
-            for k in range(len(colMyMags)):
-                if abs(colMyMags[k] - colRealMags[k]) > 2:
-                    self.errorProtocol("outlier: ")
+#        #For debugging zero point detection. Can be removed
+#        if MAG_TEST_ALL:
+#            colMyMags = -2.5 * np.log10(colFluxes/self.exposure_time) + self.m_0
+#            all_myMags[self.filterNum].extend(colMyMags[:])
+#            all_realMags[self.filterNum].extend(colRealMags[:])
+#            for k in range(len(colMyMags)):
+#                if abs(colMyMags[k] - colRealMags[k]) > 2:
+#                    self.errorProtocol("outlier: ")
 
         '''Chance Coincidence Calculation'''
         # size is half light radius
@@ -570,32 +604,38 @@ class Image:
         finalDict['Discrepency (arcsecs)_%s' % f] = self.dec[bestCandidate]
         finalDict['pixelRank_%s' % f] = self.getPixelRank()
         finalDict['chanceCoincidence_%s' % f] = self.chanceCoincidence[bestCandidate]
-        finalDict['host_found_%s' % f] = 1  
+        finalDict['host_found_%s' % f] = 1
+        finalDict['redshift_%s' % f] = self.eventz
         return finalDict
 
     # If no likely hosts were detected in any filter for this event
     def getDefaultData(self):
         defaultFinalProperties = {}
         for f in range(3,7):
-            defaultFinalProperties['KronRad (kpc)_%s' % f] = self.default_dist #PSF/2 pixels
-            defaultFinalProperties['separation (kpc)_%s' % f] = self.default_dist/2 #1 pixel
+            defaultFinalProperties['KronRad (kpc)_%s' % f] = self.default_dist #PSF, 2 pixels
+            defaultFinalProperties['separation (kpc)_%s' % f] = \
+                self.default_dist*AVRG_OFFSETS[self.filterNum]/AVRG_RADII[self.filterNum] 
             defaultFinalProperties['area (kpc^2)_%s' % f] = \
-                np.pi * (self.default_dist) ** 2 #psf/2
+                np.pi * (self.default_dist) ** 2 
             defaultFinalProperties['sep/sqrt(area) (kpc)_%s' % f] = \
                 defaultFinalProperties['separation (kpc)_%s' % f] /\
                 np.sqrt(defaultFinalProperties['area (kpc^2)_%s' % f])
             defaultFinalProperties['x_%s' % f] = 0
             defaultFinalProperties['y_%s' % f] = 0
             defaultFinalProperties['KronMag_%s' % f] = LOWEST_MAG
+            
+            FIXXX
+            
             defaultFinalProperties['Abs. Mag_%s' % f] = self.absLimMag
-            defaultFinalProperties['Angle_%s' % f] = 0
-            defaultFinalProperties['Ellipticity_%s' % f] =  0.3
+            defaultFinalProperties['Angle_%s' % f] = AVRG_ANGLES[self.filterNum]
+            defaultFinalProperties['Ellipticity_%s' % f] =  AVRG_ELLIPTICITIES[self.filterNum]
             defaultFinalProperties['RA_%s' % f] = self.event['ra']
             defaultFinalProperties['DEC_%s' % f] = self.event['dec']
             defaultFinalProperties['Discrepency (arcsecs)_%s' % f] = None
-            defaultFinalProperties['pixelRank_%s' % f] = 0.5
+            defaultFinalProperties['pixelRank_%s' % f] = AVRG_PIXELRANKS[self.filterNum]
             defaultFinalProperties['chanceCoincidence_%s' % f] = 1
             defaultFinalProperties['host_found_%s' % f] = 0
+            defaultFinalProperties['redshift_%s' % f] = AVRG_REDSHIFTS[self.filterNum]
         return defaultFinalProperties
     
     # returns |Redshift_SN - Photoz_galaxy| / Photoz error on galaxy 
@@ -653,7 +693,8 @@ class Image:
                 e.set_edgecolor('red')
             ax.add_artist(e)
         plt.title(title)
-        plt.savefig(namegen(), dpi=150)
+        plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
+                    + str(namegen()) + ".png", dpi=150)
         plt.show()
         plt.close()
 

@@ -175,7 +175,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
              rotation_mode="anchor")
     font = {
     'weight' : 'normal',
-    'size'   : 10}
+    'size'   : 20}
     plt.rc('font', **font)
     # Loop over data dimensions and create text annotations.
     fmt = '.2f' if True else 'd'
@@ -190,7 +190,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     number = namegen()
     
 #TODO restore
-    plt.savefig(name_extension +'cm.png')
+    plt.savefig(name_extension +'cm.png', bbox_inches = "tight")
     #plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + str(ADD_RANDOM) \
     #            + name_extension + '.png')#number + '.png')
     plt.show()
@@ -203,7 +203,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
 #raise
     
 def main():
-    files = glob.glob('eighth_run/cnn_run*.log')
+    #files = glob.glob('ia_hazel/cnn_run*.log')
     
     #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
     #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
@@ -212,16 +212,21 @@ def main():
     #plot_confusion_matrix(None, None)
     
     #count = 0
-    for fil in files:
-        #skip over the bad 100 pooling ones
-     #   if '100' in fil:
-    #        continue
-        print(fil)
-        try:
-            plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-                              parsed = parser(fil, 5, stack=False))
-        except:
-            pass
+    y_pred = np.load('../apple_run/ia3_ypred.npy')
+    y_true = np.load('../apple_run/ia3_ytrue.npy')
+    plot_confusion_matrix(y_true, y_pred, name_extension = "../apple_run/ia")
+    
+    if False:
+        for fil in files:
+            #skip over the bad 100 pooling ones
+         #   if '100' in fil:
+        #        continue
+            print(fil)
+            try:
+                plot_confusion_matrix(None, None, name_extension = fil[:-4], 
+                                  parsed = parser(fil, 2, stack=False))
+            except:
+                pass
     
 if __name__ == '__main__':
     main()
