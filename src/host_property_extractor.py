@@ -28,7 +28,9 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table
-from sdssTableGroupIndex import sdssTableGroupIndex
+#from sdssTableGroupIndex import sdssTableGroupIndex
+import json
+
 PROJ_HOME = os.environ['DATA_SRCDIR']
 
 import argparse
@@ -48,9 +50,17 @@ if args.use_prev:
     print("Using m_0s and averages from a prev. run")
     
 #TODO comment all constants
-ERRORFILE = PROJ_HOME + '/outputs/errorfile.txt'
-SOURCEDIR = PROJ_HOME + '/src/all_fits' #'/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
+
+#TODO fix!!!!
+SOURCEDIR = PROJ_HOME + '/src/ps1hosts' #'/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
 DICTDIR = PROJ_HOME + '/src' #/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
+OUTPUT_DIR = PROJ_HOME + '/src/outputs'
+ERRORFILE = OUTPUT_DIR + '/errorfile.txt'
+
+with open(OUTPUT_DIR + '/sdss_queries_index.txt') as f:
+    sdssTableGroupIndex = json.load(f)
+
+
 #os.getcwd() #"/mnt/d/Summer 2019 Astro" 
 #"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
@@ -73,13 +83,13 @@ LOWEST_MAG = 26 #limiting mag is 25
 
 #USAGE FLAGS:
 #TODO MAKE ARGPARSER!!!!
-WRITE_CSV = PROJ_HOME + "/outputs/galaxiesdata.csv" # filename to write to or None
+WRITE_CSV = OUTPUT_DIR + "/galaxiesdata.csv" # filename to write to or None
 #MAG_TEST_ALL = False
 
 CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
 PLOT_ALL = False
 PLOT_ERR =  True #plots only files that give errors or low probability
-PLOT_DIR = PROJ_HOME + '/outputs/plots' # where to put plot images
+PLOT_DIR = OUTPUT_DIR + '/plots' # where to put plot images
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
 ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
@@ -87,8 +97,8 @@ FILES = 'all' #options are 'all', 'preset random', 'new random', 'range',
 #'specified', 'nonsquare'
 
 if args.use_prev:
-    if os.path.isfile(PROJ_HOME + '/src/outputs/m0collector.npy'):
-        prev_m0s = np.load(PROJ_HOME + '/src/outputs/m0collector.npy', allow_pickle=True)
+    if os.path.isfile(OUTPUT_DIR + '/m0collector.npy'):
+        prev_m0s = np.load(OUTPUT_DIR + '/m0collector.npy', allow_pickle=True)
         FILTER_M0S = [0]*3
         for i in prev_m0s[3:]:
                 FILTER_M0S.append(np.median(i))
@@ -97,19 +107,19 @@ if args.use_prev:
                             Run again without --use_prev flag?")
     if os.path.isfile(WRITE_CSV):
         prev_csv = pd.read_csv(WRITE_CSV)
-        AVRG_OFFSETS = []
-        AVRG_RADII = []
-        AVRG_ANGLES = []
-        AVRG_PIXELRANKS = []
-        AVRG_ELLIPTICITIES = []
-        AVRG_REDSHIFTS = []
+        AVRG_OFFSETS = [None]*7
+        AVRG_RADII = [None]*7
+        AVRG_ANGLES = [None]*7
+        AVRG_PIXELRANKS = [None]*7
+        AVRG_ELLIPTICITIES = [None]*7
+        AVRG_REDSHIFTS = [None]*7
         for i in range(3,7):
-            AVRG_OFFSETS[i] = np.mean(prev_csv['separation (kpc)_%s']%i)
-            AVRG_RADII[i] = np.mean(prev_csv['KronRad (kpc)_%s']%i)
-            AVRG_ANGLES[i] = np.mean(prev_csv['Angle_%s']%i)
-            AVRG_PIXELRANKS[i] = np.mean(prev_csv['pixelRank_%s']%i)
-            AVRG_ELLIPTICITIES[i] = np.mean(prev_csv['Ellipticity_%s']%i)
-            AVRG_REDSHIFTS[i] = np.mean(prev_csv['redshift_%s']%i)
+            AVRG_OFFSETS[i] = np.mean(prev_csv['separation (kpc)_%s'%i])
+            AVRG_RADII[i] = np.mean(prev_csv['KronRad (kpc)_%s'%i])
+            AVRG_ANGLES[i] = np.mean(prev_csv['Angle_%s'%i])
+            AVRG_PIXELRANKS[i] = np.mean(prev_csv['pixelRank_%s'%i])
+            AVRG_ELLIPTICITIES[i] = np.mean(prev_csv['Ellipticity_%s'%i])
+            AVRG_REDSHIFTS[i] = np.mean(prev_csv['redshift_%s'%i])
 
     else:
         raise Exception("Count not find %s from previous run. \
@@ -624,7 +634,7 @@ class Image:
             defaultFinalProperties['y_%s' % f] = 0
             defaultFinalProperties['KronMag_%s' % f] = LOWEST_MAG
             
-            FIXXX
+#TODO             FIXXX
             
             defaultFinalProperties['Abs. Mag_%s' % f] = self.absLimMag
             defaultFinalProperties['Angle_%s' % f] = AVRG_ANGLES[self.filterNum]
@@ -694,7 +704,7 @@ class Image:
             ax.add_artist(e)
         plt.title(title)
         plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
-                    + str(namegen()) + ".png", dpi=150)
+                    + str(namecountgen()) + ".png", dpi=150)
         plt.show()
         plt.close()
 
@@ -748,7 +758,7 @@ def pre_load_dictionaries():
     '''load event type dictionary'''
     global typeDict
     typeDict = {}
-    typefile = open(DICTDIR + '/ps1confirmed_only_sne_without_outlier.txt', 'r')
+    typefile = open(DICTDIR + '/ps1confirmed_added.txt', 'r')
     typefile.readline() #get rid of header
     for line in typefile:
         parts = line.split()
@@ -794,7 +804,7 @@ def pre_load_dictionaries():
     
     '''load prerun sdss queries'''
     global fullSdssTable
-    fullSdssTable = Table.read(DICTDIR + '/sdss_queries.dat', format='ascii')
+    fullSdssTable = Table.read(OUTPUT_DIR + '/sdss_queries.dat', format='ascii')
     fullSdssTable = fullSdssTable.group_by('idnum')
     
     
@@ -1057,7 +1067,7 @@ def extraction(filenames):
             #print(all_all_data)
             df = pd.DataFrame(all_all_data, columns=COLUMNS)
             if WRITE_CSV:
-                df.to_csv(DESTDIR + WRITE_CSV)
+                df.to_csv(WRITE_CSV)
                 
     if args.mask:
         np.savez('all_masks', **masks)

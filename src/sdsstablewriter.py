@@ -24,6 +24,7 @@ from astroquery.sdss import SDSS
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
+import json
 PROJ_HOME = os.environ['DATA_SRCDIR']
 
 start = time.time()
@@ -116,7 +117,7 @@ full_table.write(OUTPUTDIR + '/sdss_queries.dat', format='ascii', overwrite=True
 
 
 with open(OUTPUTDIR + '/sdss_queries_index.txt', 'w+') as indexfile:
-    indexfile.write(str(eventdict))
+    json.dump(eventdict, indexfile) #indexfile.write(str(eventdict))
     
 end = time.time()
 print(end - start)
