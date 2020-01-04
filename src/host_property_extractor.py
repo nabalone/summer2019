@@ -113,13 +113,18 @@ if args.use_prev:
         AVRG_PIXELRANKS = [None]*7
         AVRG_ELLIPTICITIES = [None]*7
         AVRG_REDSHIFTS = [None]*7
+        
+        good_rows = np.where(prev_csv['host_found_3']==1)
+        def get_good_med(header):
+            arr = prev_csv[header]
+            return np.median(arr[good_rows])
         for i in range(3,7):
-            AVRG_OFFSETS[i] = np.mean(prev_csv['separation (kpc)_%s'%i])
-            AVRG_RADII[i] = np.mean(prev_csv['KronRad (kpc)_%s'%i])
-            AVRG_ANGLES[i] = np.mean(prev_csv['Angle_%s'%i])
-            AVRG_PIXELRANKS[i] = np.mean(prev_csv['pixelRank_%s'%i])
-            AVRG_ELLIPTICITIES[i] = np.mean(prev_csv['Ellipticity_%s'%i])
-            AVRG_REDSHIFTS[i] = np.mean(prev_csv['redshift_%s'%i])
+            AVRG_OFFSETS[i] = get_good_med('separation (kpc)_%s'%i)
+            AVRG_RADII[i] =  get_good_med('KronRad (kpc)_%s'%i)
+            AVRG_ANGLES[i] =  get_good_med('Angle_%s'%i)
+            AVRG_PIXELRANKS[i] =  get_good_med('pixelRank_%s'%i)
+            AVRG_ELLIPTICITIES[i] =  get_good_med('Ellipticity_%s'%i)
+            AVRG_REDSHIFTS[i] =  get_good_med('redshift_%s'%i)
 
     else:
         raise Exception("Count not find %s from previous run. \
@@ -623,8 +628,12 @@ class Image:
         defaultFinalProperties = {}
         for f in range(3,7):
             defaultFinalProperties['KronRad (kpc)_%s' % f] = self.default_dist #PSF, 2 pixels
-            defaultFinalProperties['separation (kpc)_%s' % f] = \
-                self.default_dist*AVRG_OFFSETS[self.filterNum]/AVRG_RADII[self.filterNum] 
+            if args.use_prev:
+                defaultFinalProperties['separation (kpc)_%s' % f] = \
+                    self.default_dist*AVRG_OFFSETS[self.filterNum]/AVRG_RADII[self.filterNum] 
+            else: # ideally data from a use_prev run will be used in the end
+                # so the following won't really matter
+                defaultFinalProperties['separation (kpc)_%s' % f] = self.default_dist/2 # 1 pixel
             defaultFinalProperties['area (kpc^2)_%s' % f] = \
                 np.pi * (self.default_dist) ** 2 
             defaultFinalProperties['sep/sqrt(area) (kpc)_%s' % f] = \
@@ -634,18 +643,28 @@ class Image:
             defaultFinalProperties['y_%s' % f] = 0
             defaultFinalProperties['KronMag_%s' % f] = LOWEST_MAG
             
-#TODO             FIXXX
+#TODO             FIXXX to 2sigma
             
             defaultFinalProperties['Abs. Mag_%s' % f] = self.absLimMag
-            defaultFinalProperties['Angle_%s' % f] = AVRG_ANGLES[self.filterNum]
-            defaultFinalProperties['Ellipticity_%s' % f] =  AVRG_ELLIPTICITIES[self.filterNum]
+            if args.use_prev:
+                defaultFinalProperties['Angle_%s' % f] = AVRG_ANGLES[self.filterNum]
+                defaultFinalProperties['Ellipticity_%s' % f] =  AVRG_ELLIPTICITIES[self.filterNum]
+            else:
+                defaultFinalProperties['Angle_%s' % f] = 0
+                defaultFinalProperties['Ellipticity_%s' % f] =  0.3
             defaultFinalProperties['RA_%s' % f] = self.event['ra']
             defaultFinalProperties['DEC_%s' % f] = self.event['dec']
             defaultFinalProperties['Discrepency (arcsecs)_%s' % f] = None
-            defaultFinalProperties['pixelRank_%s' % f] = AVRG_PIXELRANKS[self.filterNum]
+            if args.use_prev:                
+                defaultFinalProperties['pixelRank_%s' % f] = AVRG_PIXELRANKS[self.filterNum]
+            else:
+                defaultFinalProperties['pixelRank_%s' % f] = 0.5
             defaultFinalProperties['chanceCoincidence_%s' % f] = 1
             defaultFinalProperties['host_found_%s' % f] = 0
-            defaultFinalProperties['redshift_%s' % f] = AVRG_REDSHIFTS[self.filterNum]
+            if args.use_prev:
+                defaultFinalProperties['redshift_%s' % f] = AVRG_REDSHIFTS[self.filterNum]
+            else:
+                defaultFinalProperties['redshift_%s' % f] = 0.2
         return defaultFinalProperties
     
     # returns |Redshift_SN - Photoz_galaxy| / Photoz error on galaxy 
