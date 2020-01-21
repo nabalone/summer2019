@@ -143,8 +143,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
         classes = np.array(['SNIa','CC'])
     else:
         raise
-    print(cm)
-    cm = cm[order][:,order]
+    print('Confusion matrix:')
     print(cm)
     classes = classes[order]
     
@@ -168,6 +167,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
            ylabel='True label',
            xlabel='Predicted label')
     ax.set_ylim(len(cm) - 0.5, -0.5)
+
     #ax.tick_params(axis='both', which='major', labelsize=10)
     
     # Rotate the tick labels and set their alignment.
@@ -175,7 +175,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
              rotation_mode="anchor")
     font = {
     'weight' : 'normal',
-    'size'   : 10}
+    'size'   : 20}
     plt.rc('font', **font)
     # Loop over data dimensions and create text annotations.
     fmt = '.2f' if True else 'd'
@@ -190,9 +190,11 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     number = namegen()
     
 #TODO restore
-    plt.savefig(name_extension +'cm.png')
+    plt.savefig(name_extension +'cm.png', bbox_inches = "tight")
     #plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + str(ADD_RANDOM) \
     #            + name_extension + '.png')#number + '.png')
+        #plt.rcParams["axes.grid"] = False
+    plt.grid(False)
     plt.show()
     plt.close()    
     print(1)
@@ -203,6 +205,8 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
 #raise
     
 def main():
+    plot_confusion_matrix([0,1],[1,0], name_extension='deletable')
+    return
     files = glob.glob('ia_hazel/cnn_run*.log')
     
     #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
@@ -222,6 +226,32 @@ def main():
                               parsed = parser(fil, 2, stack=False))
         except:
             pass
+        
+def alt_main():
+    #files = glob.glob('ia_hazel/cnn_run*.log')
+    
+    #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
+    #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
+    #                          parsed = parser(fil, 5))
+    
+    #plot_confusion_matrix(None, None)
+    
+    #count = 0
+    y_pred = np.load('../apple_run/ia3_ypred.npy')
+    y_true = np.load('../apple_run/ia3_ytrue.npy')
+    plot_confusion_matrix(y_true, y_pred, name_extension = "../apple_run/ia")
+    
+    if False:
+        for fil in files:
+            #skip over the bad 100 pooling ones
+         #   if '100' in fil:
+        #        continue
+            print(fil)
+            try:
+                plot_confusion_matrix(None, None, name_extension = fil[:-4], 
+                                  parsed = parser(fil, 2, stack=False))
+            except:
+                pass
     
 if __name__ == '__main__':
     main()
