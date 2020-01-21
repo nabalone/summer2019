@@ -14,6 +14,7 @@ from sklearn import preprocessing
 import random
 import pandas as pd
 import sys
+import time
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
 sys.path.append(PROJ_HOME)
@@ -78,19 +79,11 @@ for line in typefile:
     typeDict[eventId] = eventType
 typefile.close()
 
+type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
+
 if INSIDE_ONLY:
     from inside_and_outside import INSIDE
     ins_set = INSIDE['SNIa'] | INSIDE['SNIbc'] | INSIDE['SNII'] | INSIDE['SNIIn'] 
-
-        
-
-
-#'''make event id number in int form into string form, 0 padded'''
-#def pad(n):
-#    n = str(n)
-#    while len(n) < 6:
-#        n = '0' + n
-#    return n
 
 '''getting columns from csv file with pandas'''
 def chooseAll(csvfile, num_random):
@@ -123,79 +116,6 @@ def chooseAll(csvfile, num_random):
         y=new_y
         
     return (X, y)
-
-
-type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
-
-'''made-up metric for loosely ranking confusion matrices'''
-#def diagonalishness(m):
-#    count = 0
-#    for i in range(len(m)):
-#        if np.argmax(m[:,i]) == i:
-#            count += 1
-#        if np.argmax(m[i,:]) == i:
-#            count += 1
-#    return count
-#
-#'''correctness per type average'''
-#def balanced_score(m):
-#    count = 0
-#    for i in range(len(m)):
-#        count += m[i][i]
-#    return count/len(m)
-#
-#namecount = 0
-#def namegen():
-#    global namecount
-#    namecount += 1
-#    return str(namecount)
-
-
-#def plot_confusion_matrix(y_true, y_pred, name_extension, cmap=plt.cm.Blues):
-#    # Copied and adapted from
-#    #https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html#sphx-glr-auto-examples-model-selection-plot-confusion-matrix-py
-#
-#    # Compute confusion matrix
-#    cm = confusion_matrix(y_true, y_pred)
-#
-#    #normalize
-#    cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-#    print(str(cm))
-#    classes = np.array(['SNIa', 'SNIbc','SNII', 'SNIIn',  'SLSNe'])
-#    classes = classes[unique_labels(y_true, y_pred)]
-#
-#    bal_score = str(balanced_score(cm))[:4]
-#    #diag = str(diagonalishness(cm))
-#    info_str = "bal_score:" + bal_score
-#                #+ " diag:" + diag + '\n'
-#                #+ str(name_extension)
-#    print(info_str)
-#    fig, ax = plt.subplots()
-#    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
-#    ax.figure.colorbar(im, ax=ax)
-#    # We want to show all ticks...
-#    ax.set(xticks=np.arange(cm.shape[1]),
-#           yticks=np.arange(cm.shape[0]),
-#           title=info_str,
-#           xticklabels=classes, yticklabels=classes,
-#           ylabel='True label',
-#           xlabel='Predicted label')
-#
-#    # Rotate the tick labels and set their alignment.
-#    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-#             rotation_mode="anchor")
-#
-#    # Loop over data dimensions and create text annotations.
-#    fmt = '.2f' if True else 'd'
-#    thresh = cm.max() / 2.
-#    for i in range(cm.shape[0]):
-#        for j in range(cm.shape[1]):
-#            ax.text(j, i, format(cm[i, j], fmt),
-#                    ha="center", va="center",
-#                    color="white" if cm[i, j] > thresh else "black")
-#    fig.tight_layout()
-#    plt.savefig(PLOT_DIR + 'cm%s.png' % ext)
-#    plt.close()
 
 def collect(num_random):
     X = []
@@ -253,25 +173,13 @@ def run(X, y, n_est, name_extension):
         np.save(name_extension + '_ypred', y_pred)
         plot_confusion_matrix(y, y_pred, name_extension=name_extension)
         importances = clf.feature_importances_
-        #plt.bar(range(len(importances)), importances, color='m')
         importances = np.array(importances)
         plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
         np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
 def main():
-    import time
     start = time.time()
-    #with open(PLOT_DIR + "log.csv", "w+") as destfile:
-    #    csvwriter = csv.writer(destfile)
-    #    x = ['number', 'bal_score', 'diag']
-    #    x.extend(headers)
-    #    csvwriter.writerow(x)
-    #    for combo in allCombos[1:]:
-    #        run(combo)
-    #X0, y0 = collect(0)
-    X1, y1 = collect(1)
 
-    #run(X1, y1, 200, DESTDIR + '/blah' + ext)
-    
+    X1, y1 = collect(1)  
     y1 = np.array(y1)
     y_ia = np.where(y1==0,0,1)
     
