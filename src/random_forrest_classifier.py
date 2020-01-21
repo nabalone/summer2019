@@ -5,32 +5,33 @@ Created on Wed Jul  3 12:51:52 2019
 @author: Noel
 """
 
-import csv
 import os
-from sklearn import svm
-from sklearn.metrics import confusion_matrix
-from sklearn.decomposition import PCA
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.utils.multiclass import unique_labels
-from sklearn.model_selection import LeaveOneOut, cross_val_predict, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
-import random
 from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import LeaveOneOut,train_test_split
-from sklearn.ensemble import RandomForestClassifier
-import scipy
-import math
+from sklearn.model_selection import LeaveOneOut, StratifiedKFold
 from sklearn import preprocessing
 import random
 import pandas as pd
+import sys
 
-#from plot_cm import *
-
-CLASS_WEIGHT = 'balanced'
-WHITEN = True
-USE_RF = False #otherwise SVM
 PROJ_HOME = os.environ['DATA_SRCDIR']
+sys.path.append(PROJ_HOME)
+from src.utils.plot_cm import pad, plot_confusion_matrix
+from src.utils.plot_importances import plot_importances
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-k', '--kfold', type=int, required=False, 
+                    help='use kfold cross validation with specified number of \
+                    folds instead of leave one out cross validation')
+parser.add_argument('--no_redshift', action='store_true', \
+                    help='do not include redshift directly in the training data.\
+                    it will still be used to calculate absolute quantities')
+args = parser.parse_args()
+args.kfold=3
+
+NUM_TREES = 700
 DESTDIR = PROJ_HOME + "/dev/apple_run"
 CSV_FILE = DESTDIR + '/galaxiesdata.csv'
 
@@ -49,11 +50,22 @@ if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
 
 cols1 = ['KronRad (kpc)_3', 'separation (kpc)_3', 'area (kpc^2)_3', 'sep/sqrt(area) (kpc)_3', \
- 'KronMag_3', 'Abs. Mag_3','Ellipticity_3', 'Z_3', 'pixelRank_3', 'chanceCoincidence_3']
+ 'KronMag_3', 'Abs. Mag_3','Ellipticity_3', 'pixelRank_3', 'chanceCoincidence_3']
+if args.no_redshift:
+    print("Not including redshift.")
+else:
+    print("Including redshift.")
+    cols1.append('redshift_3')
+
 cols = cols1[:]
 for i in range(4,7):
     for e in cols1:
         cols.append(e[:-1] + str(i))
+       
+names = []
+for i in cols:
+    new=i.replace('3', 'g').replace('4', 'r').replace('5', 'i').replace('6', 'z')
+    names.append(new)
 
 '''load event type dictionary'''
 typeDict = {}
@@ -83,7 +95,6 @@ if INSIDE_ONLY:
 '''getting columns from csv file with pandas'''
 def chooseAll(csvfile, num_random):
     data = pd.read_csv(csvfile)
-    print(data)
     X = data.loc[:, cols].as_matrix()
     X = np.nan_to_num(X)
     y = []
@@ -116,7 +127,7 @@ def chooseAll(csvfile, num_random):
 
 type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
 
-'''made up metric for loosely ranking confusion matrices'''
+'''made-up metric for loosely ranking confusion matrices'''
 #def diagonalishness(m):
 #    count = 0
 #    for i in range(len(m)):
@@ -190,7 +201,7 @@ def collect(num_random):
     X = []
     y = []
     X, y = chooseAll(CSV_FILE, num_random)
-    print(X.shape)
+    #print(X.shape)
     X = preprocessing.scale(X)
     X = np.array(X)
 
@@ -210,13 +221,17 @@ feature importances to classification'''
 #and importance plots
 def run(X, y, n_est, name_extension):
     # with help from Victory Ashley Villar
-        loo = LeaveOneOut()
-        skf = StratifiedKFold(n_splits=9)
-
+    
+        if args.kfold:
+            validator = StratifiedKFold(n_splits=args.kfold)
+        else:
+            validator = LeaveOneOut()
+        
         y_pred = np.zeros(len(y)) - 1
+        y_true = np.zeros(len(y)) - 1
         count=0
-        for train_index, test_index in loo.split(X, y):
-            print(count)
+        for train_index, test_index in validator.split(X, y):
+            print("fold: %s"%count)
             count += 1
 
             X_train, X_test = X[train_index], X[test_index]
@@ -232,20 +247,16 @@ def run(X, y, n_est, name_extension):
             clf = RandomForestClassifier(n_estimators=n_est)
             clf.fit(X_res,y_res)
             y_pred[test_index] = clf.predict(X_test)
+            y_true[test_index] = y_test
             
-        np.save(name_extension + '_ytrue', y)
+        np.save(name_extension + '_ytrue', y_true)
         np.save(name_extension + '_ypred', y_pred)
-        #plot_confusion_matrix(y, y_pred, name_extension=name_extension)
+        plot_confusion_matrix(y, y_pred, name_extension=name_extension)
         importances = clf.feature_importances_
-        print(importances)
-        print(y_pred)
-        print(y_test)
-        plt.bar(range(len(importances)), importances)
-        print(importances)
+        #plt.bar(range(len(importances)), importances, color='m')
         importances = np.array(importances)
+        plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
         np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
-        plt.savefig(DESTDIR + "/importances_final%s.png" % ext)
-        print(y)
 def main():
     import time
     start = time.time()
@@ -264,10 +275,10 @@ def main():
     y1 = np.array(y1)
     y_ia = np.where(y1==0,0,1)
     
-    run(X1, y_ia, 200, DESTDIR + '/ia' + ext)
+    run(X1, y_ia, NUM_TREES, DESTDIR + '/ia' + ext)
 
     end = time.time()
-    print(end - start)
+    print('running time: %s' % (end - start))
 
 if __name__=='__main__':
     main()

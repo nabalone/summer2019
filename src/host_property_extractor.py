@@ -31,6 +31,11 @@ from astropy.table import Table
 #from sdssTableGroupIndex import sdssTableGroupIndex
 import json
 
+#attempt to supress fits warnings about date changed, etc.
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
+
 PROJ_HOME = os.environ['DATA_SRCDIR']
 
 import argparse
@@ -70,12 +75,19 @@ MAXTHRESH = 30 # Do not raise threshhold beyond this
 PSF = 4 #the FWHM
 MINAREA = 3 * (PSF/2)**2
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
-SUBTRACT_BACKGROUND = True
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
 FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag_z']
 LIKELIHOOD_THRESH = 0.2 # only choose hosts with chance coincidence must be below this 
 TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
 FILENAME_PREFIX = SOURCEDIR + "/psc"
+
+
+
+
+
+
+
+#TODO FIX LOWEST MAG
 LOWEST_MAG = 26 #limiting mag is 25
 #TODO make note: to change a per-filter property, change in 3 places
 #TODO make each property into an object?
@@ -99,9 +111,9 @@ FILES = 'all' #options are 'all', 'preset random', 'new random', 'range',
 if args.use_prev:
     if os.path.isfile(OUTPUT_DIR + '/m0collector.npy'):
         prev_m0s = np.load(OUTPUT_DIR + '/m0collector.npy', allow_pickle=True)
-        FILTER_M0S = [0]*3
+        FILTER_M0s = [0]*3
         for i in prev_m0s[3:]:
-                FILTER_M0S.append(np.median(i))
+                FILTER_M0s.append(np.median(i))
     else:
         raise Exception("Could not find m0collector.npy from previous run. \
                             Run again without --use_prev flag?")
@@ -114,9 +126,9 @@ if args.use_prev:
         AVRG_ELLIPTICITIES = [None]*7
         AVRG_REDSHIFTS = [None]*7
         
-        good_rows = np.where(prev_csv['host_found_3']==1)
+        good_rows = np.array(np.where(prev_csv['host_found_3']==1))
         def get_good_med(header):
-            arr = prev_csv[header]
+            arr = np.array(prev_csv[header])
             return np.median(arr[good_rows])
         for i in range(3,7):
             AVRG_OFFSETS[i] = get_good_med('separation (kpc)_%s'%i)
@@ -229,8 +241,7 @@ class Image:
         self.swappedData = image_data.byteswap(True).newbyteorder()
         # subtracting out background
         self.bkg = sep.Background(self.swappedData)
-        if SUBTRACT_BACKGROUND:
-            self.swappedData = self.swappedData - self.bkg
+        self.swappedData = self.swappedData - self.bkg
             
 #TODO does this need to be after the recursive extraction?                
         
@@ -1125,7 +1136,7 @@ def main():
     end = time.time()
     print("Time: %s " % (end - start))
     print("BAD COUNT: %s" % BAD_COUNT)
-    np.save("m0collector", m0collector)
+    np.save(OUTPUT_DIR + "/m0collector", m0collector)
 if __name__ == "__main__":
      main()
      
