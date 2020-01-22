@@ -1,8 +1,5 @@
 
 from __future__ import print_function
-#import keras
-from keras.datasets import cifar10
-from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
 from keras.layers import Input, Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, concatenate
@@ -22,7 +19,7 @@ import argparse
 import sys
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
-OUTPUT_DIR = PROJ_HOME + '/outputs/'
+OUTPUT_DIR = PROJ_HOME + '/src/outputs/'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-e', action='store_true', dest='use_extracted', 
@@ -60,35 +57,17 @@ parser.add_argument('--mp', nargs=1, type=int, dest='mean_pooling',
 parser.add_argument('--kfold', nargs = 1, type=int, default='-1', dest='k_fold',
     help='use kfold crossval with 4 folds')
 args, _remaining = parser.parse_known_args() # parser.parse_args() 
-#print(args.dropout)
-#TODO move utils to separate file
 
-'''DEPRECATED'''
-def augment_old(images, num):
-    print("augmenting")
-    print(len(images))
-    aug_images = list(images)
-    rots = np.array(range(1, 40))*360/40
-    random.shuffle(rots)
-    m = 39/len(images)
-    for i in range(100):
-        for j in range(len(images)):
-            if len(aug_images) >= num:
-                print("returning")
-                return aug_images
-            else:
-                aug_images.append(ndimage.rotate(images[j], rots[int((i*m +j) % 39)], reshape=False))
+#TODO move utils to separate file
 
 
 def augment(images, corresponding_properties, num, rotate=True):
   
-    aug_images = []#list(images)
+    aug_images = []
     aug_props = list(corresponding_properties)
     l = len(images)
-    #if l > num:
-    #    aug_images = aug_images[:num]
-    #    aug_props = aug_props[:num]
-    for i in range(num):# - l):
+
+    for i in range(num):
         image = images[i % l]
         if rotate:
             image = ndimage.rotate(image, 360*random.random(), reshape=False)
@@ -116,7 +95,7 @@ def shuffle(X, y, X_sep=None):
         if len(X) != len(X_sep):
             print(len(X))
             print(len(X_sep))
-#TODO RESTORE!!!!!!!!!!!!!!!!
+#TODO RESTORE!!!!!!!!!!!!!!!
             pass#raise Exception("shuffle x_sep uneqal lengths")
         if args.use_extracted:
             raise
@@ -128,22 +107,20 @@ def shuffle(X, y, X_sep=None):
         
 def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12, 
                      seed_offset=0):
-    n_ia = len(np.load("x_all2_0.npy"))
-    n_ibc = len(np.load("x_all2_1.npy"))
-    n_ii = len(np.load("x_all2_2.npy"))
-    n_iin = len(np.load("x_all2_3.npy"))
-    n_sls = len(np.load("x_all2_4.npy"))
+    n_ia = len(np.load(OUTPUT_DIR + "x_all2_0.npy"))
+    n_ibc = len(np.load(OUTPUT_DIR + "x_all2_1.npy"))
+    n_ii = len(np.load(OUTPUT_DIR + "x_all2_2.npy"))
+    n_iin = len(np.load(OUTPUT_DIR + "x_all2_3.npy"))
+    n_sls = len(np.load(OUTPUT_DIR + "x_all2_4.npy"))
     n_tot = n_ia + n_ibc + n_ii + n_iin + n_sls 
     
     if ia_only:
-        #aug_to = [286, 38, 183, 43, 22]
         aug_to = [n_ia, 
                     np.round(n_ia*n_ibc/(n_tot - n_ia)), 
                     np.round(n_ia*n_ii/(n_tot - n_ia)),
                     np.round(n_ia*n_iin/(n_tot - n_ia)),
                     np.round(n_ia*n_sls/(n_tot - n_ia))]
     elif three:
-        #aug_to = [286, 183, 231, 55, 103]
         aug_to = [n_ia, 
                     np.round(n_ia*n_ibc/(n_ibc+n_sls)),
                     np.round(n_ia*n_ii/(n_ii+n_iin)),
@@ -163,13 +140,12 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         y_test_folds.append([])
     for i in range(5):
         NUM = int(aug_to[i])
-        print(NUM)
         if mask:
             print("using mask")
-            raw = np.load("x_all2_%s.npy" % i).astype('float32')/1000000.
+            raw = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')/1000000.
             #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
         else:
-            raw = np.load("x_all_%s.npy" % i).astype('float32')/1000000.
+            raw = np.load(OUTPUT_DIR + "x_all_%s.npy" % i).astype('float32')/1000000.
             #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
             
         random.seed(i + seed_offset)
@@ -181,10 +157,8 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
                                      random_state=1).split(raw, [i]*len(raw)))
         for j, (train, test) in enumerate(folds):
-            print(raw[train].shape)
 #TODO this has been changed from the sep
             train_aug, _train_aug_sep = augment(raw[train], [0]*len(train), NUM)
-            print((np.array(train_aug)).shape)
             X_train_folds[j].extend(crop(train_aug))
             y_train_folds[j].extend([i]*len(train_aug))
             
@@ -208,8 +182,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
     for j in range(len(y_train_folds)):
         np.savez(OUTPUT_DIR + filname+extrastring+'_fold_%s'%j, 
                  X_train_folds[j], y_train_folds[j], 
-                 X_test_folds[j], y_test_folds[j])
-        
+                 X_test_folds[j], y_test_folds[j])       
 
             
 def crop(ls):
@@ -217,176 +190,6 @@ def crop(ls):
     print(a.shape)
     b = a[:, 40:-40, 40:-40]
     return(list(b))
-            
-        
-
-def load(answers=False, ia_only=False, three=False, seed_offset=0, crop=True, 
-             mask=False, k_fold=False):
-    raise Exception("THIS FUNCTION IS PROBABLY ERRONEOUS")
-    if ia_only and three:
-        print("CANT DO IA AND THREE")
-        exit(1)
-
-    X_test = []
-    X_train = []
-    X_val = []
-    y_test = []
-    y_train = []
-    y_val = []
-    Xsep_test = []
-    Xsep_train = []
-    Xsep_val = []
-    
-    
-    X_full = []
-    y_full = []
-    Xsep_full = []
-    
-    n_ia = 333
-    n_ibc = 16
-    n_ii = 85
-    n_iin = 24
-    n_sls = 12
-    n_tot = n_ia + n_ibc + n_ii + n_iin + n_sls 
-    #NUM should be total number of samples in largest class
-    if ia_only:
-        #aug_to = [286, 38, 183, 43, 22]
-        aug_to = [n_ia, 
-                    np.round(n_ia*n_ibc/(n_tot - n_ia)), 
-                    np.round(n_ia*n_ii/(n_tot - n_ia)),
-                    np.round(n_ia*n_iin/(n_tot - n_ia)),
-                    np.round(n_ia*n_sls/(n_tot - n_ia))]
-    elif three:
-        #aug_to = [286, 183, 231, 55, 103]
-        aug_to = [n_ia, 
-                    np.round(n_ia*n_ibc/(n_ibc+n_sls)),
-                    np.round(n_ia*n_ii/(n_ii+n_iin)),
-                    np.round(n_ia*n_iin/(n_ii+n_iin)),
-                    np.round(n_ia*n_sls/(n_ibc+n_sls))]
-    else:
-        aug_to = [n_ia]*5
-
-    for i in range(5):
-        if True: #ia_only:
-            NUM = int(aug_to[i])
-            print(NUM)
-        if mask:
-            print("using mask")
-            raw = np.load("x_all2_%s.npy" % i).astype('float32')/1000000.
-            raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
-        else:
-            raw = np.load("x_all_%s.npy" % i).astype('float32')/1000000.
-            raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
-
-        print(len(raw))
-        random.seed(i + seed_offset)
-        random.shuffle(raw)
-        random.seed(i+seed_offset)
-        random.shuffle(raw_sep)
-        
-        if k_fold:
-            print(NUM)
-            print(type(NUM))
-            fulli, fullp = augment(raw, raw_sep, NUM)
-            X_full.extend(fulli)
-            Xsep_full.extend(fullp)
-            y_full.extend([i]*len(fulli))
-        else:
-#TODO handpick which goes in which
-#TODO augment up to appropriate numbers
-        #div = math.floor(len(raw)/3)
-            div = math.floor(0.2*len(raw))
-        #div = max(div, 4)
-#TODO fix len below
-#TODO if div is floored to 4, the use of 0.6*NUM below doesn't work correctly
-#wait maybe it does
-#TODO fix this stupid hardcoding
-        #if FOLD==0:
-#TODO do we want to rotate test and val sets below but just have a few rotations of them?
-            testi, testp = augment(raw[:div], raw_sep[:div], int(0.2*NUM), rotate=False)#len(raw[:div])))
-            vali, valp = augment(raw[div:2*div], raw_sep[div:2*div], int(0.2*NUM), rotate=False)#len(raw[div:2*div]))#int(0.2*NUM))
-            traini, trainp = augment(raw[2*div:], raw_sep[2*div:], int(0.6*NUM))
-            X_test.extend(testi)
-            y_test.extend([i]*len(testi))
-            Xsep_test.extend(testp)
-            X_train.extend(traini)
-            y_train.extend([i]*len(traini))
-            Xsep_train.extend(trainp)
-            X_val.extend(vali)
-            y_val.extend([i]*(len(vali)))
-            Xsep_val.extend(valp)
-    if crop:
-        if k_fold: 
-            X_full = np.array(X_full)
-            X_full = X_full[:, 40:-40, 40:-40]
-        else:
-            X_val = np.array(X_val)
-            X_test = np.array(X_test)
-            X_train = np.array(X_train)
-            X_val = X_val[:, 40:-40, 40:-40]
-            X_test = X_test[:, 40:-40, 40:-40]
-            X_train = X_train[:, 40:-40, 40:-40]
-    if k_fold:
-        X_full, y_full, Xsep_full = shuffle(X_full, y_full, Xsep_full)
-    else:
-        X_test, y_test, Xsep_test = shuffle(X_test, y_test, Xsep_test)
-        X_train, y_train, Xsep_train = shuffle(X_train, y_train, Xsep_train)    
-        X_val, y_val, Xsep_val = shuffle(X_val, y_val, Xsep_val)       
-    if not ia_only:
-        np.save(OUTPUT_DIR + "y_test_aardvark_aug"+str(seed_offset), y_test)
-    extrastring = str(seed_offset) if seed_offset>0 else ''
-    if k_fold:
-        filname = "aug_all"
-    else:
-        filname = "aug_load_output_3"
-
-    if ia_only:
-        filname = filname + "_ia"
-    elif three:
-        filname = filname + "_three_cats"
-
-    if mask:
-        print('mask')
-        filname = filname + "_mask"
-
-    if k_fold:
-        np.savez(OUTPUT_DIR + filname+extrastring, X_full, Xsep_full, y_full)
-    else:
-        np.savez(OUTPUT_DIR + filname+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val) 
-# 
-#        if k_fold:
-#            np.savez("aug_all_ia"+extrastring, X_full, Xsep_full, y_full)
-#        else:
-#            np.savez("aug_load_output_ia3"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val) 
-#    elif three:    
-#        if k_fold:
-#            np.savez("aug_all_three_cats"+extrastring, X_full, Xsep_full, y_full)
-#        else:
-#            np.savez("aug_load_output_three_cats"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)   
-#    elif mask:
-#        if k_fold:
-#            np.savez("aug_all_mask"+extrastring, X_full, Xsep_full, y_full)
-#        else:
-#            np.savez("aug_load_output_3_mask"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)  
-#
-#    else:
-# 
-#        if k_fold:
-#            np.savez("aug_all"+extrastring, X_full, Xsep_full, y_full)
-#        else:
-#            np.savez("aug_load_output_3"+extrastring, X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)  
-
-    return#(X_test, y_test, Xsep_test, X_train, y_train, Xsep_train, X_val, y_val, Xsep_val)   
-
-def make_splits(filename, num_splits):
-    raise Exception("this should be deprecated")
-    arrs = np.load(filename)
-    X_full = arrs['arr_0']
-    y_full = arrs['arr_2']
-    folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, random_state=1).split(X_full, y_full))
-    for j, (train, test) in enumerate(folds):
-        np.savez(OUTPUT_DIR + filename[:-4]+'_fold_%s'%j, X_full[train], y_full[train], X_full[test], y_full[test])
-
 
 
 def main():
@@ -427,7 +230,7 @@ def main():
     else:
     #TODO restore
         epochs = 35
-    #num_predictions = 20
+
     save_dir = OUTPUT_DIR # os.path.join(os.getcwd(), 'saved_models')
     model_name = 'aardvark_aug' + model_num + '.h5'
 
@@ -437,8 +240,6 @@ def main():
         raise(ValueError, "NOT YET IMPLEMENTED IA WITH EXTRACTED")
         exit(1)
 
-    #x_train = np.load("x_all.npy")
-    #y_train = np.load("y_all.npy")
 #TODO restore
 
     if k_folded:
@@ -456,24 +257,10 @@ def main():
 
     if k_folded:
         filname = filname + "_fold_%s"%fold_num
-    all_data = np.load(filname + '.npz')
+    all_data = np.load(OUTPUT_DIR + filname + '.npz')
     
     if k_folded:
-        print(1)
-#        if ia_only:
-#            all_data = np.load("aug_all_ia.npz")
-#        elif args.use_alt:
-#            raise Exception("don't use alt with k_fold")
-#        elif args.mask:
-#            all_data = np.load("aug_all_mask_fold_%s.npz" % fold_num)
-#
-#        elif three_categories:
-#            all_data = np.load("aug_all_three_cats.npz")
-#        else:
-#            all_data =  np.load("aug_all_fold_%s.npz" % fold_num) #load()
-        #X_full = all_data['arr_0']
-        #Xsep_full = all_data['arr_1']
-        #y_full = all_data['arr_2']
+
         X_full_train = all_data['arr_0']
         y_full_train = all_data['arr_1']
         X_full_test = all_data['arr_2']
@@ -497,29 +284,12 @@ def main():
             #y_full = y_full[y_full_orig != 4]
             #X_full = X_full[y_full_orig != 4]
 
-        #y_full_orig = y_full
-        #y_full = to_categorical(y_full, num_classes)
         y_full_test_orig = y_full_test
         y_full_train = to_categorical(y_full_train, num_classes)
         y_full_test = to_categorical(y_full_test, num_classes)
 
    
     else:
-#        if ia_only:
-#            all_data = np.load("aug_load_output_ia3.npz")
-#        elif args.use_alt:
-#            if args.mask:
-#                all_data = np.load("aug_load_output_10_mask.npz")
-#            else:
-#                all_data = np.load("aug_load_output_10.npz")
-#            print("loaded")
-#        elif args.mask:
-#            all_data = np.load("aug_load_output_mask.npz")
-#    
-#        elif three_categories:
-#            all_data = np.load("aug_load_output_three_cats.npz")
-#        else:
-#            all_data =  np.load("aug_load_output3.npz") #load()
         X_test = all_data['arr_0'] 
         y_test= all_data['arr_1']
         Xsep_test = all_data['arr_2']
@@ -710,58 +480,55 @@ def main():
         y_pred = model.predict(X_full_test)
         y_pred_2 = np.argmax(y_pred, 1)
         print(y_pred)
-        arglist = sys.argv
-        namestr = 'y_pred_from_'
-        for ar in arglist:
-            namestr = namestr + '_' + ar.replace('-','')
-        np.save(OUTPUT_DIR + namestr, y_pred)
-        print('saved: %s'%namestr)
+        np.save(OUTPUT_DIR + 'y_pred_fold%s' % args.k_fold, y_pred)
         cm = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
         
 
-    else:
-        if args.use_extracted:
-            model = get_model(in1_shape = X_train.shape[1:], in2_shape = Xsep_train.shape[1:])
-            model.fit(x=[X_train, Xsep_train], y=y_train,
-                  batch_size=batch_size,
-                  epochs=epochs,
-                  validation_data=([X_val, Xsep_val], y_val),
-                  callbacks = [es],
-                  #sample_weight=sampleweights,
-                  shuffle=True)
-        else:
-#TODO fix in2_shape
-            model = get_model(in1_shape = X_train.shape[1:], in2_shape = X_train.shape[1:])
-            model.fit(x=X_train, y=y_train,
-                  batch_size=batch_size,
-                  epochs=epochs,
-                  validation_data=(X_val, y_val),
-                  callbacks = [es],
-#TODO restore
-                  #sample_weight=sampleweights,
-                  shuffle=True)
-            # Save model and weights
-            if not os.path.isdir(save_dir):
-                os.makedirs(save_dir)
-            model_path = os.path.join(save_dir, model_name)
-            if args.save:
-                model.save(model_path)
-            print('Saved trained model at %s ' % model_path)
-        
-        if args.use_extracted:
-            y_pred = model.predict([X_test, Xsep_test])
-        else:
-            y_pred = model.predict(X_test)
-        y_pred2 = np.argmax(y_pred, 1)
-        if args.save:
-            np.save(OUTPUT_DIR + "y_pred_aardvark25weighted_aug"+model_num, y_pred2)
-            np.save(OUTPUT_DIR + "y_test", y_test)
-
-        cm = confusion_matrix(y_test_orig, y_pred2)
-        print(cm)
-        if args.save:
-            np.save(OUTPUT_DIR + "cm_aa"+model_num, cm, allow_pickle=True, fix_imports=True)
+# =============================================================================
+#     else:
+#         if args.use_extracted:
+#             model = get_model(in1_shape = X_train.shape[1:], in2_shape = Xsep_train.shape[1:])
+#             model.fit(x=[X_train, Xsep_train], y=y_train,
+#                   batch_size=batch_size,
+#                   epochs=epochs,
+#                   validation_data=([X_val, Xsep_val], y_val),
+#                   callbacks = [es],
+#                   #sample_weight=sampleweights,
+#                   shuffle=True)
+#         else:
+# #TODO fix in2_shape
+#             model = get_model(in1_shape = X_train.shape[1:], in2_shape = X_train.shape[1:])
+#             model.fit(x=X_train, y=y_train,
+#                   batch_size=batch_size,
+#                   epochs=epochs,
+#                   validation_data=(X_val, y_val),
+#                   callbacks = [es],
+# #TODO restore
+#                   #sample_weight=sampleweights,
+#                   shuffle=True)
+#             # Save model and weights
+#             if not os.path.isdir(save_dir):
+#                 os.makedirs(save_dir)
+#             model_path = os.path.join(save_dir, model_name)
+#             if args.save:
+#                 model.save(model_path)
+#             print('Saved trained model at %s ' % model_path)
+#         
+#         if args.use_extracted:
+#             y_pred = model.predict([X_test, Xsep_test])
+#         else:
+#             y_pred = model.predict(X_test)
+#         y_pred2 = np.argmax(y_pred, 1)
+#         if args.save:
+#             np.save(OUTPUT_DIR + "y_pred_aardvark25weighted_aug"+model_num, y_pred2)
+#             np.save(OUTPUT_DIR + "y_test", y_test)
+# 
+#         cm = confusion_matrix(y_test_orig, y_pred2)
+#         print(cm)
+#         if args.save:
+#             np.save(OUTPUT_DIR + "cm_aa"+model_num, cm, allow_pickle=True, fix_imports=True)
+# =============================================================================
 #    print(y_pred)
 #    print(y_pred2)
     # Score trained model.
