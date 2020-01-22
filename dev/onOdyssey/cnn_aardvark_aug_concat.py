@@ -165,15 +165,15 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         if mask:
             print("using mask")
             raw = np.load("x_all2_%s.npy" % i).astype('float32')/1000000.
-            raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
+            #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
         else:
             raw = np.load("x_all_%s.npy" % i).astype('float32')/1000000.
-            raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
+            #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
             
         random.seed(i + seed_offset)
         random.shuffle(raw)
         random.seed(i+seed_offset)
-        random.shuffle(raw_sep)
+        #random.shuffle(raw_sep)
         
         #this is dumb, don't need stratification, but ok        
         folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
@@ -181,12 +181,12 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         for j, (train, test) in enumerate(folds):
             print(raw[train].shape)
 #TODO this has been changed from the sep
-            train_aug, train_aug_sep = augment(raw[train], [0]*len(train), NUM)
+            train_aug, _train_aug_sep = augment(raw[train], [0]*len(train), NUM)
             print((np.array(train_aug)).shape)
             X_train_folds[j].extend(crop(train_aug))
             y_train_folds[j].extend([i]*len(train_aug))
             
-            test_aug, test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test]))            
+            test_aug, _test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test]))            
             X_test_folds[j].extend(crop(test_aug))
             y_test_folds[j].extend([i]*len(test_aug))
                      

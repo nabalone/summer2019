@@ -143,10 +143,10 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
         classes = np.array(['SNIa','CC'])
     else:
         raise
+
+    classes = classes[order]
     print('Confusion matrix:')
     print(cm)
-    classes = classes[order]
-    
     #classes = classes[unique_labels(y_true, y_pred)]
     #
     bal_score = str(balanced_score(cm))[:4]
@@ -197,7 +197,6 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     plt.grid(False)
     plt.show()
     plt.close()    
-    print(1)
     
 #for letter in ['a','b','c','d','e','f','g','h','i','j']:
 #    plot_confusion_matrix(None, None, name_extension = letter, parsed = parser('cnn_%s.log' % letter))
