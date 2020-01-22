@@ -57,7 +57,7 @@ if args.use_prev:
 #TODO comment all constants
 
 #TODO fix!!!!
-SOURCEDIR = PROJ_HOME + '/src/ps1hosts' #'/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
+SOURCEDIR = PROJ_HOME + '/src/all_fits' #'/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
 DICTDIR = PROJ_HOME + '/src' #/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
 OUTPUT_DIR = PROJ_HOME + '/src/outputs'
 ERRORFILE = OUTPUT_DIR + '/errorfile.txt'
@@ -1100,7 +1100,7 @@ def extraction(filenames):
                 df.to_csv(WRITE_CSV)
                 
     if args.mask:
-        np.savez('all_masks', **masks)
+        np.savez(OUTPUT_DIR + '/all_masks', **masks)
         print('saved all masks')
 #        for i in range(5):
 #            np.save('masks_%s'%i, masks[i])
@@ -1137,6 +1137,7 @@ def main():
     print("Time: %s " % (end - start))
     print("BAD COUNT: %s" % BAD_COUNT)
     np.save(OUTPUT_DIR + "/m0collector", m0collector)
+
 if __name__ == "__main__":
      main()
      

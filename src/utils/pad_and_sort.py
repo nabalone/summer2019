@@ -8,59 +8,31 @@ import numpy as np
 import pandas as pd
 import os
 import glob
-import random
-print(1)
-#import csv
-#import sep
-#import ast
-import matplotlib.pyplot as plt
-from astropy.visualization import astropy_mpl_style
-plt.style.use(astropy_mpl_style)
-#from matplotlib.patches import Ellipse, RegularPolygon
+import sys
+#import matplotlib.pyplot as plt
+#from matplotlib.patches import RegularPolygon
+#from astropy.visualization import astropy_mpl_style
+#plt.style.use(astropy_mpl_style)
 from astropy.io import fits
 from astropy.wcs import WCS
-print(2)
 from astropy import units as u
 from astropy.coordinates import SkyCoord
-#from astroquery.sdss import SDSS
-#from astropy.cosmology import Planck13 as cosmo
-#from astropy.table import Table, vstack
-#from sdssTableGroupIndex import sdssTableGroupIndex
 
-cols1 = ['KronRad (kpc)_3', 'separation (kpc)_3', 'area (kpc^2)_3', 'sep/sqrt(area) (kpc)_3', \
- 'KronMag_3', 'Abs. Mag_3','Ellipticity_3', 'Z_3', 'pixelRank_3', 'chance coincidence_3']
-cols = ['ID']
-cols.extend(cols1[:])
-for i in range(4,7):
-    for e in cols1:
-        cols.append(e[:-1] + str(i))
+PROJ_HOME = os.environ['DATA_SRCDIR']
+sys.path.append(PROJ_HOME)
+from src.random_forest_classifier import chooseAll
 
-print(3)
-test_indices = [37,
- 38,
- 39,
- 40,
- 153,
- 154,
- 155,
- 156,
- 268,
- 269,
- 270,
- 286,
- 287,
- 288,
- 305,
- 306,
- 307,
- 308,
- 366,
- 367,
- 368]
+#supress fits warnings
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
+
 
 SOURCEDIR = os.getcwd() 
-PIXDIR = "../vvillar/ps1_host/fits/"
-CSVFILE = SOURCEDIR + '/goodSeventhRun/untouched.csv'
+BASEDIR = PROJ_HOME + "/src/"
+OUTPUT_DIR = BASEDIR + "outputs/" #where 'all_masks.npz' is located
+PIXDIR = BASEDIR + "all_fits/"
+CSVFILE = BASEDIR + 'outputs/galaxiesdata.csv' 
 
 filenames = sorted(glob.glob(PIXDIR + 'psc*.[3].fits'))
 x_train = []
@@ -70,7 +42,7 @@ y_test = []
 
 '''load event type dictionary'''
 typeDict = {}
-typefile = open('ps1confirmed_only_sne_without_outlier.txt', 'r')
+typefile = open(BASEDIR + 'ps1confirmed_added.txt', 'r')
 typefile.readline() #get rid of header
 for line in typefile:
     parts = line.split()
@@ -78,10 +50,9 @@ for line in typefile:
     eventType = parts[1]
     typeDict[eventId] = eventType
 typefile.close()
-print(4)
 
 zdict = {}
-zfile = open('new_ps1z.dat', 'r')
+zfile = open(BASEDIR + 'new_ps1z.dat', 'r')
 zfile.readline() #get rid of header
 
 for line in zfile:
@@ -90,19 +61,16 @@ for line in zfile:
     redshift = float(parts[1])
     zdict[eventId] = redshift
 zfile.close()
-zdict['100014'] = 0.357
-zdict['300220'] = 0.094
-zdict['380108'] = 0.159
 
 intDict= {'SNIa':0, 'SNIbc':1, 'SNII':2, 'SNIIn':3, 'SLSNe':4}
 
 '''load event location dictionary'''
-db = pd.read_table('alertstable_v3',sep=None,index_col = False,
+db = pd.read_table(BASEDIR + 'alertstable_v3',sep=None,index_col = False,
                engine='python')
-db2 = pd.read_table('alertstable_v3.lasthalf',sep=None,index_col = False,
+db2 = pd.read_table(BASEDIR + 'alertstable_v3.lasthalf',sep=None,index_col = False,
                 engine='python')
 db = db.append(db2,ignore_index=True)
-print(5)
+
 def size(axis, image_data):
     return int(np.shape(image_data)[axis])
 
@@ -122,40 +90,34 @@ def pad(axis, side, image_data):
             return np.hstack((image_data, zeros))
         
 
-def plot(data, myEventX, myEventY, myVmin=None, myVmax=None):
-    fig, ax = plt.subplots()
+#def plot(data, myEventX, myEventY, myVmin=None, myVmax=None):
+#    fig, ax = plt.subplots()
+#
+#    if myVmax == None or myVmin == None:
+#        _im = ax.imshow(data, interpolation='nearest', cmap='gray')
+#    else:
+#        _im = ax.imshow(data, interpolation='nearest', cmap='gray',
+#                        vmin = myVmin, vmax = myVmax)
+#        
+#    # triangle on event location
+#    p = RegularPolygon((int(myEventX), int(myEventY)), 3, radius=3)
+#    p.set_edgecolor('purple')
+#    p.set_facecolor('purple')
+#    ax.add_artist(p)
+#    plt.show()
+#    plt.close()
 
-    if myVmax == None or myVmin == None:
-        _im = ax.imshow(data, interpolation='nearest', cmap='gray')
-    else:
-        _im = ax.imshow(data, interpolation='nearest', cmap='gray',
-                        vmin = myVmin, vmax = myVmax)
-    # triangle on event location
-    p = RegularPolygon((int(myEventX), int(myEventY)), 3, radius=3)
-    p.set_edgecolor('purple')
-    p.set_facecolor('purple')
-    ax.add_artist(p)
-    plt.show()
-    plt.close()
-
-#for filename in ['C:\Users\Faith\Desktop\NoeySummer2019\summer2019/ps1hosts\psc000137.3.fits']:#filenames[:1]:
 def load_data():
-    print(6)
-    masks = np.load('all_masks.npz')
-    print(7)
-    #x_train = []
+    masks = np.load(OUTPUT_DIR + 'all_masks.npz')
+    
+    X, _y = chooseAll(CSVFILE, 0, include_id=True)
+
     x_test = [[],[],[],[],[]]
     x_sep = [[],[],[],[],[]]
-    data = pd.read_csv(CSVFILE)
-    X = data.loc[:, cols].values
-    X = np.nan_to_num(X)
-    #y_train = []
-    #y_test = []
-    #randfile = open('randomly_ordered_filenames2.txt', 'r')
-    filenames = glob.glob('../vvillar/ps1_host/fits/psc*.[3].fits')
-    for full_filename in filenames:#index in test_indices:
-        print(full_filename)#filename = filenames[index]
-        #full_filename = full_filename[:-1] #drop ending \n
+    
+    filenames = glob.glob(PIXDIR + 'psc*.[3].fits')
+    for full_filename in filenames:
+        print(full_filename)
         dotSplit = full_filename.split('.')
         idNumString = dotSplit[-3].split('c')[-1] #used for getting hectospec data
         idNum  = int(idNumString)
@@ -167,27 +129,24 @@ def load_data():
             filename = full_filename[:-6] + str(i) + full_filename[-5:]   
             with fits.open(filename) as image_file:
                 image_data = image_file[0].data
-            print('aa')
+            
             # find pixel coordinates of event
             event = db.where(db['eventID'] == idNum).dropna()
             eventRa = event['ra'].values[0] #values gives np arrays
             eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
-            print('bb')
+            
             # converting to degrees
             eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
             eventRa = eventCoords.ra.deg
             eventDec = eventCoords.dec.deg
-            #TODO: ircs or fk5
-            print('dd')
-            #plot(image_data, eventX, eventY)
+            #TODO: ircs or fk5?
             
             # get event pixel coords
             w = WCS(filename)
             eventX, eventY = w.all_world2pix(eventRa, eventDec, 1)
-            val = image_data[int(eventX), int(eventY)]
+            #val = image_data[int(eventX), int(eventY)]
             paddedX = None
             paddedY = None
-            print('ee')
             if size(0, image_data) != 240:
                 if eventX < 120:
                     paddedX = 'above'
@@ -212,37 +171,26 @@ def load_data():
         redshift = zdict[idNumString]
         all_colors.append(np.full(shp, redshift))
 
-        #maskfiles = glob.glob('masks/mask_%s.npy'%idNumString)
-        #if len(maskfiles) > 1:
-        #    raise
-        #mask = np.load(maskfiles[0])
-        print('a')
+
         mask = masks[idNumString]
-        print('b')
         if paddedX:
             mask = pad(0, paddedX, mask)
         if paddedY:
             mask = pad(1, paddedY, mask)
         if mask.shape != all_colors[0].shape:
             raise
-        print('c')
         all_colors.append(mask)
-        print('d')
 
         all_colors = np.nan_to_num(np.array(all_colors))
         typ = intDict[typeDict[idNumString]]
         x_test[typ].append(all_colors)
 
         #lookup IDnum in SEP properties table from csv
-        #print(np.asarray(X==idNum))
-        print(X[0])
-        print(X[1][0])
         rows, columns = np.asarray(X==idNum).nonzero()
         added = False
-        print(rows)
-        print(columns)
+
         for i in range(len(rows)):
-            if columns[i] == 0: # match is in the ID column
+            if columns[i] == 0: # match is in the ID columnd
                 props = X[rows[i]]
                 x_sep[typ].append(props)
                 added = True
@@ -250,26 +198,14 @@ def load_data():
         if not added:
             print("no properties found for " + idNumString)
 
-        #y_test.append(typ)
-
-#        if len(y_test) < 200:
-#            x_test.append(all_colors)
-#            y_test.append(intDict[typeDict[idNumString]])
-#        else:
-#            x_train.append(all_colors)
-#            y_train.append(intDict[typeDict[idNumString]])
     for i in range(len(x_test)):
         x_test[i] = np.array(x_test[i])
         x_test[i] = np.transpose(x_test[i], [0,2,3,1])
-        np.save("x_all2_%s" % i, x_test[i])
-        np.save("x_sep2_%s" % i, x_sep[i])
-#    x_train = np.array(x_train)
-#    x_train = np.transpose(x_train, [0,2,3,1])
-    #y_test = np.array(y_test)
-#    y_train = np.array(y_train)
-    #randfile.close()
-    #np.save("x_all", x_test)
-    #np.save("y_all", y_test)
-    #return(((x_train,y_train),(x_test,y_test)))
+        np.save(OUTPUT_DIR + "x_all2_%s" % i, x_test[i])
+        np.save(OUTPUT_DIR + "x_sep2_%s" % i, x_sep[i])
 
-load_data()
+def main():
+    load_data()
+    
+if __name__ == "__main__":
+     main()
