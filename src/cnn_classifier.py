@@ -133,11 +133,15 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
     y_train_folds = []
     X_test_folds = []
     y_test_folds = []
-    for i in range(num_splits):
-        X_train_folds.append([])
-        y_train_folds.append([])
-        X_test_folds.append([])
-        y_test_folds.append([])
+    
+    X_all_of = [[],[],[],[],[]]
+    
+    if num_splits != 'all':
+        for i in range(num_splits):# if num_splits != 'loo' else n_tot):
+            X_train_folds.append([])
+            y_train_folds.append([])
+            X_test_folds.append([])
+            y_test_folds.append([])
     for i in range(5):
         NUM = int(aug_to[i])
         if mask:
@@ -153,19 +157,37 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         random.seed(i+seed_offset)
         #random.shuffle(raw_sep)
         
-        #this is dumb, don't need stratification, but ok        
-        folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
-                                     random_state=1).split(raw, [i]*len(raw)))
-        for j, (train, test) in enumerate(folds):
-#TODO this has been changed from the sep
-            train_aug, _train_aug_sep = augment(raw[train], [0]*len(train), NUM)
-            X_train_folds[j].extend(crop(train_aug))
-            y_train_folds[j].extend([i]*len(train_aug))
-            
-            test_aug, _test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test]))            
-            X_test_folds[j].extend(crop(test_aug))
-            y_test_folds[j].extend([i]*len(test_aug))
+        train_aug_all, _train_aug_sep_all = augment(raw, [0]*len(raw), NUM)
+        X_all_of[i] = (crop(train_aug_all))
+        
+        if num_splits != 'loo' and num_splits != 'all':
+        
+            #this is dumb, don't need stratification, but ok        
+            folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
+                                         random_state=1).split(raw, [i]*len(raw)))
+            for j, (train, test) in enumerate(folds):
+    #TODO this has been changed from the sep
+                train_aug, _train_aug_sep = augment(raw[train], [0]*len(train), NUM)
+                X_train_folds[j].extend(crop(train_aug))
+                y_train_folds[j].extend([i]*len(train_aug))
+                
+                test_aug, _test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test]))            
+                X_test_folds[j].extend(crop(test_aug))
+                y_test_folds[j].extend([i]*len(test_aug))   
                      
+    if num_splits = 'loo':
+        for i in range(5):
+            for ind in range(len(X_all_of[i])):
+                X_test_folds.append([X_all_of[i][ind]])
+                y_test_folds.append([i])
+                X_train_this_fold = []
+                y_train_this_fold = []
+                for j in range(5):
+                    if j==i:
+                        X_train_this_fold.
+        
+            
+                
     extrastring = str(seed_offset) if seed_offset>0 else ''
     if True:#k_fold
         filname = "aug_all"
@@ -187,7 +209,6 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
             
 def crop(ls):
     a = np.array(ls)
-    print(a.shape)
     b = a[:, 40:-40, 40:-40]
     return(list(b))
 
@@ -234,9 +255,7 @@ def main():
     save_dir = OUTPUT_DIR # os.path.join(os.getcwd(), 'saved_models')
     model_name = 'aardvark_aug' + model_num + '.h5'
 
-
-
-    if (args.use_extracted  or args.mask) and ia_only:
+    if (args.use_extracted) and ia_only:
         raise(ValueError, "NOT YET IMPLEMENTED IA WITH EXTRACTED")
         exit(1)
 
@@ -289,47 +308,47 @@ def main():
         y_full_test = to_categorical(y_full_test, num_classes)
 
    
-    else:
-        X_test = all_data['arr_0'] 
-        y_test= all_data['arr_1']
-        Xsep_test = all_data['arr_2']
-        X_train= all_data['arr_3']
-        y_train= all_data['arr_4']
-        Xsep_train= all_data['arr_5']
-        X_val= all_data['arr_6']
-        y_val= all_data['arr_7']
-        Xsep_val= all_data['arr_8']
-   
-        if ia_only: 
-            y_train = np.where(y_train==0, 0, 1)
-            y_test = np.where(y_test==0, 0, 1)
-            y_val = np.where(y_val==0, 0, 1)
-    
-        if three_categories:
-            #make all sls into ibc
-            y_train = np.where(y_train==4, 1, y_train)
-            y_test = np.where(y_test==4, 1, y_test)
-            y_val = np.where(y_val==4, 1, y_val)
-            
-            #make all iin into ii
-            y_train = np.where(y_train==3, 2, y_train)
-            y_test = np.where(y_test==3, 2, y_test)
-            y_val = np.where(y_val==3, 2, y_val)
-    
-        if no_sls:
-            y_train_orig = y_train
-            y_train = y_train[y_train_orig != 4]
-            X_train = X_train[y_train_orig != 4]
-
-        y_test_orig = y_test
-        y_train = to_categorical(y_train, num_classes)
-        y_test = to_categorical(y_test, num_classes)
-        y_val = to_categorical(y_val, num_classes)
-        
+#    else:
+#        X_test = all_data['arr_0'] 
+#        y_test= all_data['arr_1']
+#        Xsep_test = all_data['arr_2']
+#        X_train= all_data['arr_3']
+#        y_train= all_data['arr_4']
+#        Xsep_train= all_data['arr_5']
+#        X_val= all_data['arr_6']
+#        y_val= all_data['arr_7']
+#        Xsep_val= all_data['arr_8']
+#   
+#        if ia_only: 
+#            y_train = np.where(y_train==0, 0, 1)
+#            y_test = np.where(y_test==0, 0, 1)
+#            y_val = np.where(y_val==0, 0, 1)
+#    
+#        if three_categories:
+#            #make all sls into ibc
+#            y_train = np.where(y_train==4, 1, y_train)
+#            y_test = np.where(y_test==4, 1, y_test)
+#            y_val = np.where(y_val==4, 1, y_val)
+#            
+#            #make all iin into ii
+#            y_train = np.where(y_train==3, 2, y_train)
+#            y_test = np.where(y_test==3, 2, y_test)
+#            y_val = np.where(y_val==3, 2, y_val)
+#    
+#        if no_sls:
+#            y_train_orig = y_train
+#            y_train = y_train[y_train_orig != 4]
+#            X_train = X_train[y_train_orig != 4]
+#
+#        y_test_orig = y_test
+#        y_train = to_categorical(y_train, num_classes)
+#        y_test = to_categorical(y_test, num_classes)
+#        y_val = to_categorical(y_val, num_classes)
+#        
     if args.b:
         batch_size = args.b[0]
     else:
-        batch_size = len(X_train)
+        batch_size = len(X_full_train)
     # Convert class vectors to binary class matrices.
     #y_train = keras.utils.to_categorical(y_train, num_classes)
     #y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -450,7 +469,6 @@ def main():
     es = EarlyStopping(monitor='val_acc', patience=50, verbose=1, baseline=0.4, restore_best_weights=True)
 
     if k_folded:
-        print(2)
         if args.use_extracted:
             raise("not yet implemented")
 #        y_pred_folded = []
@@ -479,8 +497,19 @@ def main():
               shuffle=True)
         y_pred = model.predict(X_full_test)
         y_pred_2 = np.argmax(y_pred, 1)
-        print(y_pred)
-        np.save(OUTPUT_DIR + 'y_pred_fold%s' % args.k_fold, y_pred)
+        
+        
+            
+        if args.ia_only:
+            if not os.path.isdir(OUTPUT_DIR + 'cnn_kfold_results_ia'):
+                os.mkdir(OUTPUT_DIR + 'cnn_kfold_results_ia')
+            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_pred_ia_fold%s' % args.k_fold[0], y_pred_2)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_true_ia_fold%s' % args.k_fold[0], y_full_test_orig)
+        else:
+            if not os.path.isdir(OUTPUT_DIR + 'cnn_kfold_results'):
+                os.mkdir(OUTPUT_DIR + 'cnn_kfold_results')
+            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold[0], y_pred_2)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_true_fold%s' % args.k_fold[0], y_full_test_orig)
         cm = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
         

@@ -1,40 +1,22 @@
-import csv
 import os
-import random
 import glob
-from sklearn import svm
 from sklearn.metrics import confusion_matrix
-from sklearn.decomposition import PCA
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.utils.multiclass import unique_labels
-from sklearn.model_selection import LeaveOneOut, cross_val_predict
-from sklearn.ensemble import RandomForestClassifier
-PLOT_DIR = os.getcwd() + '/cm_plot'#\\deletable\\'#'/confusions_svm_whitened_cv100/'
-ADD_RANDOM = 0
-SOURCEDIR = "/mnt/c/Users/Noel/Desktop/summer2019/dev/onOdyssey/second_hyperparam/"
 
-if not os.path.isdir(PLOT_DIR):
-    os.mkdir(PLOT_DIR)
+PROJ_HOME = os.environ['DATA_SRCDIR']
+
+SOURCE_DIR = PROJ_HOME + '/src/outputs/cnn_kfold_results/'
+SOURCE_DIR_IA = PROJ_HOME + '/src/outputs/cnn_kfold_results_ia/'
+OUTPUT_DIR = PROJ_HOME + '/src/outputs/'
+
+ADD_RANDOM = 0
 
 def pad(n):
     n = str(n)
     while len(n) < 6:
         n = '0' + n
     return n
-
-def chooseProps(row, to_include):
-    limited_row = []
-    for prop in to_include:
-        if type(prop) == int:
-            prop = headers[prop]
-        for ind in indexDict[prop]:
-            limited_row.append(row[ind])
-    for i in range(ADD_RANDOM):
-        limited_row.append(random.random())
-    return limited_row
-
-type_to_int = {'SNIa':0, 'SNIbc':1,'SNII':2, 'SNIIn':3,  'SLSNe':4}
 
 def diagonalishness(m):
     count = 0
@@ -111,21 +93,10 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     """
     if str(parsed) != 'None':
         cm = parsed
-        #print(cm)
-        #print(cm.shape)
+
     else:
         # Compute confusion matrix
         cm = confusion_matrix(y_true, y_pred)# if not cmx.any else cmx
-    
-        #cm = np.array([[ 96, 104], [ 26, 174]])
-        
-        #cm = [[79,121],[50,750]]
-    
-#        cm = [[0.77,0.03,0.16,0.04,0.00],
-#              [0.2,0.07,0.67,0.07,0.00],
-#              [0.25,0.17,0.51,0.07,0.00],
-#              [0.72,0.06,0.17,0.00,0.06],
-#              [0.11,0.00,0.00,0.00,0.89]]
     cm = np.array(cm)
     #normalize
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -147,8 +118,7 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
     classes = classes[order]
     print('Confusion matrix:')
     print(cm)
-    #classes = classes[unique_labels(y_true, y_pred)]
-    #
+
     bal_score = str(balanced_score(cm))[:4]
     diag = str(diagonalishness(cm))
     info_str = "bal_score:" + bal_score \
@@ -187,70 +157,36 @@ def plot_confusion_matrix(y_true, y_pred, cmx = None, to_include='', name_extens
                     color="white" if cm[i, j] > thresh else "black")
     
     #fig.tight_layout()
-    number = namegen()
     
-#TODO restore
-    plt.savefig(name_extension +'cm.png', bbox_inches = "tight")
-    #plt.savefig(PLOT_DIR + bal_score + '_' + diag + '_' + str(ADD_RANDOM) \
-    #            + name_extension + '.png')#number + '.png')
-        #plt.rcParams["axes.grid"] = False
+    plt.savefig(name_extension +'.png', bbox_inches = "tight")
     plt.grid(False)
     plt.show()
     plt.close()    
     
-#for letter in ['a','b','c','d','e','f','g','h','i','j']:
-#    plot_confusion_matrix(None, None, name_extension = letter, parsed = parser('cnn_%s.log' % letter))
-#plot_confusion_matrix(None, None, name_extension='/mnt/c/Users/Noel/Desktop/summer2019/dev/onOdyssey/rf_good')
-#raise
-    
 def main():
-    plot_confusion_matrix([0,1],[1,0], name_extension='deletable')
-    return
-    files = glob.glob('ia_hazel/cnn_run*.log')
-    
-    #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
-    #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-    #                          parsed = parser(fil, 5))
-    
-    #plot_confusion_matrix(None, None)
-    
-    #count = 0
-    for fil in files:
-        #skip over the bad 100 pooling ones
-     #   if '100' in fil:
-    #        continue
-        print(fil)
-        try:
-            plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-                              parsed = parser(fil, 2, stack=False))
-        except:
-            pass
-        
-def alt_main():
-    #files = glob.glob('ia_hazel/cnn_run*.log')
-    
-    #fil = 'fourthrun/cnn_run_l_0.00005_b_58_c_mp_5_mask_n_200.log'
-    #plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-    #                          parsed = parser(fil, 5))
-    
-    #plot_confusion_matrix(None, None)
-    
-    #count = 0
-    y_pred = np.load('../apple_run/ia3_ypred.npy')
-    y_true = np.load('../apple_run/ia3_ytrue.npy')
-    plot_confusion_matrix(y_true, y_pred, name_extension = "../apple_run/ia")
-    
-    if False:
-        for fil in files:
-            #skip over the bad 100 pooling ones
-         #   if '100' in fil:
-        #        continue
-            print(fil)
-            try:
-                plot_confusion_matrix(None, None, name_extension = fil[:-4], 
-                                  parsed = parser(fil, 2, stack=False))
-            except:
-                pass
+    def combine(files):
+        all_pred = []
+        all_true = []
+        for predfil in files_ia:
+            truefil = predfil.replace('pred','true')
+            pred = list(np.load(predfil))
+            true = list(np.load(truefil))
+            all_pred.extend(pred)
+            all_true.extend(true)
+        return(all_true, all_pred)
+            
+    files_ia = glob.glob(SOURCE_DIR_IA + 'y_pred_ia_fold*.npy')
+    files = glob.glob(SOURCE_DIR + 'y_pred_fold*.npy')
+    if files_ia:
+        print(1)
+        true_ia, pred_ia = combine(files_ia)
+        plot_confusion_matrix(true_ia, pred_ia, 
+                              name_extension=(OUTPUT_DIR + 'cnn_cm_ia'))
+    if files:
+        print(2)
+        true_5, pred_5 = combine(files)
+        plot_confusion_matrix(true_5, pred_5, name_extension='cnn_cm')
+
     
 if __name__ == '__main__':
     main()

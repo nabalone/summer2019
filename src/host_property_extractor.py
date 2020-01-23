@@ -45,7 +45,7 @@ parser.add_argument('--mask', action='store_true',
 parser.add_argument('--use_prev', action='store_true', 
                     help='This is not the first time script has been run; \
                         use mag zero points and property averages from last run')
-args = parser.parse_args()
+args, _remaining = parser.parse_known_args() #args = parser.parse_args()
 
 
 if args.mask:

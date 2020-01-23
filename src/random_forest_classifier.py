@@ -46,7 +46,7 @@ NUM_TREES = 700
 DESTDIR = PROJ_HOME + "/src/outputs"
 CSV_FILE = DESTDIR + '/galaxiesdata.csv'
 
-ext = ''
+ext = 'rf'
 if args.ia_only:
     ext = ext + '_ia'
 if args.inside_only:
@@ -184,8 +184,8 @@ def run(X, y, n_est, name_extension):
             new_ind = np.random.permutation(range(len(y_res)))
             X_res = X_res[new_ind,:]
             y_res = y_res[new_ind]
-            if count < 2:
-                np.save(DESTDIR + "/yres", np.array(y_res))
+#            if count < 2:
+#                np.save(DESTDIR + "/yres", np.array(y_res))
             clf = RandomForestClassifier(n_estimators=n_est)
             clf.fit(X_res,y_res)
             y_pred[test_index] = clf.predict(X_test)
@@ -193,7 +193,7 @@ def run(X, y, n_est, name_extension):
             
         np.save(name_extension + '_ytrue', y_true)
         np.save(name_extension + '_ypred', y_pred)
-        plot_confusion_matrix(y, y_pred, name_extension=name_extension)
+        plot_confusion_matrix(y, y_pred, name_extension='rf_cm' + name_extension)
         importances = clf.feature_importances_
         importances = np.array(importances)
         plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
