@@ -54,8 +54,10 @@ parser.add_argument('--mask', action='store_true',
     help='include most likely host mask layer')
 parser.add_argument('--mp', nargs=1, type=int, dest='mean_pooling',
     help='add an extra mean pooling layer of this factor')
-parser.add_argument('--kfold', nargs = 1, type=int, default='-1', dest='k_fold',
+parser.add_argument('--kfold', action='store', default='-1', dest='k_fold',
     help='use kfold crossval with 4 folds')
+parser.add_argument('--all', action='store_true',
+    help='Train on entire sample and save model, no validation')
 args, _remaining = parser.parse_known_args() # parser.parse_args() 
 
 #TODO move utils to separate file
@@ -265,9 +267,12 @@ def main():
 
     no_sls = args.no_sls
 
-    if args.k_fold[0] >= 0:
+    if int(args.k_fold) >= 0:
         k_folded=True
-        fold_num = args.k_fold[0]
+        fold_num = int(args.k_fold)
+    else:
+        k_folded=False
+        
     if args.m:
         model_num = str(args.m[0])
     else:
@@ -306,10 +311,8 @@ def main():
 
 #TODO restore
 
-    if k_folded:
-        filname = "aug_all"
-    else:
-        filname = "aug_load_output_3"
+
+    filname = "aug_all"
 
     if ia_only:
         filname = filname + "_ia"
@@ -325,39 +328,37 @@ def main():
     if args.all:
         filname = filname + "_all"
         
-    if (args.k_fold and args.all) or (not args.k_fold and not args.all):
+    if (k_folded and args.all) or (not k_folded and not args.all):
         raise Exception("Must use either --k_fold or --all")
     
     all_data = np.load(OUTPUT_DIR + filname + '.npz')
-    
-    if k_folded: #this should be if true, fix git, add --all flag, fix --all functionality
 
-        X_full_train = all_data['arr_0']
-        y_full_train = all_data['arr_1']
-        X_full_test = all_data['arr_2']
-        y_full_test = all_data['arr_3']
+    X_full_train = all_data['arr_0']
+    y_full_train = all_data['arr_1']
+    X_full_test = all_data['arr_2']
+    y_full_test = all_data['arr_3']
 
-        if ia_only: 
-            y_full_train = np.where(y_full_train==0, 0, 1)
-            y_full_test = np.where(y_full_test==0, 0, 1)
-    
-        if three_categories:
-            raise
-            #make all sls into ibc
-            #y_full = np.where(y_full==4, 1, y_full)
-            
-            #make all iin into ii
-            #y_full = np.where(y_full==3, 2, y_full)
-    
-        if no_sls:
-            raise
-            #y_full_orig = y_full
-            #y_full = y_full[y_full_orig != 4]
-            #X_full = X_full[y_full_orig != 4]
+    if ia_only: 
+        y_full_train = np.where(y_full_train==0, 0, 1)
+        y_full_test = np.where(y_full_test==0, 0, 1)
 
-        y_full_test_orig = y_full_test
-        y_full_train = to_categorical(y_full_train, num_classes)
-        y_full_test = to_categorical(y_full_test, num_classes)
+    if three_categories:
+        raise
+        #make all sls into ibc
+        #y_full = np.where(y_full==4, 1, y_full)
+        
+        #make all iin into ii
+        #y_full = np.where(y_full==3, 2, y_full)
+
+    if no_sls:
+        raise
+        #y_full_orig = y_full
+        #y_full = y_full[y_full_orig != 4]
+        #X_full = X_full[y_full_orig != 4]
+
+    y_full_test_orig = y_full_test
+    y_full_train = to_categorical(y_full_train, num_classes)
+    y_full_test = to_categorical(y_full_test, num_classes)
 
    
 #    else:
@@ -520,9 +521,9 @@ def main():
 
     es = EarlyStopping(monitor='val_acc', patience=50, verbose=1, baseline=0.4, restore_best_weights=True)
 
-    if k_folded:
-        if args.use_extracted:
-            raise("not yet implemented")
+
+    if args.use_extracted:
+        raise("not yet implemented")
 #        y_pred_folded = []
 #        y_true_folded = []
 #        folds = list(StratifiedKFold(n_splits=4, shuffle=True, random_state=1).split(y_full_orig, y_full_orig))
@@ -541,29 +542,40 @@ def main():
 #            y_pred_folded.extend(list(model.predict(X_test_fold)))
 #            y_true_folded.extend(list(y_test_fold))
 #TODO fix in2_shape
-        model = get_model(in1_shape=X_full_train.shape[1:], in2_shape=X_full_train.shape[1:])
+    model = get_model(in1_shape=X_full_train.shape[1:], in2_shape=X_full_train.shape[1:])
+        
+    if k_folded:        
         model.fit(x=X_full_train, y=y_full_train,
-              batch_size=batch_size,
-              epochs=epochs,
-              validation_data=(X_full_test, y_full_test),
-              shuffle=True)
+          batch_size=batch_size,
+          epochs=epochs,
+          validation_data=(X_full_test, y_full_test),
+          shuffle=True)
+            
         y_pred = model.predict(X_full_test)
         y_pred_2 = np.argmax(y_pred, 1)
-        
-        
-            
+          
         if args.ia_only:
             if not os.path.isdir(OUTPUT_DIR + 'cnn_kfold_results_ia'):
                 os.mkdir(OUTPUT_DIR + 'cnn_kfold_results_ia')
-            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_pred_ia_fold%s' % args.k_fold[0], y_pred_2)
-            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_true_ia_fold%s' % args.k_fold[0], y_full_test_orig)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_pred_ia_fold%s' % args.k_fold, y_pred_2)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_true_ia_fold%s' % args.k_fold, y_full_test_orig)
         else:
             if not os.path.isdir(OUTPUT_DIR + 'cnn_kfold_results'):
                 os.mkdir(OUTPUT_DIR + 'cnn_kfold_results')
-            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold[0], y_pred_2)
-            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_true_fold%s' % args.k_fold[0], y_full_test_orig)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold, y_pred_2)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_true_fold%s' % args.k_fold, y_full_test_orig)
         cm = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
+    
+    elif args.all:
+        model.fit(x=X_full_train, y=y_full_train,
+          batch_size=batch_size,
+          epochs=epochs,
+          shuffle=True)
+        
+        model_path = OUTPUT_DIR + 'final_trained_cnn.h5'
+        model.save(model_path)
+        print('Saved trained model at %s ' % model_path)
         
 
 # =============================================================================
