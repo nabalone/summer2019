@@ -107,12 +107,35 @@ def shuffle(X, y, X_sep=None):
         
 def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12, 
                      seed_offset=0):
+    
     n_ia = len(np.load(OUTPUT_DIR + "x_all2_0.npy"))
     n_ibc = len(np.load(OUTPUT_DIR + "x_all2_1.npy"))
     n_ii = len(np.load(OUTPUT_DIR + "x_all2_2.npy"))
     n_iin = len(np.load(OUTPUT_DIR + "x_all2_3.npy"))
     n_sls = len(np.load(OUTPUT_DIR + "x_all2_4.npy"))
     n_tot = n_ia + n_ibc + n_ii + n_iin + n_sls 
+    
+    if num_splits != 'loo' and num_splits != 'all':
+        if type(num_splits)!= int or num_splits < 1:
+            raise Exception("num_splits argument must be 'loo', 'all', or a  \
+                            positive integer")
+        elif num_splits > np.min([n_ia, n_ibc, n_ii, n_iin, n_sls]):
+            raise Exception("num_splits must be smaller than the smallest \
+                            class size. use Leave One Out instead with \
+                            num_splits='loo")
+    
+    extrastring = str(seed_offset) if seed_offset>0 else ''
+    if True:#k_fold
+        filname = "aug_all"
+    else:
+        filname = "aug_load_output_3"
+
+    if ia_only:
+        filname = filname + "_ia"
+    elif three:
+        filname = filname + "_three_cats"
+    if mask:
+        filname = filname + "_mask"   
     
     if ia_only:
         aug_to = [n_ia, 
@@ -128,20 +151,9 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                     np.round(n_ia*n_sls/(n_ibc+n_sls))]
     else:
         aug_to = [n_ia]*5
-
-    X_train_folds = []
-    y_train_folds = []
-    X_test_folds = []
-    y_test_folds = []
     
-    X_all_of = [[],[],[],[],[]]
+    X_all_of = [[],[],[],[],[]]    
     
-    if num_splits != 'all':
-        for i in range(num_splits):# if num_splits != 'loo' else n_tot):
-            X_train_folds.append([])
-            y_train_folds.append([])
-            X_test_folds.append([])
-            y_test_folds.append([])
     for i in range(5):
         NUM = int(aug_to[i])
         if mask:
@@ -158,7 +170,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         #random.shuffle(raw_sep)
         
         train_aug_all, _train_aug_sep_all = augment(raw, [0]*len(raw), NUM)
-        X_all_of[i] = (crop(train_aug_all))
+        X_all_of[i] = list(crop(train_aug_all))
         
         if num_splits != 'loo' and num_splits != 'all':
         
@@ -168,43 +180,76 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
             for j, (train, test) in enumerate(folds):
     #TODO this has been changed from the sep
                 train_aug, _train_aug_sep = augment(raw[train], [0]*len(train), NUM)
-                X_train_folds[j].extend(crop(train_aug))
-                y_train_folds[j].extend([i]*len(train_aug))
+                test_aug, _test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test])) 
                 
-                test_aug, _test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test]))            
-                X_test_folds[j].extend(crop(test_aug))
-                y_test_folds[j].extend([i]*len(test_aug))   
+                X_train_fold = crop(train_aug)
+                y_train_fold = [i]*len(train_aug)
+                
+                X_test_fold = crop(test_aug)
+                y_test_fold = [i]*len(test_aug)  
+                
+                print(j)
+                print(np.array(X_train_fold).shape)
+                print(np.array(y_train_fold).shape)
+                print('\n')
+                
+                np.savez(OUTPUT_DIR + filname+extrastring+'_fold_%s'%j, 
+                 X_train_fold, y_train_fold, 
+                 X_test_fold, y_test_fold)       
+
+
                      
-    if num_splits = 'loo':
-        for i in range(5):
-            for ind in range(len(X_all_of[i])):
-                X_test_folds.append([X_all_of[i][ind]])
-                y_test_folds.append([i])
-                X_train_this_fold = []
-                y_train_this_fold = []
+#TODO I DON'T KNOW IF ANY OF THE FOLLOWING IS CORRECT
+    if num_splits == 'loo':
+        count = 0
+        for i in range(5): #for each type
+            for ind in range(len(X_all_of[i])): #for each SN of that type
+                X_test_fold = [X_all_of[i][ind]] #set that SN aside as test
+                y_test_fold = [i]
+                
+                X_train_fold = [] #create the training set
+                y_train_fold = [] #fill answers swet in parallel
                 for j in range(5):
+                    # for each type, add all of that type to training set 
+                    # except for i, which is the type of the test SN
+                    # in which case add all except for the test SN which is at ind
                     if j==i:
-                        X_train_this_fold.
-        
+                        without_ind = X_all_of[j][:ind] + X_all_of[j][ind+1:] 
+                        X_train_fold.extend(without_ind)
+                        y_train_fold.extend([j]*len(without_ind))
+                    else:
+                        X_train_fold.extend(X_all_of[j])
+                        y_train_fold.extend([j]*len(X_all_of[j]))
+                 
+                # shuffle training set and save
+                random.seed(1000*i+ind)
+                random.shuffle(X_train_fold)
+                random.seed(1000*i+ind)
+                random.shuffle(y_train_fold)
+                
+                print(count)
+                print(np.array(X_train_fold).shape)
+                print(np.array(y_train_fold).shape)
+                print('\n')
+                
+                np.savez(OUTPUT_DIR + filname+extrastring+'_fold_%s'%count, 
+                 X_train_fold, y_train_fold, 
+                 X_test_fold, y_test_fold)  
+                count+=1
+                
+    elif num_splits == 'all':
+        X_train_fold = []
+        y_train_fold = []
+        for i in range(5):
+            X_train_fold.extend(X_all_of[i])
+            y_train_fold.extend([i]*len(X_all_of[i]))
+        np.savez(OUTPUT_DIR + filname+extrastring+'_all', 
+                X_train_fold, y_train_fold, 
+                [], [])   
+        print(np.array(X_train_fold).shape)
+        print(np.array(y_train_fold).shape)
             
                 
-    extrastring = str(seed_offset) if seed_offset>0 else ''
-    if True:#k_fold
-        filname = "aug_all"
-    else:
-        filname = "aug_load_output_3"
-
-    if ia_only:
-        filname = filname + "_ia"
-    elif three:
-        filname = filname + "_three_cats"
-    if mask:
-        filname = filname + "_mask"   
-        
-    for j in range(len(y_train_folds)):
-        np.savez(OUTPUT_DIR + filname+extrastring+'_fold_%s'%j, 
-                 X_train_folds[j], y_train_folds[j], 
-                 X_test_folds[j], y_test_folds[j])       
 
             
 def crop(ls):
@@ -276,9 +321,16 @@ def main():
 
     if k_folded:
         filname = filname + "_fold_%s"%fold_num
+    
+    if args.all:
+        filname = filname + "_all"
+        
+    if (args.k_fold and args.all) or (not args.k_fold and not args.all):
+        raise Exception("Must use either --k_fold or --all")
+    
     all_data = np.load(OUTPUT_DIR + filname + '.npz')
     
-    if k_folded:
+    if k_folded: #this should be if true, fix git, add --all flag, fix --all functionality
 
         X_full_train = all_data['arr_0']
         y_full_train = all_data['arr_1']
