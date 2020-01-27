@@ -15,6 +15,7 @@ import random
 import pandas as pd
 import sys
 import time
+import pickle
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
 sys.path.append(PROJ_HOME)
@@ -25,7 +26,11 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-k', '--kfold', type=int, required=False, 
                     help='use kfold cross validation with specified number of \
-                    folds instead of leave one out cross validation')
+                    folds')
+parser.add_argument('--loo', action='store_true', 
+                    help='use leave one out cross validation.')
+parser.add_argument('--all', action='store_true', 
+                    help='train on entire and save model. No validation or testing.')
 parser.add_argument('--no_redshift', action='store_true', 
                     help='if this flag is present, we will NOT include redshift \
                     directly in the training data.\
@@ -41,6 +46,12 @@ parser.add_argument('--inside_only', action='store_true',
                     generated that list")
 
 args = parser.parse_args()
+
+if (args.kfold and args.all) or (args.all and args.loo)\
+     or (args.loo and args.kfold) or not (args.all or args.kfold or args.loo):
+         raise Exception("must use exactly one of the following flags: \
+                         --kfold, --loo --all")
+    
 
 NUM_TREES = 700
 DESTDIR = PROJ_HOME + "/src/outputs"
@@ -165,14 +176,17 @@ def run(X, y, n_est, name_extension):
     # with help from Victory Ashley Villar
     
         if args.kfold:
-            validator = StratifiedKFold(n_splits=args.kfold)
-        else:
-            validator = LeaveOneOut()
+            val_folds = StratifiedKFold(n_splits=args.kfold).split(X, y)
+        elif args.loo:
+            val_folds = LeaveOneOut().split(X, y)
+        elif args.all:
+            val_folds = [(np.array(range(len(X))), np.array([], dtype=int))]
+            #make all/nothing split and also fix argparser
         
         y_pred = np.zeros(len(y)) - 1
         y_true = np.zeros(len(y)) - 1
         count=0
-        for train_index, test_index in validator.split(X, y):
+        for train_index, test_index in val_folds:
             print("fold: %s"%count)
             count += 1
 
@@ -188,16 +202,22 @@ def run(X, y, n_est, name_extension):
 #                np.save(DESTDIR + "/yres", np.array(y_res))
             clf = RandomForestClassifier(n_estimators=n_est)
             clf.fit(X_res,y_res)
-            y_pred[test_index] = clf.predict(X_test)
-            y_true[test_index] = y_test
+            if not args.all: # test model success
+                y_pred[test_index] = clf.predict(X_test)
+                y_true[test_index] = y_test
+        if not args.all: #save model test results
+            np.save(name_extension + '_ytrue', y_true)
+            np.save(name_extension + '_ypred', y_pred)
+            plot_confusion_matrix(y, y_pred, name_extension='rf_cm' + name_extension)
+            importances = clf.feature_importances_
+            importances = np.array(importances)
+            plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
+            np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
+        else: # save trained algorithm
+            filename = DESTDIR + "/final_trained_rf%s.pkl" \
+                    % ("_ia_only" if args.ia_only else "")
+            pickle.dump(clf, open(filename, 'w+b'))
             
-        np.save(name_extension + '_ytrue', y_true)
-        np.save(name_extension + '_ypred', y_pred)
-        plot_confusion_matrix(y, y_pred, name_extension='rf_cm' + name_extension)
-        importances = clf.feature_importances_
-        importances = np.array(importances)
-        plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
-        np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
 def main():
     start = time.time()
 

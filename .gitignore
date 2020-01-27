@@ -1,3 +1,5 @@
 *.npz
 *.npy
 *.ipynb_checkpoints/*
+*.fits
+*.png
