@@ -573,7 +573,12 @@ def main():
           epochs=epochs,
           shuffle=True)
         
-        model_path = OUTPUT_DIR + 'final_trained_cnn.h5'
+        model_path = OUTPUT_DIR + 'final_trained_cnn'
+        if args.ia_only:
+            model_path = model_path + "_ia_only"
+        if not args.mask:
+            model_path = model_path + "_no_mask"
+        model_path = model_path + ".h5"
         model.save(model_path)
         print('Saved trained model at %s ' % model_path)
         
