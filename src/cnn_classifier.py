@@ -9,14 +9,11 @@ from keras.utils import to_categorical
 from keras.models import load_model
 import os
 import numpy as np
-from sklearn.model_selection import LeaveOneOut,StratifiedKFold, train_test_split
-#from sklearn.utils.class_weight import compute_class_weight
-import math
+from sklearn.model_selection import StratifiedKFold
 import random
 from sklearn.metrics import confusion_matrix
 from scipy import ndimage
 import argparse
-import sys
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
 OUTPUT_DIR = PROJ_HOME + '/src/outputs/'
@@ -302,7 +299,7 @@ def main():
     #TODO restore
         epochs = 35
 
-    save_dir = OUTPUT_DIR # os.path.join(os.getcwd(), 'saved_models')
+    save_dir = OUTPUT_DIR 
     model_name = 'aardvark_aug' + model_num + '.h5'
 
     if (args.use_extracted) and ia_only:
@@ -361,51 +358,12 @@ def main():
     y_full_test = to_categorical(y_full_test, num_classes)
 
    
-#    else:
-#        X_test = all_data['arr_0'] 
-#        y_test= all_data['arr_1']
-#        Xsep_test = all_data['arr_2']
-#        X_train= all_data['arr_3']
-#        y_train= all_data['arr_4']
-#        Xsep_train= all_data['arr_5']
-#        X_val= all_data['arr_6']
-#        y_val= all_data['arr_7']
-#        Xsep_val= all_data['arr_8']
-#   
-#        if ia_only: 
-#            y_train = np.where(y_train==0, 0, 1)
-#            y_test = np.where(y_test==0, 0, 1)
-#            y_val = np.where(y_val==0, 0, 1)
-#    
-#        if three_categories:
-#            #make all sls into ibc
-#            y_train = np.where(y_train==4, 1, y_train)
-#            y_test = np.where(y_test==4, 1, y_test)
-#            y_val = np.where(y_val==4, 1, y_val)
-#            
-#            #make all iin into ii
-#            y_train = np.where(y_train==3, 2, y_train)
-#            y_test = np.where(y_test==3, 2, y_test)
-#            y_val = np.where(y_val==3, 2, y_val)
-#    
-#        if no_sls:
-#            y_train_orig = y_train
-#            y_train = y_train[y_train_orig != 4]
-#            X_train = X_train[y_train_orig != 4]
-#
-#        y_test_orig = y_test
-#        y_train = to_categorical(y_train, num_classes)
-#        y_test = to_categorical(y_test, num_classes)
-#        y_val = to_categorical(y_val, num_classes)
-#        
+        
     if args.b:
         batch_size = args.b[0]
     else:
         batch_size = len(X_full_train)
-    # Convert class vectors to binary class matrices.
-    #y_train = keras.utils.to_categorical(y_train, num_classes)
-    #y_test = keras.utils.to_categorical(y_test, num_classes)
-
+        
     model_path = os.path.join(save_dir, model_name)
     def get_model(in1_shape, in2_shape):
         if USE_SAVED:
@@ -490,7 +448,6 @@ def main():
             elif args.mean_pooling:
                 pool3 = AveragePooling2D(pool_size=(args.mean_pooling[0], args.mean_pooling[0]))(pool2)
                 flatten=Flatten()(pool3)
-            #model.add(Dropout(0.25))
             else:
                 flatten = Flatten()(pool2)
             if args.dropout:
@@ -498,7 +455,6 @@ def main():
                 dense1 = Dense(512, activation=('relu'))(dropout)
             else:
                 dense1 = Dense(512, activation=('relu'))(flatten)
-            #model.add(Dropout(0.5))
             if args.use_extracted:
                 concat = concatenate([dense1, input2], axis=-1)
                 dense2 = Dense(num_classes, activation=('softmax'))(concat)
@@ -519,28 +475,15 @@ def main():
                   metrics=['accuracy'])
             return model
 
-    es = EarlyStopping(monitor='val_acc', patience=50, verbose=1, baseline=0.4, restore_best_weights=True)
+    # Early stopping not used because validation accuracy does not decrease 
+    # with overfitting but just continues to fluctuate with noise after 
+    # plateauing
+    #es = EarlyStopping(monitor='val_acc', patience=50, verbose=1, baseline=0.4, restore_best_weights=True)
 
 
     if args.use_extracted:
         raise("not yet implemented")
-#        y_pred_folded = []
-#        y_true_folded = []
-#        folds = list(StratifiedKFold(n_splits=4, shuffle=True, random_state=1).split(y_full_orig, y_full_orig))
-#        for j, (train_index, test_index) in enumerate(folds):
-#            print('\nFold ',j)
-#            X_train_fold = X_full[train_index]
-#            y_train_fold = y_full[train_index]
-#            X_test_fold = X_full[test_index]
-#            y_test_fold = y_full[test_index]
-#            model = get_model(in1_shape=X_full.shape[1:], in2_shape=Xsep_full.shape[1:])
-#            model.fit(x=X_train_fold, y=y_train_fold,
-#                  batch_size=batch_size,
-#                  epochs=epochs,
-#                  validation_data=(X_test_fold, y_test_fold),
-#                  shuffle=True)
-#            y_pred_folded.extend(list(model.predict(X_test_fold)))
-#            y_true_folded.extend(list(y_test_fold))
+
 #TODO fix in2_shape
     model = get_model(in1_shape=X_full_train.shape[1:], in2_shape=X_full_train.shape[1:])
         
@@ -582,60 +525,6 @@ def main():
         model.save(model_path)
         print('Saved trained model at %s ' % model_path)
         
-
-# =============================================================================
-#     else:
-#         if args.use_extracted:
-#             model = get_model(in1_shape = X_train.shape[1:], in2_shape = Xsep_train.shape[1:])
-#             model.fit(x=[X_train, Xsep_train], y=y_train,
-#                   batch_size=batch_size,
-#                   epochs=epochs,
-#                   validation_data=([X_val, Xsep_val], y_val),
-#                   callbacks = [es],
-#                   #sample_weight=sampleweights,
-#                   shuffle=True)
-#         else:
-# #TODO fix in2_shape
-#             model = get_model(in1_shape = X_train.shape[1:], in2_shape = X_train.shape[1:])
-#             model.fit(x=X_train, y=y_train,
-#                   batch_size=batch_size,
-#                   epochs=epochs,
-#                   validation_data=(X_val, y_val),
-#                   callbacks = [es],
-# #TODO restore
-#                   #sample_weight=sampleweights,
-#                   shuffle=True)
-#             # Save model and weights
-#             if not os.path.isdir(save_dir):
-#                 os.makedirs(save_dir)
-#             model_path = os.path.join(save_dir, model_name)
-#             if args.save:
-#                 model.save(model_path)
-#             print('Saved trained model at %s ' % model_path)
-#         
-#         if args.use_extracted:
-#             y_pred = model.predict([X_test, Xsep_test])
-#         else:
-#             y_pred = model.predict(X_test)
-#         y_pred2 = np.argmax(y_pred, 1)
-#         if args.save:
-#             np.save(OUTPUT_DIR + "y_pred_aardvark25weighted_aug"+model_num, y_pred2)
-#             np.save(OUTPUT_DIR + "y_test", y_test)
-# 
-#         cm = confusion_matrix(y_test_orig, y_pred2)
-#         print(cm)
-#         if args.save:
-#             np.save(OUTPUT_DIR + "cm_aa"+model_num, cm, allow_pickle=True, fix_imports=True)
-# =============================================================================
-#    print(y_pred)
-#    print(y_pred2)
-    # Score trained model.
-#    if args.use_extracted:
-#        scores = model.evaluate([X_test, Xsep_test], y_test, verbose=1)
-#    else:
-#        scores = model.evaluate(X_test, y_test, verbose=1)
-#    print('Test loss:', scores[0])
-#    print('Test accuracy:', scores[1])
 
 if __name__ == "__main__":
     main()
