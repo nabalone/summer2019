@@ -25,39 +25,39 @@ from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
 import json
-PROJ_HOME = os.environ['DATA_SRCDIR']
+PROJ_HOME = os.environ['DATA_SRCDIR'] #base of repo
 
 start = time.time()
-errs= []
 SOURCEDIR = PROJ_HOME + '/src'
-PIXDIR = SOURCEDIR + '/all_fits'
+PIXDIR = SOURCEDIR + '/all_fits' #fits stamps
 OUTPUTDIR = SOURCEDIR + '/outputs'
 
-filenames = sorted(glob.glob(PIXDIR + '/psc*.[3-6].fits'))
-print(PIXDIR)
-print(len(filenames))
+filenames = sorted(glob.glob(PIXDIR + '/psc*.[3-6].fits')) #list of fits files
+
+#make a set of all the sn which have fits files in PIXDIR
 fileset = set()
 for f in filenames:
     dotSplit = f.split('.')
-    idNumString = dotSplit[-3].split('c')[-1]
+    idNumString = dotSplit[-3].split('c')[-1] #6 digit 0-left-padded SN num from filename
     fileset.add(idNumString)
     
 print(len(fileset))
     
-db = pd.read_table(SOURCEDIR + '/alertstable_v3',sep=None,index_col = False, 
+db = pd.read_csv(SOURCEDIR + '/alertstable_v3',sep=None,index_col = False, 
                engine='python')
-db2 = pd.read_table(SOURCEDIR + '/alertstable_v3.lasthalf',sep=None,index_col = False, 
+db2 = pd.read_csv(SOURCEDIR + '/alertstable_v3.lasthalf',sep=None,index_col = False, 
                 engine='python')
 db = db.append(db2,ignore_index=True)
     
 full_table = None    
 index = 0
-eventdict = {}
+eventdict = {} #maps sn to their row-number in the sdss query table
 for f in sorted(list(fileset)):
     filename = glob.glob(PIXDIR + '/psc' + f + '.[3-6].fits')[0]
     image_file = fits.open(filename)
     
-    # get event pixel coords
+    #not sure why 
+    #get sn coordinates and the corresponding pixel
     w = WCS(filename)
     event = db.where(db['eventID'] == int(f)).dropna()
     eventRa = event['ra'].values[0] #values gives np arrays
@@ -108,8 +108,6 @@ for f in sorted(list(fileset)):
             sdssTable.replace_column('z', [0]*len(sdssTable))
             sdssTable.replace_column('zErr', [-999.]*len(sdssTable))
             full_table = vstack([full_table, sdssTable])
-            #raise
-            #errs.append(str(f) + str(e))
     
 #full_table = full_table.group_by('idnum')
 
