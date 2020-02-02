@@ -469,7 +469,7 @@ def main():
                 ins = [input1, input2]
             else:
                 ins = input1
-            model = Model(input=ins, output=dense2)
+            model = Model(inputs=ins, outputs=dense2)
             model.compile(loss='categorical_crossentropy',
                   optimizer=opt,
                   metrics=['accuracy'])

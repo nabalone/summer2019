@@ -113,7 +113,7 @@ def chooseAll(csvfile, num_random, include_id=False):
         global cols
         cols = ['ID'] + cols
     data = pd.read_csv(csvfile)
-    X_orig = data.loc[:, cols].as_matrix()
+    X_orig = data.loc[:, cols].values
     X_orig = np.nan_to_num(X_orig)
     y = []
     
