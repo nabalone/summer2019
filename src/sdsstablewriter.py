@@ -35,13 +35,13 @@ OUTPUTDIR = SOURCEDIR + '/outputs'
 filenames = sorted(glob.glob(PIXDIR + '/psc*.[3-6].fits')) #list of fits files
 
 #make a set of all the sn which have fits files in PIXDIR
-fileset = set()
-for f in filenames:
-    dotSplit = f.split('.')
+sn_set = set()
+for sn in filenames:
+    dotSplit = sn.split('.')
     idNumString = dotSplit[-3].split('c')[-1] #6 digit 0-left-padded SN num from filename
-    fileset.add(idNumString)
+    sn_set.add(idNumString)
     
-print(len(fileset))
+print(len(sn_set))
     
 db = pd.read_csv(SOURCEDIR + '/alertstable_v3',sep=None,index_col = False, 
                engine='python')
@@ -50,70 +50,51 @@ db2 = pd.read_csv(SOURCEDIR + '/alertstable_v3.lasthalf',sep=None,index_col = Fa
 db = db.append(db2,ignore_index=True)
     
 full_table = None    
-index = 0
+index = 0 #counter to identify query outputs by row number
 eventdict = {} #maps sn to their row-number in the sdss query table
-for f in sorted(list(fileset)):
-    filename = glob.glob(PIXDIR + '/psc' + f + '.[3-6].fits')[0]
+for sn in sorted(list(sn_set)):
+    filename = glob.glob(PIXDIR + '/psc' + sn + '.[3-6].fits')[0]
     image_file = fits.open(filename)
     
-    #not sure why 
-    #get sn coordinates and the corresponding pixel
+    # find the ra and dec ranges covered by the image
     w = WCS(filename)
-    event = db.where(db['eventID'] == int(f)).dropna()
-    eventRa = event['ra'].values[0] #values gives np arrays
-    eventDec = event['dec'].values[0] #'hh:mm:ss.sss'
-        # converting to degrees
-    eventCoords = SkyCoord(eventRa, eventDec, unit=(u.hourangle, u.deg))
-    eventRa = eventCoords.ra.deg
-    eventDec = eventCoords.dec.deg
-    
-    eventX, eventY = w.all_world2pix(eventRa, eventDec, 1)
-    
-
-    # to get image dimensions in wcs:
-    maxX = image_file[0].header['NAXIS1']
+    maxX = image_file[0].header['NAXIS1'] #image dimentions in pixels
     maxY = image_file[0].header['NAXIS2']
-    maxRa, maxDec = w.all_pix2world(1,maxY,1)
+    maxRa, maxDec = w.all_pix2world(1,maxY,1) #coordinates of the image corners
     minRa, minDec = w.all_pix2world(maxX,1,1)
-
-    # Not sure why we were adding "deg" to everything before?
-    #it seems to break things
-#     maxRa = maxRa.item(0)*u.deg
-#     minRa = minRa.item(0)*u.deg
-#     maxDec = maxDec.item(0)*u.deg
-#     minDec = minDec.item(0)*u.deg
         
-    
-    
     # make query
-    print(f)
     query = "SELECT p.ra, p.dec, p.type, p.modelMag_g, p.modelMag_r, \
                 p.modelMag_i, p.modelMag_z, pz.z, pz.zErr\
             FROM Photoz AS pz RIGHT JOIN PhotoObj AS p ON pz.objid = p.objid \
             WHERE p.mode = 1 AND p.ra < %s and p.ra > %s AND p.dec < %s and p.dec > %s" \
             % (maxRa, minRa, maxDec, minDec)
     print(query)
-    sdssTable = SDSS.query_sql(query)
-    if not sdssTable:
+    sdssTable = SDSS.query_sql(query) #query result
+    if not sdssTable: #probably no objects in this image on sdss
         continue
-    sdssTable['idnum'] = [f]*len(sdssTable)
-    eventdict[f] = index
-    index += 1
+    #record the corresponding supernova number in the query output table
+    sdssTable['idnum'] = [sn]*len(sdssTable) 
+
+    #append this query result to bottom of table
     if not full_table:
         full_table = sdssTable
     else:    
         try:
             full_table = vstack([full_table, sdssTable])
-        except Exception as e: 
-            sdssTable.replace_column('z', [0]*len(sdssTable))
+        except Exception as e:  #probably this object has not photoz in sdss
+            #photozs are only used in host selection, with outliers expected
+            sdssTable.replace_column('z', [0]*len(sdssTable)) #so this should be okay
             sdssTable.replace_column('zErr', [-999.]*len(sdssTable))
             full_table = vstack([full_table, sdssTable])
-    
-#full_table = full_table.group_by('idnum')
-
+            
+    eventdict[sn] = index #maps sn to their row-number in the sdss query table
+    index += 1
+            
+#save the table of all the query results
 full_table.write(OUTPUTDIR + '/sdss_queries.dat', format='ascii', overwrite=True)
 
-
+#save the dict mapping sne to the row-numbers of the queries in the query-results table
 with open(OUTPUTDIR + '/sdss_queries_index.txt', 'w+') as indexfile:
     json.dump(eventdict, indexfile) #indexfile.write(str(eventdict))
     

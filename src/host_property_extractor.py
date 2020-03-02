@@ -46,69 +46,67 @@ parser.add_argument('--use_prev', action='store_true',
                     help='This is not the first time script has been run; \
                         use mag zero points and property averages from last run')
 args, _remaining = parser.parse_known_args() #args = parser.parse_args()
-
-
 if args.mask:
     print("mask making only")
-    
 if args.use_prev:
     print("Using m_0s and averages from a prev. run")
-    
-#TODO comment all constants
 
-#TODO fix!!!!
-SOURCEDIR = PROJ_HOME + '/src/all_fits' #'/mnt/c/Users/Noel/Desktop/summer2019/src/ps1hosts' #pics location
-DICTDIR = PROJ_HOME + '/src' #/mnt/c/Users/Noel/Desktop/summer2019/src' #data files location
+SOURCEDIR = PROJ_HOME + '/src/all_fits' #fits images location
+DICTDIR = PROJ_HOME + '/src' #all other data files location
 OUTPUT_DIR = PROJ_HOME + '/src/outputs'
-ERRORFILE = OUTPUT_DIR + '/errorfile.txt'
-
-with open(OUTPUT_DIR + '/sdss_queries_index.txt') as f:
-    sdssTableGroupIndex = json.load(f)
-
-
-#os.getcwd() #"/mnt/d/Summer 2019 Astro" 
-#"C:/Users/Faith/Desktop/noey2019summer/ps1hosts"
 DESTDIR = os.getcwd()
+
+ERRORFILE = OUTPUT_DIR + '/errorfile.txt' #really just a log file of the run
+WRITE_CSV = OUTPUT_DIR + "/galaxiesdata.csv" # filename to write to or None
+PLOT_DIR = OUTPUT_DIR + '/plots' # where to put plot images
+if not os.path.isdir(PLOT_DIR):
+    os.mkdir(PLOT_DIR)
+FILENAME_PREFIX = SOURCEDIR + "/psc" #everything before the sn number
+
 FILLER_VAL = None
 THRESHOLD = 3 #sigma of detection
-MAXTHRESH = 30 # Do not raise threshhold beyond this
+MAXTHRESH = 30 # Do not raise threshhold beyond this point. somewhat arbitrary.
 PSF = 4 #the FWHM
-MINAREA = 3 * (PSF/2)**2
-DEBLEND_CONT = 0.01 # for sep.extract. 1.0 to turn off deblending, 0.005 is default
+MINAREA = 3 * (PSF/2)**2 #area of a circle with psf diameter
+DEBLEND_CONT = 0.01 # for sep.extract. 1.0 turns off deblending, 0.005 is default
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
 FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag_z']
-LIKELIHOOD_THRESH = 0.2 # only choose hosts with chance coincidence must be below this 
-TYPES = ['SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe']
-FILENAME_PREFIX = SOURCEDIR + "/psc"
-
-
-
-
-
+#in fits file naming psc12345.x.fits, filter numbers x of 3,4,5,6 correspond to
+#filters g,r,i,z respectively
+LIKELIHOOD_THRESH = 0.2 # only choose hosts with chance coincidence below this 
+TYPES = {'SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe'}
 
 
 #TODO FIX LOWEST MAG
 LOWEST_MAG = 26 #limiting mag is 25
 #TODO make note: to change a per-filter property, change in 3 places
-#TODO make each property into an object?
 
 
-#USAGE FLAGS:
-#TODO MAKE ARGPARSER!!!!
-WRITE_CSV = OUTPUT_DIR + "/galaxiesdata.csv" # filename to write to or None
 #MAG_TEST_ALL = False
 
-CHECK_DISTANCE = 5 #print all files with most likely host farther than this arcsecs
+#USAGE FLAGS that I never put into the argparser:
 PLOT_ALL = False
-PLOT_ERR =  True #plots only files that give errors or low probability
-PLOT_DIR = OUTPUT_DIR + '/plots' # where to put plot images
-if not os.path.isdir(PLOT_DIR):
-    os.mkdir(PLOT_DIR)
-ONLY_FLAG_ERRORS = True # catch errors, print filename, move on
-FILES = 'all' #options are 'all', 'preset random', 'new random', 'range', 
-#'specified', 'nonsquare'
+PLOT_ERR =  True #plots files when something eventful happens e.g. errors, low probabilities
+ONLY_FLAG_ERRORS = True # catch errors, log and move on
+CHECK_DISTANCE = 5 #log and potentially plot all files with most likely host 
+# farther than this (in arcsecs) from sn location
+FILES = 'all' #options are 'all', 'new random', 'range', 
+#'specified', 'nonsquare'. Use 'all' for normal usage, the rest are for debugging.
+#if 'specified', will run on the subset of files specified in SPECIFIED. 
+#if 'range', will run on subset from RANGE[0] file to the RANGE[1] file
+#e.g.:
+SPECIFIED = [SOURCEDIR + '/psc020121.3.fits', 
+             SOURCEDIR + '/psc020121.4.fits',
+             SOURCEDIR + '/psc020121.5.fits',
+             SOURCEDIR + '/psc020121.6.fits']
+RANGE = (0,3)
 
-if args.use_prev:
+#This script (host_property_extractor.py) should be run twice so that
+#the average magnitude zero points and property values from the first run can 
+#be used in the second. use without --use_prev flag the first time, and with
+# --use_prev flag the second. 
+if args.use_prev: 
+    #collect average m0 from previous run for each filter, to be used as defaults
     if os.path.isfile(OUTPUT_DIR + '/m0collector.npy'):
         prev_m0s = np.load(OUTPUT_DIR + '/m0collector.npy', allow_pickle=True)
         FILTER_M0s = [0]*3
@@ -117,6 +115,9 @@ if args.use_prev:
     else:
         raise Exception("Could not find m0collector.npy from previous run. \
                             Run again without --use_prev flag?")
+    #collect median properties from previous run, to be used as defaults for images where 
+    #no host can be detected
+    #TODO I'm not sure if using means would be better. There may be very bad outliers...
     if os.path.isfile(WRITE_CSV):
         prev_csv = pd.read_csv(WRITE_CSV)
         AVRG_OFFSETS = [None]*7
@@ -148,19 +149,10 @@ else:
 #use by default if no stars for calibration
 # Also use if star calibration yields outlier (> 1 away from average value)
 
-#TODO delete
-SPECIFIED = []
-to_check = [160103, 180313, 590123, 50296, 90034, 50601]
-for f in to_check:
-    SPECIFIED.extend(glob.glob((SOURCEDIR + '/psc*%i*.[3-6].fits' % f)))
 
-SPECIFIED = [SOURCEDIR + '/psc020121.3.fits', 
-             SOURCEDIR + '/psc020121.4.fits',
-             SOURCEDIR + '/psc020121.5.fits',
-             SOURCEDIR + '/psc020121.6.fits']
-RANGE = (0,3)
-m0collector = [None, None, None, [], [], [], []]
-BAD_COUNT = 0
+m0collector = [None, None, None, [], [], [], []] #saved for use in future runs
+BAD_COUNT = 0 #number of sn with no good host detected
+
 '''make header'''
 COLUMNS =['ID', 'hostRa', 'hostDec', 'offby', 'hectoZ', 'redshift_dif']
 
@@ -181,7 +173,7 @@ if os.path.exists(ERRORFILE):
 #all_myMags = []
 #all_realMags = []
 
-#for checking how many are in their host
+#for checking how many sn are actually inside their host
 # just out of curiosity
 INSIDE = {}
 OUTSIDE = {}
@@ -198,12 +190,70 @@ OUTSIDE['SNIIn'] = set()
 OUTSIDE['SLSNe'] = set()
 
 
-# for naming plots files
+# generates sequential numbers for uniquely naming plots files
 namecount = 0
 def namecountgen():
     global namecount
     namecount += 1
     return namecount
+
+
+def pre_load_dictionaries():
+    '''load event type dictionary'''
+    global typeDict
+    typeDict = {}
+    typefile = open(DICTDIR + '/ps1confirmed_added.txt', 'r')
+    typefile.readline() #get rid of header
+    for line in typefile:
+        parts = line.split()
+        eventId = parts[0][3:]
+        eventType = parts[1]
+        typeDict[eventId] = eventType
+    typefile.close()
+    
+    
+    ''' load event redshifts' dictionary '''
+    global zdict
+    zdict = {}
+    zfile = open(DICTDIR + '/new_ps1z.dat', 'r')
+    zfile.readline() #get rid of heade
+    
+    for line in zfile:
+        parts = line.split()
+        eventId = parts[0][3:]
+        redshift = float(parts[1])
+        zdict[eventId] = redshift
+    
+    zfile.close()
+    
+    '''load event location dictionary'''
+    global db
+    db = pd.read_csv(DICTDIR + '/alertstable_v3',sep=None,index_col = False,
+                   engine='python')
+    db2 = pd.read_csv(DICTDIR + '/alertstable_v3.lasthalf',sep=None,index_col = False,
+                    engine='python')
+    db = db.append(db2,ignore_index=True)
+    
+    '''load prerun sdss queries'''
+    global fullSdssTable
+    fullSdssTable = Table.read(OUTPUT_DIR + '/sdss_queries.dat', format='ascii')
+    
+    with open(OUTPUT_DIR + '/sdss_queries_index.txt') as f:
+        global sdssTableGroupIndex
+        sdssTableGroupIndex = json.load(f) 
+        #dict mapping sn to the row numbers in fullSdssTable of 
+        #their corresponding sdss queries 
+        
+    '''load "real" host galaxy data'''
+    # NOT calculated by this script. For testing, comparison, to check our work
+    # not used for actual research/results
+    global hostsData
+    with open(DICTDIR + '/hosts.dat', 'r') as hostsfile:
+            hostsData = hostsfile.read()
+# not sure if I should be able to json.load this, but it fails and this works
+    hostsData = ast.literal_eval(hostsData)
+
+
 
 #Four Image objects are created per Supernova object, one for each filter
 class Image:    
@@ -218,21 +268,7 @@ class Image:
     # Extract and collect data from image
     def run(self):
         filename = FILENAME_PREFIX + "%s.%s.fits" % (self.idNumString, self.filterNum)
-        w = WCS(filename)
         image_file = fits.open(filename)
-        
-        # to get image corner coordinates in wcs:
-        self.maxX = image_file[0].header['NAXIS1']
-        self.maxY = image_file[0].header['NAXIS2']
-        maxRa, maxDec = w.all_pix2world(1,self.maxY,1)
-        minRa, minDec = w.all_pix2world(self.maxX,1,1)
-    
-#TODO check correctness
-        # fix formatting
-        maxRa = maxRa.item(0)*u.deg
-        minRa = minRa.item(0)*u.deg
-        maxDec = maxDec.item(0)*u.deg
-        minDec = minDec.item(0)*u.deg
         
         ''' extract objects '''
         image_data = image_file[0].data
@@ -241,9 +277,7 @@ class Image:
         self.swappedData = image_data.byteswap(True).newbyteorder()
         # subtracting out background
         self.bkg = sep.Background(self.swappedData)
-        self.swappedData = self.swappedData - self.bkg
-            
-#TODO does this need to be after the recursive extraction?                
+        self.swappedData = self.swappedData - self.bkg      
         
         # If there is a bright/oversaturated object too close by to an object,  
         # and extraction threshold is too low, SEP kronrad calculation will fail.
@@ -333,6 +367,7 @@ class Image:
 #TODO icrs?
             
         # get WCS coords of all detected objects
+        w = WCS(filename)
         self.ra, self.dec = w.all_pix2world(self.objects['x'], self.objects['y'], 1)
         self.objCoords = SkyCoord(self.ra*u.deg, self.dec*u.deg, frame='icrs') # coords of all objs
 
@@ -627,7 +662,10 @@ class Image:
         finalDict['Ellipticity_%s' % f] =  self.ellipticity[bestCandidate]
         finalDict['RA_%s' % f] = self.ra[bestCandidate]
         finalDict['DEC_%s' % f] = self.dec[bestCandidate]
+#TODO FIXXX DISCREPANCY IS BAD        
         finalDict['Discrepency (arcsecs)_%s' % f] = self.dec[bestCandidate]
+        
+        
         finalDict['pixelRank_%s' % f] = self.getPixelRank()
         finalDict['chanceCoincidence_%s' % f] = self.chanceCoincidence[bestCandidate]
         finalDict['host_found_%s' % f] = 1
@@ -678,18 +716,18 @@ class Image:
                 defaultFinalProperties['redshift_%s' % f] = 0.2
         return defaultFinalProperties
     
-    # returns |Redshift_SN - Photoz_galaxy| / Photoz error on galaxy 
+    # returns |Redshift_SN - Photoz_galaxy|
     # or -1 if no SDSS photoz best candidate galaxy
+    # we don't have enough sig.figs to compare with photozerr
     def getPhotozDif(self):
         photoz = self.photozs[self.bestCandidate]
-        photozerr = self.photozerrs[self.bestCandidate]
         eventz = self.eventz
         
         #PHOTOZ failed or no match
-        if photoz == None or photozerr==None or photozerr < -99  or np.isnan(photozerr): 
+        if photoz == None: 
             return -1
         else:
-            return abs(eventz - photoz)/photozerr
+            return abs(eventz - photoz)
         
 
     # saves and displays image with SDSS identified stars and 
@@ -723,7 +761,6 @@ class Image:
                         height=6*self.objects['b'][i],
                         lw = 3,
                         angle=self.objects['theta'][i] * 180. / np.pi)
-    # TODO check if above angle conversion is correct. Where from?
             e.set_facecolor('none')
             if i in green:
                 e.set_edgecolor('green')
@@ -739,25 +776,30 @@ class Image:
         plt.close()
 
     def getPixelRank(self, target=None, segmap=None):
-        # NOTE SEP'S SEGMAP INDEXES Y-FIRST; INDICES ARE ROTATED SUCH THAT 
+        # NOTE SEP'S SEGMAP INDEXES Y-FIRST; 
         # OBJECT N IS CENTERED AROUND segmap[objects['y'][N]][objects['x'][N]]
         if not target:
             target = self.bestCandidate
         if not segmap:
             segmap = self.segmap
-        a = np.where(segmap == target+1)
+        #"All pixels belonging to the i-th object (e.g., objects[i]) have value i+1"
+        #https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html
+        a = np.where(segmap == target+1) 
         pixels = []
         for k in range(len(a[0])):
             pixels.append((a[0][k], a[1][k])) #list of tuples of coords
-            global INSIDE
-            INSIDE[typeDict[self.idNumString]].add(self.idNumString)
+#            global INSIDE
+#            INSIDE[typeDict[self.idNumString]].add(self.idNumString)
+            
+        #If sn occurs outside host, pixel rank is automatically 0
         if not (int(self.event['y']), int(self.event['x'])) in pixels:
-            global OUTSIDE
-            OUTSIDE[typeDict[self.idNumString]].add(self.idNumString)
+#            global OUTSIDE
+#            OUTSIDE[typeDict[self.idNumString]].add(self.idNumString)
             return 0
         
-        def sortkey(x):
-            a, b = x
+        #sort pixels and see what fraction of them are dimmer than the sn location pixel
+        def sortkey(k):
+            a, b = k
             return self.swappedData[a][b]        
         pixels.sort(key = sortkey)
         location = pixels.index((int(self.event['y']), int(self.event['x'])))
@@ -783,67 +825,8 @@ class Image:
             else:
                 print("raising")
                 raise
-
-def pre_load_dictionaries():
-    '''load event type dictionary'''
-    global typeDict
-    typeDict = {}
-    typefile = open(DICTDIR + '/ps1confirmed_added.txt', 'r')
-    typefile.readline() #get rid of header
-    for line in typefile:
-        parts = line.split()
-        eventId = parts[0][3:]
-        eventType = parts[1]
-        typeDict[eventId] = eventType
-    typefile.close()
-    
-    
-    ''' load event redshifts' dictionary '''
-    global zdict
-    zdict = {}
-    zfile = open(DICTDIR + '/new_ps1z.dat', 'r')
-    zfile.readline() #get rid of heade
-    
-    for line in zfile:
-        parts = line.split()
-        eventId = parts[0][3:]
-        redshift = float(parts[1])
-        zdict[eventId] = redshift
-    
-    zfile.close()
-    #not in zdict, looked up from ps1 website 
-    #http://telescopes.rc.fas.harvard.edu/ps1/2014/alerts/
-#     zdict['100014'] = 0.357
-#     zdict['300220'] = 0.094
-#     zdict['380108'] = 0.159
-#     zdict['080079'] = 0.151
-#     zdict['460103'] = 0.32
-#TODO Ask ashley if 460103 is PS1-12c
-    
-    
-    
-    '''load event location dictionary'''
-    global db
-    db = pd.read_csv(DICTDIR + '/alertstable_v3',sep=None,index_col = False,
-                   engine='python')
-    db2 = pd.read_csv(DICTDIR + '/alertstable_v3.lasthalf',sep=None,index_col = False,
-                    engine='python')
-    db = db.append(db2,ignore_index=True)
-    
-    
-    
-    '''load prerun sdss queries'''
-    global fullSdssTable
-    fullSdssTable = Table.read(OUTPUT_DIR + '/sdss_queries.dat', format='ascii')
-    fullSdssTable = fullSdssTable.group_by('idnum')
-    
-    
-    '''load real host data'''
-    global hostsData
-    with open(DICTDIR + '/hosts.dat', 'r') as hostsfile:
-            hostsData = hostsfile.read()
-# not sure if I should be able to json.load this, but it fails and this works
-    hostsData = ast.literal_eval(hostsData)
+                
+                
 
 class Supernova:
     
@@ -851,20 +834,28 @@ class Supernova:
         self.idNumString = idNumString
         self.idNum = int(idNumString)
         
-    def getSnFinalData(self, chosen_loc):
+        
+    # comparison with loaded "real" host galaxy data
+    # NOT calculated by this script. For testing, comparison, to check our work
+    # not used for actual research/results
+    def getSnFinalData(self, chosen_loc): #chosen_loc is location of our chosen host
         finalDict = {'ID':self.idNum}
-        hostRa = hostsData[self.idNumString]['host_ra']
-        hostDec = hostsData[self.idNumString]['host_dec']
+        
+        hostRa = hostsData[self.idNumString]['host_ra'] #'real'
+        hostDec = hostsData[self.idNumString]['host_dec'] #'real'
         try:
-            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
             #convert to decimal deg:
-            finalDict['hostRa'] = hostCoords.ra.deg
-            finalDict['hostDec'] = hostCoords.dec.deg
+            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
+            finalDict['hostRa'] = hostCoords.ra.deg #'real'
+            finalDict['hostDec'] = hostCoords.dec.deg #'real'
             if hostRa and chosen_loc:
+                # distance between our chosen host and theirs
+                #TODO put in kpc
                 finalDict['offby'] = hostCoords.separation(chosen_loc).arcsec
             else:
+                # no 'real' host data for this sn
                 finalDict['offby'] =None
-            finalDict['hectoZ'] = hostsData[self.idNumString]['redshift']
+            finalDict['hectoZ'] = hostsData[self.idNumString]['redshift'] #'real'
         except ValueError:
             if len(hostRa) > 12: # hecto gave multiple host galaxies
                 finalDict['hostRa'] = "multiple"
@@ -875,20 +866,21 @@ class Supernova:
                 raise
                 
 #TODO note that redshift_offset of -1 indicates no photoz, positive is difference
+        # Difference between photoz of our chosen host and theirs
         if self.used_default:
             finalDict['redshift_dif'] = -1
         else:
             finalDict['redshift_dif'] = self.images[self.filter_to_use].getPhotozDif()
-  
         return finalDict
         
     def run(self):
-        # find pixel coordinates of event
-        # if image is cutoff and so not square, event won't be in center
+        # find pixel coordinates of event; not all images are square
         e = db.where(db['eventID'] == self.idNum).dropna()
         eRa = e['ra'].values[0] #values gives np arrays
         eDec = e['dec'].values[0] #'hh:mm:ss.sss'
         #TODO: ircs or fk5
+        
+        #save a dict of data of event (sn) location
         event = {}
         event['coords'] = SkyCoord(eRa, eDec, unit=(u.hourangle, u.deg))
         event['ra'] = event['coords'].ra.deg
@@ -900,23 +892,38 @@ class Supernova:
         self.event = event
               
         self.images = [None]*7
-        good_images = []
-        BAD_IMAGES = []
-        good_photozs = []
+        good_images = [] #images in which a likely host was found within MINDIST of sn location
+        BAD_IMAGES = []  #images in which no good host was found
+        good_photozs = [] #images in which a host was found farther but with matching redshift
         for x in range(3,7):
             self.images[x] = Image(self.idNumString, x, event)
             self.images[x].run()
+            
+            #computes and stores the best host candidate, then returns whether
+            #it had a photoz matching the sn redshift
             photozMatched = self.images[x].attemptBestCandidate()
+            
 #TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
 #TODO mindist vs. checkdist
 #TODO What if multiple galaxies are within mindist and dif ones are selected in dif filters?
 # I thought I fixed this to check if event was inside!
-            if self.images[x].bestCandidate != None and \
-                self.images[x].objCoords[self.images[x].bestCandidate].separation(event['coords']) < MINDIST:
-                good_images.append(x)
-            elif photozMatched:
-                good_photozs.append(x)
-            else:
+            
+#TODO check that this works!
+            #check if the host for this filter has the sn within its kronrad
+            #if so put this filter number good_images
+            chosen_host = self.images[x].bestCandidate
+            if chosen_host != None: 
+                # pixel distance between sn and chosen host
+                separation = self.images[x].objCoords[chosen_host].separation(event['coords'])
+                kronrad = self.images[x].kronrad[chosen_host]
+                if separation < kronrad:
+                    good_images.append(x)
+                    
+                elif photozMatched:
+                    #chosen host was found farther but had matching redshift
+                    good_photozs.append(x)
+                
+            else: #no good candidate 
                 BAD_IMAGES.append(x)
 
         
