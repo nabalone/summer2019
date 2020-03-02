@@ -3,4 +3,4 @@
 *.ipynb_checkpoints/*
 *.fits
 *.png
-dev/*
+*/dev/*
