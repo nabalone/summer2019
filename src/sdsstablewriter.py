@@ -50,8 +50,6 @@ db2 = pd.read_csv(SOURCEDIR + '/alertstable_v3.lasthalf',sep=None,index_col = Fa
 db = db.append(db2,ignore_index=True)
     
 full_table = None    
-index = 0 #counter to identify query outputs by row number
-eventdict = {} #maps sn to their row-number in the sdss query table
 for sn in sorted(list(sn_set)):
     filename = glob.glob(PIXDIR + '/psc' + sn + '.[3-6].fits')[0]
     image_file = fits.open(filename)
@@ -69,7 +67,7 @@ for sn in sorted(list(sn_set)):
             FROM Photoz AS pz RIGHT JOIN PhotoObj AS p ON pz.objid = p.objid \
             WHERE p.mode = 1 AND p.ra < %s and p.ra > %s AND p.dec < %s and p.dec > %s" \
             % (maxRa, minRa, maxDec, minDec)
-    print(query)
+    #print(query)
     sdssTable = SDSS.query_sql(query) #query result
     if not sdssTable: #probably no objects in this image on sdss
         continue
@@ -87,16 +85,9 @@ for sn in sorted(list(sn_set)):
             sdssTable.replace_column('z', [-1]*len(sdssTable)) #so this should be okay
             sdssTable.replace_column('zErr', [-999.]*len(sdssTable))
             full_table = vstack([full_table, sdssTable])
-            
-    eventdict[sn] = index #maps sn to their row-number in the sdss query table
-    index += 1
 
 #save the table of all the query results
 full_table.write(OUTPUTDIR + '/sdss_queries.dat', format='ascii', overwrite=True)
-
-#save the dict mapping sne to the row-numbers of the queries in the query-results table
-with open(OUTPUTDIR + '/sdss_queries_index.txt', 'w+') as indexfile:
-    json.dump(eventdict, indexfile) #indexfile.write(str(eventdict))
     
 end = time.time()
 print(end - start)

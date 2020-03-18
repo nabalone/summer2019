@@ -6,7 +6,7 @@
 fits files must be named pscxxxxxx.f.fits
 and FILTERS must be such that filter number f corresponds with filter filters[f]
 alertstable_vs and alertstablevs.lasthalf must be in directory for sn locations
-sdss_queries_index.txt, sdss_queries.dat
+sdss_queries.dat
 
 '''
 
@@ -15,7 +15,6 @@ import pandas as pd
 import os
 import glob
 import random
-#import csv
 import sep
 import ast
 import matplotlib.pyplot as plt
@@ -28,7 +27,6 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table
-#from sdssTableGroupIndex import sdssTableGroupIndex
 import json
 
 #attempt to supress fits warnings about date changed, etc.
@@ -237,11 +235,6 @@ def pre_load_dictionaries():
     global fullSdssTable
     fullSdssTable = Table.read(OUTPUT_DIR + '/sdss_queries.dat', format='ascii')
     
-    with open(OUTPUT_DIR + '/sdss_queries_index.txt') as f:
-        global sdssTableGroupIndex
-        sdssTableGroupIndex = json.load(f) 
-        #dict mapping sn to the row numbers in fullSdssTable of 
-        #their corresponding sdss queries 
         
     '''load "real" host galaxy data'''
     # NOT calculated by this script. For testing, comparison, to check our work
@@ -353,17 +346,8 @@ class Image:
                 self.errorProtocol("Warning: failed flux calculation on ")
         flux = np.array(flux)
 
-        # fullSdssTable should contain pre-saved querries of event locations, 
-        # with objects grouped by query
-        # sdssTableGroupIndex maps a group in the table to an event ID number
-        if self.idNumString not in sdssTableGroupIndex:
-            # no objects in SDSS near this event location
-            sdssTable = None
-        else:
-            print(self.idNumString)
-            print(sdssTableGroupIndex[self.idNumString])
-            print(sdssTableGroupIndex[self.idNumString].type)
-            sdssTable = fullSdssTable.groups[sdssTableGroupIndex[self.idNumString]]
+        # fullSdssTable should contain pre-saved querries of event locations
+        sdssTable = fullSdssTable[fullSdssTable['idnum']==self.idNum]
 
 #TODO the last argument is 1 b/c first pixel of FITS should be 1,1 not 0,0?
 #TODO icrs?
