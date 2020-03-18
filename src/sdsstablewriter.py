@@ -84,13 +84,13 @@ for sn in sorted(list(sn_set)):
             full_table = vstack([full_table, sdssTable])
         except Exception as e:  #probably this object has not photoz in sdss
             #photozs are only used in host selection, with outliers expected
-            sdssTable.replace_column('z', [0]*len(sdssTable)) #so this should be okay
+            sdssTable.replace_column('z', [-1]*len(sdssTable)) #so this should be okay
             sdssTable.replace_column('zErr', [-999.]*len(sdssTable))
             full_table = vstack([full_table, sdssTable])
             
     eventdict[sn] = index #maps sn to their row-number in the sdss query table
     index += 1
-            
+
 #save the table of all the query results
 full_table.write(OUTPUTDIR + '/sdss_queries.dat', format='ascii', overwrite=True)
 

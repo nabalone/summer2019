@@ -2,3 +2,7 @@
 Warning: failed flux calculation on  000001.4
 2
 Warning: failed flux calculation on  000001.5
+4
+Warning: failed flux calculation on  000001.6
+6
+Warning: failed flux calculation on  000010.3

@@ -6,7 +6,7 @@
 fits files must be named pscxxxxxx.f.fits
 and FILTERS must be such that filter number f corresponds with filter filters[f]
 alertstable_vs and alertstablevs.lasthalf must be in directory for sn locations
-sdssTableGroupIndex.py, sdss_queries.dat
+sdss_queries_index.txt, sdss_queries.dat
 
 '''
 
@@ -88,8 +88,7 @@ LOWEST_MAG = 26 #limiting mag is 25
 PLOT_ALL = False
 PLOT_ERR =  True #plots files when something eventful happens e.g. errors, low probabilities
 ONLY_FLAG_ERRORS = True # catch errors, log and move on
-CHECK_DISTANCE = 5 #log and potentially plot all files with most likely host 
-# farther than this (in arcsecs) from sn location
+
 FILES = 'all' #options are 'all', 'new random', 'range', 
 #'specified', 'nonsquare'. Use 'all' for normal usage, the rest are for debugging.
 #if 'specified', will run on the subset of files specified in SPECIFIED. 
@@ -361,6 +360,9 @@ class Image:
             # no objects in SDSS near this event location
             sdssTable = None
         else:
+            print(self.idNumString)
+            print(sdssTableGroupIndex[self.idNumString])
+            print(sdssTableGroupIndex[self.idNumString].type)
             sdssTable = fullSdssTable.groups[sdssTableGroupIndex[self.idNumString]]
 
 #TODO the last argument is 1 b/c first pixel of FITS should be 1,1 not 0,0?
@@ -513,7 +515,6 @@ class Image:
         # other objects have photoz matching event redshift, use if so
 #TODO ask Ashley if this is okay
         if not self.isEventIn(self.bestCandidate):
-        #if self.separation[self.bestCandidate] > CHECK_DISTANCE:
             if self.chanceCoincidence[self.bestCandidate] < 0.02:
                 self.errorProtocol("warning, checking for matching photozs for far but likely candidate")
              
@@ -521,11 +522,16 @@ class Image:
             # choose matching redshift object with lowest chance coincidence
             for k in range(len(self.photozs)):
                 if self.photozs[k] and abs(self.photozs[k] - self.eventz)/self.eventz < 0.1:
-                    if photoz_matched:
+                    if not photoz_matched: #first time we find matching photoz
+                        #use instead
+                        self.bestCandidate = k
+                        photoz_matched = True
+                    else: #this is 2nd+ matching photoz galaxy we have found
                         self.errorProtocol("multiple matching photozs")
+                        #use instead only if lower chanceCoincidence 
                         if self.chanceCoincidence[k] < self.chanceCoincidence[self.bestCandidate]:
                                self.bestCandidate = k
-                        photoz_matched = True
+
                   
         return photoz_matched
     
@@ -835,8 +841,8 @@ class Supernova:
         self.idNum = int(idNumString)
         
         
-    # comparison with loaded "real" host galaxy data
-    # NOT calculated by this script. For testing, comparison, to check our work
+    # comparison with loaded "real" host galaxy data NOT calculated by this script.
+    # For testing, comparison, to check our work
     # not used for actual research/results
     def getSnFinalData(self, chosen_loc): #chosen_loc is location of our chosen host
         finalDict = {'ID':self.idNum}
@@ -892,7 +898,7 @@ class Supernova:
         self.event = event
               
         self.images = [None]*7
-        good_images = [] #images in which a likely host was found within MINDIST of sn location
+        good_images = [] #images in which a host surrounding sn location was found
         BAD_IMAGES = []  #images in which no good host was found
         good_photozs = [] #images in which a host was found farther but with matching redshift
         for x in range(3,7):
@@ -903,21 +909,17 @@ class Supernova:
             #it had a photoz matching the sn redshift
             photozMatched = self.images[x].attemptBestCandidate()
             
-#TODO switch to absolute distance? take into account size? make sure we aren't correcting big galaxies
-#TODO mindist vs. checkdist
-#TODO What if multiple galaxies are within mindist and dif ones are selected in dif filters?
-# I thought I fixed this to check if event was inside!
-            
-#TODO check that this works!
-            #check if the host for this filter has the sn within its kronrad
+            #check if the host chosen for this filter has the sn within it
             #if so put this filter number good_images
             chosen_host = self.images[x].bestCandidate
             if chosen_host != None: 
-                # pixel distance between sn and chosen host
-                separation = self.images[x].objCoords[chosen_host].separation(event['coords'])
-                kronrad = self.images[x].kronrad[chosen_host]
-                if separation < kronrad:
+                if self.images[x].isEventIn(chosen_host):
                     good_images.append(x)
+#kronrad is highly variable, don't use here
+#                separation = self.images[x].objCoords[chosen_host].separation(event['coords'])
+#                kronrad = self.images[x].kronrad[chosen_host]
+#                if separation < kronrad:
+#                    good_images.append(x)
                     
                 elif photozMatched:
                     #chosen host was found farther but had matching redshift
@@ -930,43 +932,72 @@ class Supernova:
         if args.mask:
             global masks
         
-        '''choose candidates'''        
-        if good_images:
-            self.filter_to_use = good_images[0]
-#TODO remove
-            goodCoords = self.images[self.filter_to_use].\
-                objCoords[self.images[self.filter_to_use].bestCandidate]
-#TODO do I use object at event coords or good coords?
-            for x in good_photozs + BAD_IMAGES:
-                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
-        elif good_photozs:
-#TODO pick min chance coincidence !!!
-            self.filter_to_use = good_photozs[0]
-            goodCoords = self.images[self.filter_to_use].\
-                objCoords[self.images[self.filter_to_use].bestCandidate]
-            #use object at that location in all images
-            for x in range(3,7):
-                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
-#TODO test all combinations of good images, bad_images, no objects images            
-        else:
+        '''choose candidates'''  
+        #TODO rewrite for clarity
+        '''compare between filters, looking for the ultimate host of the 
+        filters which found a host surrounding the sn location, pick the 
+        ultimate host from the filter with the lowest chance coincidence. 
+        (Even though they are probably all the same). For all the filters 
+        who did NOT find and choose a host surrounding the SN, force them to 
+        choose a host matching the ultimate host.
+        
+        If however no filter chose a host which was surrounding the sn, 
+        look at the filters which chose a host with matching photoz to the 
+        sn redshift. Of those, take the host with the lowest chance coincidence
+        to be the ultimate host. Correct all other filters to match the 
+        ultimate host.
+
+        If no hosts with matching photoz were found either, take the host from 
+        all the filters which had the lowest chance coincidence, provided that 
+        chance coincidence was less than 0.2, and force all the other filters 
+        to match it.
+
+        However if no host with chance coincidence under 0.2 was found in any 
+        of the filters, use default data
+        '''
+        
+        def lowest_cc_of(IMAGE_LIST):
             # find minimum chance coincidence object
-            first = self.images[BAD_IMAGES[0]]
+            if len(IMAGE_LIST) == 0:
+                raise Exception("lowest_cc_of function should not be called an empty list")
+            first = self.images[IMAGE_LIST[0]]
             if len(first.objects) > 0:
                 minChanceCoincidence = first.chanceCoincidence[first.bestCandidate]
             else:
                 # no objects were detected in image
                 minChanceCoincidence = 2
-            minOwner = BAD_IMAGES[0]
-            for num in BAD_IMAGES:
-                im = self.images[num]
+            minOwner = IMAGE_LIST[0]
+            for i in IMAGE_LIST:
+                im = self.images[i]
                 if len(im.objects) > 0:
-                    bestChance = im.chanceCoincidence[im.bestCandidate]
+                    i_bestChance = im.chanceCoincidence[im.bestCandidate]
                 else: # no objects were detected in image
-                    bestChance = 2
-                if bestChance < minChanceCoincidence:
-                   minChanceCoincidence = bestChance
-                   minOwner = num
-            self.filter_to_use=minOwner
+                    i_bestChance = 2
+                if i_bestChance < minChanceCoincidence:
+                   minChanceCoincidence = i_bestChance
+                   minOwner = i
+            return (minOwner, minChanceCoincidence)
+        
+        #filter_to_use is the filter from which host is officially chosen
+        
+        if good_images:
+            self.filter_to_use, _minChanceCoincidence = lowest_cc_of(good_images)
+            goodCoords = self.images[self.filter_to_use].\
+                objCoords[self.images[self.filter_to_use].bestCandidate]
+            for x in good_photozs + BAD_IMAGES:
+                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
+        elif good_photozs:
+            self.filter_to_use, minChanceCoincidence = lowest_cc_of(good_photozs)
+            goodCoords = self.images[self.filter_to_use].\
+                objCoords[self.images[self.filter_to_use].bestCandidate]
+            #use object at that location in all images
+            for x in range(3,7):
+                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
+            self.images[self.filter_to_use].errorProtocol(
+                "Using photoz matched with cc: %s" % minChanceCoincidence)
+#TODO test all combinations of good images, bad_images, no objects images            
+        else:
+            self.filter_to_use, minChanceCoincidence = lowest_cc_of(BAD_IMAGES)
             if minChanceCoincidence <= 0.02:
                 self.images[self.filter_to_use].errorProtocol(
                         "USING BEST CHANCE: %s" % minChanceCoincidence)
@@ -985,7 +1016,7 @@ class Supernova:
                     all_sn_data.update(self.images[x].getDefaultData())
 #TODO make sure used_default is correct                    
                 self.used_default=False
-                #get non filter dependent data
+                #get non-filter-dependent data
                 all_sn_data.update(self.getSnFinalData(None))
                 print('ID: %s' % self.idNum)
                 if args.mask:
@@ -1010,7 +1041,8 @@ class Supernova:
             if i == self.filter_to_use: 
                 if args.mask: # only collecting mask
                     mask = self.images[i].segmap
-                    mask = np.where(mask == self.images[i].bestCandidate + 1, 1 - self.images[i].chanceCoincidence[self.images[i].bestCandidate], 0)
+                    mask = np.where(mask == self.images[i].bestCandidate + 1, 
+                                    1 - self.images[i].chanceCoincidence[self.images[i].bestCandidate], 0)
                     #global masks
                     masks[self.idNumString] = mask
                     print('good mask %s' % self.idNumString)
@@ -1067,11 +1099,6 @@ def extraction(filenames):
     if args.mask:
         global masks
         masks = {}
-        #if not os.path.isdir('masks'):
-        #    os.mkdir('masks')
-        #masks = [[],[],[],[],[]]
-        #dats = [[],[],[],[],[]]
-        #numDict = {'SNIa':0, 'SNIbc':1, 'SNII': 2, 'SNIIn':3, 'SLSNe':4}
     for filename in filenames: 
         # filename will be the #3 (g) filter file of the sn
         # check that all 4 filters are present, otherwise skip
@@ -1090,18 +1117,13 @@ def extraction(filenames):
         
         if args.mask:
             print(filename)
+            # the run notices args.mask and will save masks to the global masks variable
             s.run()
-#            mask, dat = s.run()
-#            dat = np.array(dat)
-#            mask = np.array(mask)
-#            typ = numDict[typeDict[idNumString]]
-#            masks[typ].append(mask)
-#            dats[typ].append(dat)
+            
         else:            
             all_all_data.append(s.run())
             
             #TODO column order
-            #print(all_all_data)
             df = pd.DataFrame(all_all_data, columns=COLUMNS)
             if WRITE_CSV:
                 df.to_csv(WRITE_CSV)
@@ -1109,15 +1131,14 @@ def extraction(filenames):
     if args.mask:
         np.savez(OUTPUT_DIR + '/all_masks', **masks)
         print('saved all masks')
-#        for i in range(5):
-#            np.save('masks_%s'%i, masks[i])
-#            np.save('x_all2_%s'%i, dats[i])
+
             
 
 def main():
     import time
     start = time.time()
-    #figure out which files to use based on value specified at top
+    #figures out which files to use based on value specified at top
+    #'all' is for science use, the other options are just for debugging
     if FILES == 'all' or FILES =='range' or FILES =='new random':
         #CHANGED now only looks for .3 files, assuming the rest are there
         filenames = sorted(glob.glob(SOURCEDIR + '/psc*.3.fits'))
