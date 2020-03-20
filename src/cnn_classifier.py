@@ -14,6 +14,8 @@ import random
 from sklearn.metrics import confusion_matrix
 from scipy import ndimage
 import argparse
+import json
+import glob
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
 OUTPUT_DIR = PROJ_HOME + '/src/outputs/'
@@ -107,6 +109,23 @@ def shuffle(X, y, X_sep=None):
 def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12, 
                      seed_offset=0):
     
+    DATASET_DIR = OUTPUT_DIR + 'cnn_datasets'
+    if ia_only:
+        DATASET_DIR = DATASET_DIR + '_ia'
+    elif three:
+        DATASET_DIR = DATASET_DIR + '_three_cats'
+    if mask:
+        DATASET_DIR = DATASET_DIR + '_mask'
+        
+    # clear leftover datasets of this type from previous runs
+    old_datasets = glob.glob(DATASET_DIR + '/*')
+    for old_dataset in old_datasets:
+        os.remove(old_dataset)
+    #make dataset directory if it does not exist
+    if not os.path.isdir(DATASET_DIR): 
+        os.mkdir(DATASET_DIR)
+    DATASET_DIR = DATASET_DIR + "/"
+    
     n_ia = len(np.load(OUTPUT_DIR + "x_all2_0.npy"))
     n_ibc = len(np.load(OUTPUT_DIR + "x_all2_1.npy"))
     n_ii = len(np.load(OUTPUT_DIR + "x_all2_2.npy"))
@@ -156,7 +175,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
     for i in range(5):
         NUM = int(aug_to[i])
         if mask:
-            print("using mask")
+            
             raw = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')/1000000.
             #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
         else:
@@ -187,12 +206,12 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                 X_test_fold = crop(test_aug)
                 y_test_fold = [i]*len(test_aug)  
                 
-                print(j)
-                print(np.array(X_train_fold).shape)
-                print(np.array(y_train_fold).shape)
-                print('\n')
+#                print(j)
+#                print(np.array(X_train_fold).shape)
+#                print(np.array(y_train_fold).shape)
+#                print('\n')
                 
-                np.savez(OUTPUT_DIR + filname+extrastring+'_fold_%s'%j, 
+                np.savez(DATASET_DIR + filname+extrastring+'_fold_%s'%j, 
                  X_train_fold, y_train_fold, 
                  X_test_fold, y_test_fold)       
 
@@ -231,7 +250,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                 print(np.array(y_train_fold).shape)
                 print('\n')
                 
-                np.savez(OUTPUT_DIR + filname+extrastring+'_fold_%s'%count, 
+                np.savez(DATASET_DIR + filname+extrastring+'_fold_%s'%count, 
                  X_train_fold, y_train_fold, 
                  X_test_fold, y_test_fold)  
                 count+=1
@@ -242,7 +261,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         for i in range(5):
             X_train_fold.extend(X_all_of[i])
             y_train_fold.extend([i]*len(X_all_of[i]))
-        np.savez(OUTPUT_DIR + filname+extrastring+'_all', 
+        np.savez(DATASET_DIR + filname+extrastring+'_all', 
                 X_train_fold, y_train_fold, 
                 [], [])   
         print(np.array(X_train_fold).shape)
@@ -310,15 +329,16 @@ def main():
 
 
     filname = "aug_all"
-
+    DATASET_DIR = OUTPUT_DIR + "cnn_datasets"
     if ia_only:
         filname = filname + "_ia"
+        DATASET_DIR = DATASET_DIR + "_ia"
     elif three_categories:
         filname = filname + "_three_cats"
-
+        DATASET_DIR = DATASET_DIR + "_three_cats"
     if args.mask:
         filname = filname + "_mask"
-
+        DATASET_DIR = DATASET_DIR + "_mask"
     if k_folded:
         filname = filname + "_fold_%s"%fold_num
     
@@ -327,8 +347,8 @@ def main():
         
     if (k_folded and args.all) or (not k_folded and not args.all):
         raise Exception("Must use either --k_fold or --all")
-    
-    all_data = np.load(OUTPUT_DIR + filname + '.npz')
+    DATASET_DIR = DATASET_DIR + "/"
+    all_data = np.load(DATASET_DIR + filname + '.npz')
 
     X_full_train = all_data['arr_0']
     y_full_train = all_data['arr_1']
@@ -340,7 +360,7 @@ def main():
         y_full_test = np.where(y_full_test==0, 0, 1)
 
     if three_categories:
-        raise
+        raise Exception("three categories not yet implemented")
         #make all sls into ibc
         #y_full = np.where(y_full==4, 1, y_full)
         
@@ -348,7 +368,7 @@ def main():
         #y_full = np.where(y_full==3, 2, y_full)
 
     if no_sls:
-        raise
+        raise Exception("no_sls not yet implemented")
         #y_full_orig = y_full
         #y_full = y_full[y_full_orig != 4]
         #X_full = X_full[y_full_orig != 4]
@@ -516,14 +536,17 @@ def main():
           epochs=epochs,
           shuffle=True)
         
-        model_path = OUTPUT_DIR + 'final_trained_cnn'
-        if args.ia_only:
-            model_path = model_path + "_ia_only"
-        if not args.mask:
-            model_path = model_path + "_no_mask"
-        model_path = model_path + ".h5"
-        model.save(model_path)
-        print('Saved trained model at %s ' % model_path)
+    model_path = OUTPUT_DIR + 'final_trained_cnn'
+    if args.ia_only:
+        model_path = model_path + "_ia_only"
+    if not args.mask:
+        model_path = model_path + "_no_mask"
+    model_path = model_path + ".h5"
+    model.save(model_path)
+    print('Saved trained model at %s ' % model_path)
+    json_string = model.to_json()
+    with open(OUTPUT_DIR + 'cnn_architecture.json', 'w+') as f:
+        json.dump(json_string, f)
         
 
 if __name__ == "__main__":

@@ -25,6 +25,12 @@ from astropy.cosmology import Planck13 as cosmo
 from astropy.table import Table, vstack
 import time
 import json
+
+#attempt to supress fits warnings about date changed, etc.
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
+
 PROJ_HOME = os.environ['DATA_SRCDIR'] #base of repo
 
 start = time.time()

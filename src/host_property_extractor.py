@@ -57,7 +57,11 @@ DESTDIR = os.getcwd()
 ERRORFILE = OUTPUT_DIR + '/errorfile.txt' #really just a log file of the run
 WRITE_CSV = OUTPUT_DIR + "/galaxiesdata.csv" # filename to write to or None
 PLOT_DIR = OUTPUT_DIR + '/plots' # where to put plot images
-if not os.path.isdir(PLOT_DIR):
+# clear leftover plots from previous runs
+old_plots = glob.glob(PLOT_DIR + '/*')
+for old_plot in old_plots:
+    os.remove(old_plot)
+if not os.path.isdir(PLOT_DIR): 
     os.mkdir(PLOT_DIR)
 FILENAME_PREFIX = SOURCEDIR + "/psc" #everything before the sn number
 
@@ -83,7 +87,7 @@ LOWEST_MAG = 26 #limiting mag is 25
 #MAG_TEST_ALL = False
 
 #USAGE FLAGS that I never put into the argparser:
-PLOT_ALL = False
+PLOT_ALL = True
 PLOT_ERR =  True #plots files when something eventful happens e.g. errors, low probabilities
 ONLY_FLAG_ERRORS = True # catch errors, log and move on
 
@@ -262,6 +266,10 @@ class Image:
         filename = FILENAME_PREFIX + "%s.%s.fits" % (self.idNumString, self.filterNum)
         image_file = fits.open(filename)
         
+        # to get image corners
+        self.maxX = image_file[0].header['NAXIS1']
+        self.maxY = image_file[0].header['NAXIS2']
+        
         ''' extract objects '''
         image_data = image_file[0].data
 
@@ -342,8 +350,8 @@ class Image:
 #TODO was it flux or kronrad which failed on narrow objects?
                 self.blacklist.add(i)
                 flux.append(0)
-                self.bestCandidate = i
-                self.errorProtocol("Warning: failed flux calculation on ")
+                #self.bestCandidate = i
+                #self.errorProtocol("Warning: failed flux calculation on ")
         flux = np.array(flux)
 
         # fullSdssTable should contain pre-saved querries of event locations
@@ -809,7 +817,7 @@ class Image:
                 padded_e = e + '                                                                         '
                 my_title = padded_e[:30] + '\n' + curFile[-16:]
                 self.plot(myVmin = 0, myVmax = 3000, target=chosen, title=my_title)
-                self.plot()
+                #self.plot()
             if ONLY_FLAG_ERRORS or e=='far' or e=='unlikely':
                 return
             else:
@@ -908,6 +916,9 @@ class Supernova:
                 elif photozMatched:
                     #chosen host was found farther but had matching redshift
                     good_photozs.append(x)
+                    
+                else: #no good candidate 
+                    BAD_IMAGES.append(x)
                 
             else: #no good candidate 
                 BAD_IMAGES.append(x)
@@ -949,14 +960,14 @@ class Supernova:
                 minChanceCoincidence = first.chanceCoincidence[first.bestCandidate]
             else:
                 # no objects were detected in image
-                minChanceCoincidence = 2
+                minChanceCoincidence = 1
             minOwner = IMAGE_LIST[0]
             for i in IMAGE_LIST:
                 im = self.images[i]
                 if len(im.objects) > 0:
                     i_bestChance = im.chanceCoincidence[im.bestCandidate]
                 else: # no objects were detected in image
-                    i_bestChance = 2
+                    i_bestChance = 1
                 if i_bestChance < minChanceCoincidence:
                    minChanceCoincidence = i_bestChance
                    minOwner = i
@@ -1058,12 +1069,14 @@ class Supernova:
         #get non-filter-dependent data
         chosen_loc = chosen_im.objCoords[chosen_im.bestCandidate]
         all_sn_data.update(self.getSnFinalData(chosen_loc))
-        return all_sn_data
+        
     
         if PLOT_ALL:
             for image in self.images[3:]:
-                image.plot()
-                image.plot(myVmin = 0, myVmax = 1000)        
+                print("here")
+                image.plot(myVmin = 0, myVmax = 3000, title='final') 
+                
+        return all_sn_data
 
 
 def extraction(filenames):

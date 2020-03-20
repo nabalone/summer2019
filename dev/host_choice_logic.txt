@@ -1,0 +1,14 @@
+
+For each filter separately:
+    (if no objects in image, return none)
+    take lowest chance coincidence
+    if sn was in object, good.
+    otherwise, if any galaxies have matching photoz (within 10%), take the one of with lowest chance coincidence of those with matching z. 
+
+Then compare between filters, looking for the ultimate host Of the filters which found a host surrounding the sn location, pick the ultimate host from the filter with the lowest chance coincidence. (Even though they are probably all the same). For all the filters who did NOT find and choose a host surrounding the SN, force them to choose a host matching the ultimate host.
+
+If however no filter chose a host which was surrounding the sn, look at the filters which chose a host with matching photoz to the sn redshift. Of those, take the host with the lowest chance coincidence to be the ultimate host. Correct all other filters to match the ultimate host.
+
+If no hosts with matching photoz were found either, take the host from all the filters which had the lowest chance coincidence, provided that chance coincidence was less than 0.2, and force all the other filters to match it.
+
+However if no host with chance coincidence under 0.2 was found in any of the filters, use default data
