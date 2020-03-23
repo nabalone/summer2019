@@ -292,7 +292,7 @@ class Image:
             # used for calculating pixel rank 
             # TODO and possibly detecting if event location is in an object
             self.objects, self.segmap = sep.extract(self.swappedData, attemptedThresh,
-                                          err=self.bkg.globalrms, 
+                                          err=self.bkg.rms(), 
                                   minarea = MINAREA, deblend_cont = DEBLEND_CONT,
                                   segmentation_map = True)
 
@@ -1072,9 +1072,8 @@ class Supernova:
         
     
         if PLOT_ALL:
-            for image in self.images[3:]:
-                print("here")
-                image.plot(myVmin = 0, myVmax = 3000, title='final') 
+            image = self.images[5]
+            image.plot(myVmin = 0, myVmax = 3000, title='final') 
                 
         return all_sn_data
 

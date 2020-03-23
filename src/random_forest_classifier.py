@@ -47,10 +47,7 @@ parser.add_argument('--inside_only', action='store_true',
 
 args = parser.parse_args()
 
-if (args.kfold and args.all) or (args.all and args.loo)\
-     or (args.loo and args.kfold) or not (args.all or args.kfold or args.loo):
-         raise Exception("must use exactly one of the following flags: \
-                         --kfold, --loo --all")
+
     
 
 NUM_TREES = 700
@@ -220,6 +217,11 @@ def run(X, y, n_est, name_extension):
             
 def main():
     start = time.time()
+    
+    if (args.kfold and args.all) or (args.all and args.loo)\
+     or (args.loo and args.kfold) or not (args.all or args.kfold or args.loo):
+         raise Exception("must use exactly one of the following flags: \
+                         --kfold, --loo --all")
 
     X1, y1 = collect(1)  
     y1 = np.array(y1)
