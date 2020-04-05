@@ -177,115 +177,87 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
     else:
         aug_to = [n_ia]*5
     
+    #load raw data
+    raw = [[],[],[],[],[]] 
+    for i in range(5):#for each type
+        NUM = int(aug_to[i]) #number to augment to for balanced sample
+        #NUM will be different for different types if we are classifying 
+        # between groups. 
+        
+        #load all data of that type
+        #dividing by arbitrary 1000000 to avoid overflows
+        if mask:
+            raw[i] = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')/1000000.
+            #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
+        else:
+            raw[i] = np.load(OUTPUT_DIR + "x_all_%s.npy" % i).astype('float32')/1000000.
+            #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
+            
+        #shuffle the data for this type
+        random.seed(i + seed_offset)
+        random.shuffle(raw[i])
+        #random.seed(i+seed_offset)
+        #random.shuffle(raw_sep)
+    
     
     
     '''Normal k folding:'''
     if num_splits != 'all' and num_splits != 'loo':
         
-        # the following will all be lists of fold-pieces which are themselves lists.
-        # e.g. X_train_folds[k] will be a list which is the training set X of the kth fold
-
-        X_train_folds = []
-        y_train_folds = []
-        X_test_folds = []
-        y_test_folds = []
-        for i in range(num_splits):
-            X_train_folds.append([])
-            y_train_folds.append([])
-            X_test_folds.append([])
-            y_test_folds.append([])
         # for each of the 5 types, we split that type into num_splits splits 
+        folds = [[],[],[],[],[]]
         for i in range(5):
-            print('i: %s' %i)
-            NUM = int(aug_to[i]) #number to augment to for balanced sample
-            #NUM will be different for different types if we are classifying 
-            # between e.g. ia vs other
-            
-            #load all data of that type
-            if mask:
-                #dividing by arbitrary 1000000 to avoid overflows
-                raw = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')/1000000.
-                #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
-            else:
-                raw = np.load(OUTPUT_DIR + "x_all_%s.npy" % i).astype('float32')/1000000.
-                #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
-                
-            #shuffle the data for this type
-            random.seed(i + seed_offset)
-            random.shuffle(raw)
-            #random.seed(i+seed_offset)
-            #random.shuffle(raw_sep)
-            
-
             #the stratification we do here is useless since we're just doing 1 type        
-            folds = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
-                                         random_state=1).split(raw, [i]*len(raw)))
-            
-            for j, (train, test) in enumerate(folds):
-                print('j: %s' %j)
+            folds[i] = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
+                                         random_state=1).split(raw[i], [i]*len(raw[i])))
+        for j in num_splits: #create the jth splits
+            print('j: %s' %j)
+            jth_X_train = []
+            jth_y_train = []
+            jth_X_test = []
+            jth_y_test = []
+            for i in range(5): #iterate through the types
+                print('i: %s' %i)
+                train, test = folds[i][j]
     #TODO this has been changed from the sep
                 #augment data so we have NUM samples 
-                train_aug, _train_aug_sep = augment(raw[train], [0]*len(train), NUM)
+                train_aug, _train_aug_sep = augment(raw[i][train], [0]*len(train), NUM)
                 #crop all images from 240x240 to 160x160 to eliminate the blank
                 #corners caused by rotation in augmentation
                 # distribute among folds
-
-                X_train_folds[j].extend(crop(train_aug))
-                y_train_folds[j].extend([i]*len(train_aug))
+                jth_X_train.extend(crop(train_aug))
+                jth_y_train.extend([i]*len(train_aug))
                 
                 #only "augmented" up to original length, so no rotations added
-                test_aug, _test_aug_sep = augment(raw[test], [0]*len(train), len(raw[test])) 
-                X_test_folds[j].extend(crop(test_aug))
-                y_test_folds[j].extend([i]*len(test_aug))   
+                test_aug, _test_aug_sep = augment(raw[i][test], [0]*len(train), len(raw[i][test])) 
+                jth_X_test.extend(crop(test_aug))
+                jth_y_test.extend([i]*len(test_aug))   
           
-        # after we have added the samples from all 5 types to each fold,
-        # we can shuffle and save
+            # after we have added the samples from all 5 types to each fold,
+            # we can shuffle and save
         
-        #TODO make sure shuffle works
-        for j in range(len(y_train_folds)):
+            #TODO make sure shuffle works
             print("saving")
-            print(OUTPUT_DIR + filname+extrastring+'_fold_%s'%j)
             random.seed(100+j)
-            random.shuffle(X_train_folds[j])
+            random.shuffle(jth_X_train)
             random.seed(100+j)
-            random.shuffle(y_train_folds[j])
+            random.shuffle(jth_y_train)
             np.savez(DATASET_DIR + filname+extrastring+'_fold_%s'%j, 
-                 X_train_folds[j], y_train_folds[j], 
-                 X_test_folds[j], y_test_folds[j])       
+                 jth_X_train, jth_y_train, 
+                 jth_X_test, jth_y_test)       
                      
 #TODO I DON'T KNOW IF ANY OF THE FOLLOWING IS CORRECT
             
     # if not plain kfolding, make "all_of" arrays: augmented of entire set of that type
     else:
         X_all_of = [[],[],[],[],[]]    
-        raw = [[],[],[],[],[]] 
-        count = 0
-        for i in range(5):#for each type
-            NUM = int(aug_to[i]) #number to augment to for balanced sample
-            #NUM will be different for different types if we are classifying 
-            # between groups. 
-            
-            #load all data of that type
-            #dividing by arbitrary 1000000 to avoid overflows
-            if mask:
-                raw[i] = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')/1000000.
-                #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
-            else:
-                raw[i] = np.load(OUTPUT_DIR + "x_all_%s.npy" % i).astype('float32')/1000000.
-                #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
-                
-            #shuffle the data for this type
-            random.seed(i + seed_offset)
-            random.shuffle(raw)
-            #random.seed(i+seed_offset)
-            #random.shuffle(raw_sep)
-        
-            train_aug_all, _train_aug_sep_all = augment(raw, [0]*len(raw), NUM)
-            X_all_of[i] = list(crop(train_aug_all)) 
+        train_aug_all, _train_aug_sep_all = augment(raw[i], [0]*len(raw[i]), NUM)
+        X_all_of[i] = list(crop(train_aug_all)) 
         
     
     '''LOO Folding'''
     if num_splits == 'loo':
+        count = 0
         for i in range(5): 
             for ind in range(len(raw[i])): #for each SN of that type
                 X_test_fold = [raw[i][ind]] #set that SN aside as test
