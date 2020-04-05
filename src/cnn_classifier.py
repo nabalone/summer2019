@@ -173,7 +173,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                     np.round(n_ia*n_iin/(n_ii+n_iin)),
                     np.round(n_ia*n_sls/(n_ibc+n_sls))]
     else:
-        largest_sample_size = np.min([n_ia, n_ibc, n_ii, n_iin, n_sls])
+        largest_sample_size = np.max([n_ia, n_ibc, n_ii, n_iin, n_sls])
         aug_to = [largest_sample_size]*5
     
     #load raw data
@@ -207,7 +207,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
             #TODO remove one of the shuffles. we already shuffled all raw[i] above
             folds[i] = list(StratifiedKFold(n_splits=num_splits, shuffle=True, 
                                          random_state=1+seed_offset).split(raw[i], [i]*len(raw[i])))
-        for j in num_splits: #create the jth fold
+        for j in range(num_splits): #create the jth fold
             print('j: %s' %j)
             jth_X_train = []
             jth_y_train = []
