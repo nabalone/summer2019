@@ -57,12 +57,15 @@ DESTDIR = os.getcwd()
 ERRORFILE = OUTPUT_DIR + '/errorfile.txt' #really just a log file of the run
 WRITE_CSV = OUTPUT_DIR + "/galaxiesdata.csv" # filename to write to or None
 PLOT_DIR = OUTPUT_DIR + '/plots' # where to put plot images
+PLOT_DIR2 = OUTPUT_DIR + '/zsorted_plots' #redshift-sorted plots for paper
 # clear leftover plots from previous runs
-old_plots = glob.glob(PLOT_DIR + '/*')
+old_plots = glob.glob(PLOT_DIR + '/*') + glob.glob(PLOT_DIR2 + '/*')
 for old_plot in old_plots:
     os.remove(old_plot)
 if not os.path.isdir(PLOT_DIR): 
     os.mkdir(PLOT_DIR)
+if not os.path.isdir(PLOT_DIR2): 
+    os.mkdir(PLOT_DIR2)
 FILENAME_PREFIX = SOURCEDIR + "/psc" #everything before the sn number
 
 FILLER_VAL = None
@@ -155,12 +158,15 @@ m0collector = [None, None, None, [], [], [], []] #saved for use in future runs
 BAD_COUNT = 0 #number of sn with no good host detected
 
 '''make header'''
-COLUMNS =['ID', 'hostRa', 'hostDec', 'offby', 'hectoZ', 'redshift_dif']
+COLUMNS =['ID', 'Redshift', 'comparison_hectoZ', 'comparison_redshift_dif', 
+          'RA', 'DEC', 'Host RA', 'Host Dec', 'comparsion_hostRa', 'comparison_hostDec', 'comparison_distance_dif']
 
 perImageHeaders = ['KronRad (kpc)', 'separation (kpc)', 'area (kpc^2)', 'sep/sqrt(area) (kpc)',
                    'x', 'y','KronMag', 'Abs. Mag', 'Angle',
-                   'Ellipticity', 'RA',  'DEC', 
-                   'Discrepency (arcsecs)', 'pixelRank', 'redshift', 'chanceCoincidence',
+                   'Ellipticity', #'RA',  'DEC', 
+                   #'Discrepency (arcsecs)', 
+                   'pixelRank', #'redshift', 
+                   'chanceCoincidence',
                    'host_found']
 for i in range(3,7):
     for val in perImageHeaders:
@@ -660,8 +666,8 @@ class Image:
         finalDict['Ellipticity_%s' % f] =  self.ellipticity[bestCandidate]
         finalDict['RA_%s' % f] = self.ra[bestCandidate]
         finalDict['DEC_%s' % f] = self.dec[bestCandidate]
-#TODO FIXXX DISCREPANCY IS BAD        
-        finalDict['Discrepency (arcsecs)_%s' % f] = self.dec[bestCandidate]
+#TODO was Discrepency supposed to be something?      
+        #finalDict['Discrepency (arcsecs)_%s' % f] = self.dec[bestCandidate]
         
         
         finalDict['pixelRank_%s' % f] = self.getPixelRank()
@@ -701,7 +707,7 @@ class Image:
                 defaultFinalProperties['Ellipticity_%s' % f] =  0.3
             defaultFinalProperties['RA_%s' % f] = self.event['ra']
             defaultFinalProperties['DEC_%s' % f] = self.event['dec']
-            defaultFinalProperties['Discrepency (arcsecs)_%s' % f] = None
+            #defaultFinalProperties['Discrepency (arcsecs)_%s' % f] = None
             if args.use_prev:                
                 defaultFinalProperties['pixelRank_%s' % f] = AVRG_PIXELRANKS[self.filterNum]
             else:
@@ -732,7 +738,7 @@ class Image:
     # blacklisted (disqualified) objects circled in blue,
     # best host candidate circled in green, all other detected objects circled
     # in red, event location marked with purple triangle. Saves to PLOT_DIR
-    def plot(self, myVmin=None, myVmax=None, target=None, title=''):
+    def plot(self, myVmin=None, myVmax=None, target=None, my_title=''):
         green = [target] if target else [self.bestCandidate]
         # make the destination directory if it does not exist
         if not os.path.isdir(PLOT_DIR):
@@ -767,9 +773,24 @@ class Image:
             else:
                 e.set_edgecolor('red')
             ax.add_artist(e)
-        plt.title(title)
-        plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
+
+        if my_title=='final':
+        # the plots going into PLOT_DIR are for debugging; only want 1 filter
+        # plots going into PLOT_DIR2 are for the paper, so we want all filters
+            if self.filterNum==5:
+                    plt.title(my_title)
+                    plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
                     + str(namecountgen()) + ".png", dpi=150)
+            plt.title(' ')
+            filterletter={3:'g', 4:'r', 5:'i',6:'z'}
+            plt.savefig(PLOT_DIR2 + "/z%s_sn%s_type%s_%s.png" % (self.eventz, \
+                        self.idNumString, typeDict[self.idNumString], \
+                        filterletter[self.filterNum]))
+        else:
+            if self.filterNum==5:
+                plt.title(my_title)
+                plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
+                        + str(namecountgen()) + ".png", dpi=150)
         plt.show()
         plt.close()
 
@@ -816,7 +837,7 @@ class Image:
             if PLOT_ERR:
                 padded_e = e + '                                                                         '
                 my_title = padded_e[:30] + '\n' + curFile[-16:]
-                self.plot(myVmin = 0, myVmax = 3000, target=chosen, title=my_title)
+                self.plot(myVmin = 0, myVmax = 3000, target=chosen, my_title=my_title)
                 #self.plot()
             if ONLY_FLAG_ERRORS or e=='far' or e=='unlikely':
                 return
@@ -839,36 +860,35 @@ class Supernova:
     def getSnFinalData(self, chosen_loc): #chosen_loc is location of our chosen host
         finalDict = {'ID':self.idNum}
         
-        hostRa = hostsData[self.idNumString]['host_ra'] #'real'
-        hostDec = hostsData[self.idNumString]['host_dec'] #'real'
+        comparison_hostRa = hostsData[self.idNumString]['host_ra'] #'real'
+        comparison_hostDec = hostsData[self.idNumString]['host_dec'] #'real'
         try:
             #convert to decimal deg:
-            hostCoords = SkyCoord(hostRa, hostDec, unit=(u.hourangle, u.deg))
-            finalDict['hostRa'] = hostCoords.ra.deg #'real'
-            finalDict['hostDec'] = hostCoords.dec.deg #'real'
-            if hostRa and chosen_loc:
+            hostCoords = SkyCoord(comparison_hostRa, comparison_hostDec, unit=(u.hourangle, u.deg))
+            finalDict['comparison_hostRa'] = hostCoords.ra.deg #'real'
+            finalDict['comparison_hostDec'] = hostCoords.dec.deg #'real'
+            if comparison_hostRa and chosen_loc:
                 # distance between our chosen host and theirs
                 #TODO put in kpc
-                finalDict['offby'] = hostCoords.separation(chosen_loc).arcsec
+                finalDict['comparsion_distance_dif'] = hostCoords.separation(chosen_loc).arcsec
             else:
                 # no 'real' host data for this sn
-                finalDict['offby'] =None
-            finalDict['hectoZ'] = hostsData[self.idNumString]['redshift'] #'real'
+                finalDict['comparsion_distance_dif'] =None
+            finalDict['comparison_hectoZ'] = hostsData[self.idNumString]['redshift'] #'real'
         except ValueError:
-            if len(hostRa) > 12: # hecto gave multiple host galaxies
-                finalDict['hostRa'] = "multiple"
-                finalDict['hostDec'] = "multiple"
-                finalDict['offby'] = None
-                finalDict['hectoZ'] = "multiple"
+            if len(comparison_hostRa) > 12: # hecto gave multiple host galaxies
+                finalDict['comparsion_hostRa'] = "multiple"
+                finalDict['comparsion_hostDec'] = "multiple"
+                finalDict['comparsion_distance_dif'] = None
+                finalDict['comparison_hectoZ'] = "multiple"
             else:
                 raise
                 
-#TODO note that redshift_offset of -1 indicates no photoz, positive is difference
         # Difference between photoz of our chosen host and theirs
         if self.used_default:
-            finalDict['redshift_dif'] = -1
+            finalDict['comparison_redshift_dif'] = FILLER_VAL
         else:
-            finalDict['redshift_dif'] = self.images[self.filter_to_use].getPhotozDif()
+            finalDict['comparison_redshift_dif'] = self.images[self.filter_to_use].getPhotozDif()
         return finalDict
         
     def run(self):
@@ -1072,8 +1092,9 @@ class Supernova:
         
     
         if PLOT_ALL:
-            image = self.images[5]
-            image.plot(myVmin = 0, myVmax = 3000, title='final') 
+            for image in self.images[3:7]:
+            #image = self.images[5]
+                image.plot(myVmin = 0, myVmax = 3000, my_title='final') 
                 
         return all_sn_data
 

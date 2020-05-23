@@ -572,12 +572,12 @@ def main():
         if args.ia_only:
             if not os.path.isdir(OUTPUT_DIR + 'cnn_kfold_results_ia'):
                 os.mkdir(OUTPUT_DIR + 'cnn_kfold_results_ia')
-            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_pred_ia_fold%s' % args.k_fold, y_pred_2)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_pred_ia_fold%s' % args.k_fold, y_pred)
             np.save(OUTPUT_DIR + 'cnn_kfold_results_ia/y_true_ia_fold%s' % args.k_fold, y_full_test_orig)
         else:
             if not os.path.isdir(OUTPUT_DIR + 'cnn_kfold_results'):
                 os.mkdir(OUTPUT_DIR + 'cnn_kfold_results')
-            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold, y_pred_2)
+            np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold, y_pred)
             np.save(OUTPUT_DIR + 'cnn_kfold_results/y_true_fold%s' % args.k_fold, y_full_test_orig)
         cm = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
