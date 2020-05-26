@@ -20,6 +20,8 @@ OUTPUTDIR = SOURCEDIR + '/outputs'
 
 def load():
     predfiles = glob.glob(OUTPUTDIR + '/cnn_kfold_results/y_pred*.npy')
+    global ypred_all
+    global ytrue_all
     ypred_all = []
     ytrue_all = []
     for p in predfiles:
@@ -27,9 +29,7 @@ def load():
         ytrue = np.load(p.replace("pred", "true"))
         ypred_all.append(ypred)
         ytrue_all.append(ytrue)
-    global ypred_all
-    global ytrue_all
-    ypred_all = np.hstack(ypred_all)
+    ypred_all = np.vstack(ypred_all)
     ytrue_all=np.hstack(ytrue_all)
     print(ytrue_all.shape)
     print(ypred_all.shape)
@@ -104,6 +104,28 @@ def plot_fom():
     plt.ylabel('Figure of Merit')
     plt.xlabel('Classification Weighting')
     plt.legend(loc=2)
-    plt.savefig('fom_good_with_effandpp.png')
+    plt.savefig(OUTPUTDIR + '/fom_with_effandpp.png')
+    plt.show()
+    
+    plt.close()
+    
+    plt.plot(fomx, fomy, color='k', lw=3, label='Chou+')
+    plt.plot(xs, ys, color='g', lw=3, label='Foley-Mandel')
+    plt.plot(np.arange(0,1.1,0.1),[np.max(ys)]*11, linestyle = "--", color='g')
+    plt.plot(np.arange(0,1.1,0.1),[np.max(fomy)]*11, linestyle = "--", color='k')
+    plt.axis([0, 1, 0, 1])
+    plt.ylabel('Figure of Merit')
+    plt.xlabel('Classification Weighting')
+    plt.legend(loc=2)
+    plt.savefig(OUTPUTDIR + '/fom.png')
+    plt.show()
+    
+    
+def main():
+    load()
+    plot_fom()
+    
+if __name__=="__main__":
+    main()
             
     

@@ -1,0 +1,336 @@
+0
+Best.0.022309490347850125.NO_GOOD_CANIDIDATE 000011.6
+0
+Best.0.07511105372783777.NO_GOOD_CANIDIDATE 000091.6
+0
+Best.0.03224970648305481.NO_GOOD_CANIDIDATE 000199.5
+0
+Best.0.03045785458441297.NO_GOOD_CANIDIDATE 000202.5
+0
+warning, checking for matching photozs for far but likely candidate 000220.3
+0
+Note: raising threshold to 3.3 
+ 010026.5
+0
+Note: raising threshold to 3.5999999999999996 
+ 010026.5
+0
+Note: raising threshold to 3.8999999999999995 
+ 010026.5
+0
+Note: raising threshold to 4.199999999999999 
+ 010026.5
+0
+Note: raising threshold to 4.499999999999999 
+ 010026.5
+0
+Note: raising threshold to 4.799999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.099999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.399999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.699999999999998 
+ 010026.5
+0
+Note: raising threshold to 5.999999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.299999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.599999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.899999999999998 
+ 010026.5
+0
+Note: raising threshold to 7.1999999999999975 
+ 010026.5
+0
+Note: raising threshold to 7.499999999999997 
+ 010026.5
+0
+Note: raising threshold to 7.799999999999997 
+ 010026.5
+0
+Note: raising threshold to 8.099999999999998 
+ 010026.5
+0
+Note: raising threshold to 8.399999999999999 
+ 010026.5
+0
+Note: raising threshold to 8.7 
+ 010026.5
+0
+Note: raising threshold to 9.0 
+ 010026.5
+0
+Note: raising threshold to 9.3 
+ 010026.5
+0
+Note: raising threshold to 9.600000000000001 
+ 010026.5
+0
+Note: raising threshold to 9.900000000000002 
+ 010026.5
+0
+Note: raising threshold to 10.200000000000003 
+ 010026.5
+0
+Note: raising threshold to 10.500000000000004 
+ 010026.5
+0
+Note: raising threshold to 10.800000000000004 
+ 010026.5
+0
+Note: raising threshold to 11.100000000000005 
+ 010026.5
+0
+Note: raising threshold to 11.400000000000006 
+ 010026.5
+0
+Note: raising threshold to 11.700000000000006 
+ 010026.5
+0
+Note: raising threshold to 12.000000000000007 
+ 010026.5
+0
+Note: raising threshold to 12.300000000000008 
+ 010026.5
+0
+Note: raising threshold to 12.600000000000009 
+ 010026.5
+0
+Note: raising threshold to 12.90000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.20000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.50000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.800000000000011 
+ 010026.5
+0
+Note: raising threshold to 14.100000000000012 
+ 010026.5
+0
+Note: raising threshold to 14.400000000000013 
+ 010026.5
+0
+Note: raising threshold to 14.700000000000014 
+ 010026.5
+0
+Note: raising threshold to 15.000000000000014 
+ 010026.5
+0
+Note: raising threshold to 15.300000000000015 
+ 010026.5
+0
+Note: raising threshold to 15.600000000000016 
+ 010026.5
+0
+Note: raising threshold to 15.900000000000016 
+ 010026.5
+0
+Note: raising threshold to 16.200000000000017 
+ 010026.5
+0
+Note: raising threshold to 16.500000000000018 
+ 010026.5
+0
+Note: raising threshold to 16.80000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.10000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.40000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.70000000000002 
+ 010026.5
+0
+Note: raising threshold to 18.00000000000002 
+ 010026.5
+0
+Note: raising threshold to 18.300000000000022 
+ 010026.5
+0
+Note: raising threshold to 18.600000000000023 
+ 010026.5
+0
+Best.0.03905614692728243.NO_GOOD_CANIDIDATE 010043.6
+0
+Best.0.022309490347850125.NO_GOOD_CANIDIDATE 000011.6
+0
+Best.0.07511105372783777.NO_GOOD_CANIDIDATE 000091.6
+0
+Best.0.03224970648305481.NO_GOOD_CANIDIDATE 000199.5
+0
+Best.0.03045785458441297.NO_GOOD_CANIDIDATE 000202.5
+0
+warning, checking for matching photozs for far but likely candidate 000220.3
+0
+Note: raising threshold to 3.3 
+ 010026.5
+0
+Note: raising threshold to 3.5999999999999996 
+ 010026.5
+0
+Note: raising threshold to 3.8999999999999995 
+ 010026.5
+0
+Note: raising threshold to 4.199999999999999 
+ 010026.5
+0
+Note: raising threshold to 4.499999999999999 
+ 010026.5
+0
+Note: raising threshold to 4.799999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.099999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.399999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.699999999999998 
+ 010026.5
+0
+Note: raising threshold to 5.999999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.299999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.599999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.899999999999998 
+ 010026.5
+0
+Note: raising threshold to 7.1999999999999975 
+ 010026.5
+0
+Note: raising threshold to 7.499999999999997 
+ 010026.5
+0
+Note: raising threshold to 7.799999999999997 
+ 010026.5
+0
+Note: raising threshold to 8.099999999999998 
+ 010026.5
+0
+Note: raising threshold to 8.399999999999999 
+ 010026.5
+0
+Note: raising threshold to 8.7 
+ 010026.5
+0
+Note: raising threshold to 9.0 
+ 010026.5
+0
+Note: raising threshold to 9.3 
+ 010026.5
+0
+Note: raising threshold to 9.600000000000001 
+ 010026.5
+0
+Note: raising threshold to 9.900000000000002 
+ 010026.5
+0
+Note: raising threshold to 10.200000000000003 
+ 010026.5
+0
+Note: raising threshold to 10.500000000000004 
+ 010026.5
+0
+Note: raising threshold to 10.800000000000004 
+ 010026.5
+0
+Note: raising threshold to 11.100000000000005 
+ 010026.5
+0
+Note: raising threshold to 11.400000000000006 
+ 010026.5
+0
+Note: raising threshold to 11.700000000000006 
+ 010026.5
+0
+Note: raising threshold to 12.000000000000007 
+ 010026.5
+0
+Note: raising threshold to 12.300000000000008 
+ 010026.5
+0
+Note: raising threshold to 12.600000000000009 
+ 010026.5
+0
+Note: raising threshold to 12.90000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.20000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.50000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.800000000000011 
+ 010026.5
+0
+Note: raising threshold to 14.100000000000012 
+ 010026.5
+0
+Note: raising threshold to 14.400000000000013 
+ 010026.5
+0
+Note: raising threshold to 14.700000000000014 
+ 010026.5
+0
+Note: raising threshold to 15.000000000000014 
+ 010026.5
+0
+Note: raising threshold to 15.300000000000015 
+ 010026.5
+0
+Note: raising threshold to 15.600000000000016 
+ 010026.5
+0
+Note: raising threshold to 15.900000000000016 
+ 010026.5
+0
+Note: raising threshold to 16.200000000000017 
+ 010026.5
+0
+Note: raising threshold to 16.500000000000018 
+ 010026.5
+0
+Note: raising threshold to 16.80000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.10000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.40000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.70000000000002 
+ 010026.5
+0
+Note: raising threshold to 18.00000000000002 
+ 010026.5
+0
+Note: raising threshold to 18.300000000000022 
+ 010026.5
+0
+Note: raising threshold to 18.600000000000023 
+ 010026.5
+0
+Best.0.03905614692728243.NO_GOOD_CANIDIDATE 010043.6

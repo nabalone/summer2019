@@ -72,7 +72,7 @@ FILLER_VAL = None
 THRESHOLD = 3 #sigma of detection
 MAXTHRESH = 30 # Do not raise threshhold beyond this point. somewhat arbitrary.
 PSF = 4 #the FWHM
-MINAREA = 3 * (PSF/2)**2 #area of a circle with psf diameter
+MINAREA = 3.14 * (PSF/2)**2 #area of a circle with psf diameter
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 turns off deblending, 0.005 is default
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
 FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag_z']
@@ -102,7 +102,7 @@ SPECIFIED = [SOURCEDIR + '/psc020121.3.fits',
              SOURCEDIR + '/psc020121.4.fits',
              SOURCEDIR + '/psc020121.5.fits',
              SOURCEDIR + '/psc020121.6.fits']
-RANGE = (3,30)
+RANGE = (3,8)
 
 
 m0collector = [None, None, None, [], [], [], []] #saved for use in future runs
@@ -966,13 +966,16 @@ class Supernova:
             return (minOwner, minChanceCoincidence)
         
         #filter_to_use is the filter from which host is officially chosen
-        
+        self.used_default=False #will be set to true if no decent images
         if good_images:
             self.filter_to_use, _minChanceCoincidence = lowest_cc_of(good_images)
             goodCoords = self.images[self.filter_to_use].\
                 objCoords[self.images[self.filter_to_use].bestCandidate]
-            for x in good_photozs + BAD_IMAGES:
+            #use object at that location in all images
+            for x in range(3,7):
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
+            #for x in good_photozs + BAD_IMAGES:
+            #    self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
         elif good_photozs:
             self.filter_to_use, minChanceCoincidence = lowest_cc_of(good_photozs)
             goodCoords = self.images[self.filter_to_use].\
@@ -1000,9 +1003,8 @@ class Supernova:
                 BAD_COUNT += 1
                 all_sn_data = {}
                 for x in range(3,7):
-                    all_sn_data.update(self.images[x].getDefaultData())
-#TODO* make sure used_default is correct                    
-                self.used_default=False
+                    all_sn_data.update(self.images[x].getDefaultData())                
+                self.used_default=True
                 #get non-filter-dependent data
                 all_sn_data.update(self.getSnFinalData(None))
                 print('ID: %s' % self.idNum)
@@ -1016,9 +1018,6 @@ class Supernova:
                 else:
                     return all_sn_data
             
-            
-            
-        self.used_default = True
         all_sn_data = {}
         chosen_im = self.images[self.filter_to_use]
         # get final data from the known good filter first
@@ -1063,7 +1062,7 @@ class Supernova:
         all_sn_data.update(self.getSnFinalData(chosen_loc))
         
     
-        if PLOT_ALL:
+        if PLOT_ALL and not self.used_default:
             for image in self.images[3:7]:
             #image = self.images[5]
                 image.plot(myVmin = 0, myVmax = 3000, my_title='final') 

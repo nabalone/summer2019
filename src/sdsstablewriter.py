@@ -64,8 +64,8 @@ for sn in sorted(list(sn_set)):
     w = WCS(filename)
     maxX = image_file[0].header['NAXIS1'] #image dimentions in pixels
     maxY = image_file[0].header['NAXIS2']
-    maxRa, maxDec = w.all_pix2world(1,maxY,1) #coordinates of the image corners
-    minRa, minDec = w.all_pix2world(maxX,1,1)
+    maxRa, maxDec = w.all_pix2world(1,maxY,0) #coordinates of the image corners
+    minRa, minDec = w.all_pix2world(maxX,1,0)
         
     # make query
     query = "SELECT p.ra, p.dec, p.type, p.modelMag_g, p.modelMag_r, \
