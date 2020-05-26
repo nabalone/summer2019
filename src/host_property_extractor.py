@@ -93,7 +93,7 @@ PLOT_ERR =  True #plots files when something eventful happens e.g. errors, low p
 ONLY_FLAG_ERRORS = True # catch errors, log and move on
 
 #TODO restore
-FILES = 'range' #options are 'all', 'new random', 'range', 
+FILES = 'all' #options are 'all', 'new random', 'range', 
 #'specified', 'nonsquare'. Use 'all' for normal usage, the rest are for debugging.
 #if 'specified', will run on the subset of files specified in SPECIFIED. 
 #if 'range', will run on subset from RANGE[0] file to the RANGE[1] file
