@@ -35,7 +35,6 @@ from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
-
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--mask', action='store_true', 
@@ -92,16 +91,16 @@ PLOT_ALL = True
 PLOT_ERR =  True #plots files when something eventful happens e.g. errors, low probabilities
 ONLY_FLAG_ERRORS = True # catch errors, log and move on
 
-#TODO restore
+
 FILES = 'all' #options are 'all', 'new random', 'range', 
 #'specified', 'nonsquare'. Use 'all' for normal usage, the rest are for debugging.
 #if 'specified', will run on the subset of files specified in SPECIFIED. 
 #if 'range', will run on subset from RANGE[0] file to the RANGE[1] file
 #e.g.:
-SPECIFIED = [SOURCEDIR + '/psc020121.3.fits', 
-             SOURCEDIR + '/psc020121.4.fits',
-             SOURCEDIR + '/psc020121.5.fits',
-             SOURCEDIR + '/psc020121.6.fits']
+SPECIFIED = [SOURCEDIR + '/psc310051.3.fits', 
+             SOURCEDIR + '/psc310051.4.fits',
+             SOURCEDIR + '/psc310051.5.fits',
+             SOURCEDIR + '/psc310051.6.fits']
 RANGE = (3,8)
 
 
@@ -747,6 +746,7 @@ class Image:
         if my_title=='final':
         # the plots going into PLOT_DIR are for debugging; only want 1 filter
         # plots going into PLOT_DIR2 are for the paper, so we want all filters
+
             if self.filterNum==5:
                     plt.title(my_title)
                     plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \

@@ -189,8 +189,9 @@ def load_data():
         rows, columns = np.asarray(X==idNum).nonzero()
         added = False
 
+#TODO make more robust
         for i in range(len(rows)):
-            if columns[i] == 0: # match is in the ID columnd
+            if columns[i] == 1: # match is in the ID columnd
                 props = X[rows[i]]
                 x_sep[typ].append(props)
                 added = True

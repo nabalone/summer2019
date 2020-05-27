@@ -17,7 +17,11 @@ import argparse
 import json
 import glob
 
-PROJ_HOME = os.environ['DATA_SRCDIR']
+#TODO RESTORE!!!
+print("If you see this message, script will not work, PROJ_HOME line needs to\
+       be uncommented")
+#PROJ_HOME = os.environ['DATA_SRCDIR']
+PROJ_HOME = "/mnt/c/Users/Noel/Desktop/summer2019/"
 OUTPUT_DIR = PROJ_HOME + '/src/outputs/'
 
 parser = argparse.ArgumentParser()
@@ -61,6 +65,7 @@ args, _remaining = parser.parse_known_args() # parser.parse_args()
 
 #TODO move utils to separate file
 
+DEFAULT_EPOCHS = 100
 
 def augment(images, corresponding_properties, num, rotate=True):
   
@@ -78,8 +83,8 @@ def augment(images, corresponding_properties, num, rotate=True):
                 image = np.fliplr(image)
         aug_images.append(image)
     if args.use_extracted:
-        raise
-#TODO Restore!!!!!
+        raise Exception("use_extracted not yet implemented")
+
         #aug_props.append(corresponding_properties[i%l])
     return (aug_images, aug_props)
             
@@ -99,8 +104,7 @@ def shuffle(X, y, X_sep=None):
             print(len(X_sep))
             raise Exception("shuffle x_sep uneqal lengths")
         if args.use_extracted:
-            raise
-        #TODO restore!!!!!!!
+            raise Exception("use_extracted not yet implemented")
         return (X[new_ind, :], y[new_ind], [])#X_sep[new_ind, :])
     else:
         return (X[new_ind, :], y[new_ind])
@@ -247,17 +251,16 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                  jth_X_train, jth_y_train, 
                  jth_X_test, jth_y_test)       
                      
-#TODO I DON'T KNOW IF ANY OF THE FOLLOWING IS CORRECT
             
     # if not plain kfolding, make "all_of" arrays: augmented of entire set of each type
     else:
+        X_all_of = [[],[],[],[],[]]   
         for i in range(5):
-            X_all_of = [[],[],[],[],[]]    
             train_aug_all, _train_aug_sep_all = augment(raw[i], 
                                                         [0]*len(raw[i]), 
                                                         aug_to[i])
             X_all_of[i] = list(crop(train_aug_all)) 
-        
+
     
     '''LOO Folding'''
     if num_splits == 'loo':
@@ -284,6 +287,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                     else:
                         X_train_fold.extend(X_all_of[j])
                         y_train_fold.extend([j]*len(X_all_of[j]))
+
                  
                 # shuffle training set and save
                 random.seed(1000*i+ind+ seed_offset)
@@ -354,9 +358,9 @@ def main():
     ia_only = args.ia_only
     three_categories = args.three_categories
 
-
+    #TODO check and implement USE_SAVED
     USE_SAVED = False
-    #TODO restore
+
     if args.ia_only:
         num_classes = 2
     elif three_categories:
@@ -367,8 +371,7 @@ def main():
     if args.n:
         epochs = args.n[0]
     else:
-    #TODO restore
-        epochs = 35
+        epochs = DEFAULT_EPOCHS
 
     save_dir = OUTPUT_DIR 
     model_name = 'aardvark_aug' + model_num + '.h5'
@@ -376,8 +379,6 @@ def main():
     if (args.use_extracted) and ia_only:
         raise(ValueError, "NOT YET IMPLEMENTED IA WITH EXTRACTED")
         exit(1)
-
-#TODO restore
 
 
     filname = "aug_all"

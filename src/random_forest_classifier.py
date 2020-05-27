@@ -106,17 +106,19 @@ if args.inside_only:
 
 '''getting columns from csv file with pandas'''
 def chooseAll(csvfile, num_random, include_id=False):
-    if include_id:
-        global cols
-        cols = ['ID'] + cols
+    if not include_id:
+        raise Exception("use include_id=True. Excluding id is no longer supported")
     data = pd.read_csv(csvfile)
-    X_orig = data.loc[:, cols].values
+    #X_orig = data.loc[:, cols].values
+    X_orig = data.values
     X_orig = np.nan_to_num(X_orig)
     y = []
     
+    X = X_orig
+#TODO this doesn't work because it replaces ID numbers. Find a better solution    
     #there shouldn't be any number greater than about 2000
     #replace any erroneously excessively large numbers with 0
-    X = np.where(X_orig > 100000, 0, X_orig)
+    #X = np.where(X_orig > 100000, 0, X_orig)
 #    X = []
 #    for i in X_orig:
 #        if np.max(i) < 100000:
