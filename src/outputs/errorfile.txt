@@ -795,3 +795,77 @@ warning, checking for matching photozs for far but likely candidate 340169.5
 warning, checking for matching photozs for far but likely candidate 340169.6
 365
 USING BEST CHANCE: 0.014229952552874292 340169.6
+366
+Best.0.028086613644228375.NO_GOOD_CANIDIDATE 340195.4
+374
+warning, checking for matching photozs for far but likely candidate 340276.3
+374
+USING BEST CHANCE: 0.0006030188166368244 340276.3
+376
+Best.0.5933341742019437.NO_GOOD_CANIDIDATE 340334.5
+389
+warning, checking for matching photozs for far but likely candidate 350235.3
+389
+warning, checking for matching photozs for far but likely candidate 350235.4
+395
+warning, checking for matching photozs for far but likely candidate 350607.3
+395
+warning, checking for matching photozs for far but likely candidate 350607.4
+401
+Best.0.046991915843123566.NO_GOOD_CANIDIDATE 360140.6
+403
+warning, checking for matching photozs for far but likely candidate 360359.4
+403
+warning, checking for matching photozs for far but likely candidate 360359.5
+404
+warning, checking for matching photozs for far but likely candidate 360359.6
+404
+Using photoz matched with cc: 0.009367368651228669 360359.6
+405
+warning, checking for matching photozs for far but likely candidate 370066.3
+409
+warning, checking for matching photozs for far but likely candidate 370290.3
+411
+warning, checking for matching photozs for far but likely candidate 370329.4
+411
+multiple matching photozs 370329.4
+411
+multiple matching photozs 370329.4
+411
+multiple matching photozs 370329.4
+416
+Using photoz matched with cc: 0.07606102201160647 370367.4
+422
+warning, checking for matching photozs for far but likely candidate 370498.3
+427
+warning, checking for matching photozs for far but likely candidate 370595.4
+427
+warning, checking for matching photozs for far but likely candidate 370595.6
+430
+Best.0.027606494393701442.NO_GOOD_CANIDIDATE 380040.6
+432
+Using photoz matched with cc: 0.09619762027038337 380108.4
+437
+warning, checking for matching photozs for far but likely candidate 390259.5
+438
+warning, checking for matching photozs for far but likely candidate 390259.6
+439
+warning, checking for matching photozs for far but likely candidate 390264.3
+439
+warning, checking for matching photozs for far but likely candidate 390264.4
+439
+warning, checking for matching photozs for far but likely candidate 390264.5
+440
+warning, checking for matching photozs for far but likely candidate 390264.6
+440
+USING BEST CHANCE: 0.006959746920845777 390264.6
+441
+warning, checking for matching photozs for far but likely candidate 390449.4
+441
+USING BEST CHANCE: 0.007091266308190569 390449.4
+444
+Best.0.06222698506682578.NO_GOOD_CANIDIDATE 390712.4
+445
+warning, checking for matching photozs for far but likely candidate 420100.6
+445
+multiple matching photozs 420100.6
