@@ -6,6 +6,11 @@ Created on Tue Aug  6 12:12:50 2019
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+import sys
+PROJ_HOME = os.environ['DATA_SRCDIR']
+sys.path.append(PROJ_HOME)
+from src.random_forest_classifier import cols
 
 def plot_importances(importances, feature_names, dest_name):
     a = []

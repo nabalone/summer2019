@@ -110,7 +110,7 @@ def pad(axis, side, image_data):
 def load_data():
     masks = np.load(OUTPUT_DIR + 'all_masks.npz')
     
-    X, _y = chooseAll(CSVFILE, 0, include_id=True)
+    X, _y = chooseAll(CSVFILE, 0, include_ID=True)
 
     x_test = [[],[],[],[],[]]
     x_sep = [[],[],[],[],[]]
@@ -171,8 +171,11 @@ def load_data():
         redshift = zdict[idNumString]
         all_colors.append(np.full(shp, redshift))
 
-
-        mask = masks[idNumString]
+        try:
+            mask = masks[idNumString]
+        except KeyError:
+            print("No mask found for %s in all_masks.npz" % idNumString)
+            continue
         if paddedX:
             mask = pad(0, paddedX, mask)
         if paddedY:
@@ -191,7 +194,7 @@ def load_data():
 
 #TODO make more robust
         for i in range(len(rows)):
-            if columns[i] == 1: # match is in the ID columnd
+            if columns[i] == 0: # match is in the ID columnd
                 props = X[rows[i]]
                 x_sep[typ].append(props)
                 added = True

@@ -21,6 +21,7 @@ PROJ_HOME = os.environ['DATA_SRCDIR']
 sys.path.append(PROJ_HOME)
 from src.utils.plot_cm import pad, plot_confusion_matrix
 from src.utils.plot_importances import plot_importances
+from src.host_property_extractor import COLUMNS
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -52,8 +53,10 @@ args = parser.parse_args()
 
 NUM_TREES = 700
 DESTDIR = PROJ_HOME + "/src/outputs"
-CSV_FILE = DESTDIR + '/galaxiesdata.csv'
-
+CSV_FILE = DESTDIR + '/may_26_2020_run/galaxiesdata.csv'
+#TODO restore CSV_FILE
+print("if you are reading this, script won't work, change CSV_FILE to \
+      DESTDIR + '/galaxiesdata.csv")
 ext = 'rf'
 if args.ia_only:
     ext = ext + '_ia'
@@ -68,20 +71,22 @@ random.seed(3)
 PLOT_DIR = DESTDIR + '/confusions_RF_whitened/'
 if not os.path.isdir(PLOT_DIR):
     os.mkdir(PLOT_DIR)
-
-cols1 = ['KronRad (kpc)_3', 'separation (kpc)_3', 'area (kpc^2)_3', 'sep/sqrt(area) (kpc)_3', \
- 'KronMag_3', 'Abs. Mag_3','Ellipticity_3', 'pixelRank_3', 'chanceCoincidence_3']
+    
+EXCLUDED_COLS = {'ID', 'comparison', 'RA', 'DEC', 'x', 'y'}
 if args.no_redshift:
-    print("Not including redshift.")
-else:
-    print("Including redshift.")
-    cols1.append('redshift_3')
+    EXCLUDED_COLS.add('Redshift')
+cols = []
+for column in COLUMNS:
+    exclude_this_column=False
+    for excluded_column in EXCLUDED_COLS:
+        if excluded_column in column:
+            exclude_this_column=True
+            break
+    if not exclude_this_column:
+        cols.append(column)
+print("columns to use: %s" % str(cols))
 
-cols = cols1[:]
-for i in range(4,7):
-    for e in cols1:
-        cols.append(e[:-1] + str(i))
-       
+
 names = []
 for i in cols:
     new=i.replace('3', 'g').replace('4', 'r').replace('5', 'i').replace('6', 'z')
@@ -105,13 +110,15 @@ if args.inside_only:
     ins_set = INSIDE['SNIa'] | INSIDE['SNIbc'] | INSIDE['SNII'] | INSIDE['SNIIn'] 
 
 '''getting columns from csv file with pandas'''
-def chooseAll(csvfile, num_random, include_id=False):
-    if not include_id:
-        raise Exception("use include_id=True. Excluding id is no longer supported")
+def chooseAll(csvfile, num_random, include_ID=False):
+    if include_ID:
+        cols_to_use = ['ID'] + cols
+    else:
+        cols_to_use= cols
     data = pd.read_csv(csvfile)
-    #X_orig = data.loc[:, cols].values
-    X_orig = data.values
-    X_orig = np.nan_to_num(X_orig)
+    X_orig = data.loc[:, cols_to_use].values
+    #X_orig = data.values
+    X_orig = np.nan_to_num(X_orig, posinf=1000000., neginf=-1000000.)
     y = []
     
     X = X_orig
@@ -171,9 +178,7 @@ def collect(num_random):
 Generates confusion matrix (visualization of success and error) and plot of
 feature importances to classification'''
 #and importance plots
-def run(X, y, n_est, name_extension):
-    # with help from Victory Ashley Villar
-    
+def run(X, y, n_est, name_extension):    
         if args.kfold:
             val_folds = StratifiedKFold(n_splits=args.kfold).split(X, y)
         elif args.loo:
@@ -207,11 +212,13 @@ def run(X, y, n_est, name_extension):
         if not args.all: #save model test results
             np.save(name_extension + '_ytrue', y_true)
             np.save(name_extension + '_ypred', y_pred)
-            plot_confusion_matrix(y, y_pred, name_extension='rf_cm' + name_extension)
+            plot_confusion_matrix(y, y_pred, name_extension=name_extension + '_conf_matrix')
             importances = clf.feature_importances_
             importances = np.array(importances)
-            plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
             np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
+            #TODO restore!!!
+            #print("importance plotting still needs to be fixed in utils/plot_importances.py")
+            plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
         else: # save trained algorithm
             filename = DESTDIR + "/final_trained_rf%s.pkl" \
                     % ("_ia_only" if args.ia_only else "")
@@ -235,3 +242,28 @@ def main():
 
 if __name__=='__main__':
     main()
+    
+    '''   
+    
+                                    Hi Hi Hi Hi Hi Hi
+                             Hi.                               Hi
+                          Hi.          Hi.       Hi.           Hi
+                      Hi hi.                                       Hi hi
+                      Hi hi.                Hi                    Hi. Hi
+                           Hi.          HiHiHiHi.             Hi 
+                                Hi.                               Hi 
+                                      Hi hi hi hi hi hi hi 
+                      Hi                       Hi
+                      Hi                       Hi
+                           Hi.                  Hi
+                               Hi. Hi hi hi hi. Hi hi Hi
+                                                 Hi.            Hi
+                                                 Hi.          Hi
+                                                 Hi.  Hi hi   
+                                                 Hi
+                                             Hi.   Hi 
+                                          Hi.         Hi
+                                       Hi.               Hi
+    
+    
+    '''

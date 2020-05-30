@@ -74,6 +74,8 @@ PSF = 4 #the FWHM
 MINAREA = 3.14 * (PSF/2)**2 #area of a circle with psf diameter
 DEBLEND_CONT = 0.01 # for sep.extract. 1.0 turns off deblending, 0.005 is default
 MINDIST = 0.0005*u.deg #dist. an sdss object must be within to identify as
+#0.001 deg = 3.6" = roughly 15 pixels.
+#with MINDIST=0.0005deg, some objects were not getting connected with their corresponding sdss object
 FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag_z']
 #in fits file naming psc12345.x.fits, filter numbers x of 3,4,5,6 correspond to
 #filters g,r,i,z respectively
