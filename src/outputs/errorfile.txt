@@ -869,3 +869,11 @@ Best.0.06222698506682578.NO_GOOD_CANIDIDATE 390712.4
 warning, checking for matching photozs for far but likely candidate 420100.6
 445
 multiple matching photozs 420100.6
+456
+warning, checking for matching photozs for far but likely candidate 430003.3
+456
+warning, checking for matching photozs for far but likely candidate 430003.4
+456
+warning, checking for matching photozs for far but likely candidate 430003.6
+456
+USING BEST CHANCE: 0.011324845015265206 430003.4
