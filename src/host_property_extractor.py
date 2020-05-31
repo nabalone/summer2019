@@ -10,6 +10,9 @@ sdss_queries.dat
 
 '''
 
+# Note: filters 3,4,5,6 are g,r,i,z respectively
+# Types 0,1,2,3,4 are types Ia, Ibc, II, IIn, and superluminous respectively
+
 import numpy as np
 import pandas as pd
 import os
@@ -82,6 +85,19 @@ FILTERS = [None, None, None, 'modelMag_g', 'modelMag_r', 'modelMag_i', 'modelMag
 LIKELIHOOD_THRESH = 0.2 # only choose hosts with chance coincidence below this 
 TYPES = {'SNIIn', 'SNIa', 'SNII', 'SNIbc', 'SLSNe'}
 
+#Note: as of 5/30/2020, galaxies which contain the event location are prioritized, followed by 
+#galaxies with lowest chance coincidence under CHANCE_COINCIDENCE_THRESH, followed by galaxies with 
+#photozs matching within PHOTOZ_MATCHING_THRESH and chance coincidence under PHOTOZ_MATCHED_CHANCE_COINCIDENCE_THRESH 
+CHANCE_COINCIDENCE_THRESH = 0.02 # For an object which does not touch the event location and does not 
+# have a photoz matching the event redshift, it must have chance coinicidence below this number to
+# be chosen as the most likely host.
+PHOTOZ_MATCHING_THRESH = 0.1 # maximum relative difference between sn redshift and galaxy photoz 
+# for it to be considered a photoz match. Calculated as abs(photoz - event z )/ event z
+PHOTOZ_MATCHED_CHANCE_COINCIDENCE_THRESH = 0.16 # For an object which does not touch the event location 
+#and does not have a photoz matching the event redshift, it must have chance coinicidence below this number to
+# be chosen as the most likely host.
+
+
 #has been replaced by two_sigma_mag
 #Magnitude used for all effectively undetectable objects
 #LOWEST_MAG = 26 #the limiting mag is 25
@@ -93,7 +109,6 @@ PLOT_ALL = True
 PLOT_ERR =  True #plots files when something eventful happens e.g. errors, low probabilities
 ONLY_FLAG_ERRORS = True # catch errors, log and move on
 
-
 FILES = 'all' #options are 'all', 'new random', 'range', 
 #'specified', 'nonsquare'. Use 'all' for normal usage, the rest are for debugging.
 #if 'specified', will run on the subset of files specified in SPECIFIED. 
@@ -103,7 +118,7 @@ SPECIFIED = [SOURCEDIR + '/psc310051.3.fits',
              SOURCEDIR + '/psc310051.4.fits',
              SOURCEDIR + '/psc310051.5.fits',
              SOURCEDIR + '/psc310051.6.fits']
-RANGE = (3,8)
+RANGE = (100,400)
 
 
 m0collector = [None, None, None, [], [], [], []] #saved for use in future runs
@@ -474,33 +489,47 @@ class Image:
     def attemptBestCandidate(self):
         if len(self.objects) == 0: # no objects were detected in this image
             self.bestCandidate = None
-            return False
+            return None
         
+        # Check for a galaxy which contains the event location inside itself
+        surrounding_candidates = []
+        for candidate in range(len(self.objects)):
+            if self.isEventIn(candidate):
+                surrounding_candidates.append(candidate)
+        if surrounding_candidates:
+            # there might be multiple overlapping objects due to deblending issues,
+            # hopefully this will pick the biggest/most central
+            self.bestCandidate = min(surrounding_candidates, 
+                                     key=lambda x:self.chanceCoincidence[x])
+            return "location matched"
+        
+        # if no host surrounding, choose most likely host if less than 2% chance coincidence
         self.bestCandidate = np.argmin(self.chanceCoincidence)
-        photoz_matched = False # whether bestCandidate was chosen by photoz
-        # If a candidate not touching event location is chosen, check if any 
-        # other objects have photoz matching event redshift, use if so
-
-        if not self.isEventIn(self.bestCandidate):
-            if self.chanceCoincidence[self.bestCandidate] < 0.02:
-                self.errorProtocol("warning, checking for matching photozs for far but likely candidate")
-             
-            # check for objects with photoz within 10% of event redshift
-            # choose matching redshift object with lowest chance coincidence
-            for k in range(len(self.photozs)):
-                if self.photozs[k] and abs(self.photozs[k] - self.eventz)/self.eventz < 0.1:
-                    if not photoz_matched: #first time we find matching photoz
-                        #use instead
-                        self.bestCandidate = k
-                        photoz_matched = True
-                    else: #this is 2nd+ matching photoz galaxy we have found
-                        self.errorProtocol("multiple matching photozs")
-                        #use instead only if lower chanceCoincidence 
-                        if self.chanceCoincidence[k] < self.chanceCoincidence[self.bestCandidate]:
-                               self.bestCandidate = k
-
-                  
-        return photoz_matched
+        if self.chanceCoincidence[self.bestCandidate] < CHANCE_COINCIDENCE_THRESH:
+            #self.errorProtocol("no surrounding host, chosen by cc")
+            return "cc matched"
+    
+        # if no success so far,             
+        # check for mody likely object with photoz within 10% of event redshift
+        # and less than 16 % chance coincidence
+        photoz_matched = False
+        for k in range(len(self.photozs)):
+            if self.photozs[k] and abs(self.photozs[k] - self.eventz)/self.eventz < PHOTOZ_MATCHING_THRESH \
+               and self.chanceCoincidence[k] < PHOTOZ_MATCHED_CHANCE_COINCIDENCE_THRESH:
+                if not photoz_matched: #first time we find matching photoz
+                    #use instead
+                    self.bestCandidate = k
+                    self.errorProtocol("photozmatch")
+                    photoz_matched = True
+                else: #this is 2nd+ matching photoz galaxy we have found
+                    
+                    #use instead only if lower chanceCoincidence 
+                    if self.chanceCoincidence[k] < self.chanceCoincidence[self.bestCandidate]:
+                           self.bestCandidate = k
+        if photoz_matched:
+            return "photoz matched"
+        else:
+            return None
     
     # Like sep.sum_ellipse but extrapolates if cut-off objects.
     # Assumes symmetry. If cut-off, returns 4*flux in most-intact quarter
@@ -749,17 +778,17 @@ class Image:
         # the plots going into PLOT_DIR are for debugging; only want 1 filter
         # plots going into PLOT_DIR2 are for the paper, so we want all filters
 
-            if self.filterNum==5:
-                    plt.title(my_title)
-                    plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
-                    + str(namecountgen()) + ".png", dpi=150)
+#            if self.filterNum==5:
+#                    plt.title(my_title)
+#                    plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
+#                    + str(namecountgen()) + ".png", dpi=150)
             plt.title(' ')
             filterletter={3:'g', 4:'r', 5:'i',6:'z'}
             plt.savefig(PLOT_DIR2 + "/z%s_sn%s_type%s_%s.png" % (self.eventz, \
                         self.idNumString, typeDict[self.idNumString], \
                         filterletter[self.filterNum]))
         else:
-            if self.filterNum==5:
+            #if self.filterNum==5: #not sure why this line was there
                 plt.title(my_title)
                 plt.savefig(PLOT_DIR + "/galaxyimage" + self.idNumString + '_' \
                         + str(namecountgen()) + ".png", dpi=150)
@@ -830,16 +859,21 @@ class Supernova:
     # data from the hosts.dat file, NOT calculated by this script
     # and will be used for testing, comparison, to check our work
     # not used for actual research/results
-    def getSnFinalData(self, chosen_loc): #chosen_loc is location of our chosen host
+    def getSnFinalData(self, chosen_loc, host_found=True): #chosen_loc is location of our chosen host
         best_image = self.images[self.filter_to_use]
         finalDict = {'ID':self.idNum}
         finalDict['Redshift'] = best_image.eventz
         finalDict['Event RA'] = best_image.event['ra']
         finalDict['Event DEC'] = best_image.event['dec']
-        finalDict['Host RA'] = best_image.ra[best_image.bestCandidate]
-        finalDict['Host DEC'] = best_image.dec[best_image.bestCandidate]
         
-        comparison_hostRa =  comparisonHostsData[self.idNumString]['host_ra'] #'real'
+        if host_found:
+            finalDict['Host RA'] = best_image.ra[best_image.bestCandidate]
+            finalDict['Host DEC'] = best_image.dec[best_image.bestCandidate]
+        else:
+            finalDict['Host RA'] = FILLER_VAL
+            finalDict['Host DEC'] = FILLER_VAL
+            
+        comparison_hostRa = comparisonHostsData[self.idNumString]['host_ra'] #'real'
         comparison_hostDec = comparisonHostsData[self.idNumString]['host_dec'] #'real'
         try:
             #convert to decimal deg:
@@ -884,30 +918,30 @@ class Supernova:
         self.event = event
               
         self.images = [None]*7
-        good_images = [] #images in which a host surrounding sn location was found
-        BAD_IMAGES = []  #images in which no good host was found
+        good_locations = [] #images in which a host surrounding sn location was found
+        good_ccs = []
         good_photozs = [] #images in which a host was found farther but with matching redshift
+        BAD_IMAGES = []  #images in which no good host was found
         for x in range(3,7):
             self.images[x] = Image(self.idNumString, x, event)
             self.images[x].run()
             
             #computes and stores the best host candidate, then returns whether
             #it had a photoz matching the sn redshift
-            photozMatched = self.images[x].attemptBestCandidate()
+            match_method = self.images[x].attemptBestCandidate()
             
             #check if the host chosen for this filter has the sn within it
             #if so put this filter number good_images
             chosen_host = self.images[x].bestCandidate
             if chosen_host != None: 
-                if self.images[x].isEventIn(chosen_host):
-                    good_images.append(x)
-#kronrad is highly variable, don't use here
-#                separation = self.images[x].objCoords[chosen_host].separation(event['coords'])
-#                kronrad = self.images[x].kronrad[chosen_host]
-#                if separation < kronrad:
-#                    good_images.append(x)
+                if match_method== "location matched":
+                    good_locations.append(x)
                     
-                elif photozMatched:
+                elif match_method== "cc matched":
+                    good_ccs.append(x)
+
+                    
+                elif match_method=="photoz matched":
                     #chosen host was found farther but had matching redshift
                     good_photozs.append(x)
                     
@@ -920,30 +954,7 @@ class Supernova:
         
         if args.mask:
             global masks
-        
-        '''choose candidates'''  
-        #TODO* rewrite for clarity
-        '''compare between filters, looking for the ultimate host of the 
-        filters which found a host surrounding the sn location, pick the 
-        ultimate host from the filter with the lowest chance coincidence. 
-        (Even though they are probably all the same). For all the filters 
-        who did NOT find and choose a host surrounding the SN, force them to 
-        choose a host matching the ultimate host.
-        
-        If however no filter chose a host which was surrounding the sn, 
-        look at the filters which chose a host with matching photoz to the 
-        sn redshift. Of those, take the host with the lowest chance coincidence
-        to be the ultimate host. Correct all other filters to match the 
-        ultimate host.
 
-        If no hosts with matching photoz were found either, take the host from 
-        all the filters which had the lowest chance coincidence, provided that 
-        chance coincidence was less than 0.2, and force all the other filters 
-        to match it.
-
-        However if no host with chance coincidence under 0.2 was found in any 
-        of the filters, use default data
-        '''
         
         def lowest_cc_of(IMAGE_LIST):
             # find minimum chance coincidence object
@@ -969,46 +980,38 @@ class Supernova:
         
         #filter_to_use is the filter from which host is officially chosen
         self.used_default=False #will be set to true if no decent images
-        if good_images:
-            self.filter_to_use, _minChanceCoincidence = lowest_cc_of(good_images)
+        
+        def correct_all_to_best_of(image_list, errormsg):
+            self.filter_to_use, _minChanceCoincidence = lowest_cc_of(image_list)
             goodCoords = self.images[self.filter_to_use].\
                 objCoords[self.images[self.filter_to_use].bestCandidate]
             #use object at that location in all images
             for x in range(3,7):
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
-            #for x in good_photozs + BAD_IMAGES:
-            #    self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
-        elif good_photozs:
-            self.filter_to_use, minChanceCoincidence = lowest_cc_of(good_photozs)
-            goodCoords = self.images[self.filter_to_use].\
-                objCoords[self.images[self.filter_to_use].bestCandidate]
-            #use object at that location in all images
-            for x in range(3,7):
-                self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
+                
             self.images[self.filter_to_use].errorProtocol(
-                "Using photoz matched with cc: %s" % minChanceCoincidence)
+                errormsg)
+        
+        if good_locations:
+            correct_all_to_best_of(good_locations, errormsg="chosen by location")
+        elif good_ccs:
+            correct_all_to_best_of(good_ccs, errormsg="chosen by cc")
+        elif good_photozs:
+            correct_all_to_best_of(good_photozs, errormsg="chosen by photoz")
+            
 #TODO* test all combinations of good images, bad_images, no objects images            
         else:
-            self.filter_to_use, minChanceCoincidence = lowest_cc_of(BAD_IMAGES)
-            if minChanceCoincidence <= 0.02:
-                self.images[self.filter_to_use].errorProtocol(
-                        "USING BEST CHANCE: %s" % minChanceCoincidence)
-                goodCoords = self.images[self.filter_to_use].\
-                    objCoords[self.images[self.filter_to_use].bestCandidate]
-                for i in range(3,7):
-                    self.images[i].correct_bestCandidate_to(goodCoords, self.filter_to_use)
-            else:
+                self.filter_to_use = 5
                 #no good candidates at all, GET DEFAULT DATA AND RETURN
-                self.images[self.filter_to_use].errorProtocol(
-                        "Best.%s.NO_GOOD_CANIDIDATE" % minChanceCoincidence)
+                self.images[self.filter_to_use].errorProtocol("No good candidate")
                 global BAD_COUNT
                 BAD_COUNT += 1
-                all_sn_data = {}
+                all_sn_data_default = {}
                 for x in range(3,7):
-                    all_sn_data.update(self.images[x].getDefaultData())                
+                    all_sn_data_default.update(self.images[x].getDefaultData())                
                 self.used_default=True
                 #get non-filter-dependent data
-                all_sn_data.update(self.getSnFinalData(None))
+                all_sn_data_default.update(self.getSnFinalData(None))
                 print('ID: %s' % self.idNum)
                 if args.mask:
                     #global masks
@@ -1018,8 +1021,9 @@ class Supernova:
                     return#((np.zeros((240,240)), 
                             #[self.images[0], self.images[1], self.images[2], self.images[3]]))
                 else:
-                    return all_sn_data
-            
+                    return all_sn_data_default
+        
+        # if we got here there was some sort of good host so we didn't return yet
         all_sn_data = {}
         chosen_im = self.images[self.filter_to_use]
         # get final data from the known good filter first
