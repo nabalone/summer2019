@@ -5,6 +5,9 @@ Created on Wed Jul  3 12:51:52 2019
 @author: Noel
 """
 
+# Note: filters 3,4,5,6 are g,r,i,z respectively
+# Types 0,1,2,3,4 are types Ia, Ibc, II, IIn, and superluminous respectively
+
 import os
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -53,10 +56,8 @@ args = parser.parse_args()
 
 NUM_TREES = 700
 DESTDIR = PROJ_HOME + "/src/outputs"
-CSV_FILE = DESTDIR + '/may_26_2020_run/galaxiesdata.csv'
-#TODO restore CSV_FILE
-print("if you are reading this, script won't work, change CSV_FILE to \
-      DESTDIR + '/galaxiesdata.csv")
+CSV_FILE = DESTDIR + '/galaxiesdata.csv'
+
 ext = 'rf'
 if args.ia_only:
     ext = ext + '_ia'
@@ -117,8 +118,16 @@ def chooseAll(csvfile, num_random, include_ID=False):
         cols_to_use= cols
     data = pd.read_csv(csvfile)
     X_orig = data.loc[:, cols_to_use].values
+    X_orig = X_orig.astype(float)
+    
+    # since previous versions of numpy nan_to_num do not suport posinf args, 
+    # cap all values at 1000000. Otherwise we hit errors later
+    X_orig = np.where(X_orig>1000000, 1000000, X_orig)
+    X_orig = np.where(X_orig<-1000000, -1000000, X_orig)
     #X_orig = data.values
-    X_orig = np.nan_to_num(X_orig, posinf=1000000., neginf=-1000000.)
+    X_orig = np.nan_to_num(X_orig)#, posinf=1000000., neginf=-1000000.)
+    X_orig = np.where(X_orig > 9000000, 9000000, X_orig)
+    X_orig = np.where(X_orig > 9000000, 9000000, X_orig)
     y = []
     
     X = X_orig
@@ -217,8 +226,8 @@ def run(X, y, n_est, name_extension):
             importances = np.array(importances)
             np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
             #TODO restore!!!
-            #print("importance plotting still needs to be fixed in utils/plot_importances.py")
-            plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
+            print("importance plotting still needs to be fixed in utils/plot_importances.py")
+            #plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
         else: # save trained algorithm
             filename = DESTDIR + "/final_trained_rf%s.pkl" \
                     % ("_ia_only" if args.ia_only else "")

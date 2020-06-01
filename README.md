@@ -11,6 +11,10 @@ Host galaxy detection and property extraction: src/host_property_extractor.py
 Random forrest classifier: src/random_forrest_classifier.py  
 Convolutional Neural Network (in progress): src/cnn_classifier.py  
 
+# Note: 
+Types 0,1,2,3,4 are types Ia, Ibc, II, IIn, and superluminous respectively                                                                                                                                 
+Filters 3,4,5,6 are g,r,i,z respectively
+
 ## Description
 Optical surveys are discovering supernovae at exponentially increasing rates. In 2023, LSST (the Large Synoptic Survey Telescope) will begin surveying, and it is predicted to discover 1 million supernovae per year. The current rate of discovery is about 10,000 per year, so this is a 100-fold increase, the largest increase in supernova detection in history. The traditional method of classifying supernovae using spectroscopy is expensive and slow, so only a fraction of these discovered supernovae will receive spectroscopic classification. Therefore, developing other classification methods is currently important and urgent. <p>
 A great amount of work has been done in developing classification methods using photometry. However, little has been done using the host galaxy of a supernova, which also contains valuable information for predicting the type of the supernova. <p>

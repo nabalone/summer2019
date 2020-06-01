@@ -4,6 +4,10 @@ Created on Tue Jul 16 15:02:48 2019
 
 @author: Faith
 """
+
+# Note: filters 3,4,5,6 are g,r,i,z respectively
+# Types 0,1,2,3,4 are types Ia, Ibc, II, IIn, and superluminous respectively
+
 import numpy as np
 import pandas as pd
 import os
@@ -17,10 +21,11 @@ from astropy.io import fits
 from astropy.wcs import WCS
 from astropy import units as u
 from astropy.coordinates import SkyCoord
+import sep
 
 PROJ_HOME = os.environ['DATA_SRCDIR']
 sys.path.append(PROJ_HOME)
-from src.random_forest_classifier import chooseAll
+#from src.random_forest_classifier import chooseAll
 
 #supress fits warnings
 import warnings
@@ -110,10 +115,10 @@ def pad(axis, side, image_data):
 def load_data():
     masks = np.load(OUTPUT_DIR + 'all_masks.npz')
     
-    X, _y = chooseAll(CSVFILE, 0, include_ID=True)
+#    X, _y = chooseAll(CSVFILE, 0, include_ID=True)
 
     x_test = [[],[],[],[],[]]
-    x_sep = [[],[],[],[],[]]
+#    x_sep = [[],[],[],[],[]]
     
     filenames = glob.glob(PIXDIR + 'psc*.[3].fits')
     for full_filename in filenames:
@@ -129,6 +134,12 @@ def load_data():
             filename = full_filename[:-6] + str(i) + full_filename[-5:]   
             with fits.open(filename) as image_file:
                 image_data = image_file[0].data
+                exposure_time = float(image_file[0].header['EXPTIME'])
+                image_data = image_data.byteswap(True).newbyteorder()
+                # subtracting out background
+                image_data = image_data - sep.Background(image_data) 
+                image_data = image_data / exposure_time
+        
             
             # find pixel coordinates of event
             event = db.where(db['eventID'] == idNum).dropna()
@@ -188,25 +199,25 @@ def load_data():
         typ = intDict[typeDict[idNumString]]
         x_test[typ].append(all_colors)
 
-        #lookup IDnum in SEP properties table from csv
-        rows, columns = np.asarray(X==idNum).nonzero()
-        added = False
-
-#TODO make more robust
-        for i in range(len(rows)):
-            if columns[i] == 0: # match is in the ID columnd
-                props = X[rows[i]]
-                x_sep[typ].append(props)
-                added = True
-                break
-        if not added:
-            print("no properties found for " + idNumString)
+#        #lookup IDnum in SEP properties table from csv
+#        rows, columns = np.asarray(X==idNum).nonzero()
+#        added = False
+#
+#
+#        for i in range(len(rows)):
+#            if columns[i] == 0: # match is in the ID columnd
+#                props = X[rows[i]]
+#                x_sep[typ].append(props)
+#                added = True
+#                break
+#        if not added:
+#            print("no properties found for " + idNumString)
 
     for i in range(len(x_test)):
         x_test[i] = np.array(x_test[i])
         x_test[i] = np.transpose(x_test[i], [0,2,3,1])
         np.save(OUTPUT_DIR + "x_all2_%s" % i, x_test[i])
-        np.save(OUTPUT_DIR + "x_sep2_%s" % i, x_sep[i])
+#        np.save(OUTPUT_DIR + "x_sep2_%s" % i, x_sep[i])
 
 def main():
     load_data()

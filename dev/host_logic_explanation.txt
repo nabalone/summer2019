@@ -1,0 +1,24 @@
+Are there any valid objects detected in any of the filters which contains the event location pixel?
+
+       *a "valid object" is a source detected by Source Extractor Python which does not coincide with a star catalogued in SDSS and does not have anything wacky going on (e.g. being only 1 pixel wide) which might prevent photometry.
+
+       If so, pick whichever has the lowest chance coincidence, and use that same object as chosen host in all filters.
+
+       *if the chosen host is not detected in certain other filters, for those filter(s) use the host property data collected in the filter in which the chosen host had the lowest chance coincidence, except adjust the magnitude and chance coincidence by forcing photometry on the ellipse surrounding the location of the chosen host. 
+
+       If not, are there any valid objects detected in any of the filters which have chance coincidence less than 2%?
+
+           If so, pick whichever has the lowest chance coincidence, and use that same object as chosen host in all filters.
+
+           If not, are there any valid objects detected in any of the filters which have a photoz matching the supernova redshift within 10% and also have chance coincidence under 16%?
+
+               If so, pick whichever has the lowest chance coincidence, and use that same object as chosen host in all filters.
+
+               If not, use default data from all filters, which is largely drawn from medians of host properties from the rest of the supernovae.
+
+
+   In otherwords:
+       The chosen host will be a source detected by Source Extractor Python which does not coincide with a star catalogued in SDSS and does not have anything wacky going on (e.g. being only 1 pixel wide) which might prevent photometry.
+       The same object will be used as the chosen host in all filters. If a object is chosen as host which is not detected in certain filters, in those filter(s) use the host property data collected in the filter in which the chosen host had the lowest chance coincidence, except adjust the magnitude and chance coincidence by forcing photometry on the ellipse surrounding the location of the chosen host. 
+	The chosen host is the object of with the lowest chance of coincidence in the first of the following categories to contain a valid source: 1) sources which contain the pixel corresponding to the supernova location; 2) sources which have chance coincidence under 2%; 3) sources which have a photoz matching the supernova redshift to within 10% and also have a chance of coincidence under 16%. 
+	If no valid objects are found in any of those categories, default data is used, drawn from medians over the rest of the supernova dataset.

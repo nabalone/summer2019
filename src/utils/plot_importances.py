@@ -4,15 +4,45 @@ Created on Tue Aug  6 12:12:50 2019
 
 @author: Faith
 """
+# Note: filters 3,4,5,6 are g,r,i,z respectively
+# Types 0,1,2,3,4 are types Ia, Ibc, II, IIn, and superluminous respectively
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
 PROJ_HOME = os.environ['DATA_SRCDIR']
 sys.path.append(PROJ_HOME)
-from src.random_forest_classifier import cols
+
+last_color = None
+def next_color():
+    return('b')
 
 def plot_importances(importances, feature_names, dest_name):
+    #feature_names correspond to the first entries of importances, the remaining
+    #importances are random numbers
+    a = []
+    labels = []
+    colors = []
+    filter_specific = []
+    for i in range(len(feature_names)):
+        if feature_names[i][-2:] not in {'_3','_4','_5','_6'}: 
+            #name is not a per-filter property which would end in _filternumber
+            a.append(importances[i])
+            labels.append(feature_names[i])
+            colors.append(next_color())
+        else:
+            filter_specific.append((importances[i], feature_names[i]))
+    filter_specific.sort(key=lambda x:x[1])
+    for feature_importance, feature_name in filter_specific:
+        a.append(feature_importance)
+        labels.append(feature_name)
+        colors.append(next_color())
+            
+    
+    
+    
+    
     a = []
     labels = []
     for j in range(10):

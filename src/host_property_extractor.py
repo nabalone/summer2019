@@ -982,7 +982,7 @@ class Supernova:
         self.used_default=False #will be set to true if no decent images
         
         def correct_all_to_best_of(image_list, errormsg):
-            self.filter_to_use, _minChanceCoincidence = lowest_cc_of(image_list)
+            self.filter_to_use, minChanceCoincidence = lowest_cc_of(image_list)
             goodCoords = self.images[self.filter_to_use].\
                 objCoords[self.images[self.filter_to_use].bestCandidate]
             #use object at that location in all images
@@ -990,7 +990,7 @@ class Supernova:
                 self.images[x].correct_bestCandidate_to(goodCoords, self.filter_to_use)
                 
             self.images[self.filter_to_use].errorProtocol(
-                errormsg)
+                errormsg + " cc: %s"%minChanceCoincidence) 
         
         if good_locations:
             correct_all_to_best_of(good_locations, errormsg="chosen by location")

@@ -1,4 +1,5 @@
-
+# Note: Types 0,1,2,3,4 are types Ia, Ibc, II, IIn, and superluminous respectively
+# Filters 3,4,5,6 are g,r,i,z respectively
 from __future__ import print_function
 from keras.models import Model
 from keras.layers import Input, Dense, Dropout, Activation, Flatten
@@ -17,11 +18,9 @@ import argparse
 import json
 import glob
 
-#TODO RESTORE!!!
-print("If you see this message, script will not work, PROJ_HOME line needs to\
-       be uncommented")
-#PROJ_HOME = os.environ['DATA_SRCDIR']
-PROJ_HOME = "/mnt/c/Users/Noel/Desktop/summer2019/"
+
+PROJ_HOME = os.environ['DATA_SRCDIR']
+#PROJ_HOME = "/mnt/c/Users/Noel/Desktop/summer2019/"
 OUTPUT_DIR = PROJ_HOME + '/src/outputs/'
 
 parser = argparse.ArgumentParser()
@@ -81,6 +80,12 @@ def augment(images, corresponding_properties, num, rotate=True):
                 image = np.flipud(image)
             if random.random() > 0.5:
                 image = np.fliplr(image)
+            
+            #Correct rounding errors in the mask layer
+            maxval = np.max(image[5])
+            halfmax = maxval / 2
+            image[5] = np.where(image[5] > halfmax, maxval, 0)
+            
         aug_images.append(image)
     if args.use_extracted:
         raise Exception("use_extracted not yet implemented")
@@ -580,7 +585,7 @@ def main():
                 os.mkdir(OUTPUT_DIR + 'cnn_kfold_results')
             np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold, y_pred)
             np.save(OUTPUT_DIR + 'cnn_kfold_results/y_true_fold%s' % args.k_fold, y_full_test_orig)
-        cm = confusion_matrix(y_full_test_orig, y_pred_2)
+        f = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
     
     elif args.all:
