@@ -225,9 +225,7 @@ def run(X, y, n_est, name_extension):
             importances = clf.feature_importances_
             importances = np.array(importances)
             np.save(DESTDIR + "/importances" + ext, importances, allow_pickle=True, fix_imports=True)
-            #TODO restore!!!
-            print("importance plotting still needs to be fixed in utils/plot_importances.py")
-            #plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
+            plot_importances(importances, names, DESTDIR + "/importances%s.png" % ext)
         else: # save trained algorithm
             filename = DESTDIR + "/final_trained_rf%s.pkl" \
                     % ("_ia_only" if args.ia_only else "")

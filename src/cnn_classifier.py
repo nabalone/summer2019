@@ -189,12 +189,13 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
     raw = [[],[],[],[],[]] 
     for i in range(5):#for each type
         #load all data of that type
-        #dividing by arbitrary 1000000 to avoid overflows
         if mask:
-            raw[i] = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')/1000000.
+            #TODO restore!!!
+            #print("IMPORTANT: CNN WON'T WORK!")
+            raw[i] = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')
             #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
         else:
-            raw[i] = np.load(OUTPUT_DIR + "x_all_%s.npy" % i).astype('float32')/1000000.
+            raw[i] = np.load(OUTPUT_DIR + "x_all_%s.npy" % i).astype('float32')
             #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
             
         #shuffle the data for this type
@@ -233,7 +234,11 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                 #crop all images from 240x240 to 160x160 to eliminate the blank
                 #corners caused by rotation in augmentation
                 # distribute among folds
-                jth_X_train.extend(crop(train_aug))
+                #jth_X_train.extend(crop(train_aug))
+                #TODO restore!!
+                print("IMPORTANT!!! SCRIPT WON'T WORK! RESTORE!")
+                answers = i * np.ones(np.array(crop(train_aug)).shape)
+                jth_X_train.extend(answers)
                 jth_y_train.extend([i]*len(train_aug))
                 
                 #only "augmented" up to original length, so no rotations added

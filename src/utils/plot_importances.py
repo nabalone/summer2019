@@ -14,9 +14,19 @@ import sys
 PROJ_HOME = os.environ['DATA_SRCDIR']
 sys.path.append(PROJ_HOME)
 
-last_color = None
-def next_color():
-    return('b')
+last_prop = '-100'
+last_color_num = 0
+#colors = ['r','b','g','c','m','k']
+colors = ['#d73027', '#fc8d59', '#fee090', 
+          '#91bfdb', '#4575b4']
+def next_color(prop=''):
+    global last_prop
+    global last_color_num
+    if prop[:-2] != last_prop[:-2]:
+        last_color_num += 1
+        if prop:
+            last_prop = prop
+    return(colors[last_color_num % len(colors)])
 
 def plot_importances(importances, feature_names, dest_name):
     #feature_names correspond to the first entries of importances, the remaining
@@ -37,30 +47,13 @@ def plot_importances(importances, feature_names, dest_name):
     for feature_importance, feature_name in filter_specific:
         a.append(feature_importance)
         labels.append(feature_name)
-        colors.append(next_color())
+        colors.append(next_color(feature_name))
             
     
-    
-    
-    
-    a = []
-    labels = []
-    for j in range(10):
-        for i in range(4):
-            if importances[10*i+j]== 0:
-                continue
-            a.append(importances[10*i+j])
-            labels.append(feature_names[10*i+j])
-    #a.append(importances[40])
-    colors = []
-    for i in ['r','b','g','c','m','k']:
-        for j in range(4):
-            colors.append(i)
-    colors.extend(colors[:])
     plt.bar(range(len(a)), a, color=colors[:len(a)])
     
     #plot line at height of random number input which is importances[40]
-    plt.plot(np.arange(-1,len(a),1),[importances[40]]*(len(a)+1), linestyle = "--", color='k')
+    plt.plot(np.arange(-1,len(a),1),[importances[-1]]*(len(a)+1), linestyle = "--", color='k')
     plt.xticks(range(len(a)), labels, rotation='vertical', size=8)
     
     
