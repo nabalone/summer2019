@@ -69,9 +69,9 @@ else:
     ext = ext + '_loo'
 
 random.seed(3)
-PLOT_DIR = DESTDIR + '/confusions_RF_whitened/'
-if not os.path.isdir(PLOT_DIR):
-    os.mkdir(PLOT_DIR)
+#PLOT_DIR = DESTDIR + '/confusions_RF_whitened/'
+#if not os.path.isdir(PLOT_DIR):
+#    os.mkdir(PLOT_DIR)
     
 EXCLUDED_COLS = {'ID', 'comparison', 'RA', 'DEC', 'x', 'y'}
 if args.no_redshift:
@@ -121,13 +121,11 @@ def chooseAll(csvfile, num_random, include_ID=False):
     X_orig = X_orig.astype(float)
     
     # since previous versions of numpy nan_to_num do not suport posinf args, 
-    # cap all values at 1000000. Otherwise we hit errors later
+    # cap all values at 1000000 to remove infs. Otherwise we hit errors later
     X_orig = np.where(X_orig>1000000, 1000000, X_orig)
     X_orig = np.where(X_orig<-1000000, -1000000, X_orig)
     #X_orig = data.values
     X_orig = np.nan_to_num(X_orig)#, posinf=1000000., neginf=-1000000.)
-    X_orig = np.where(X_orig > 9000000, 9000000, X_orig)
-    X_orig = np.where(X_orig > 9000000, 9000000, X_orig)
     y = []
     
     X = X_orig

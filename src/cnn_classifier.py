@@ -234,11 +234,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
                 #crop all images from 240x240 to 160x160 to eliminate the blank
                 #corners caused by rotation in augmentation
                 # distribute among folds
-                #jth_X_train.extend(crop(train_aug))
-                #TODO restore!!
-                print("IMPORTANT!!! SCRIPT WON'T WORK! RESTORE!")
-                answers = i * np.ones(np.array(crop(train_aug)).shape)
-                jth_X_train.extend(answers)
+                jth_X_train.extend(crop(train_aug))
                 jth_y_train.extend([i]*len(train_aug))
                 
                 #only "augmented" up to original length, so no rotations added
@@ -277,7 +273,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         count = 0
         for i in range(5): 
             for ind in range(len(raw[i])): #for each SN of that type
-                X_test_fold = [raw[i][ind]] #set that SN aside as test
+                X_test_fold = crop([raw[i][ind]]) #set that SN aside as test
                 y_test_fold = [i]
                 
                 X_train_fold = [] #create the training set
