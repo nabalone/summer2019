@@ -192,8 +192,7 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
     for i in range(5):#for each type
         #load all data of that type
         if mask:
-            #TODO restore!!!
-            #print("IMPORTANT: CNN WON'T WORK!")
+
             raw[i] = np.load(OUTPUT_DIR + "x_all2_%s.npy" % i).astype('float32')
             #raw_sep = np.load("x_ans_%s.npy" % i).astype('float32')/1000000.
         else:

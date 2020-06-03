@@ -39,13 +39,13 @@ def namegen():
     namecount += 1
     return str(namecount)
         
+#I think this function is old and unused
 def parser(filename, num, stack=False):
     if stack:
         cm = []#np.zeros(5,5)
         fils = glob.glob(filename[:-5] + '*' + filename[-4:])
         if len(fils) != 4:
-            #TODO RESTORE
-            pass#raise Exception
+            raise Exception
         for my_filename in fils:
             fil = open(my_filename, 'r')
             print(num)

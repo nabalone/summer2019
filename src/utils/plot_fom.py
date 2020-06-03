@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 import glob
 import os
 
-#TODO restore
 PROJ_HOME = os.environ['DATA_SRCDIR'] #base of repo
 SOURCEDIR = PROJ_HOME + '/src'
 OUTPUTDIR = SOURCEDIR + '/outputs'
