@@ -167,9 +167,9 @@ def main():
     def combine(files):
         all_pred = []
         all_true = []
-        for predfil in files_ia:
+        for predfil in files:
             truefil = predfil.replace('pred','true')
-            pred = list(np.load(predfil))
+            pred = list(np.argmax(np.load(predfil), axis=1))
             true = list(np.load(truefil))
             all_pred.extend(pred)
             all_true.extend(true)
@@ -185,7 +185,7 @@ def main():
     if files:
         print(2)
         true_5, pred_5 = combine(files)
-        plot_confusion_matrix(true_5, pred_5, name_extension='cnn_cm')
+        plot_confusion_matrix(true_5, pred_5, name_extension=OUTPUT_DIR + 'cnn_cm')
 
     
 if __name__ == '__main__':

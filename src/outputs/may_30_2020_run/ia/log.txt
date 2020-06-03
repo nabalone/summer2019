@@ -1,0 +1,121 @@
+(envi) [nchou@holy7c26502 src]$ python cnn_classifier.py -b 50 --mask -c --mp 5 -n 50 --kfold 0 -a
+Using TensorFlow backend.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /n/home00/nchou/.conda/envs/envi/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+Train on 710 samples, validate on 129 samples
+Epoch 1/50
+2020-06-02 03:57:57.281189: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2020-06-02 03:57:57.286114: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2900000000 Hz
+2020-06-02 03:57:57.286304: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x561f736a20d0 executing computations on platform Host. Devices:
+2020-06-02 03:57:57.286353: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+710/710 [==============================] - 46s 65ms/step - loss: 0.6720 - acc: 0.6239 - val_loss: 0.7340 - val_acc: 0.5814
+Epoch 2/50
+710/710 [==============================] - 47s 66ms/step - loss: 0.6338 - acc: 0.6732 - val_loss: 0.6888 - val_acc: 0.7054
+Epoch 3/50
+710/710 [==============================] - 46s 65ms/step - loss: 0.6176 - acc: 0.7000 - val_loss: 0.7558 - val_acc: 0.5969
+Epoch 4/50
+710/710 [==============================] - 47s 67ms/step - loss: 0.5913 - acc: 0.6972 - val_loss: 0.7503 - val_acc: 0.6822
+Epoch 5/50
+710/710 [==============================] - 46s 64ms/step - loss: 0.5574 - acc: 0.7535 - val_loss: 0.6417 - val_acc: 0.7984
+Epoch 6/50
+710/710 [==============================] - 47s 66ms/step - loss: 0.5073 - acc: 0.8028 - val_loss: 0.5790 - val_acc: 0.7907
+                                                                           [47/1618]
+Epoch 7/50
+710/710 [==============================] - 45s 64ms/step - loss: 0.4806 - acc: 0.7859 - val_loss: 0.5855 - val_acc: 0.7984
+Epoch 8/50
+710/710 [==============================] - 47s 66ms/step - loss: 0.4850 - acc: 0.7845 - val_loss: 0.6301 - val_acc: 0.7519
+Epoch 9/50
+710/710 [==============================] - 46s 65ms/step - loss: 0.4567 - acc: 0.8042 - val_loss: 0.5786 - val_acc: 0.7519
+Epoch 10/50
+710/710 [==============================] - 46s 65ms/step - loss: 0.4417 - acc: 0.8000 - val_loss: 0.5720 - val_acc: 0.7984
+Epoch 11/50
+710/710 [==============================] - 45s 63ms/step - loss: 0.4466 - acc: 0.7930 - val_loss: 0.6205 - val_acc: 0.7442
+Epoch 12/50
+710/710 [==============================] - 41s 57ms/step - loss: 0.4048 - acc: 0.8239 - val_loss: 0.5925 - val_acc: 0.7597
+Epoch 13/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3872 - acc: 0.8380 - val_loss: 0.7376 - val_acc: 0.7209
+Epoch 14/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3814 - acc: 0.8493 - val_loss: 0.7300 - val_acc: 0.7209
+Epoch 15/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3761 - acc: 0.8366 - val_loss: 0.7127 - val_acc: 0.7674
+Epoch 16/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3728 - acc: 0.8239 - val_loss: 0.7728 - val_acc: 0.7209
+Epoch 17/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3628 - acc: 0.8521 - val_loss: 0.8162 - val_acc: 0.7132
+Epoch 18/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3404 - acc: 0.8732 - val_loss: 0.7530 - val_acc: 0.7597
+Epoch 19/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3538 - acc: 0.8634 - val_loss: 0.8431 - val_acc: 0.7209
+Epoch 20/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3286 - acc: 0.8493 - val_loss: 0.7916 - val_acc: 0.7519
+Epoch 21/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3121 - acc: 0.8704 - val_loss: 0.9512 - val_acc: 0.6977
+Epoch 22/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3073 - acc: 0.8732 - val_loss: 0.9680 - val_acc: 0.7209
+Epoch 23/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3238 - acc: 0.8732 - val_loss: 0.7127 - val_acc: 0.7597
+Epoch 24/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3695 - acc: 0.8451 - val_loss: 1.1426 - val_acc: 0.7442
+Epoch 25/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.4371 - acc: 0.8324 - val_loss: 1.7021 - val_acc: 0.5891
+Epoch 26/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.4417 - acc: 0.8479 - val_loss: 1.0994 - val_acc: 0.6744
+Epoch 27/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3137 - acc: 0.8606 - val_loss: 0.8781 - val_acc: 0.7442
+Epoch 28/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.3161 - acc: 0.8648 - val_loss: 1.1722 - val_acc: 0.7209
+Epoch 29/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2804 - acc: 0.8859 - val_loss: 1.2253 - val_acc: 0.6589
+Epoch 30/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2559 - acc: 0.8915 - val_loss: 1.1601 - val_acc: 0.7287
+Epoch 31/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2390 - acc: 0.9000 - val_loss: 1.3067 - val_acc: 0.6977
+Epoch 32/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2283 - acc: 0.9070 - val_loss: 1.6360 - val_acc: 0.6202
+Epoch 33/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2384 - acc: 0.8986 - val_loss: 1.7212 - val_acc: 0.6279
+Epoch 34/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2366 - acc: 0.9113 - val_loss: 1.5643 - val_acc: 0.6822
+Epoch 35/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2095 - acc: 0.9127 - val_loss: 1.4191 - val_acc: 0.6822
+Epoch 36/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2070 - acc: 0.9254 - val_loss: 1.5472 - val_acc: 0.7132
+Epoch 37/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2042 - acc: 0.9169 - val_loss: 2.1728 - val_acc: 0.5969
+Epoch 38/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2560 - acc: 0.9028 - val_loss: 1.8945 - val_acc: 0.6279
+Epoch 39/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2297 - acc: 0.9183 - val_loss: 1.6190 - val_acc: 0.7287
+Epoch 40/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2592 - acc: 0.9099 - val_loss: 2.2331 - val_acc: 0.6279
+Epoch 41/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.6111 - acc: 0.8254 - val_loss: 2.6182 - val_acc: 0.6589
+Epoch 42/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.5170 - acc: 0.8338 - val_loss: 1.8234 - val_acc: 0.6512
+Epoch 43/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.4447 - acc: 0.8563 - val_loss: 2.5265 - val_acc: 0.5736
+Epoch 44/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.5275 - acc: 0.8606 - val_loss: 1.9524 - val_acc: 0.6744
+Epoch 45/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.4082 - acc: 0.8873 - val_loss: 1.4624 - val_acc: 0.7132
+Epoch 46/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2662 - acc: 0.9070 - val_loss: 1.3718 - val_acc: 0.7209
+Epoch 47/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2472 - acc: 0.9113 - val_loss: 1.3815 - val_acc: 0.6977
+Epoch 48/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2479 - acc: 0.9113 - val_loss: 1.4586 - val_acc: 0.6744
+Epoch 49/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2300 - acc: 0.9254 - val_loss: 1.5401 - val_acc: 0.7054
+Epoch 50/50
+710/710 [==============================] - 39s 55ms/step - loss: 0.2518 - acc: 0.9282 - val_loss: 1.6305 - val_acc: 0.6822
+[[63 26]
+ [15 25]]
+Saved trained model at /n/home00/nchou/src/outputs/final_trained_cnn_ia_only.h5
+(envi) [nchou@holy7c26502 src]$ srun: Force Terminated job 58173192
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: error: holy7c26502: task 0: Killed
+(envi) [nchou@holylogin04 batch_runs]$           

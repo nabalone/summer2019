@@ -1,0 +1,3523 @@
+../src/host_property_extractor.py:424: RuntimeWarning: divide by zero encountered in log10
+  self.magnitude = -2.5 * np.log10(flux/self.exposure_time) + self.m_0
+../src/host_property_extractor.py:421: RuntimeWarning: divide by zero encountered in log10
+  np.log10(two_sigma_flux/self.exposure_time) + self.m_0
+../src/host_property_extractor.py:421: RuntimeWarning: invalid value encountered in log10
+  np.log10(two_sigma_flux/self.exposure_time) + self.m_0
+../src/host_property_extractor.py:399: RuntimeWarning: divide by zero encountered in log10
+  m_0s = colRealMags + 2.5 * np.log10(colFluxes/float(self.exposure_time))
+mask making only
+Using m_0s and averages from a prev. run
+/n/home00/nchou/src/all_fits/psc000001.3.fits
+0
+chosen by location cc: 0.004742795201846284 000001.6
+
+good mask 000001
+/n/home00/nchou/src/all_fits/psc000006.3.fits
+0
+chosen by location cc: 0.0019800402784589943 000006.6
+
+good mask 000006
+/n/home00/nchou/src/all_fits/psc000010.3.fits
+0
+Note: raising threshold to 3.3 
+ 000010.4
+
+0
+Note: raising threshold to 3.5999999999999996 
+ 000010.4
+
+0
+Note: raising threshold to 3.8999999999999995 
+ 000010.4
+
+0
+Note: raising threshold to 4.199999999999999 
+ 000010.4
+
+0
+Note: raising threshold to 3.3 
+ 000010.5
+
+0
+Note: raising threshold to 3.5999999999999996 
+ 000010.5
+
+0
+Note: raising threshold to 3.8999999999999995 
+ 000010.5
+
+0
+Note: raising threshold to 4.199999999999999 
+ 000010.5
+
+0
+Note: raising threshold to 4.499999999999999 
+ 000010.5
+
+0
+Note: raising threshold to 4.799999999999999 
+ 000010.5
+
+0
+Note: raising threshold to 5.099999999999999 
+ 000010.5
+
+0
+Note: raising threshold to 5.399999999999999 
+ 000010.5
+
+0
+Note: raising threshold to 5.699999999999998 
+ 000010.5
+
+0
+Note: raising threshold to 5.999999999999998 
+ 000010.5
+
+0
+Note: raising threshold to 6.299999999999998 
+ 000010.5
+
+0
+Note: raising threshold to 6.599999999999998 
+ 000010.5
+
+0
+Note: raising threshold to 6.899999999999998 
+ 000010.5
+
+0
+Note: raising threshold to 7.1999999999999975 
+ 000010.5
+
+0
+Note: raising threshold to 7.499999999999997 
+ 000010.5
+
+0
+Note: raising threshold to 3.3 
+ 000010.6
+
+0
+chosen by location cc: 0.0010550090172235516 000010.5
+
+good mask 000010
+/n/home00/nchou/src/all_fits/psc000011.3.fits
+0
+No good candidate 000011.5
+
+ID: 11
+bad mask 000011
+/n/home00/nchou/src/all_fits/psc000034.3.fits
+0
+chosen by location cc: 0.01964535768235598 000034.5
+
+good mask 000034
+/n/home00/nchou/src/all_fits/psc000038.3.fits
+0
+chosen by location cc: 0.03865826401137218 000038.5
+
+good mask 000038
+/n/home00/nchou/src/all_fits/psc000076.3.fits
+0
+chosen by location cc: 0.0016775233108916598 000076.6
+
+good mask 000076
+/n/home00/nchou/src/all_fits/psc000091.3.fits
+0
+No good candidate 000091.5
+
+ID: 91
+bad mask 000091
+/n/home00/nchou/src/all_fits/psc000098.3.fits
+0
+chosen by location cc: 0.0017040871245870282 000098.6
+
+good mask 000098
+/n/home00/nchou/src/all_fits/psc000133.3.fits
+0
+chosen by location cc: 0.00033246363625927255 000133.6
+
+good mask 000133
+/n/home00/nchou/src/all_fits/psc000137.3.fits
+0
+chosen by location cc: 0.00041893043059049173 000137.6
+
+good mask 000137
+/n/home00/nchou/src/all_fits/psc000142.3.fits
+0
+chosen by location cc: 0.003314709127178017 000142.6
+
+good mask 000142
+/n/home00/nchou/src/all_fits/psc000174.3.fits
+0
+chosen by location cc: 0.0014910207742160342 000174.5
+
+good mask 000174
+/n/home00/nchou/src/all_fits/psc000190.3.fits
+0
+chosen by location cc: 0.012627268696705163 000190.4
+
+good mask 000190
+/n/home00/nchou/src/all_fits/psc000196.3.fits
+0
+chosen by location cc: 0.005864934190356386 000196.6
+
+good mask 000196
+/n/home00/nchou/src/all_fits/psc000199.3.fits
+0
+No good candidate 000199.5
+
+ID: 199
+bad mask 000199
+/n/home00/nchou/src/all_fits/psc000202.3.fits
+0
+No good candidate 000202.5
+
+ID: 202
+bad mask 000202
+/n/home00/nchou/src/all_fits/psc000215.3.fits
+0
+chosen by location cc: 0.018208406147608325 000215.5
+
+good mask 000215
+/n/home00/nchou/src/all_fits/psc000218.3.fits
+0
+chosen by location cc: 0.003229091537122586 000218.6
+
+good mask 000218
+/n/home00/nchou/src/all_fits/psc000220.3.fits
+0
+chosen by location cc: 0.003271911189313026 000220.6
+
+good mask 000220
+/n/home00/nchou/src/all_fits/psc000236.3.fits
+0
+chosen by location cc: 0.001923259521147913 000236.6
+
+good mask 000236
+/n/home00/nchou/src/all_fits/psc000248.3.fits
+0
+chosen by location cc: 0.0003872216270929263 000248.6
+
+good mask 000248
+/n/home00/nchou/src/all_fits/psc000420.3.fits
+0
+chosen by location cc: 0.006330390472559455 000420.6
+
+good mask 000420
+/n/home00/nchou/src/all_fits/psc010010.3.fits
+0
+chosen by location cc: 0.004180037319711727 010010.6
+
+good mask 010010
+/n/home00/nchou/src/all_fits/psc010026.3.fits
+0
+Note: raising threshold to 3.3 
+ 010026.5
+
+0
+Note: raising threshold to 3.5999999999999996 
+ 010026.5
+
+0
+Note: raising threshold to 3.8999999999999995 
+ 010026.5
+
+0
+Note: raising threshold to 4.199999999999999 
+ 010026.5
+
+0
+Note: raising threshold to 4.499999999999999 
+ 010026.5
+
+0
+Note: raising threshold to 4.799999999999999 
+ 010026.5
+
+0
+Note: raising threshold to 5.099999999999999 
+ 010026.5
+
+0
+Note: raising threshold to 5.399999999999999 
+ 010026.5
+
+0
+Note: raising threshold to 5.699999999999998 
+ 010026.5
+
+0
+Note: raising threshold to 5.999999999999998 
+ 010026.5
+
+0
+Note: raising threshold to 6.299999999999998 
+ 010026.5
+
+0
+Note: raising threshold to 6.599999999999998 
+ 010026.5
+
+0
+Note: raising threshold to 6.899999999999998 
+ 010026.5
+
+0
+Note: raising threshold to 7.1999999999999975 
+ 010026.5
+
+0
+Note: raising threshold to 7.499999999999997 
+ 010026.5
+
+0
+Note: raising threshold to 7.799999999999997 
+ 010026.5
+
+0
+Note: raising threshold to 8.099999999999998 
+ 010026.5
+
+0
+Note: raising threshold to 8.399999999999999 
+ 010026.5
+
+0
+Note: raising threshold to 8.7 
+ 010026.5
+
+0
+Note: raising threshold to 9.0 
+ 010026.5
+
+0
+Note: raising threshold to 9.3 
+ 010026.5
+
+0
+Note: raising threshold to 9.600000000000001 
+ 010026.5
+
+0
+Note: raising threshold to 9.900000000000002 
+ 010026.5
+
+0
+Note: raising threshold to 10.200000000000003 
+ 010026.5
+
+0
+Note: raising threshold to 10.500000000000004 
+ 010026.5
+
+0
+Note: raising threshold to 10.800000000000004 
+ 010026.5
+
+0
+Note: raising threshold to 11.100000000000005 
+ 010026.5
+
+0
+Note: raising threshold to 11.400000000000006 
+ 010026.5
+
+0
+Note: raising threshold to 11.700000000000006 
+ 010026.5
+
+0
+Note: raising threshold to 12.000000000000007 
+ 010026.5
+
+0
+Note: raising threshold to 12.300000000000008 
+ 010026.5
+
+0
+Note: raising threshold to 12.600000000000009 
+ 010026.5
+
+0
+Note: raising threshold to 12.90000000000001 
+ 010026.5
+
+0
+Note: raising threshold to 13.20000000000001 
+ 010026.5
+
+0
+Note: raising threshold to 13.50000000000001 
+ 010026.5
+
+0
+Note: raising threshold to 13.800000000000011 
+ 010026.5
+
+0
+Note: raising threshold to 14.100000000000012 
+ 010026.5
+
+0
+Note: raising threshold to 14.400000000000013 
+ 010026.5
+
+0
+Note: raising threshold to 14.700000000000014 
+ 010026.5
+
+0
+Note: raising threshold to 15.000000000000014 
+ 010026.5
+
+0
+Note: raising threshold to 15.300000000000015 
+ 010026.5
+
+0
+Note: raising threshold to 15.600000000000016 
+ 010026.5
+
+0
+Note: raising threshold to 15.900000000000016 
+ 010026.5
+
+0
+Note: raising threshold to 16.200000000000017 
+ 010026.5
+
+0
+Note: raising threshold to 16.500000000000018 
+ 010026.5
+
+0
+Note: raising threshold to 16.80000000000002 
+ 010026.5
+
+0
+Note: raising threshold to 17.10000000000002 
+ 010026.5
+
+0
+Note: raising threshold to 17.40000000000002 
+ 010026.5
+
+0
+Note: raising threshold to 17.70000000000002 
+ 010026.5
+
+0
+Note: raising threshold to 18.00000000000002 
+ 010026.5
+
+0
+Note: raising threshold to 18.300000000000022 
+ 010026.5
+
+0
+Note: raising threshold to 18.600000000000023 
+ 010026.5
+
+0
+chosen by location cc: 0.0038256582305976616 010026.5
+
+good mask 010026
+/n/home00/nchou/src/all_fits/psc010043.3.fits
+0
+No good candidate 010043.5
+
+ID: 10043
+bad mask 010043
+/n/home00/nchou/src/all_fits/psc010163.3.fits
+0
+chosen by location cc: 0.01120126250784581 010163.3
+
+good mask 010163
+/n/home00/nchou/src/all_fits/psc010411.3.fits
+0
+chosen by location cc: 0.002943495841708166 010411.6
+
+good mask 010411
+/n/home00/nchou/src/all_fits/psc010454.3.fits
+0
+chosen by location cc: 0.0016103294098315235 010454.6
+
+good mask 010454
+/n/home00/nchou/src/all_fits/psc020021.3.fits
+0
+chosen by location cc: 0.005256170954845429 020021.4
+
+good mask 020021
+/n/home00/nchou/src/all_fits/psc020027.3.fits
+0
+chosen by location cc: 0.0035294401131301667 020027.6
+
+good mask 020027
+/n/home00/nchou/src/all_fits/psc020075.3.fits
+0
+chosen by location cc: 0.008834680623176272 020075.3
+
+good mask 020075
+/n/home00/nchou/src/all_fits/psc020082.3.fits
+0
+chosen by location cc: 0.004992783020801084 020082.6
+
+good mask 020082
+/n/home00/nchou/src/all_fits/psc020090.3.fits
+0
+chosen by location cc: 0.003213276688366684 020090.6
+
+good mask 020090
+/n/home00/nchou/src/all_fits/psc020096.3.fits
+0
+chosen by cc cc: 0.012718120398070965 020096.6
+
+good mask 020096
+/n/home00/nchou/src/all_fits/psc020121.3.fits
+0
+chosen by location cc: 0.0013261143242558893 020121.6
+
+good mask 020121
+/n/home00/nchou/src/all_fits/psc020132.3.fits
+0
+chosen by location cc: 0.002228693151724359 020132.6
+
+good mask 020132
+/n/home00/nchou/src/all_fits/psc020176.3.fits
+0
+chosen by location cc: 0.013508656753051795 020176.6
+
+good mask 020176
+/n/home00/nchou/src/all_fits/psc020200.3.fits
+0
+chosen by location cc: 0.004363292091058346 020200.6
+
+good mask 020200
+/n/home00/nchou/src/all_fits/psc030006.3.fits
+0
+photozmatch 030006.3
+
+0
+chosen by location cc: 0.017789685932343757 030006.6
+
+good mask 030006
+/n/home00/nchou/src/all_fits/psc030010.3.fits
+0
+chosen by location cc: 0.005321289212330993 030010.5
+
+good mask 030010
+/n/home00/nchou/src/all_fits/psc030066.3.fits
+0
+chosen by location cc: 0.02204613228504937 030066.6
+
+good mask 030066
+/n/home00/nchou/src/all_fits/psc030129.3.fits
+0
+No good candidate 030129.5
+
+ID: 30129
+bad mask 030129
+/n/home00/nchou/src/all_fits/psc040111.3.fits
+0
+photozmatch 040111.3
+
+0
+photozmatch 040111.4
+
+0
+chosen by cc cc: 0.012445462424330311 040111.6
+
+good mask 040111
+/n/home00/nchou/src/all_fits/psc040137.3.fits
+0
+chosen by location cc: 0.017316605222130854 040137.5
+
+good mask 040137
+/n/home00/nchou/src/all_fits/psc040146.3.fits
+0
+chosen by location cc: 0.002925224121044123 040146.6
+
+good mask 040146
+/n/home00/nchou/src/all_fits/psc040150.3.fits
+0
+No good candidate 040150.5
+
+ID: 40150
+bad mask 040150
+/n/home00/nchou/src/all_fits/psc040166.3.fits
+0
+chosen by location cc: 0.037303546336721505 040166.5
+
+good mask 040166
+/n/home00/nchou/src/all_fits/psc040198.3.fits
+0
+chosen by location cc: 0.00717221605806917 040198.6
+
+good mask 040198
+/n/home00/nchou/src/all_fits/psc040201.3.fits
+0
+photozmatch 040201.3
+
+0
+photozmatch 040201.4
+
+0
+photozmatch 040201.5
+
+0
+photozmatch 040201.6
+
+0
+chosen by photoz cc: 0.022869830492613263 040201.6
+
+good mask 040201
+/n/home00/nchou/src/all_fits/psc040301.3.fits
+0
+chosen by location cc: 0.0035308811456107314 040301.6
+
+good mask 040301
+/n/home00/nchou/src/all_fits/psc040662.3.fits
+0
+chosen by location cc: 0.002179605635835302 040662.6
+
+good mask 040662
+/n/home00/nchou/src/all_fits/psc040780.3.fits
+0
+chosen by location cc: 0.0014094750485729168 040780.6
+
+good mask 040780
+/n/home00/nchou/src/all_fits/psc040782.3.fits
+0
+chosen by location cc: 0.00412450277421661 040782.6
+
+good mask 040782
+/n/home00/nchou/src/all_fits/psc050003.3.fits
+0
+No good candidate 050003.5
+
+ID: 50003
+bad mask 050003
+/n/home00/nchou/src/all_fits/psc050005.3.fits
+0
+chosen by location cc: 0.008669854185571868 050005.6
+
+good mask 050005
+/n/home00/nchou/src/all_fits/psc050044.3.fits
+0
+chosen by location cc: 0.014412838145885676 050044.6
+
+good mask 050044
+/n/home00/nchou/src/all_fits/psc050081.3.fits
+0
+chosen by location cc: 0.01101001405915214 050081.6
+
+good mask 050081
+/n/home00/nchou/src/all_fits/psc050088.3.fits
+0
+chosen by location cc: 0.003116412594408202 050088.6
+
+good mask 050088
+/n/home00/nchou/src/all_fits/psc050201.3.fits
+0
+photozmatch 050201.6
+
+0
+chosen by photoz cc: 0.1402035796593868 050201.6
+
+good mask 050201
+/n/home00/nchou/src/all_fits/psc050203.3.fits
+0
+No good candidate 050203.5
+
+ID: 50203
+bad mask 050203
+/n/home00/nchou/src/all_fits/psc050221.3.fits
+0
+chosen by location cc: 0.04858974097109803 050221.5
+
+good mask 050221
+/n/home00/nchou/src/all_fits/psc050251.3.fits
+0
+chosen by location cc: 0.0012563461664863995 050251.6
+
+good mask 050251
+/n/home00/nchou/src/all_fits/psc050291.3.fits
+0
+chosen by location cc: 0.006312017260805658 050291.6
+
+good mask 050291
+/n/home00/nchou/src/all_fits/psc050293.3.fits
+0
+No good candidate 050293.5
+
+ID: 50293
+bad mask 050293
+/n/home00/nchou/src/all_fits/psc050296.3.fits
+0
+chosen by location cc: 0.003780608362720983 050296.6
+
+good mask 050296
+/n/home00/nchou/src/all_fits/psc050301.3.fits
+0
+chosen by location cc: 0.004521983913476357 050301.6
+
+good mask 050301
+/n/home00/nchou/src/all_fits/psc050303.3.fits
+0
+chosen by location cc: 0.001800472823632826 050303.6
+
+good mask 050303
+/n/home00/nchou/src/all_fits/psc050577.3.fits
+0
+chosen by location cc: 0.0028553509319030335 050577.6
+
+good mask 050577
+/n/home00/nchou/src/all_fits/psc050580.3.fits
+0
+photozmatch 050580.4
+
+0
+photozmatch 050580.6
+
+0
+chosen by location cc: 0.011912938811159068 050580.5
+
+good mask 050580
+/n/home00/nchou/src/all_fits/psc050581.3.fits
+0
+chosen by location cc: 0.0030828372095222933 050581.6
+
+good mask 050581
+/n/home00/nchou/src/all_fits/psc050596.3.fits
+0
+chosen by cc cc: 0.0012123128100547387 050596.5
+
+good mask 050596
+/n/home00/nchou/src/all_fits/psc050601.3.fits
+0
+No good candidate 050601.5
+
+ID: 50601
+bad mask 050601
+/n/home00/nchou/src/all_fits/psc050607.3.fits
+0
+chosen by location cc: 0.00945440800347408 050607.6
+
+good mask 050607
+/n/home00/nchou/src/all_fits/psc060230.3.fits
+0
+chosen by location cc: 0.0023202532557233813 060230.6
+
+good mask 060230
+/n/home00/nchou/src/all_fits/psc060270.3.fits
+0
+No good candidate 060270.5
+
+ID: 60270
+bad mask 060270
+/n/home00/nchou/src/all_fits/psc060284.3.fits
+0
+chosen by location cc: 0.002043927914828103 060284.6
+
+good mask 060284
+/n/home00/nchou/src/all_fits/psc061196.3.fits
+0
+chosen by location cc: 0.0022797621546463143 061196.6
+
+good mask 061196
+/n/home00/nchou/src/all_fits/psc070242.3.fits
+0
+No good candidate 070242.5
+
+ID: 70242
+bad mask 070242
+/n/home00/nchou/src/all_fits/psc070291.3.fits
+0
+chosen by location cc: 0.002396494117344772 070291.6
+
+good mask 070291
+/n/home00/nchou/src/all_fits/psc070763.3.fits
+0
+No good candidate 070763.5
+
+ID: 70763
+bad mask 070763
+/n/home00/nchou/src/all_fits/psc070955.3.fits
+0
+chosen by location cc: 0.01369323491234653 070955.6
+
+good mask 070955
+/n/home00/nchou/src/all_fits/psc071072.3.fits
+0
+chosen by location cc: 0.008355832243353123 071072.6
+
+good mask 071072
+/n/home00/nchou/src/all_fits/psc080064.3.fits
+0
+chosen by location cc: 0.005179869170477525 080064.6
+
+good mask 080064
+/n/home00/nchou/src/all_fits/psc080079.3.fits
+0
+No good candidate 080079.5
+
+ID: 80079
+bad mask 080079
+/n/home00/nchou/src/all_fits/psc080308.3.fits
+0
+chosen by location cc: 0.0025649708657282666 080308.6
+
+good mask 080308
+/n/home00/nchou/src/all_fits/psc080646.3.fits
+0
+chosen by location cc: 0.0039040355364712287 080646.6
+
+good mask 080646
+/n/home00/nchou/src/all_fits/psc080723.3.fits
+0
+chosen by location cc: 0.013069394688555613 080723.5
+
+good mask 080723
+/n/home00/nchou/src/all_fits/psc080735.3.fits
+0
+chosen by location cc: 0.0188046990062114 080735.5
+
+good mask 080735
+/n/home00/nchou/src/all_fits/psc080762.3.fits
+0
+No good candidate 080762.5
+
+ID: 80762
+bad mask 080762
+/n/home00/nchou/src/all_fits/psc080768.3.fits
+0
+chosen by location cc: 0.004586173811097605 080768.6
+
+good mask 080768
+/n/home00/nchou/src/all_fits/psc090022.3.fits
+0
+No good candidate 090022.5
+
+ID: 90022
+bad mask 090022
+/n/home00/nchou/src/all_fits/psc090034.3.fits
+0
+chosen by location cc: 0.00554229323003963 090034.6
+
+good mask 090034
+/n/home00/nchou/src/all_fits/psc090037.3.fits
+0
+chosen by location cc: 0.0009822241038458523 090037.6
+
+good mask 090037
+/n/home00/nchou/src/all_fits/psc090201.3.fits
+0
+chosen by location cc: 0.025788178964117003 090201.5
+
+good mask 090201
+/n/home00/nchou/src/all_fits/psc090275.3.fits
+0
+chosen by location cc: 0.0032826799162960496 090275.6
+
+good mask 090275
+/n/home00/nchou/src/all_fits/psc091034.3.fits
+0
+chosen by location cc: 0.0029638666708380335 091034.6
+
+good mask 091034
+/n/home00/nchou/src/all_fits/psc091040.3.fits
+0
+No good candidate 091040.5
+
+ID: 91040
+bad mask 091040
+/n/home00/nchou/src/all_fits/psc091748.3.fits
+0
+chosen by location cc: 0.005832068622530384 091748.5
+
+good mask 091748
+/n/home00/nchou/src/all_fits/psc091869.3.fits
+0
+chosen by location cc: 0.005320855799490487 091869.6
+
+good mask 091869
+/n/home00/nchou/src/all_fits/psc100014.3.fits
+0
+chosen by cc cc: 0.01703062509071629 100014.6
+
+good mask 100014
+/n/home00/nchou/src/all_fits/psc100020.3.fits
+0
+No good candidate 100020.5
+
+ID: 100020
+bad mask 100020
+/n/home00/nchou/src/all_fits/psc100090.3.fits
+0
+chosen by location cc: 0.0020464751759547983 100090.6
+
+good mask 100090
+/n/home00/nchou/src/all_fits/psc100101.3.fits
+0
+photozmatch 100101.3
+
+0
+chosen by location cc: 0.0033721022425003966 100101.6
+
+good mask 100101
+/n/home00/nchou/src/all_fits/psc100163.3.fits
+0
+chosen by location cc: 0.006382902550072678 100163.6
+
+good mask 100163
+/n/home00/nchou/src/all_fits/psc100170.3.fits
+0
+chosen by location cc: 0.004275137671464813 100170.4
+
+good mask 100170
+/n/home00/nchou/src/all_fits/psc100206.3.fits
+0
+chosen by location cc: 0.0009054158197513429 100206.6
+
+good mask 100206
+/n/home00/nchou/src/all_fits/psc100213.3.fits
+0
+chosen by location cc: 0.0043800084105791726 100213.6
+
+good mask 100213
+/n/home00/nchou/src/all_fits/psc100358.3.fits
+0
+chosen by location cc: 0.01793006556796717 100358.6
+
+good mask 100358
+/n/home00/nchou/src/all_fits/psc100405.3.fits
+0
+chosen by location cc: 0.0006350591140257267 100405.6
+
+good mask 100405
+/n/home00/nchou/src/all_fits/psc110024.3.fits
+0
+chosen by location cc: 0.018800622582656357 110024.5
+
+good mask 110024
+/n/home00/nchou/src/all_fits/psc110030.3.fits
+0
+chosen by location cc: 0.00295457558937251 110030.6
+
+good mask 110030
+/n/home00/nchou/src/all_fits/psc110031.3.fits
+0
+chosen by location cc: 0.007602007840877056 110031.4
+
+good mask 110031
+/n/home00/nchou/src/all_fits/psc110033.3.fits
+0
+chosen by location cc: 0.010826967995513637 110033.5
+
+good mask 110033
+/n/home00/nchou/src/all_fits/psc110034.3.fits
+0
+chosen by location cc: 0.002025864515047049 110034.6
+
+good mask 110034
+/n/home00/nchou/src/all_fits/psc110036.3.fits
+0
+chosen by location cc: 0.0024318062273532837 110036.6
+
+good mask 110036
+/n/home00/nchou/src/all_fits/psc110058.3.fits
+0
+chosen by location cc: 0.0036183489948719005 110058.6
+
+good mask 110058
+/n/home00/nchou/src/all_fits/psc110405.3.fits
+0
+No good candidate 110405.5
+
+ID: 110405
+bad mask 110405
+/n/home00/nchou/src/all_fits/psc110425.3.fits
+0
+chosen by location cc: 0.012824183527687105 110425.6
+
+good mask 110425
+/n/home00/nchou/src/all_fits/psc110426.3.fits
+0
+chosen by location cc: 0.005232767625620638 110426.6
+
+good mask 110426
+/n/home00/nchou/src/all_fits/psc110430.3.fits
+0
+chosen by location cc: 0.011831379428121624 110430.6
+
+good mask 110430
+/n/home00/nchou/src/all_fits/psc110431.3.fits
+0
+chosen by location cc: 0.007687054552602768 110431.4
+
+good mask 110431
+/n/home00/nchou/src/all_fits/psc110460.3.fits
+0
+chosen by location cc: 0.005800706940939371 110460.6
+
+good mask 110460
+/n/home00/nchou/src/all_fits/psc110468.3.fits
+0
+chosen by location cc: 0.008639857765365577 110468.5
+
+good mask 110468
+/n/home00/nchou/src/all_fits/psc110478.3.fits
+0
+chosen by location cc: 0.006355826712248214 110478.6
+
+good mask 110478
+/n/home00/nchou/src/all_fits/psc110484.3.fits
+0
+No good candidate 110484.5
+
+ID: 110484
+bad mask 110484
+/n/home00/nchou/src/all_fits/psc110536.3.fits
+0
+chosen by location cc: 0.002046810439567337 110536.6
+
+good mask 110536
+/n/home00/nchou/src/all_fits/psc110542.3.fits
+0
+chosen by location cc: 0.008101670576499687 110542.6
+
+good mask 110542
+/n/home00/nchou/src/all_fits/psc110567.3.fits
+0
+chosen by location cc: 0.0016454892426008838 110567.6
+
+good mask 110567
+/n/home00/nchou/src/all_fits/psc110716.3.fits
+0
+chosen by location cc: 0.001876813318627435 110716.6
+
+good mask 110716
+/n/home00/nchou/src/all_fits/psc110719.3.fits
+0
+chosen by location cc: 0.003010724773888862 110719.6
+
+good mask 110719
+/n/home00/nchou/src/all_fits/psc110721.3.fits
+0
+chosen by location cc: 0.01268786432730018 110721.6
+
+good mask 110721
+/n/home00/nchou/src/all_fits/psc110734.3.fits
+0
+chosen by location cc: 0.0014259737650027526 110734.6
+
+good mask 110734
+/n/home00/nchou/src/all_fits/psc120031.3.fits
+0
+chosen by location cc: 0.0010998912127994087 120031.6
+
+good mask 120031
+/n/home00/nchou/src/all_fits/psc120044.3.fits
+0
+chosen by location cc: 0.01905553408544236 120044.6
+
+good mask 120044
+/n/home00/nchou/src/all_fits/psc120067.3.fits
+0
+chosen by location cc: 0.0013390768015508758 120067.6
+
+good mask 120067
+/n/home00/nchou/src/all_fits/psc120085.3.fits
+0
+chosen by location cc: 0.011241705995500006 120085.6
+
+good mask 120085
+/n/home00/nchou/src/all_fits/psc120086.3.fits
+0
+photozmatch 120086.3
+
+0
+photozmatch 120086.4
+
+0
+chosen by cc cc: 0.012864460102017361 120086.6
+
+good mask 120086
+/n/home00/nchou/src/all_fits/psc120094.3.fits
+0
+chosen by location cc: 0.020616551780330394 120094.5
+
+good mask 120094
+/n/home00/nchou/src/all_fits/psc120113.3.fits
+0
+chosen by location cc: 0.0346216061682727 120113.4
+
+good mask 120113
+/n/home00/nchou/src/all_fits/psc120143.3.fits
+0
+chosen by location cc: 0.005746568966046084 120143.6
+
+good mask 120143
+/n/home00/nchou/src/all_fits/psc120175.3.fits
+0
+chosen by location cc: 0.002473207046961634 120175.4
+
+good mask 120175
+/n/home00/nchou/src/all_fits/psc120225.3.fits
+0
+chosen by location cc: 0.0039927995643775915 120225.5
+
+good mask 120225
+/n/home00/nchou/src/all_fits/psc120228.3.fits
+0
+No good candidate 120228.5
+
+ID: 120228
+bad mask 120228
+/n/home00/nchou/src/all_fits/psc120243.3.fits
+0
+chosen by location cc: 0.0069396354433108876 120243.6
+
+good mask 120243
+/n/home00/nchou/src/all_fits/psc120333.3.fits
+0
+chosen by location cc: 0.004276148985038253 120333.6
+
+good mask 120333
+/n/home00/nchou/src/all_fits/psc120336.3.fits
+0
+chosen by location cc: 1.0 120336.3
+
+good mask 120336
+/n/home00/nchou/src/all_fits/psc120369.3.fits
+0
+chosen by location cc: 0.32152198320494885 120369.4
+
+good mask 120369
+/n/home00/nchou/src/all_fits/psc120400.3.fits
+0
+No good candidate 120400.5
+
+ID: 120400
+bad mask 120400
+/n/home00/nchou/src/all_fits/psc120444.3.fits
+0
+chosen by location cc: 0.011403395147568718 120444.6
+
+good mask 120444
+/n/home00/nchou/src/all_fits/psc120585.3.fits
+0
+No good candidate 120585.5
+
+ID: 120585
+bad mask 120585
+/n/home00/nchou/src/all_fits/psc120586.3.fits
+0
+chosen by location cc: 0.009305355781116909 120586.6
+
+good mask 120586
+/n/home00/nchou/src/all_fits/psc130150.3.fits
+0
+chosen by location cc: 0.0009693167361204402 130150.6
+
+good mask 130150
+/n/home00/nchou/src/all_fits/psc130308.3.fits
+0
+chosen by location cc: 0.0016920880250907988 130308.6
+
+good mask 130308
+/n/home00/nchou/src/all_fits/psc130327.3.fits
+0
+chosen by location cc: 0.0014176202688225281 130327.6
+
+good mask 130327
+/n/home00/nchou/src/all_fits/psc130451.3.fits
+0
+chosen by location cc: 0.011350376108495763 130451.5
+
+good mask 130451
+/n/home00/nchou/src/all_fits/psc130514.3.fits
+0
+chosen by location cc: 0.002259706741431722 130514.6
+
+good mask 130514
+/n/home00/nchou/src/all_fits/psc130755.3.fits
+0
+chosen by location cc: 0.006315233337391701 130755.6
+
+good mask 130755
+/n/home00/nchou/src/all_fits/psc130812.3.fits
+0
+chosen by location cc: 0.0071739114448926555 130812.6
+
+good mask 130812
+/n/home00/nchou/src/all_fits/psc130816.3.fits
+0
+chosen by location cc: 0.005137597405071914 130816.6
+
+good mask 130816
+/n/home00/nchou/src/all_fits/psc130846.3.fits
+0
+chosen by location cc: 0.00226494380364195 130846.6
+
+good mask 130846
+/n/home00/nchou/src/all_fits/psc130862.3.fits
+0
+No good candidate 130862.5
+
+ID: 130862
+bad mask 130862
+/n/home00/nchou/src/all_fits/psc130913.3.fits
+0
+chosen by location cc: 0.004023741740379783 130913.6
+
+good mask 130913
+/n/home00/nchou/src/all_fits/psc130942.3.fits
+0
+chosen by location cc: 0.006882018660251177 130942.6
+
+good mask 130942
+/n/home00/nchou/src/all_fits/psc130943.3.fits
+0
+chosen by location cc: 0.0027682401403371637 130943.6
+
+good mask 130943
+/n/home00/nchou/src/all_fits/psc130945.3.fits
+0
+chosen by cc cc: 0.006462260550181398 130945.6
+
+good mask 130945
+/n/home00/nchou/src/all_fits/psc131014.3.fits
+0
+Note: raising threshold to 3.3 
+ 131014.5
+
+0
+Note: raising threshold to 3.5999999999999996 
+ 131014.5
+
+0
+Note: raising threshold to 3.8999999999999995 
+ 131014.5
+
+0
+Note: raising threshold to 4.199999999999999 
+ 131014.5
+
+0
+Note: raising threshold to 4.499999999999999 
+ 131014.5
+
+0
+Note: raising threshold to 4.799999999999999 
+ 131014.5
+
+0
+Note: raising threshold to 5.099999999999999 
+ 131014.5
+
+0
+chosen by location cc: 0.0012208556215048683 131014.6
+
+good mask 131014
+/n/home00/nchou/src/all_fits/psc131015.3.fits
+0
+chosen by location cc: 0.005056099561712157 131015.6
+
+good mask 131015
+/n/home00/nchou/src/all_fits/psc131089.3.fits
+0
+No good candidate 131089.5
+
+ID: 131089
+bad mask 131089
+/n/home00/nchou/src/all_fits/psc131094.3.fits
+0
+chosen by location cc: 0.0033213455295403316 131094.6
+
+good mask 131094
+/n/home00/nchou/src/all_fits/psc140103.3.fits
+0
+chosen by location cc: 0.0037471447033080585 140103.6
+
+good mask 140103
+/n/home00/nchou/src/all_fits/psc140152.3.fits
+0
+chosen by location cc: 0.009468311173262522 140152.5
+
+good mask 140152
+/n/home00/nchou/src/all_fits/psc140181.3.fits
+0
+chosen by location cc: 0.0014707624246989015 140181.6
+
+good mask 140181
+/n/home00/nchou/src/all_fits/psc140357.3.fits
+0
+chosen by location cc: 0.011276264897722155 140357.6
+
+good mask 140357
+/n/home00/nchou/src/all_fits/psc140418.3.fits
+0
+chosen by location cc: 0.0024817381206477807 140418.6
+
+good mask 140418
+/n/home00/nchou/src/all_fits/psc150249.3.fits
+0
+chosen by location cc: 0.00802017907609931 150249.6
+
+good mask 150249
+/n/home00/nchou/src/all_fits/psc150254.3.fits
+0
+chosen by location cc: 0.006363437182629439 150254.6
+
+good mask 150254
+/n/home00/nchou/src/all_fits/psc150267.3.fits
+0
+chosen by location cc: 0.0030021575735715844 150267.6
+
+good mask 150267
+/n/home00/nchou/src/all_fits/psc150381.3.fits
+0
+No good candidate 150381.5
+
+ID: 150381
+bad mask 150381
+/n/home00/nchou/src/all_fits/psc150412.3.fits
+0
+chosen by location cc: 0.007880357020381812 150412.6
+
+good mask 150412
+/n/home00/nchou/src/all_fits/psc150455.3.fits
+0
+chosen by location cc: 0.0012936342797735811 150455.6
+
+good mask 150455
+/n/home00/nchou/src/all_fits/psc150457.3.fits
+0
+chosen by location cc: 0.0017355178096791768 150457.6
+
+good mask 150457
+/n/home00/nchou/src/all_fits/psc150507.3.fits
+0
+chosen by location cc: 0.009685799258459027 150507.6
+
+good mask 150507
+/n/home00/nchou/src/all_fits/psc150509.3.fits
+0
+chosen by location cc: 0.0032795324809401505 150509.6
+
+good mask 150509
+/n/home00/nchou/src/all_fits/psc150522.3.fits
+0
+chosen by location cc: 0.0027602028000509593 150522.6
+
+good mask 150522
+/n/home00/nchou/src/all_fits/psc150576.3.fits
+0
+chosen by location cc: 0.0029568213822505074 150576.6
+
+good mask 150576
+/n/home00/nchou/src/all_fits/psc150582.3.fits
+0
+chosen by location cc: 0.0014929752254487783 150582.5
+
+good mask 150582
+/n/home00/nchou/src/all_fits/psc150692.3.fits
+0
+chosen by location cc: 0.003838262848072871 150692.6
+
+good mask 150692
+/n/home00/nchou/src/all_fits/psc151034.3.fits
+0
+chosen by location cc: 0.003302578758709984 151034.6
+
+good mask 151034
+/n/home00/nchou/src/all_fits/psc151425.3.fits
+0
+chosen by location cc: 0.006977329436458679 151425.4
+
+good mask 151425
+/n/home00/nchou/src/all_fits/psc160039.3.fits
+0
+photozmatch 160039.3
+
+0
+chosen by cc cc: 0.006800350542597755 160039.6
+
+good mask 160039
+/n/home00/nchou/src/all_fits/psc160042.3.fits
+0
+chosen by location cc: 0.005105613109500862 160042.6
+
+good mask 160042
+/n/home00/nchou/src/all_fits/psc160046.3.fits
+0
+chosen by location cc: 0.0008605214010108941 160046.6
+
+good mask 160046
+/n/home00/nchou/src/all_fits/psc160066.3.fits
+0
+No good candidate 160066.5
+
+ID: 160066
+bad mask 160066
+/n/home00/nchou/src/all_fits/psc160070.3.fits
+0
+chosen by location cc: 0.0022165799680349263 160070.6
+
+good mask 160070
+/n/home00/nchou/src/all_fits/psc160099.3.fits
+0
+chosen by cc cc: 0.01820483142684115 160099.6
+
+good mask 160099
+/n/home00/nchou/src/all_fits/psc160103.3.fits
+0
+No good candidate 160103.5
+
+ID: 160103
+bad mask 160103
+/n/home00/nchou/src/all_fits/psc160126.3.fits
+0
+chosen by location cc: 0.0016407589174372017 160126.6
+
+good mask 160126
+/n/home00/nchou/src/all_fits/psc160197.3.fits
+0
+chosen by location cc: 0.008955723324629461 160197.5
+
+good mask 160197
+/n/home00/nchou/src/all_fits/psc160198.3.fits
+0
+chosen by location cc: 0.016246942421783706 160198.4
+
+good mask 160198
+/n/home00/nchou/src/all_fits/psc160200.3.fits
+0
+chosen by location cc: 0.0028296392427119565 160200.6
+
+good mask 160200
+/n/home00/nchou/src/all_fits/psc160214.3.fits
+0
+chosen by location cc: 0.009244919686244968 160214.6
+
+good mask 160214
+/n/home00/nchou/src/all_fits/psc160287.3.fits
+0
+chosen by location cc: 0.0038528494712715133 160287.6
+
+good mask 160287
+/n/home00/nchou/src/all_fits/psc170078.3.fits
+0
+chosen by location cc: 0.004096243442230807 170078.6
+
+good mask 170078
+/n/home00/nchou/src/all_fits/psc170428.3.fits
+0
+No good candidate 170428.5
+
+ID: 170428
+bad mask 170428
+/n/home00/nchou/src/all_fits/psc170532.3.fits
+0
+chosen by location cc: 0.0014141422821827287 170532.6
+
+good mask 170532
+/n/home00/nchou/src/all_fits/psc180166.3.fits
+0
+chosen by location cc: 0.0012881418458893235 180166.5
+
+good mask 180166
+/n/home00/nchou/src/all_fits/psc180279.3.fits
+0
+No good candidate 180279.5
+
+ID: 180279
+bad mask 180279
+/n/home00/nchou/src/all_fits/psc180313.3.fits
+0
+No good candidate 180313.5
+
+ID: 180313
+bad mask 180313
+/n/home00/nchou/src/all_fits/psc180561.3.fits
+0
+chosen by location cc: 0.009569376178817035 180561.6
+
+good mask 180561
+/n/home00/nchou/src/all_fits/psc190209.3.fits
+0
+chosen by location cc: 0.0021689329726527484 190209.6
+
+good mask 190209
+/n/home00/nchou/src/all_fits/psc190230.3.fits
+0
+chosen by location cc: 0.001892467509353346 190230.6
+
+good mask 190230
+/n/home00/nchou/src/all_fits/psc190237.3.fits
+0
+chosen by location cc: 0.0012670032245882812 190237.6
+
+good mask 190237
+/n/home00/nchou/src/all_fits/psc190260.3.fits
+0
+chosen by location cc: 0.0014539572113640986 190260.6
+
+good mask 190260
+/n/home00/nchou/src/all_fits/psc190266.3.fits
+0
+chosen by location cc: 0.0018236377522424796 190266.6
+
+good mask 190266
+/n/home00/nchou/src/all_fits/psc190299.3.fits
+0
+chosen by location cc: 0.003272960572376915 190299.6
+
+good mask 190299
+/n/home00/nchou/src/all_fits/psc190340.3.fits
+0
+chosen by location cc: 0.002037807910006184 190340.6
+
+good mask 190340
+/n/home00/nchou/src/all_fits/psc190369.3.fits
+0
+chosen by location cc: 0.008182726671337237 190369.6
+
+good mask 190369
+/n/home00/nchou/src/all_fits/psc200079.3.fits
+0
+chosen by location cc: 0.0013655892205683973 200079.6
+
+good mask 200079
+/n/home00/nchou/src/all_fits/psc300008.3.fits
+0
+chosen by location cc: 0.0025475832533483622 300008.6
+
+good mask 300008
+/n/home00/nchou/src/all_fits/psc300089.3.fits
+0
+chosen by location cc: 0.0006277609240478155 300089.6
+
+good mask 300089
+/n/home00/nchou/src/all_fits/psc300105.3.fits
+0
+chosen by location cc: 0.005895756544167741 300105.6
+
+good mask 300105
+/n/home00/nchou/src/all_fits/psc300112.3.fits
+0
+chosen by location cc: 0.0012874270900540274 300112.6
+
+good mask 300112
+/n/home00/nchou/src/all_fits/psc300140.3.fits
+0
+chosen by location cc: 0.0012352736445159218 300140.6
+
+good mask 300140
+/n/home00/nchou/src/all_fits/psc300179.3.fits
+0
+chosen by location cc: 0.0015386231175231746 300179.6
+
+good mask 300179
+/n/home00/nchou/src/all_fits/psc300220.3.fits
+0
+chosen by location cc: 0.0005946993013138391 300220.6
+
+good mask 300220
+/n/home00/nchou/src/all_fits/psc300221.3.fits
+0
+chosen by location cc: 0.00044881301377208693 300221.6
+
+good mask 300221
+/n/home00/nchou/src/all_fits/psc310025.3.fits
+0
+chosen by location cc: 0.005011789365029995 310025.6
+
+good mask 310025
+/n/home00/nchou/src/all_fits/psc310026.3.fits
+0
+chosen by location cc: 0.0007980455581413359 310026.6
+
+good mask 310026
+/n/home00/nchou/src/all_fits/psc310039.3.fits
+0
+chosen by location cc: 0.0016389254305186896 310039.6
+
+good mask 310039
+/n/home00/nchou/src/all_fits/psc310042.3.fits
+0
+chosen by location cc: 0.012292457541941637 310042.6
+
+good mask 310042
+/n/home00/nchou/src/all_fits/psc310051.3.fits
+0
+chosen by location cc: 0.012555507938925348 310051.6
+
+good mask 310051
+/n/home00/nchou/src/all_fits/psc310073.3.fits
+0
+No good candidate 310073.5
+
+ID: 310073
+bad mask 310073
+/n/home00/nchou/src/all_fits/psc310090.3.fits
+0
+chosen by location cc: 0.030365129168989147 310090.3
+
+good mask 310090
+/n/home00/nchou/src/all_fits/psc310091.3.fits
+0
+chosen by location cc: 0.0174989398034624 310091.5
+
+good mask 310091
+/n/home00/nchou/src/all_fits/psc310146.3.fits
+0
+chosen by cc cc: 0.004499137338670245 310146.3
+
+good mask 310146
+/n/home00/nchou/src/all_fits/psc310161.3.fits
+0
+chosen by location cc: 0.003685393069793874 310161.6
+
+good mask 310161
+/n/home00/nchou/src/all_fits/psc310188.3.fits
+0
+chosen by cc cc: 0.013347014006023006 310188.6
+
+good mask 310188
+/n/home00/nchou/src/all_fits/psc310238.3.fits
+0
+chosen by location cc: 0.003449198340827353 310238.6
+
+good mask 310238
+/n/home00/nchou/src/all_fits/psc310260.3.fits
+0
+No good candidate 310260.5
+
+ID: 310260
+bad mask 310260
+/n/home00/nchou/src/all_fits/psc310359.3.fits
+0
+chosen by location cc: 0.002467379900017219 310359.6
+
+good mask 310359
+/n/home00/nchou/src/all_fits/psc310574.3.fits
+0
+chosen by location cc: 0.003550998041991882 310574.6
+
+good mask 310574
+/n/home00/nchou/src/all_fits/psc320047.3.fits
+0
+chosen by location cc: 0.001435346960059647 320047.6
+
+good mask 320047
+/n/home00/nchou/src/all_fits/psc320099.3.fits
+0
+chosen by location cc: 0.009108903386286782 320099.5
+
+good mask 320099
+/n/home00/nchou/src/all_fits/psc320258.3.fits
+0
+chosen by location cc: 0.0018451961659380345 320258.6
+
+good mask 320258
+/n/home00/nchou/src/all_fits/psc320347.3.fits
+0
+chosen by location cc: 0.0019437666959769562 320347.6
+
+good mask 320347
+/n/home00/nchou/src/all_fits/psc320469.3.fits
+0
+No good candidate 320469.5
+
+ID: 320469
+bad mask 320469
+/n/home00/nchou/src/all_fits/psc330013.3.fits
+0
+chosen by location cc: 0.0032854705023366293 330013.6
+
+good mask 330013
+/n/home00/nchou/src/all_fits/psc330022.3.fits
+0
+chosen by location cc: 0.0009724089853735407 330022.6
+
+good mask 330022
+/n/home00/nchou/src/all_fits/psc330023.3.fits
+0
+chosen by location cc: 0.0016928960379154478 330023.6
+
+good mask 330023
+/n/home00/nchou/src/all_fits/psc330027.3.fits
+0
+chosen by location cc: 1.0 330027.3
+
+good mask 330027
+/n/home00/nchou/src/all_fits/psc330040.3.fits
+0
+chosen by location cc: 0.026417162251538562 330040.5
+
+good mask 330040
+/n/home00/nchou/src/all_fits/psc330042.3.fits
+0
+chosen by location cc: 0.001576641891297914 330042.6
+
+good mask 330042
+/n/home00/nchou/src/all_fits/psc330053.3.fits
+0
+chosen by location cc: 0.004916674513588792 330053.6
+
+good mask 330053
+/n/home00/nchou/src/all_fits/psc330064.3.fits
+0
+No good candidate 330064.5
+
+ID: 330064
+bad mask 330064
+/n/home00/nchou/src/all_fits/psc330075.3.fits
+0
+chosen by location cc: 0.003281736517510514 330075.6
+
+good mask 330075
+/n/home00/nchou/src/all_fits/psc330076.3.fits
+0
+chosen by location cc: 0.003988548394317948 330076.6
+
+good mask 330076
+/n/home00/nchou/src/all_fits/psc330083.3.fits
+0
+chosen by location cc: 0.019175439334334854 330083.5
+
+good mask 330083
+/n/home00/nchou/src/all_fits/psc330089.3.fits
+0
+chosen by location cc: 0.005536949114946066 330089.6
+
+good mask 330089
+/n/home00/nchou/src/all_fits/psc330106.3.fits
+0
+No good candidate 330106.5
+
+ID: 330106
+bad mask 330106
+/n/home00/nchou/src/all_fits/psc330107.3.fits
+0
+No good candidate 330107.5
+
+ID: 330107
+bad mask 330107
+/n/home00/nchou/src/all_fits/psc330112.3.fits
+0
+chosen by location cc: 0.0011369976160757744 330112.6
+
+good mask 330112
+/n/home00/nchou/src/all_fits/psc330114.3.fits
+0
+chosen by location cc: 0.013588609747141267 330114.6
+
+good mask 330114
+/n/home00/nchou/src/all_fits/psc330128.3.fits
+0
+chosen by location cc: 0.0017545716963898172 330128.6
+
+good mask 330128
+/n/home00/nchou/src/all_fits/psc330143.3.fits
+0
+chosen by location cc: 0.0017832731774749533 330143.6
+
+good mask 330143
+/n/home00/nchou/src/all_fits/psc330146.3.fits
+0
+chosen by location cc: 0.0012909462971770758 330146.6
+
+good mask 330146
+/n/home00/nchou/src/all_fits/psc330232.3.fits
+0
+chosen by location cc: 0.004137436412052886 330232.6
+
+good mask 330232
+/n/home00/nchou/src/all_fits/psc340169.3.fits
+0
+No good candidate 340169.5
+
+ID: 340169
+bad mask 340169
+/n/home00/nchou/src/all_fits/psc340195.3.fits
+0
+No good candidate 340195.5
+
+ID: 340195
+bad mask 340195
+/n/home00/nchou/src/all_fits/psc340211.3.fits
+0
+chosen by location cc: 0.0015894703185886927 340211.6
+
+good mask 340211
+/n/home00/nchou/src/all_fits/psc340218.3.fits
+0
+chosen by location cc: 0.0026640289210130286 340218.6
+
+good mask 340218
+/n/home00/nchou/src/all_fits/psc340222.3.fits
+0
+chosen by location cc: 0.005215750066171032 340222.6
+
+good mask 340222
+/n/home00/nchou/src/all_fits/psc340229.3.fits
+0
+chosen by location cc: 0.0019494562454895892 340229.6
+
+good mask 340229
+/n/home00/nchou/src/all_fits/psc340232.3.fits
+0
+chosen by location cc: 0.003335946993621719 340232.6
+
+good mask 340232
+/n/home00/nchou/src/all_fits/psc340242.3.fits
+0
+chosen by location cc: 0.0027398396753115506 340242.6
+
+good mask 340242
+/n/home00/nchou/src/all_fits/psc340243.3.fits
+0
+chosen by location cc: 0.0013397824384878687 340243.6
+
+good mask 340243
+/n/home00/nchou/src/all_fits/psc340272.3.fits
+0
+chosen by location cc: 0.004542544421043293 340272.6
+
+good mask 340272
+/n/home00/nchou/src/all_fits/psc340276.3.fits
+0
+chosen by cc cc: 0.002977783144834878 340276.3
+
+good mask 340276
+/n/home00/nchou/src/all_fits/psc340316.3.fits
+0
+chosen by location cc: 0.021523768844249447 340316.6
+
+good mask 340316
+/n/home00/nchou/src/all_fits/psc340334.3.fits
+0
+chosen by location cc: 1.0 340334.5
+
+good mask 340334
+/n/home00/nchou/src/all_fits/psc340337.3.fits
+0
+chosen by location cc: 0.0014433870576565644 340337.6
+
+good mask 340337
+/n/home00/nchou/src/all_fits/psc340346.3.fits
+0
+chosen by location cc: 0.0022536727049826677 340346.6
+
+good mask 340346
+/n/home00/nchou/src/all_fits/psc350027.3.fits
+0
+chosen by location cc: 1.0 350027.4
+
+good mask 350027
+/n/home00/nchou/src/all_fits/psc350047.3.fits
+0
+chosen by location cc: 0.002583687041928351 350047.4
+
+good mask 350047
+/n/home00/nchou/src/all_fits/psc350050.3.fits
+0
+chosen by location cc: 0.004828031867625704 350050.6
+
+good mask 350050
+/n/home00/nchou/src/all_fits/psc350076.3.fits
+0
+chosen by location cc: 0.0010159024555975726 350076.6
+
+good mask 350076
+/n/home00/nchou/src/all_fits/psc350078.3.fits
+0
+chosen by location cc: 0.01598323695030268 350078.6
+
+good mask 350078
+/n/home00/nchou/src/all_fits/psc350080.3.fits
+0
+chosen by location cc: 0.0013661062975134364 350080.6
+
+good mask 350080
+/n/home00/nchou/src/all_fits/psc350083.3.fits
+0
+chosen by location cc: 0.007836822564396106 350083.6
+
+good mask 350083
+/n/home00/nchou/src/all_fits/psc350092.3.fits
+0
+chosen by location cc: 0.008899014618160117 350092.6
+
+good mask 350092
+/n/home00/nchou/src/all_fits/psc350192.3.fits
+0
+chosen by location cc: 0.012238252622224777 350192.5
+
+good mask 350192
+/n/home00/nchou/src/all_fits/psc350233.3.fits
+0
+chosen by location cc: 0.0019994455111064235 350233.6
+
+good mask 350233
+/n/home00/nchou/src/all_fits/psc350235.3.fits
+0
+chosen by location cc: 0.012947258689657848 350235.6
+
+good mask 350235
+/n/home00/nchou/src/all_fits/psc350316.3.fits
+0
+chosen by location cc: 0.004716543148714836 350316.6
+
+good mask 350316
+/n/home00/nchou/src/all_fits/psc350330.3.fits
+0
+chosen by location cc: 0.005589432196370203 350330.6
+
+good mask 350330
+/n/home00/nchou/src/all_fits/psc350374.3.fits
+0
+chosen by location cc: 0.0018599615667287406 350374.6
+
+good mask 350374
+/n/home00/nchou/src/all_fits/psc350548.3.fits
+0
+chosen by location cc: 0.0016800835253232282 350548.6
+
+good mask 350548
+/n/home00/nchou/src/all_fits/psc350606.3.fits
+0
+chosen by location cc: 0.009371781491727571 350606.5
+
+good mask 350606
+/n/home00/nchou/src/all_fits/psc350607.3.fits
+0
+chosen by location cc: 0.02022985115592102 350607.6
+
+good mask 350607
+/n/home00/nchou/src/all_fits/psc350630.3.fits
+0
+chosen by location cc: 0.0018143818865902217 350630.6
+
+good mask 350630
+/n/home00/nchou/src/all_fits/psc350633.3.fits
+0
+chosen by location cc: 0.002624596816096947 350633.6
+
+good mask 350633
+/n/home00/nchou/src/all_fits/psc360030.3.fits
+0
+chosen by location cc: 0.008142202569793255 360030.6
+
+good mask 360030
+/n/home00/nchou/src/all_fits/psc360112.3.fits
+0
+chosen by location cc: 0.007413980435865497 360112.6
+
+good mask 360112
+/n/home00/nchou/src/all_fits/psc360139.3.fits
+0
+chosen by location cc: 0.013462863310918172 360139.6
+
+good mask 360139
+/n/home00/nchou/src/all_fits/psc360140.3.fits
+0
+No good candidate 360140.5
+
+ID: 360140
+bad mask 360140
+/n/home00/nchou/src/all_fits/psc360145.3.fits
+0
+chosen by location cc: 0.010147084997950029 360145.4
+
+good mask 360145
+/n/home00/nchou/src/all_fits/psc360156.3.fits
+0
+chosen by location cc: 0.002075145542161705 360156.5
+
+good mask 360156
+/n/home00/nchou/src/all_fits/psc360359.3.fits
+0
+photozmatch 360359.3
+
+0
+photozmatch 360359.4
+
+0
+photozmatch 360359.5
+
+0
+photozmatch 360359.6
+
+0
+chosen by photoz cc: 0.024209167641943252 360359.6
+
+good mask 360359
+/n/home00/nchou/src/all_fits/psc370066.3.fits
+0
+chosen by location cc: 0.007246791684605958 370066.6
+
+good mask 370066
+/n/home00/nchou/src/all_fits/psc370098.3.fits
+0
+chosen by location cc: 0.0021997232475082784 370098.6
+
+good mask 370098
+/n/home00/nchou/src/all_fits/psc370189.3.fits
+0
+chosen by location cc: 0.011667308402634524 370189.5
+
+good mask 370189
+/n/home00/nchou/src/all_fits/psc370286.3.fits
+0
+chosen by location cc: 0.008742624331041338 370286.6
+
+good mask 370286
+/n/home00/nchou/src/all_fits/psc370290.3.fits
+0
+chosen by location cc: 0.004401489515066692 370290.6
+
+good mask 370290
+/n/home00/nchou/src/all_fits/psc370308.3.fits
+0
+chosen by location cc: 0.002143360622694157 370308.6
+
+good mask 370308
+/n/home00/nchou/src/all_fits/psc370329.3.fits
+0
+chosen by location cc: 0.007881369791569948 370329.6
+
+good mask 370329
+/n/home00/nchou/src/all_fits/psc370330.3.fits
+0
+chosen by location cc: 0.004780386689497873 370330.4
+
+good mask 370330
+/n/home00/nchou/src/all_fits/psc370333.3.fits
+0
+chosen by location cc: 0.00679635103065146 370333.4
+
+good mask 370333
+/n/home00/nchou/src/all_fits/psc370344.3.fits
+0
+chosen by location cc: 0.010110803020438985 370344.5
+
+good mask 370344
+/n/home00/nchou/src/all_fits/psc370356.3.fits
+0
+chosen by location cc: 0.01359314382575938 370356.6
+
+good mask 370356
+/n/home00/nchou/src/all_fits/psc370367.3.fits
+0
+No good candidate 370367.5
+
+ID: 370367
+bad mask 370367
+/n/home00/nchou/src/all_fits/psc370369.3.fits
+0
+chosen by location cc: 0.0035768074543641726 370369.6
+
+good mask 370369
+/n/home00/nchou/src/all_fits/psc370394.3.fits
+0
+chosen by location cc: 0.013504413042628172 370394.5
+
+good mask 370394
+/n/home00/nchou/src/all_fits/psc370407.3.fits
+0
+chosen by location cc: 0.002927209701244604 370407.6
+
+good mask 370407
+/n/home00/nchou/src/all_fits/psc370428.3.fits
+0
+chosen by location cc: 0.003231518573106773 370428.6
+
+good mask 370428
+/n/home00/nchou/src/all_fits/psc370469.3.fits
+0
+chosen by location cc: 0.002858865800759891 370469.6
+
+good mask 370469
+/n/home00/nchou/src/all_fits/psc370498.3.fits
+0
+chosen by location cc: 0.0027185874773095753 370498.6
+
+good mask 370498
+/n/home00/nchou/src/all_fits/psc370519.3.fits
+0
+chosen by location cc: 0.0020968050018015383 370519.6
+
+good mask 370519
+/n/home00/nchou/src/all_fits/psc370563.3.fits
+0
+chosen by location cc: 0.0010494746454404735 370563.6
+
+good mask 370563
+/n/home00/nchou/src/all_fits/psc370566.3.fits
+0
+chosen by location cc: 0.0013694821172496319 370566.6
+
+good mask 370566
+/n/home00/nchou/src/all_fits/psc370589.3.fits
+0
+chosen by location cc: 0.0031546077888984225 370589.4
+
+good mask 370589
+/n/home00/nchou/src/all_fits/psc370595.3.fits
+0
+chosen by location cc: 0.00137028079297552 370595.5
+
+good mask 370595
+/n/home00/nchou/src/all_fits/psc380012.3.fits
+0
+chosen by location cc: 0.006783792441583003 380012.6
+
+good mask 380012
+/n/home00/nchou/src/all_fits/psc380014.3.fits
+0
+chosen by location cc: 0.0038629017581910396 380014.6
+
+good mask 380014
+/n/home00/nchou/src/all_fits/psc380040.3.fits
+0
+No good candidate 380040.5
+
+ID: 380040
+bad mask 380040
+/n/home00/nchou/src/all_fits/psc380046.3.fits
+0
+chosen by location cc: 0.001387117258435766 380046.6
+
+good mask 380046
+/n/home00/nchou/src/all_fits/psc380056.3.fits
+0
+chosen by location cc: 0.006018331234447061 380056.6
+
+good mask 380056
+/n/home00/nchou/src/all_fits/psc380108.3.fits
+0
+No good candidate 380108.5
+
+ID: 380108
+bad mask 380108
+/n/home00/nchou/src/all_fits/psc380244.3.fits
+0
+chosen by location cc: 0.15127735738439274 380244.3
+
+good mask 380244
+/n/home00/nchou/src/all_fits/psc380279.3.fits
+0
+chosen by location cc: 0.0049214234326214745 380279.4
+
+good mask 380279
+/n/home00/nchou/src/all_fits/psc380318.3.fits
+0
+chosen by location cc: 0.0012687604559457055 380318.6
+
+good mask 380318
+/n/home00/nchou/src/all_fits/psc380378.3.fits
+0
+chosen by location cc: 0.005933755528264362 380378.6
+
+good mask 380378
+/n/home00/nchou/src/all_fits/psc390259.3.fits
+0
+chosen by location cc: 0.019648326752186973 390259.4
+
+good mask 390259
+/n/home00/nchou/src/all_fits/psc390264.3.fits
+0
+chosen by cc cc: 0.018576458590779055 390264.6
+
+good mask 390264
+/n/home00/nchou/src/all_fits/psc390449.3.fits
+0
+No good candidate 390449.5
+
+ID: 390449
+bad mask 390449
+/n/home00/nchou/src/all_fits/psc390471.3.fits
+0
+chosen by location cc: 0.003217119092822629 390471.6
+
+good mask 390471
+/n/home00/nchou/src/all_fits/psc390627.3.fits
+0
+chosen by location cc: 0.0019272910682862632 390627.6
+
+good mask 390627
+/n/home00/nchou/src/all_fits/psc390712.3.fits
+0
+No good candidate 390712.5
+
+ID: 390712
+bad mask 390712
+/n/home00/nchou/src/all_fits/psc400158.3.fits
+0
+chosen by location cc: 0.013750099118036263 400158.6
+
+good mask 400158
+/n/home00/nchou/src/all_fits/psc420100.3.fits
+0
+chosen by location cc: 0.002689818450483772 420100.5
+
+good mask 420100
+/n/home00/nchou/src/all_fits/psc420136.3.fits
+0
+chosen by location cc: 0.007856987179609587 420136.6
+
+good mask 420136
+/n/home00/nchou/src/all_fits/psc420159.3.fits
+0
+chosen by location cc: 0.0028807157024353103 420159.6
+
+good mask 420159
+/n/home00/nchou/src/all_fits/psc420196.3.fits
+0
+chosen by location cc: 0.010710889858984385 420196.6
+
+good mask 420196
+/n/home00/nchou/src/all_fits/psc420248.3.fits
+0
+chosen by location cc: 0.0020330699111379413 420248.6
+
+good mask 420248
+/n/home00/nchou/src/all_fits/psc420258.3.fits
+0
+chosen by location cc: 0.0024688786904398796 420258.6
+
+good mask 420258
+/n/home00/nchou/src/all_fits/psc420352.3.fits
+0
+chosen by location cc: 0.012045678527727643 420352.6
+
+good mask 420352
+/n/home00/nchou/src/all_fits/psc420393.3.fits
+0
+chosen by location cc: 0.006486144520763015 420393.6
+
+good mask 420393
+/n/home00/nchou/src/all_fits/psc420407.3.fits
+0
+chosen by location cc: 0.0029751840922744854 420407.6
+
+good mask 420407
+/n/home00/nchou/src/all_fits/psc420414.3.fits
+0
+chosen by location cc: 0.0010275257242221558 420414.6
+
+good mask 420414
+/n/home00/nchou/src/all_fits/psc420417.3.fits
+0
+chosen by location cc: 0.0011303629560946993 420417.6
+
+good mask 420417
+/n/home00/nchou/src/all_fits/psc430003.3.fits
+0
+No good candidate 430003.5
+
+ID: 430003
+bad mask 430003
+/n/home00/nchou/src/all_fits/psc430004.3.fits
+0
+chosen by location cc: 0.004064781773779558 430004.6
+
+good mask 430004
+/n/home00/nchou/src/all_fits/psc430005.3.fits
+0
+chosen by location cc: 0.0030879339739042777 430005.6
+
+good mask 430005
+/n/home00/nchou/src/all_fits/psc440005.3.fits
+0
+chosen by location cc: 0.0023493071788011077 440005.6
+
+good mask 440005
+/n/home00/nchou/src/all_fits/psc440008.3.fits
+0
+chosen by location cc: 0.003953337261947798 440008.6
+
+good mask 440008
+/n/home00/nchou/src/all_fits/psc440011.3.fits
+0
+chosen by location cc: 0.006539916439814775 440011.5
+
+good mask 440011
+/n/home00/nchou/src/all_fits/psc440035.3.fits
+0
+chosen by location cc: 0.02889297668153712 440035.6
+
+good mask 440035
+/n/home00/nchou/src/all_fits/psc440039.3.fits
+0
+chosen by location cc: 0.0026312545317717095 440039.6
+
+good mask 440039
+/n/home00/nchou/src/all_fits/psc440042.3.fits
+0
+No good candidate 440042.5
+
+ID: 440042
+bad mask 440042
+/n/home00/nchou/src/all_fits/psc440050.3.fits
+0
+chosen by location cc: 0.0009704516930916229 440050.6
+
+good mask 440050
+/n/home00/nchou/src/all_fits/psc440066.3.fits
+0
+chosen by location cc: 0.004312857235146184 440066.6
+
+good mask 440066
+/n/home00/nchou/src/all_fits/psc440162.3.fits
+0
+chosen by location cc: 0.001957834661430402 440162.6
+
+good mask 440162
+/n/home00/nchou/src/all_fits/psc440176.3.fits
+0
+chosen by location cc: 0.005549941384253021 440176.6
+
+good mask 440176
+/n/home00/nchou/src/all_fits/psc440202.3.fits
+0
+chosen by location cc: 0.0034711956069174432 440202.5
+
+good mask 440202
+/n/home00/nchou/src/all_fits/psc440236.3.fits
+0
+photozmatch 440236.3
+
+0
+photozmatch 440236.4
+
+0
+chosen by cc cc: 0.017195180286381007 440236.6
+
+good mask 440236
+/n/home00/nchou/src/all_fits/psc440264.3.fits
+0
+photozmatch 440264.3
+
+0
+chosen by location cc: 0.012318674180904376 440264.6
+
+good mask 440264
+/n/home00/nchou/src/all_fits/psc440285.3.fits
+0
+chosen by location cc: 0.002658770240664965 440285.6
+
+good mask 440285
+/n/home00/nchou/src/all_fits/psc440420.3.fits
+0
+No good candidate 440420.5
+
+ID: 440420
+bad mask 440420
+/n/home00/nchou/src/all_fits/psc440509.3.fits
+0
+No good candidate 440509.5
+
+ID: 440509
+bad mask 440509
+/n/home00/nchou/src/all_fits/psc440643.3.fits
+0
+No good candidate 440643.5
+
+ID: 440643
+bad mask 440643
+/n/home00/nchou/src/all_fits/psc450008.3.fits
+0
+chosen by location cc: 0.006090313626054167 450008.6
+
+good mask 450008
+/n/home00/nchou/src/all_fits/psc450020.3.fits
+0
+chosen by location cc: 0.001572802700935405 450020.6
+
+good mask 450020
+/n/home00/nchou/src/all_fits/psc450025.3.fits
+0
+chosen by location cc: 0.00455982293964563 450025.5
+
+good mask 450025
+/n/home00/nchou/src/all_fits/psc450082.3.fits
+0
+chosen by location cc: 0.002707111123925743 450082.6
+
+good mask 450082
+/n/home00/nchou/src/all_fits/psc450175.3.fits
+0
+No good candidate 450175.5
+
+ID: 450175
+bad mask 450175
+/n/home00/nchou/src/all_fits/psc450266.3.fits
+0
+chosen by location cc: 0.002961060611124222 450266.5
+
+good mask 450266
+/n/home00/nchou/src/all_fits/psc450284.3.fits
+0
+chosen by location cc: 0.0161697211650087 450284.5
+
+good mask 450284
+/n/home00/nchou/src/all_fits/psc450339.3.fits
+0
+photozmatch 450339.3
+
+0
+chosen by location cc: 0.014592975731524183 450339.6
+
+good mask 450339
+/n/home00/nchou/src/all_fits/psc460001.3.fits
+0
+chosen by location cc: 0.005887217725118132 460001.5
+
+good mask 460001
+/n/home00/nchou/src/all_fits/psc460003.3.fits
+0
+chosen by cc cc: 0.004614230566557409 460003.6
+
+good mask 460003
+/n/home00/nchou/src/all_fits/psc460004.3.fits
+0
+No good candidate 460004.5
+
+ID: 460004
+bad mask 460004
+/n/home00/nchou/src/all_fits/psc460037.3.fits
+0
+chosen by location cc: 0.0027816393637412062 460037.6
+
+good mask 460037
+/n/home00/nchou/src/all_fits/psc460064.3.fits
+0
+chosen by location cc: 0.00596502892435169 460064.6
+
+good mask 460064
+/n/home00/nchou/src/all_fits/psc460103.3.fits
+0
+No good candidate 460103.5
+
+ID: 460103
+bad mask 460103
+/n/home00/nchou/src/all_fits/psc460105.3.fits
+0
+chosen by location cc: 0.0020903324087151454 460105.6
+
+good mask 460105
+/n/home00/nchou/src/all_fits/psc470001.3.fits
+0
+chosen by location cc: 0.0021247907837967928 470001.6
+
+good mask 470001
+/n/home00/nchou/src/all_fits/psc470005.3.fits
+0
+chosen by location cc: 0.0071657583639830325 470005.6
+
+good mask 470005
+/n/home00/nchou/src/all_fits/psc470015.3.fits
+0
+chosen by location cc: 0.00436398920282266 470015.6
+
+good mask 470015
+/n/home00/nchou/src/all_fits/psc470041.3.fits
+0
+chosen by location cc: 0.0015325729118458309 470041.6
+
+good mask 470041
+/n/home00/nchou/src/all_fits/psc470043.3.fits
+0
+chosen by location cc: 0.012215872881411127 470043.4
+
+good mask 470043
+/n/home00/nchou/src/all_fits/psc470047.3.fits
+0
+chosen by location cc: 0.0019921287728031922 470047.6
+
+good mask 470047
+/n/home00/nchou/src/all_fits/psc470110.3.fits
+0
+chosen by location cc: 0.0032617868843929365 470110.6
+
+good mask 470110
+/n/home00/nchou/src/all_fits/psc470232.3.fits
+0
+chosen by location cc: 0.010577402281781945 470232.5
+
+good mask 470232
+/n/home00/nchou/src/all_fits/psc470240.3.fits
+0
+No good candidate 470240.5
+
+ID: 470240
+bad mask 470240
+/n/home00/nchou/src/all_fits/psc470244.3.fits
+0
+chosen by location cc: 0.007963926840132807 470244.5
+
+good mask 470244
+/n/home00/nchou/src/all_fits/psc480058.3.fits
+0
+chosen by location cc: 0.0037019023142399465 480058.5
+
+good mask 480058
+/n/home00/nchou/src/all_fits/psc480064.3.fits
+0
+chosen by location cc: 0.004507965517317691 480064.6
+
+good mask 480064
+/n/home00/nchou/src/all_fits/psc480107.3.fits
+0
+No good candidate 480107.5
+
+ID: 480107
+bad mask 480107
+/n/home00/nchou/src/all_fits/psc480154.3.fits
+0
+chosen by location cc: 0.001069365713218251 480154.5
+
+good mask 480154
+/n/home00/nchou/src/all_fits/psc480168.3.fits
+0
+chosen by location cc: 0.0015998567016434206 480168.6
+
+good mask 480168
+/n/home00/nchou/src/all_fits/psc480464.3.fits
+0
+chosen by location cc: 0.003825213234737501 480464.4
+
+good mask 480464
+/n/home00/nchou/src/all_fits/psc480552.3.fits
+0
+No good candidate 480552.5
+
+ID: 480552
+bad mask 480552
+/n/home00/nchou/src/all_fits/psc480845.3.fits
+0
+chosen by location cc: 0.00080275047892997 480845.6
+
+good mask 480845
+/n/home00/nchou/src/all_fits/psc490007.3.fits
+0
+chosen by location cc: 0.0027113439599352196 490007.6
+
+good mask 490007
+/n/home00/nchou/src/all_fits/psc490008.3.fits
+0
+chosen by location cc: 0.004309903751700261 490008.6
+
+good mask 490008
+/n/home00/nchou/src/all_fits/psc490025.3.fits
+0
+No good candidate 490025.5
+
+ID: 490025
+bad mask 490025
+/n/home00/nchou/src/all_fits/psc490037.3.fits
+0
+chosen by location cc: 0.002686815906975726 490037.6
+
+good mask 490037
+/n/home00/nchou/src/all_fits/psc490521.3.fits
+0
+chosen by location cc: 0.0036330301712078628 490521.6
+
+good mask 490521
+/n/home00/nchou/src/all_fits/psc490563.3.fits
+0
+chosen by location cc: 0.009850317934196107 490563.6
+
+good mask 490563
+/n/home00/nchou/src/all_fits/psc500004.3.fits
+0
+chosen by location cc: 0.0034540603556901806 500004.5
+
+good mask 500004
+/n/home00/nchou/src/all_fits/psc500012.3.fits
+0
+chosen by location cc: 0.004596921200722304 500012.6
+
+good mask 500012
+/n/home00/nchou/src/all_fits/psc500022.3.fits
+0
+chosen by location cc: 0.006116660041197597 500022.6
+
+good mask 500022
+/n/home00/nchou/src/all_fits/psc500038.3.fits
+0
+chosen by location cc: 0.004618072907282111 500038.6
+
+good mask 500038
+/n/home00/nchou/src/all_fits/psc500057.3.fits
+0
+No good candidate 500057.5
+
+ID: 500057
+bad mask 500057
+/n/home00/nchou/src/all_fits/psc500063.3.fits
+0
+chosen by location cc: 0.009396143509664778 500063.6
+
+good mask 500063
+/n/home00/nchou/src/all_fits/psc500100.3.fits
+0
+chosen by cc cc: 0.011618344022421678 500100.6
+
+good mask 500100
+/n/home00/nchou/src/all_fits/psc500301.3.fits
+0
+chosen by location cc: 0.002893192956670232 500301.6
+
+good mask 500301
+/n/home00/nchou/src/all_fits/psc500332.3.fits
+0
+chosen by location cc: 0.002314871275654662 500332.6
+
+good mask 500332
+/n/home00/nchou/src/all_fits/psc500491.3.fits
+0
+chosen by location cc: 0.0012987408430312763 500491.6
+
+good mask 500491
+/n/home00/nchou/src/all_fits/psc500511.3.fits
+0
+chosen by location cc: 0.00578610755438469 500511.6
+
+good mask 500511
+/n/home00/nchou/src/all_fits/psc510082.3.fits
+0
+chosen by location cc: 0.0033934843523599767 510082.6
+
+good mask 510082
+/n/home00/nchou/src/all_fits/psc510113.3.fits
+0
+No good candidate 510113.5
+
+ID: 510113
+bad mask 510113
+/n/home00/nchou/src/all_fits/psc510174.3.fits
+0
+chosen by location cc: 0.002424861837748593 510174.6
+
+good mask 510174
+/n/home00/nchou/src/all_fits/psc510185.3.fits
+0
+chosen by location cc: 0.0037309269885337226 510185.6
+
+good mask 510185
+/n/home00/nchou/src/all_fits/psc510238.3.fits
+0
+chosen by location cc: 0.024956540100266933 510238.6
+
+good mask 510238
+/n/home00/nchou/src/all_fits/psc510251.3.fits
+0
+chosen by location cc: 0.002473774476990487 510251.6
+
+good mask 510251
+/n/home00/nchou/src/all_fits/psc510266.3.fits
+0
+chosen by location cc: 0.0067431425366824005 510266.6
+
+good mask 510266
+/n/home00/nchou/src/all_fits/psc510457.3.fits
+0
+chosen by location cc: 0.0024884738565603692 510457.6
+
+good mask 510457
+/n/home00/nchou/src/all_fits/psc510550.3.fits
+0
+chosen by location cc: 0.003071214463858718 510550.6
+
+good mask 510550
+/n/home00/nchou/src/all_fits/psc510578.3.fits
+0
+chosen by location cc: 0.013315677870781029 510578.6
+
+good mask 510578
+/n/home00/nchou/src/all_fits/psc510597.3.fits
+0
+No good candidate 510597.5
+
+ID: 510597
+bad mask 510597
+/n/home00/nchou/src/all_fits/psc510638.3.fits
+0
+chosen by location cc: 0.01443583722073094 510638.6
+
+good mask 510638
+/n/home00/nchou/src/all_fits/psc520001.3.fits
+0
+chosen by location cc: 0.7982983159284844 520001.3
+
+good mask 520001
+/n/home00/nchou/src/all_fits/psc520007.3.fits
+0
+chosen by location cc: 0.0013237726210125755 520007.5
+
+good mask 520007
+/n/home00/nchou/src/all_fits/psc520008.3.fits
+0
+chosen by location cc: 0.005287266884863584 520008.6
+
+good mask 520008
+/n/home00/nchou/src/all_fits/psc520019.3.fits
+0
+chosen by location cc: 0.001899167003584834 520019.6
+
+good mask 520019
+/n/home00/nchou/src/all_fits/psc520022.3.fits
+0
+chosen by location cc: 0.0012304538129500608 520022.6
+
+good mask 520022
+/n/home00/nchou/src/all_fits/psc520023.3.fits
+0
+chosen by location cc: 0.0009129765598449024 520023.6
+
+good mask 520023
+/n/home00/nchou/src/all_fits/psc520041.3.fits
+0
+chosen by location cc: 0.004259006032812818 520041.6
+
+good mask 520041
+/n/home00/nchou/src/all_fits/psc520062.3.fits
+0
+chosen by location cc: 0.0016992840524920894 520062.6
+
+good mask 520062
+/n/home00/nchou/src/all_fits/psc520071.3.fits
+0
+chosen by location cc: 0.006255422272378075 520071.6
+
+good mask 520071
+/n/home00/nchou/src/all_fits/psc520077.3.fits
+0
+chosen by location cc: 0.006500893738790703 520077.6
+
+good mask 520077
+/n/home00/nchou/src/all_fits/psc520107.3.fits
+0
+chosen by location cc: 0.006006627467419312 520107.6
+
+good mask 520107
+/n/home00/nchou/src/all_fits/psc520188.3.fits
+0
+chosen by location cc: 0.025056078003406368 520188.6
+
+good mask 520188
+/n/home00/nchou/src/all_fits/psc530037.3.fits
+0
+chosen by location cc: 0.0029270121364970425 530037.6
+
+good mask 530037
+/n/home00/nchou/src/all_fits/psc530061.3.fits
+0
+chosen by location cc: 0.0017224695224320463 530061.6
+
+good mask 530061
+/n/home00/nchou/src/all_fits/psc530085.3.fits
+0
+chosen by location cc: 0.0073352466004315 530085.6
+
+good mask 530085
+/n/home00/nchou/src/all_fits/psc530086.3.fits
+0
+chosen by location cc: 0.0010202439471583835 530086.6
+
+good mask 530086
+/n/home00/nchou/src/all_fits/psc530128.3.fits
+0
+chosen by location cc: 0.002235406429824338 530128.6
+
+good mask 530128
+/n/home00/nchou/src/all_fits/psc530175.3.fits
+0
+chosen by location cc: 0.002617356361070189 530175.6
+
+good mask 530175
+/n/home00/nchou/src/all_fits/psc530219.3.fits
+0
+chosen by cc cc: 0.0031170665603591496 530219.5
+
+good mask 530219
+/n/home00/nchou/src/all_fits/psc530240.3.fits
+0
+chosen by location cc: 0.001934534652685671 530240.6
+
+good mask 530240
+/n/home00/nchou/src/all_fits/psc530249.3.fits
+0
+No good candidate 530249.5
+
+ID: 530249
+bad mask 530249
+/n/home00/nchou/src/all_fits/psc530251.3.fits
+0
+chosen by location cc: 0.009696619972286324 530251.6
+
+good mask 530251
+/n/home00/nchou/src/all_fits/psc540163.3.fits
+0
+chosen by location cc: 0.0037934150865334137 540163.6
+
+good mask 540163
+/n/home00/nchou/src/all_fits/psc550005.3.fits
+0
+chosen by location cc: 0.0034931528721308114 550005.6
+
+good mask 550005
+/n/home00/nchou/src/all_fits/psc550041.3.fits
+0
+No good candidate 550041.5
+
+ID: 550041
+bad mask 550041
+/n/home00/nchou/src/all_fits/psc550059.3.fits
+0
+chosen by location cc: 0.017633070575068355 550059.6
+
+good mask 550059
+/n/home00/nchou/src/all_fits/psc550096.3.fits
+0
+chosen by location cc: 0.01520654577288938 550096.6
+
+good mask 550096
+/n/home00/nchou/src/all_fits/psc550130.3.fits
+0
+chosen by location cc: 0.002625089709846984 550130.6
+
+good mask 550130
+/n/home00/nchou/src/all_fits/psc550137.3.fits
+0
+chosen by location cc: 0.003974796976136341 550137.6
+
+good mask 550137
+/n/home00/nchou/src/all_fits/psc550154.3.fits
+0
+chosen by location cc: 0.0016726509975200088 550154.6
+
+good mask 550154
+/n/home00/nchou/src/all_fits/psc550155.3.fits
+0
+chosen by location cc: 0.0019176659150034192 550155.6
+
+good mask 550155
+/n/home00/nchou/src/all_fits/psc550190.3.fits
+0
+chosen by location cc: 0.001341039711863834 550190.6
+
+good mask 550190
+/n/home00/nchou/src/all_fits/psc550197.3.fits
+0
+chosen by location cc: 0.0020407294457140956 550197.6
+
+good mask 550197
+/n/home00/nchou/src/all_fits/psc550202.3.fits
+0
+chosen by location cc: 0.004683478389384654 550202.6
+
+good mask 550202
+/n/home00/nchou/src/all_fits/psc550218.3.fits
+0
+chosen by location cc: 0.015235926941570055 550218.5
+
+good mask 550218
+/n/home00/nchou/src/all_fits/psc550221.3.fits
+0
+No good candidate 550221.5
+
+ID: 550221
+bad mask 550221
+/n/home00/nchou/src/all_fits/psc560027.3.fits
+0
+No good candidate 560027.5
+
+ID: 560027
+bad mask 560027
+/n/home00/nchou/src/all_fits/psc560033.3.fits
+0
+chosen by location cc: 0.001854351556482281 560033.5
+
+good mask 560033
+/n/home00/nchou/src/all_fits/psc560054.3.fits
+0
+chosen by location cc: 0.006080169112629652 560054.6
+
+good mask 560054
+/n/home00/nchou/src/all_fits/psc560087.3.fits
+0
+chosen by location cc: 0.013080681577956721 560087.6
+
+good mask 560087
+/n/home00/nchou/src/all_fits/psc560116.3.fits
+0
+chosen by location cc: 0.002089310133048583 560116.6
+
+good mask 560116
+/n/home00/nchou/src/all_fits/psc560121.3.fits
+0
+chosen by location cc: 0.014711954779618286 560121.6
+
+good mask 560121
+/n/home00/nchou/src/all_fits/psc560152.3.fits
+0
+chosen by location cc: 0.0038727091468947483 560152.6
+
+good mask 560152
+/n/home00/nchou/src/all_fits/psc570022.3.fits
+0
+chosen by location cc: 0.007577766733034341 570022.6
+
+good mask 570022
+/n/home00/nchou/src/all_fits/psc570025.3.fits
+0
+chosen by location cc: 0.00574082685638011 570025.6
+
+good mask 570025
+/n/home00/nchou/src/all_fits/psc570062.3.fits
+0
+chosen by location cc: 0.015175637032301403 570062.5
+
+good mask 570062
+/n/home00/nchou/src/all_fits/psc570096.3.fits
+0
+chosen by location cc: 0.00625155971058422 570096.6
+
+good mask 570096
+/n/home00/nchou/src/all_fits/psc580028.3.fits
+0
+chosen by location cc: 0.00713693203232435 580028.5
+
+good mask 580028
+/n/home00/nchou/src/all_fits/psc580084.3.fits
+0
+chosen by location cc: 0.0015377791287120024 580084.6
+
+good mask 580084
+/n/home00/nchou/src/all_fits/psc580098.3.fits
+0
+chosen by location cc: 0.002941487693998157 580098.6
+
+good mask 580098
+/n/home00/nchou/src/all_fits/psc580234.3.fits
+0
+No good candidate 580234.5
+
+ID: 580234
+bad mask 580234
+/n/home00/nchou/src/all_fits/psc580235.3.fits
+0
+No good candidate 580235.5
+
+ID: 580235
+bad mask 580235
+/n/home00/nchou/src/all_fits/psc580275.3.fits
+0
+chosen by location cc: 0.002751063044077129 580275.6
+
+good mask 580275
+/n/home00/nchou/src/all_fits/psc580276.3.fits
+0
+chosen by location cc: 0.0021786926801494744 580276.6
+
+good mask 580276
+/n/home00/nchou/src/all_fits/psc580280.3.fits
+0
+chosen by location cc: 0.004267079006094354 580280.6
+
+good mask 580280
+/n/home00/nchou/src/all_fits/psc580289.3.fits
+0
+chosen by location cc: 0.00712289751260986 580289.6
+
+good mask 580289
+/n/home00/nchou/src/all_fits/psc580300.3.fits
+0
+chosen by location cc: 0.003110690358241741 580300.6
+
+good mask 580300
+/n/home00/nchou/src/all_fits/psc580312.3.fits
+0
+chosen by location cc: 0.0020887612210134243 580312.6
+
+good mask 580312
+/n/home00/nchou/src/all_fits/psc580327.3.fits
+0
+chosen by cc cc: 0.01463642887758787 580327.6
+
+good mask 580327
+/n/home00/nchou/src/all_fits/psc590002.3.fits
+0
+photozmatch 590002.3
+
+0
+chosen by location cc: 0.00606775535037285 590002.6
+
+good mask 590002
+/n/home00/nchou/src/all_fits/psc590005.3.fits
+0
+chosen by location cc: 0.006951638797910609 590005.6
+
+good mask 590005
+/n/home00/nchou/src/all_fits/psc590031.3.fits
+0
+chosen by location cc: 0.0033257262931981613 590031.6
+
+good mask 590031
+/n/home00/nchou/src/all_fits/psc590045.3.fits
+0
+chosen by location cc: 0.0019749182694094314 590045.6
+
+good mask 590045
+/n/home00/nchou/src/all_fits/psc590097.3.fits
+0
+chosen by location cc: 0.0015166231302458089 590097.6
+
+good mask 590097
+/n/home00/nchou/src/all_fits/psc590123.3.fits
+0
+No good candidate 590123.5
+
+ID: 590123
+bad mask 590123
+/n/home00/nchou/src/all_fits/psc590194.3.fits
+0
+chosen by location cc: 0.000923185158022477 590194.6
+
+good mask 590194
+/n/home00/nchou/src/all_fits/psc590287.3.fits
+0
+No good candidate 590287.5
+
+ID: 590287
+bad mask 590287
+saved all masks
+Time: 1677.563401222229 
+BAD COUNT: 69
+/n/home00/nchou/src/all_fits/psc020096.3.fits
+/n/home00/nchou/src/all_fits/psc040780.3.fits
+/n/home00/nchou/src/all_fits/psc590287.3.fits
+/n/home00/nchou/src/all_fits/psc150455.3.fits
+/n/home00/nchou/src/all_fits/psc380378.3.fits
+/n/home00/nchou/src/all_fits/psc310188.3.fits
+/n/home00/nchou/src/all_fits/psc030010.3.fits
+/n/home00/nchou/src/all_fits/psc160066.3.fits
+/n/home00/nchou/src/all_fits/psc130150.3.fits
+/n/home00/nchou/src/all_fits/psc040111.3.fits
+/n/home00/nchou/src/all_fits/psc120243.3.fits
+/n/home00/nchou/src/all_fits/psc000137.3.fits
+/n/home00/nchou/src/all_fits/psc190260.3.fits
+/n/home00/nchou/src/all_fits/psc000038.3.fits
+/n/home00/nchou/src/all_fits/psc330089.3.fits
+/n/home00/nchou/src/all_fits/psc180313.3.fits
+/n/home00/nchou/src/all_fits/psc340232.3.fits
+/n/home00/nchou/src/all_fits/psc050301.3.fits
+/n/home00/nchou/src/all_fits/psc310025.3.fits
+/n/home00/nchou/src/all_fits/psc110030.3.fits
+/n/home00/nchou/src/all_fits/psc130846.3.fits
+/n/home00/nchou/src/all_fits/psc440042.3.fits
+/n/home00/nchou/src/all_fits/psc040150.3.fits
+/n/home00/nchou/src/all_fits/psc000218.3.fits
+/n/home00/nchou/src/all_fits/psc000133.3.fits
+/n/home00/nchou/src/all_fits/psc470041.3.fits
+/n/home00/nchou/src/all_fits/psc040301.3.fits
+/n/home00/nchou/src/all_fits/psc140181.3.fits
+/n/home00/nchou/src/all_fits/psc050296.3.fits
+/n/home00/nchou/src/all_fits/psc120175.3.fits
+/n/home00/nchou/src/all_fits/psc510174.3.fits
+/n/home00/nchou/src/all_fits/psc570025.3.fits
+/n/home00/nchou/src/all_fits/psc480058.3.fits
+/n/home00/nchou/src/all_fits/psc570022.3.fits
+/n/home00/nchou/src/all_fits/psc330114.3.fits
+/n/home00/nchou/src/all_fits/psc370469.3.fits
+/n/home00/nchou/src/all_fits/psc500100.3.fits
+/n/home00/nchou/src/all_fits/psc300140.3.fits
+/n/home00/nchou/src/all_fits/psc550197.3.fits
+/n/home00/nchou/src/all_fits/psc000248.3.fits
+/n/home00/nchou/src/all_fits/psc370595.3.fits
+/n/home00/nchou/src/all_fits/psc390712.3.fits
+/n/home00/nchou/src/all_fits/psc160042.3.fits
+/n/home00/nchou/src/all_fits/psc370344.3.fits
+/n/home00/nchou/src/all_fits/psc130308.3.fits
+/n/home00/nchou/src/all_fits/psc370330.3.fits
+/n/home00/nchou/src/all_fits/psc530128.3.fits
+/n/home00/nchou/src/all_fits/psc050203.3.fits
+/n/home00/nchou/src/all_fits/psc130862.3.fits
+/n/home00/nchou/src/all_fits/psc460004.3.fits
+/n/home00/nchou/src/all_fits/psc300089.3.fits
+/n/home00/nchou/src/all_fits/psc370308.3.fits
+/n/home00/nchou/src/all_fits/psc000076.3.fits
+/n/home00/nchou/src/all_fits/psc320047.3.fits
+/n/home00/nchou/src/all_fits/psc390449.3.fits
+/n/home00/nchou/src/all_fits/psc000199.3.fits
+/n/home00/nchou/src/all_fits/psc440264.3.fits
+/n/home00/nchou/src/all_fits/psc110460.3.fits
+/n/home00/nchou/src/all_fits/psc420258.3.fits
+/n/home00/nchou/src/all_fits/psc370189.3.fits
+/n/home00/nchou/src/all_fits/psc150509.3.fits
+/n/home00/nchou/src/all_fits/psc131094.3.fits
+/n/home00/nchou/src/all_fits/psc360359.3.fits
+/n/home00/nchou/src/all_fits/psc350606.3.fits
+/n/home00/nchou/src/all_fits/psc330013.3.fits
+/n/home00/nchou/src/all_fits/psc500038.3.fits
+/n/home00/nchou/src/all_fits/psc350027.3.fits
+/n/home00/nchou/src/all_fits/psc330075.3.fits
+/n/home00/nchou/src/all_fits/psc580327.3.fits
+/n/home00/nchou/src/all_fits/psc080079.3.fits
+/n/home00/nchou/src/all_fits/psc370356.3.fits
+/n/home00/nchou/src/all_fits/psc340229.3.fits
+/n/home00/nchou/src/all_fits/psc480107.3.fits
+/n/home00/nchou/src/all_fits/psc510185.3.fits
+/n/home00/nchou/src/all_fits/psc510251.3.fits
+/n/home00/nchou/src/all_fits/psc100213.3.fits
+/n/home00/nchou/src/all_fits/psc420159.3.fits
+/n/home00/nchou/src/all_fits/psc490008.3.fits
+/n/home00/nchou/src/all_fits/psc390264.3.fits
+/n/home00/nchou/src/all_fits/psc160039.3.fits
+/n/home00/nchou/src/all_fits/psc520062.3.fits
+/n/home00/nchou/src/all_fits/psc490007.3.fits
+/n/home00/nchou/src/all_fits/psc060230.3.fits
+/n/home00/nchou/src/all_fits/psc310026.3.fits
+/n/home00/nchou/src/all_fits/psc510266.3.fits
+/n/home00/nchou/src/all_fits/psc350630.3.fits
+/n/home00/nchou/src/all_fits/psc520188.3.fits
+/n/home00/nchou/src/all_fits/psc420407.3.fits
+/n/home00/nchou/src/all_fits/psc100405.3.fits
+/n/home00/nchou/src/all_fits/psc340272.3.fits
+/n/home00/nchou/src/all_fits/psc510082.3.fits
+/n/home00/nchou/src/all_fits/psc530037.3.fits
+/n/home00/nchou/src/all_fits/psc490037.3.fits
+/n/home00/nchou/src/all_fits/psc420248.3.fits
+/n/home00/nchou/src/all_fits/psc020075.3.fits
+/n/home00/nchou/src/all_fits/psc380108.3.fits
+/n/home00/nchou/src/all_fits/psc150582.3.fits
+/n/home00/nchou/src/all_fits/psc460105.3.fits
+/n/home00/nchou/src/all_fits/psc140357.3.fits
+/n/home00/nchou/src/all_fits/psc460037.3.fits
+/n/home00/nchou/src/all_fits/psc330053.3.fits
+/n/home00/nchou/src/all_fits/psc350083.3.fits
+/n/home00/nchou/src/all_fits/psc430003.3.fits
+/n/home00/nchou/src/all_fits/psc000190.3.fits
+/n/home00/nchou/src/all_fits/psc080762.3.fits
+/n/home00/nchou/src/all_fits/psc470047.3.fits
+/n/home00/nchou/src/all_fits/psc130812.3.fits
+/n/home00/nchou/src/all_fits/psc500301.3.fits
+/n/home00/nchou/src/all_fits/psc370367.3.fits
+/n/home00/nchou/src/all_fits/psc310042.3.fits
+/n/home00/nchou/src/all_fits/psc420352.3.fits
+/n/home00/nchou/src/all_fits/psc110405.3.fits
+/n/home00/nchou/src/all_fits/psc580276.3.fits
+/n/home00/nchou/src/all_fits/psc440008.3.fits
+/n/home00/nchou/src/all_fits/psc460103.3.fits
+/n/home00/nchou/src/all_fits/psc110033.3.fits
+/n/home00/nchou/src/all_fits/psc300179.3.fits
+/n/home00/nchou/src/all_fits/psc360030.3.fits
+/n/home00/nchou/src/all_fits/psc340243.3.fits
+/n/home00/nchou/src/all_fits/psc310051.3.fits
+/n/home00/nchou/src/all_fits/psc560116.3.fits
+/n/home00/nchou/src/all_fits/psc120369.3.fits
+/n/home00/nchou/src/all_fits/psc310146.3.fits
+/n/home00/nchou/src/all_fits/psc540163.3.fits
+/n/home00/nchou/src/all_fits/psc340169.3.fits
+/n/home00/nchou/src/all_fits/psc310161.3.fits
+/n/home00/nchou/src/all_fits/psc110430.3.fits
+/n/home00/nchou/src/all_fits/psc500332.3.fits
+/n/home00/nchou/src/all_fits/psc470244.3.fits
+/n/home00/nchou/src/all_fits/psc020027.3.fits
+/n/home00/nchou/src/all_fits/psc350548.3.fits
+/n/home00/nchou/src/all_fits/psc480845.3.fits
+/n/home00/nchou/src/all_fits/psc550137.3.fits
+/n/home00/nchou/src/all_fits/psc590005.3.fits
+/n/home00/nchou/src/all_fits/psc110431.3.fits
+/n/home00/nchou/src/all_fits/psc110478.3.fits
+/n/home00/nchou/src/all_fits/psc580084.3.fits
+/n/home00/nchou/src/all_fits/psc090275.3.fits
+/n/home00/nchou/src/all_fits/psc110034.3.fits
+/n/home00/nchou/src/all_fits/psc440176.3.fits
+/n/home00/nchou/src/all_fits/psc430005.3.fits
+/n/home00/nchou/src/all_fits/psc530240.3.fits
+/n/home00/nchou/src/all_fits/psc120094.3.fits
+/n/home00/nchou/src/all_fits/psc020132.3.fits
+/n/home00/nchou/src/all_fits/psc130945.3.fits
+/n/home00/nchou/src/all_fits/psc480552.3.fits
+/n/home00/nchou/src/all_fits/psc000196.3.fits
+/n/home00/nchou/src/all_fits/psc310238.3.fits
+/n/home00/nchou/src/all_fits/psc110036.3.fits
+/n/home00/nchou/src/all_fits/psc580300.3.fits
+/n/home00/nchou/src/all_fits/psc050601.3.fits
+/n/home00/nchou/src/all_fits/psc151425.3.fits
+/n/home00/nchou/src/all_fits/psc510113.3.fits
+/n/home00/nchou/src/all_fits/psc091034.3.fits
+/n/home00/nchou/src/all_fits/psc550096.3.fits
+/n/home00/nchou/src/all_fits/psc050088.3.fits
+/n/home00/nchou/src/all_fits/psc120044.3.fits
+/n/home00/nchou/src/all_fits/psc300112.3.fits
+/n/home00/nchou/src/all_fits/psc120143.3.fits
+/n/home00/nchou/src/all_fits/psc560121.3.fits
+/n/home00/nchou/src/all_fits/psc480064.3.fits
+/n/home00/nchou/src/all_fits/psc460064.3.fits
+/n/home00/nchou/src/all_fits/psc050081.3.fits
+/n/home00/nchou/src/all_fits/psc550154.3.fits
+/n/home00/nchou/src/all_fits/psc120333.3.fits
+/n/home00/nchou/src/all_fits/psc120419.3.fits
+missing filters for 120419
+/n/home00/nchou/src/all_fits/psc370589.3.fits
+/n/home00/nchou/src/all_fits/psc380014.3.fits
+/n/home00/nchou/src/all_fits/psc050221.3.fits
+/n/home00/nchou/src/all_fits/psc330022.3.fits
+/n/home00/nchou/src/all_fits/psc440202.3.fits
+/n/home00/nchou/src/all_fits/psc080646.3.fits
+/n/home00/nchou/src/all_fits/psc490025.3.fits
+/n/home00/nchou/src/all_fits/psc140152.3.fits
+/n/home00/nchou/src/all_fits/psc370369.3.fits
+/n/home00/nchou/src/all_fits/psc400158.3.fits
+/n/home00/nchou/src/all_fits/psc560027.3.fits
+/n/home00/nchou/src/all_fits/psc440285.3.fits
+/n/home00/nchou/src/all_fits/psc000215.3.fits
+/n/home00/nchou/src/all_fits/psc370098.3.fits
+/n/home00/nchou/src/all_fits/psc150576.3.fits
+/n/home00/nchou/src/all_fits/psc590123.3.fits
+/n/home00/nchou/src/all_fits/psc520008.3.fits
+/n/home00/nchou/src/all_fits/psc550190.3.fits
+/n/home00/nchou/src/all_fits/psc420122.3.fits
+missing filters for 420122
+/n/home00/nchou/src/all_fits/psc131014.3.fits
+/n/home00/nchou/src/all_fits/psc020200.3.fits
+/n/home00/nchou/src/all_fits/psc350050.3.fits
+/n/home00/nchou/src/all_fits/psc130755.3.fits
+/n/home00/nchou/src/all_fits/psc310091.3.fits
+/n/home00/nchou/src/all_fits/psc340346.3.fits
+/n/home00/nchou/src/all_fits/psc520041.3.fits
+/n/home00/nchou/src/all_fits/psc130514.3.fits
+/n/home00/nchou/src/all_fits/psc000220.3.fits
+/n/home00/nchou/src/all_fits/psc310090.3.fits
+/n/home00/nchou/src/all_fits/psc110468.3.fits
+/n/home00/nchou/src/all_fits/psc070291.3.fits
+/n/home00/nchou/src/all_fits/psc160099.3.fits
+/n/home00/nchou/src/all_fits/psc500022.3.fits
+/n/home00/nchou/src/all_fits/psc330107.3.fits
+/n/home00/nchou/src/all_fits/psc520022.3.fits
+/n/home00/nchou/src/all_fits/psc330112.3.fits
+/n/home00/nchou/src/all_fits/psc000091.3.fits
+/n/home00/nchou/src/all_fits/psc470005.3.fits
+/n/home00/nchou/src/all_fits/psc350233.3.fits
+/n/home00/nchou/src/all_fits/psc500057.3.fits
+/n/home00/nchou/src/all_fits/psc110719.3.fits
+/n/home00/nchou/src/all_fits/psc470110.3.fits
+/n/home00/nchou/src/all_fits/psc470043.3.fits
+/n/home00/nchou/src/all_fits/psc180561.3.fits
+/n/home00/nchou/src/all_fits/psc330128.3.fits
+/n/home00/nchou/src/all_fits/psc370329.3.fits
+/n/home00/nchou/src/all_fits/psc370566.3.fits
+/n/home00/nchou/src/all_fits/psc090037.3.fits
+/n/home00/nchou/src/all_fits/psc350235.3.fits
+/n/home00/nchou/src/all_fits/psc560054.3.fits
+/n/home00/nchou/src/all_fits/psc580280.3.fits
+/n/home00/nchou/src/all_fits/psc440236.3.fits
+/n/home00/nchou/src/all_fits/psc510457.3.fits
+/n/home00/nchou/src/all_fits/psc420196.3.fits
+/n/home00/nchou/src/all_fits/psc071072.3.fits
+/n/home00/nchou/src/all_fits/psc320099.3.fits
+/n/home00/nchou/src/all_fits/psc350633.3.fits
+/n/home00/nchou/src/all_fits/psc360140.3.fits
+/n/home00/nchou/src/all_fits/psc340242.3.fits
+/n/home00/nchou/src/all_fits/psc330042.3.fits
+/n/home00/nchou/src/all_fits/psc030129.3.fits
+/n/home00/nchou/src/all_fits/psc080723.3.fits
+/n/home00/nchou/src/all_fits/psc050580.3.fits
+/n/home00/nchou/src/all_fits/psc380244.3.fits
+/n/home00/nchou/src/all_fits/psc080735.3.fits
+/n/home00/nchou/src/all_fits/psc520007.3.fits
+/n/home00/nchou/src/all_fits/psc530219.3.fits
+/n/home00/nchou/src/all_fits/psc560087.3.fits
+/n/home00/nchou/src/all_fits/psc130816.3.fits
+/n/home00/nchou/src/all_fits/psc340276.3.fits
+/n/home00/nchou/src/all_fits/psc120228.3.fits
+/n/home00/nchou/src/all_fits/psc580028.3.fits
+/n/home00/nchou/src/all_fits/psc100206.3.fits
+/n/home00/nchou/src/all_fits/psc080064.3.fits
+/n/home00/nchou/src/all_fits/psc300221.3.fits
+/n/home00/nchou/src/all_fits/psc370394.3.fits
+/n/home00/nchou/src/all_fits/psc150507.3.fits
+/n/home00/nchou/src/all_fits/psc550202.3.fits
+/n/home00/nchou/src/all_fits/psc120086.3.fits
+/n/home00/nchou/src/all_fits/psc310260.3.fits
+/n/home00/nchou/src/all_fits/psc340211.3.fits
+/n/home00/nchou/src/all_fits/psc160214.3.fits
+/n/home00/nchou/src/all_fits/psc151034.3.fits
+/n/home00/nchou/src/all_fits/psc330076.3.fits
+/n/home00/nchou/src/all_fits/psc340316.3.fits
+/n/home00/nchou/src/all_fits/psc120586.3.fits
+/n/home00/nchou/src/all_fits/psc100163.3.fits
+/n/home00/nchou/src/all_fits/psc150692.3.fits
+/n/home00/nchou/src/all_fits/psc150522.3.fits
+/n/home00/nchou/src/all_fits/psc360112.3.fits
+/n/home00/nchou/src/all_fits/psc300105.3.fits
+/n/home00/nchou/src/all_fits/psc350092.3.fits
+/n/home00/nchou/src/all_fits/psc360139.3.fits
+/n/home00/nchou/src/all_fits/psc350076.3.fits
+/n/home00/nchou/src/all_fits/psc500491.3.fits
+/n/home00/nchou/src/all_fits/psc050596.3.fits
+/n/home00/nchou/src/all_fits/psc050291.3.fits
+/n/home00/nchou/src/all_fits/psc050003.3.fits
+/n/home00/nchou/src/all_fits/psc100020.3.fits
+/n/home00/nchou/src/all_fits/psc160287.3.fits
+/n/home00/nchou/src/all_fits/psc350047.3.fits
+/n/home00/nchou/src/all_fits/psc530086.3.fits
+/n/home00/nchou/src/all_fits/psc190230.3.fits
+/n/home00/nchou/src/all_fits/psc050581.3.fits
+/n/home00/nchou/src/all_fits/psc200079.3.fits
+/n/home00/nchou/src/all_fits/psc070955.3.fits
+/n/home00/nchou/src/all_fits/psc070763.3.fits
+/n/home00/nchou/src/all_fits/psc380056.3.fits
+/n/home00/nchou/src/all_fits/psc520001.3.fits
+/n/home00/nchou/src/all_fits/psc320469.3.fits
+/n/home00/nchou/src/all_fits/psc030066.3.fits
+/n/home00/nchou/src/all_fits/psc110058.3.fits
+/n/home00/nchou/src/all_fits/psc120113.3.fits
+/n/home00/nchou/src/all_fits/psc091748.3.fits
+/n/home00/nchou/src/all_fits/psc420417.3.fits
+/n/home00/nchou/src/all_fits/psc550221.3.fits
+/n/home00/nchou/src/all_fits/psc470240.3.fits
+/n/home00/nchou/src/all_fits/psc130942.3.fits
+/n/home00/nchou/src/all_fits/psc160070.3.fits
+/n/home00/nchou/src/all_fits/psc160126.3.fits
+/n/home00/nchou/src/all_fits/psc110425.3.fits
+/n/home00/nchou/src/all_fits/psc420414.3.fits
+/n/home00/nchou/src/all_fits/psc340334.3.fits
+/n/home00/nchou/src/all_fits/psc340337.3.fits
+/n/home00/nchou/src/all_fits/psc380279.3.fits
+/n/home00/nchou/src/all_fits/psc450025.3.fits
+/n/home00/nchou/src/all_fits/psc180166.3.fits
+/n/home00/nchou/src/all_fits/psc070242.3.fits
+/n/home00/nchou/src/all_fits/psc370563.3.fits
+/n/home00/nchou/src/all_fits/psc390259.3.fits
+/n/home00/nchou/src/all_fits/psc440420.3.fits
+/n/home00/nchou/src/all_fits/psc470015.3.fits
+/n/home00/nchou/src/all_fits/psc190340.3.fits
+/n/home00/nchou/src/all_fits/psc580098.3.fits
+/n/home00/nchou/src/all_fits/psc500511.3.fits
+/n/home00/nchou/src/all_fits/psc550059.3.fits
+/n/home00/nchou/src/all_fits/psc150249.3.fits
+/n/home00/nchou/src/all_fits/psc020176.3.fits
+/n/home00/nchou/src/all_fits/psc350330.3.fits
+/n/home00/nchou/src/all_fits/psc140103.3.fits
+/n/home00/nchou/src/all_fits/psc100101.3.fits
+/n/home00/nchou/src/all_fits/psc000098.3.fits
+/n/home00/nchou/src/all_fits/psc131015.3.fits
+/n/home00/nchou/src/all_fits/psc590031.3.fits
+/n/home00/nchou/src/all_fits/psc180279.3.fits
+/n/home00/nchou/src/all_fits/psc550218.3.fits
+/n/home00/nchou/src/all_fits/psc110734.3.fits
+/n/home00/nchou/src/all_fits/psc050201.3.fits
+/n/home00/nchou/src/all_fits/psc570096.3.fits
+/n/home00/nchou/src/all_fits/psc520107.3.fits
+/n/home00/nchou/src/all_fits/psc450020.3.fits
+/n/home00/nchou/src/all_fits/psc190369.3.fits
+/n/home00/nchou/src/all_fits/psc440162.3.fits
+/n/home00/nchou/src/all_fits/psc440005.3.fits
+/n/home00/nchou/src/all_fits/psc120085.3.fits
+/n/home00/nchou/src/all_fits/psc040201.3.fits
+/n/home00/nchou/src/all_fits/psc550155.3.fits
+/n/home00/nchou/src/all_fits/psc480168.3.fits
+/n/home00/nchou/src/all_fits/psc590097.3.fits
+/n/home00/nchou/src/all_fits/psc000001.3.fits
+/n/home00/nchou/src/all_fits/psc390471.3.fits
+/n/home00/nchou/src/all_fits/psc420100.3.fits
+/n/home00/nchou/src/all_fits/psc480464.3.fits
+/n/home00/nchou/src/all_fits/psc560033.3.fits
+/n/home00/nchou/src/all_fits/psc090201.3.fits
+/n/home00/nchou/src/all_fits/psc020090.3.fits
+/n/home00/nchou/src/all_fits/psc510638.3.fits
+/n/home00/nchou/src/all_fits/psc110721.3.fits
+/n/home00/nchou/src/all_fits/psc500004.3.fits
+/n/home00/nchou/src/all_fits/psc040198.3.fits
+/n/home00/nchou/src/all_fits/psc100170.3.fits
+/n/home00/nchou/src/all_fits/psc340218.3.fits
+/n/home00/nchou/src/all_fits/psc340195.3.fits
+/n/home00/nchou/src/all_fits/psc370519.3.fits
+/n/home00/nchou/src/all_fits/psc490563.3.fits
+/n/home00/nchou/src/all_fits/psc310359.3.fits
+/n/home00/nchou/src/all_fits/psc550005.3.fits
+/n/home00/nchou/src/all_fits/psc360145.3.fits
+/n/home00/nchou/src/all_fits/psc040782.3.fits
+/n/home00/nchou/src/all_fits/psc470232.3.fits
+/n/home00/nchou/src/all_fits/psc080308.3.fits
+/n/home00/nchou/src/all_fits/psc440039.3.fits
+/n/home00/nchou/src/all_fits/psc170428.3.fits
+/n/home00/nchou/src/all_fits/psc380040.3.fits
+/n/home00/nchou/src/all_fits/psc350316.3.fits
+/n/home00/nchou/src/all_fits/psc131089.3.fits
+/n/home00/nchou/src/all_fits/psc580275.3.fits
+/n/home00/nchou/src/all_fits/psc460001.3.fits
+/n/home00/nchou/src/all_fits/psc350374.3.fits
+/n/home00/nchou/src/all_fits/psc150381.3.fits
+/n/home00/nchou/src/all_fits/psc050607.3.fits
+/n/home00/nchou/src/all_fits/psc190209.3.fits
+/n/home00/nchou/src/all_fits/psc080768.3.fits
+/n/home00/nchou/src/all_fits/psc510550.3.fits
+/n/home00/nchou/src/all_fits/psc061196.3.fits
+/n/home00/nchou/src/all_fits/psc000142.3.fits
+/n/home00/nchou/src/all_fits/psc040137.3.fits
+/n/home00/nchou/src/all_fits/psc330106.3.fits
+/n/home00/nchou/src/all_fits/psc110716.3.fits
+/n/home00/nchou/src/all_fits/psc520071.3.fits
+/n/home00/nchou/src/all_fits/psc130913.3.fits
+/n/home00/nchou/src/all_fits/psc320258.3.fits
+/n/home00/nchou/src/all_fits/psc330083.3.fits
+/n/home00/nchou/src/all_fits/psc380012.3.fits
+/n/home00/nchou/src/all_fits/psc440643.3.fits
+/n/home00/nchou/src/all_fits/psc060284.3.fits
+/n/home00/nchou/src/all_fits/psc380318.3.fits
+/n/home00/nchou/src/all_fits/psc440050.3.fits
+/n/home00/nchou/src/all_fits/psc160103.3.fits
+/n/home00/nchou/src/all_fits/psc120444.3.fits
+/n/home00/nchou/src/all_fits/psc040662.3.fits
+/n/home00/nchou/src/all_fits/psc450082.3.fits
+/n/home00/nchou/src/all_fits/psc090022.3.fits
+/n/home00/nchou/src/all_fits/psc580234.3.fits
+/n/home00/nchou/src/all_fits/psc440011.3.fits
+/n/home00/nchou/src/all_fits/psc010454.3.fits
+/n/home00/nchou/src/all_fits/psc120585.3.fits
+/n/home00/nchou/src/all_fits/psc590002.3.fits
+/n/home00/nchou/src/all_fits/psc000034.3.fits
+/n/home00/nchou/src/all_fits/psc450266.3.fits
+/n/home00/nchou/src/all_fits/psc510238.3.fits
+/n/home00/nchou/src/all_fits/psc120031.3.fits
+/n/home00/nchou/src/all_fits/psc450008.3.fits
+/n/home00/nchou/src/all_fits/psc300220.3.fits
+/n/home00/nchou/src/all_fits/psc530249.3.fits
+/n/home00/nchou/src/all_fits/psc090034.3.fits
+/n/home00/nchou/src/all_fits/psc110542.3.fits
+/n/home00/nchou/src/all_fits/psc010026.3.fits
+/n/home00/nchou/src/all_fits/psc050251.3.fits
+/n/home00/nchou/src/all_fits/psc520023.3.fits
+/n/home00/nchou/src/all_fits/psc000010.3.fits
+/n/home00/nchou/src/all_fits/psc380046.3.fits
+/n/home00/nchou/src/all_fits/psc010163.3.fits
+/n/home00/nchou/src/all_fits/psc120215.3.fits
+missing filters for 120215
+/n/home00/nchou/src/all_fits/psc160198.3.fits
+/n/home00/nchou/src/all_fits/psc000236.3.fits
+/n/home00/nchou/src/all_fits/psc100014.3.fits
+/n/home00/nchou/src/all_fits/psc000006.3.fits
+/n/home00/nchou/src/all_fits/psc450284.3.fits
+/n/home00/nchou/src/all_fits/psc160200.3.fits
+/n/home00/nchou/src/all_fits/psc580235.3.fits
+/n/home00/nchou/src/all_fits/psc470001.3.fits
+/n/home00/nchou/src/all_fits/psc050577.3.fits
+/n/home00/nchou/src/all_fits/psc020021.3.fits
+/n/home00/nchou/src/all_fits/psc510578.3.fits
+/n/home00/nchou/src/all_fits/psc140418.3.fits
+/n/home00/nchou/src/all_fits/psc330064.3.fits
+/n/home00/nchou/src/all_fits/psc440509.3.fits
+/n/home00/nchou/src/all_fits/psc590045.3.fits
+/n/home00/nchou/src/all_fits/psc120067.3.fits
+/n/home00/nchou/src/all_fits/psc530085.3.fits
+/n/home00/nchou/src/all_fits/psc350607.3.fits
+/n/home00/nchou/src/all_fits/psc530175.3.fits
+/n/home00/nchou/src/all_fits/psc120336.3.fits
+/n/home00/nchou/src/all_fits/psc370290.3.fits
+/n/home00/nchou/src/all_fits/psc520019.3.fits
+/n/home00/nchou/src/all_fits/psc010010.3.fits
+/n/home00/nchou/src/all_fits/psc050044.3.fits
+/n/home00/nchou/src/all_fits/psc120225.3.fits
+/n/home00/nchou/src/all_fits/psc490521.3.fits
+/n/home00/nchou/src/all_fits/psc350078.3.fits
+/n/home00/nchou/src/all_fits/psc310039.3.fits
+/n/home00/nchou/src/all_fits/psc440035.3.fits
+/n/home00/nchou/src/all_fits/psc091040.3.fits
+/n/home00/nchou/src/all_fits/psc170532.3.fits
+/n/home00/nchou/src/all_fits/psc130943.3.fits
+/n/home00/nchou/src/all_fits/psc060270.3.fits
+/n/home00/nchou/src/all_fits/psc010043.3.fits
+/n/home00/nchou/src/all_fits/psc110031.3.fits
+/n/home00/nchou/src/all_fits/psc170078.3.fits
+/n/home00/nchou/src/all_fits/psc050293.3.fits
+/n/home00/nchou/src/all_fits/psc580289.3.fits
+/n/home00/nchou/src/all_fits/psc150254.3.fits
+/n/home00/nchou/src/all_fits/psc420136.3.fits
+/n/home00/nchou/src/all_fits/psc150412.3.fits
+/n/home00/nchou/src/all_fits/psc000011.3.fits
+/n/home00/nchou/src/all_fits/psc350192.3.fits
+/n/home00/nchou/src/all_fits/psc310073.3.fits
+/n/home00/nchou/src/all_fits/psc030006.3.fits
+/n/home00/nchou/src/all_fits/psc040146.3.fits
+/n/home00/nchou/src/all_fits/psc110567.3.fits
+/n/home00/nchou/src/all_fits/psc110484.3.fits
+/n/home00/nchou/src/all_fits/psc350080.3.fits
+/n/home00/nchou/src/all_fits/psc430004.3.fits
+/n/home00/nchou/src/all_fits/psc150267.3.fits
+/n/home00/nchou/src/all_fits/psc050005.3.fits
+/n/home00/nchou/src/all_fits/psc330143.3.fits
+/n/home00/nchou/src/all_fits/psc370498.3.fits
+/n/home00/nchou/src/all_fits/psc570062.3.fits
+/n/home00/nchou/src/all_fits/psc000202.3.fits
+/n/home00/nchou/src/all_fits/psc130327.3.fits
+/n/home00/nchou/src/all_fits/psc000014.3.fits
+missing filters for 14
+/n/home00/nchou/src/all_fits/psc370066.3.fits
+/n/home00/nchou/src/all_fits/psc510597.3.fits
+/n/home00/nchou/src/all_fits/psc360156.3.fits
+/n/home00/nchou/src/all_fits/psc300008.3.fits
+/n/home00/nchou/src/all_fits/psc000174.3.fits
+/n/home00/nchou/src/all_fits/psc330040.3.fits
+/n/home00/nchou/src/all_fits/psc100090.3.fits
+/n/home00/nchou/src/all_fits/psc320347.3.fits
+/n/home00/nchou/src/all_fits/psc340222.3.fits
+/n/home00/nchou/src/all_fits/psc580312.3.fits
+/n/home00/nchou/src/all_fits/psc120400.3.fits
+/n/home00/nchou/src/all_fits/psc390627.3.fits
+/n/home00/nchou/src/all_fits/psc370428.3.fits
+/n/home00/nchou/src/all_fits/psc190299.3.fits
+/n/home00/nchou/src/all_fits/psc190237.3.fits
+/n/home00/nchou/src/all_fits/psc370333.3.fits
+/n/home00/nchou/src/all_fits/psc370286.3.fits
+/n/home00/nchou/src/all_fits/psc160046.3.fits
+/n/home00/nchou/src/all_fits/psc550130.3.fits
+/n/home00/nchou/src/all_fits/psc040166.3.fits
+/n/home00/nchou/src/all_fits/psc520077.3.fits
+/n/home00/nchou/src/all_fits/psc160197.3.fits
+/n/home00/nchou/src/all_fits/psc460003.3.fits
+/n/home00/nchou/src/all_fits/psc110536.3.fits
+/n/home00/nchou/src/all_fits/psc450339.3.fits
+/n/home00/nchou/src/all_fits/psc010411.3.fits
+/n/home00/nchou/src/all_fits/psc500063.3.fits
+/n/home00/nchou/src/all_fits/psc110024.3.fits
+/n/home00/nchou/src/all_fits/psc330146.3.fits
+/n/home00/nchou/src/all_fits/psc310574.3.fits
+/n/home00/nchou/src/all_fits/psc370407.3.fits
+/n/home00/nchou/src/all_fits/psc500012.3.fits
+/n/home00/nchou/src/all_fits/psc530061.3.fits
+/n/home00/nchou/src/all_fits/psc420393.3.fits
+/n/home00/nchou/src/all_fits/psc550041.3.fits
+/n/home00/nchou/src/all_fits/psc020082.3.fits
+/n/home00/nchou/src/all_fits/psc020121.3.fits
+/n/home00/nchou/src/all_fits/psc560152.3.fits
+/n/home00/nchou/src/all_fits/psc590194.3.fits
+/n/home00/nchou/src/all_fits/psc050303.3.fits
+/n/home00/nchou/src/all_fits/psc450175.3.fits
+/n/home00/nchou/src/all_fits/psc190266.3.fits
+/n/home00/nchou/src/all_fits/psc110426.3.fits
+/n/home00/nchou/src/all_fits/psc100358.3.fits
+/n/home00/nchou/src/all_fits/psc091869.3.fits
+/n/home00/nchou/src/all_fits/psc130451.3.fits
+/n/home00/nchou/src/all_fits/psc000420.3.fits
+/n/home00/nchou/src/all_fits/psc330027.3.fits
+/n/home00/nchou/src/all_fits/psc440066.3.fits
+/n/home00/nchou/src/all_fits/psc530251.3.fits
+/n/home00/nchou/src/all_fits/psc150457.3.fits
+/n/home00/nchou/src/all_fits/psc330023.3.fits
+/n/home00/nchou/src/all_fits/psc330232.3.fits
+/n/home00/nchou/src/all_fits/psc480154.3.fits

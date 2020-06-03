@@ -1,0 +1,775 @@
+0
+Note: raising threshold to 3.3 
+ 000010.4
+0
+Note: raising threshold to 3.5999999999999996 
+ 000010.4
+0
+Note: raising threshold to 3.8999999999999995 
+ 000010.4
+0
+Note: raising threshold to 4.199999999999999 
+ 000010.4
+0
+Note: raising threshold to 3.3 
+ 000010.5
+0
+Note: raising threshold to 3.5999999999999996 
+ 000010.5
+0
+Note: raising threshold to 3.8999999999999995 
+ 000010.5
+0
+Note: raising threshold to 4.199999999999999 
+ 000010.5
+0
+Note: raising threshold to 4.499999999999999 
+ 000010.5
+0
+Note: raising threshold to 4.799999999999999 
+ 000010.5
+0
+Note: raising threshold to 5.099999999999999 
+ 000010.5
+0
+Note: raising threshold to 5.399999999999999 
+ 000010.5
+0
+Note: raising threshold to 5.699999999999998 
+ 000010.5
+0
+Note: raising threshold to 5.999999999999998 
+ 000010.5
+0
+Note: raising threshold to 6.299999999999998 
+ 000010.5
+0
+Note: raising threshold to 6.599999999999998 
+ 000010.5
+0
+Note: raising threshold to 6.899999999999998 
+ 000010.5
+0
+Note: raising threshold to 7.1999999999999975 
+ 000010.5
+0
+Note: raising threshold to 7.499999999999997 
+ 000010.5
+0
+Note: raising threshold to 3.3 
+ 000010.6
+0
+Best.0.022309490347850125.NO_GOOD_CANIDIDATE 000011.6
+0
+Best.0.07511105372783777.NO_GOOD_CANIDIDATE 000091.6
+0
+Best.0.03224970648305481.NO_GOOD_CANIDIDATE 000199.5
+0
+Best.0.03045785458441297.NO_GOOD_CANIDIDATE 000202.5
+0
+warning, checking for matching photozs for far but likely candidate 000220.3
+0
+Note: raising threshold to 3.3 
+ 010026.5
+0
+Note: raising threshold to 3.5999999999999996 
+ 010026.5
+0
+Note: raising threshold to 3.8999999999999995 
+ 010026.5
+0
+Note: raising threshold to 4.199999999999999 
+ 010026.5
+0
+Note: raising threshold to 4.499999999999999 
+ 010026.5
+0
+Note: raising threshold to 4.799999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.099999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.399999999999999 
+ 010026.5
+0
+Note: raising threshold to 5.699999999999998 
+ 010026.5
+0
+Note: raising threshold to 5.999999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.299999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.599999999999998 
+ 010026.5
+0
+Note: raising threshold to 6.899999999999998 
+ 010026.5
+0
+Note: raising threshold to 7.1999999999999975 
+ 010026.5
+0
+Note: raising threshold to 7.499999999999997 
+ 010026.5
+0
+Note: raising threshold to 7.799999999999997 
+ 010026.5
+0
+Note: raising threshold to 8.099999999999998 
+ 010026.5
+0
+Note: raising threshold to 8.399999999999999 
+ 010026.5
+0
+Note: raising threshold to 8.7 
+ 010026.5
+0
+Note: raising threshold to 9.0 
+ 010026.5
+0
+Note: raising threshold to 9.3 
+ 010026.5
+0
+Note: raising threshold to 9.600000000000001 
+ 010026.5
+0
+Note: raising threshold to 9.900000000000002 
+ 010026.5
+0
+Note: raising threshold to 10.200000000000003 
+ 010026.5
+0
+Note: raising threshold to 10.500000000000004 
+ 010026.5
+0
+Note: raising threshold to 10.800000000000004 
+ 010026.5
+0
+Note: raising threshold to 11.100000000000005 
+ 010026.5
+0
+Note: raising threshold to 11.400000000000006 
+ 010026.5
+0
+Note: raising threshold to 11.700000000000006 
+ 010026.5
+0
+Note: raising threshold to 12.000000000000007 
+ 010026.5
+0
+Note: raising threshold to 12.300000000000008 
+ 010026.5
+0
+Note: raising threshold to 12.600000000000009 
+ 010026.5
+0
+Note: raising threshold to 12.90000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.20000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.50000000000001 
+ 010026.5
+0
+Note: raising threshold to 13.800000000000011 
+ 010026.5
+0
+Note: raising threshold to 14.100000000000012 
+ 010026.5
+0
+Note: raising threshold to 14.400000000000013 
+ 010026.5
+0
+Note: raising threshold to 14.700000000000014 
+ 010026.5
+0
+Note: raising threshold to 15.000000000000014 
+ 010026.5
+0
+Note: raising threshold to 15.300000000000015 
+ 010026.5
+0
+Note: raising threshold to 15.600000000000016 
+ 010026.5
+0
+Note: raising threshold to 15.900000000000016 
+ 010026.5
+0
+Note: raising threshold to 16.200000000000017 
+ 010026.5
+0
+Note: raising threshold to 16.500000000000018 
+ 010026.5
+0
+Note: raising threshold to 16.80000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.10000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.40000000000002 
+ 010026.5
+0
+Note: raising threshold to 17.70000000000002 
+ 010026.5
+0
+Note: raising threshold to 18.00000000000002 
+ 010026.5
+0
+Note: raising threshold to 18.300000000000022 
+ 010026.5
+0
+Note: raising threshold to 18.600000000000023 
+ 010026.5
+0
+Best.0.03748014259200816.NO_GOOD_CANIDIDATE 010043.6
+0
+warning, checking for matching photozs for far but likely candidate 020027.5
+0
+warning, checking for matching photozs for far but likely candidate 020075.5
+0
+warning, checking for matching photozs for far but likely candidate 020096.5
+0
+warning, checking for matching photozs for far but likely candidate 020096.6
+0
+USING BEST CHANCE: 0.012718120398070965 020096.6
+0
+multiple matching photozs 030006.3
+0
+multiple matching photozs 030006.3
+0
+Best.0.025267873256344497.NO_GOOD_CANIDIDATE 030129.6
+0
+multiple matching photozs 040111.3
+0
+multiple matching photozs 040111.3
+0
+multiple matching photozs 040111.3
+0
+multiple matching photozs 040111.4
+0
+multiple matching photozs 040111.4
+0
+multiple matching photozs 040111.4
+0
+warning, checking for matching photozs for far but likely candidate 040111.5
+0
+multiple matching photozs 040111.5
+0
+multiple matching photozs 040111.5
+0
+multiple matching photozs 040111.5
+0
+warning, checking for matching photozs for far but likely candidate 040111.6
+0
+multiple matching photozs 040111.6
+0
+multiple matching photozs 040111.6
+0
+multiple matching photozs 040111.6
+0
+Using photoz matched with cc: 0.012445462424330311 040111.6
+0
+Best.0.20850604507663173.NO_GOOD_CANIDIDATE 040150.6
+0
+Using photoz matched with cc: 0.022893099252035864 040201.6
+0
+Best.0.21360833806595458.NO_GOOD_CANIDIDATE 050003.5
+0
+multiple matching photozs 050201.3
+0
+multiple matching photozs 050201.4
+0
+multiple matching photozs 050201.4
+0
+multiple matching photozs 050201.4
+0
+multiple matching photozs 050201.5
+0
+multiple matching photozs 050201.5
+0
+multiple matching photozs 050201.5
+0
+multiple matching photozs 050201.6
+0
+multiple matching photozs 050201.6
+0
+multiple matching photozs 050201.6
+0
+Using photoz matched with cc: 0.1402035796593868 050201.6
+0
+Best.0.0342717536934265.NO_GOOD_CANIDIDATE 050203.6
+0
+multiple matching photozs 050221.3
+0
+multiple matching photozs 050221.4
+0
+multiple matching photozs 050221.6
+0
+multiple matching photozs 050293.3
+0
+multiple matching photozs 050293.3
+0
+multiple matching photozs 050293.4
+0
+multiple matching photozs 050293.4
+0
+multiple matching photozs 050293.5
+0
+multiple matching photozs 050293.5
+0
+multiple matching photozs 050293.6
+0
+multiple matching photozs 050293.6
+0
+Using photoz matched with cc: 0.39550889204273754 050293.6
+0
+warning, checking for matching photozs for far but likely candidate 050296.3
+0
+warning, checking for matching photozs for far but likely candidate 050296.4
+0
+warning, checking for matching photozs for far but likely candidate 050296.5
+0
+multiple matching photozs 050580.3
+0
+multiple matching photozs 050580.3
+0
+multiple matching photozs 050580.3
+0
+multiple matching photozs 050580.4
+0
+multiple matching photozs 050580.4
+0
+multiple matching photozs 050580.4
+0
+multiple matching photozs 050580.6
+0
+multiple matching photozs 050580.6
+0
+multiple matching photozs 050580.6
+0
+warning, checking for matching photozs for far but likely candidate 050596.5
+0
+warning, checking for matching photozs for far but likely candidate 050596.6
+0
+Using photoz matched with cc: 0.0012123128100547387 050596.5
+0
+Best.0.15568643205851795.NO_GOOD_CANIDIDATE 050601.6
+0
+Best.0.16718327386080345.NO_GOOD_CANIDIDATE 060270.6
+0
+Best.0.06001404649829367.NO_GOOD_CANIDIDATE 070242.6
+0
+Best.0.05807673873483343.NO_GOOD_CANIDIDATE 070763.6
+0
+Best.0.18465176662081573.NO_GOOD_CANIDIDATE 080079.6
+0
+Using photoz matched with cc: 1.0 080762.6
+0
+warning, checking for matching photozs for far but likely candidate 080768.3
+0
+Best.0.18352616308850722.NO_GOOD_CANIDIDATE 090022.6
+0
+warning, checking for matching photozs for far but likely candidate 090034.3
+0
+Best.0.30137534422106793.NO_GOOD_CANIDIDATE 091040.6
+0
+warning, checking for matching photozs for far but likely candidate 100014.6
+0
+USING BEST CHANCE: 0.01703062509071629 100014.6
+0
+Best.0.13644169631751157.NO_GOOD_CANIDIDATE 100020.6
+0
+warning, checking for matching photozs for far but likely candidate 110033.4
+0
+warning, checking for matching photozs for far but likely candidate 110033.6
+0
+Best.0.04030943187921299.NO_GOOD_CANIDIDATE 110405.6
+0
+warning, checking for matching photozs for far but likely candidate 110431.3
+0
+Using photoz matched with cc: 0.6394894939779501 110484.6
+0
+warning, checking for matching photozs for far but likely candidate 110721.5
+0
+warning, checking for matching photozs for far but likely candidate 110721.6
+0
+multiple matching photozs 110721.6
+0
+multiple matching photozs 120086.3
+0
+multiple matching photozs 120086.4
+0
+warning, checking for matching photozs for far but likely candidate 120086.5
+0
+multiple matching photozs 120086.5
+0
+warning, checking for matching photozs for far but likely candidate 120086.6
+0
+multiple matching photozs 120086.6
+0
+Using photoz matched with cc: 0.012864460102017361 120086.6
+0
+warning, checking for matching photozs for far but likely candidate 120225.6
+0
+warning, checking for matching photozs for far but likely candidate 120243.4
+0
+warning, checking for matching photozs for far but likely candidate 120336.6
+0
+USING BEST CHANCE: 0.0009611159264781843 120336.6
+0
+Best.0.024603936585875896.NO_GOOD_CANIDIDATE 120400.6
+0
+Best.0.12134493093363785.NO_GOOD_CANIDIDATE 120585.6
+0
+warning, checking for matching photozs for far but likely candidate 130514.3
+0
+warning, checking for matching photozs for far but likely candidate 130514.4
+0
+warning, checking for matching photozs for far but likely candidate 130514.5
+0
+warning, checking for matching photozs for far but likely candidate 130514.6
+0
+Best.0.17459407318561726.NO_GOOD_CANIDIDATE 130862.6
+0
+warning, checking for matching photozs for far but likely candidate 130945.4
+0
+warning, checking for matching photozs for far but likely candidate 130945.5
+0
+warning, checking for matching photozs for far but likely candidate 130945.6
+0
+USING BEST CHANCE: 0.006462260550181398 130945.6
+0
+Note: raising threshold to 3.3 
+ 131014.5
+0
+Note: raising threshold to 3.5999999999999996 
+ 131014.5
+0
+Note: raising threshold to 3.8999999999999995 
+ 131014.5
+0
+Note: raising threshold to 4.199999999999999 
+ 131014.5
+0
+Note: raising threshold to 4.499999999999999 
+ 131014.5
+0
+Note: raising threshold to 4.799999999999999 
+ 131014.5
+0
+Note: raising threshold to 5.099999999999999 
+ 131014.5
+0
+Best.0.4829117495238434.NO_GOOD_CANIDIDATE 150381.5
+0
+warning, checking for matching photozs for far but likely candidate 151425.6
+0
+warning, checking for matching photozs for far but likely candidate 160039.4
+0
+warning, checking for matching photozs for far but likely candidate 160039.5
+0
+warning, checking for matching photozs for far but likely candidate 160039.6
+0
+Using photoz matched with cc: 0.006800350542597755 160039.6
+0
+Best.0.0672520939385991.NO_GOOD_CANIDIDATE 160066.6
+0
+warning, checking for matching photozs for far but likely candidate 160099.6
+0
+USING BEST CHANCE: 0.01820483142684115 160099.6
+0
+Best.0.19122543181345608.NO_GOOD_CANIDIDATE 160103.6
+0
+warning, checking for matching photozs for far but likely candidate 160197.4
+0
+warning, checking for matching photozs for far but likely candidate 160197.6
+0
+Using photoz matched with cc: 0.28060912373318203 170428.5
+0
+Using photoz matched with cc: 0.5688979464232422 180279.5
+0
+Using photoz matched with cc: 0.30516832338477584 180313.6
+0
+warning, checking for matching photozs for far but likely candidate 310051.3
+0
+warning, checking for matching photozs for far but likely candidate 310051.4
+0
+multiple matching photozs 310051.4
+0
+warning, checking for matching photozs for far but likely candidate 310051.5
+0
+warning, checking for matching photozs for far but likely candidate 310051.6
+0
+multiple matching photozs 310051.6
+0
+Using photoz matched with cc: 0.14880539777036816 310051.6
+0
+Best.0.04283676564800465.NO_GOOD_CANIDIDATE 310073.6
+0
+multiple matching photozs 310090.4
+0
+multiple matching photozs 310090.4
+0
+warning, checking for matching photozs for far but likely candidate 310146.3
+0
+warning, checking for matching photozs for far but likely candidate 310146.4
+0
+USING BEST CHANCE: 0.004499137338670245 310146.3
+0
+warning, checking for matching photozs for far but likely candidate 310188.5
+0
+warning, checking for matching photozs for far but likely candidate 310188.6
+0
+USING BEST CHANCE: 0.01336066011992898 310188.6
+0
+Best.0.1401339567676948.NO_GOOD_CANIDIDATE 310260.5
+0
+warning, checking for matching photozs for far but likely candidate 320099.6
+0
+multiple matching photozs 320469.5
+0
+multiple matching photozs 320469.6
+0
+Using photoz matched with cc: 0.2378114209945248 320469.6
+0
+Best.0.041658387382393025.NO_GOOD_CANIDIDATE 330064.6
+0
+Best.0.02052496251987157.NO_GOOD_CANIDIDATE 330106.6
+0
+Best.0.0653465941363246.NO_GOOD_CANIDIDATE 330107.6
+0
+Best.0.03604716717444334.NO_GOOD_CANIDIDATE 340169.6
+0
+Best.0.08404035029371204.NO_GOOD_CANIDIDATE 340195.6
+0
+warning, checking for matching photozs for far but likely candidate 340276.3
+0
+USING BEST CHANCE: 0.002977783144834878 340276.3
+0
+Best.0.5933341742019437.NO_GOOD_CANIDIDATE 340334.5
+0
+warning, checking for matching photozs for far but likely candidate 350235.4
+0
+Best.0.12169976808380645.NO_GOOD_CANIDIDATE 360140.6
+0
+Using photoz matched with cc: 0.024209167641943252 360359.6
+0
+warning, checking for matching photozs for far but likely candidate 370066.3
+0
+warning, checking for matching photozs for far but likely candidate 370290.3
+0
+multiple matching photozs 370329.4
+0
+multiple matching photozs 370329.4
+0
+multiple matching photozs 370329.4
+0
+warning, checking for matching photozs for far but likely candidate 370595.4
+0
+warning, checking for matching photozs for far but likely candidate 370595.6
+0
+Best.0.06897590589949454.NO_GOOD_CANIDIDATE 380040.6
+0
+Using photoz matched with cc: 0.3373332698879913 380108.6
+0
+warning, checking for matching photozs for far but likely candidate 390259.6
+0
+warning, checking for matching photozs for far but likely candidate 390264.6
+0
+USING BEST CHANCE: 0.0185954007522684 390264.6
+0
+Best.0.035000151281264325.NO_GOOD_CANIDIDATE 390449.4
+0
+Best.0.19967361112568627.NO_GOOD_CANIDIDATE 390712.6
+0
+warning, checking for matching photozs for far but likely candidate 420100.6
+0
+multiple matching photozs 420100.6
+0
+Best.0.044761281487457616.NO_GOOD_CANIDIDATE 430003.6
+0
+warning, checking for matching photozs for far but likely candidate 440011.4
+0
+warning, checking for matching photozs for far but likely candidate 440011.6
+0
+Best.0.0657963605430858.NO_GOOD_CANIDIDATE 440042.6
+0
+warning, checking for matching photozs for far but likely candidate 440202.4
+0
+warning, checking for matching photozs for far but likely candidate 440202.6
+0
+multiple matching photozs 440236.3
+0
+multiple matching photozs 440236.4
+0
+warning, checking for matching photozs for far but likely candidate 440236.5
+0
+multiple matching photozs 440236.5
+0
+warning, checking for matching photozs for far but likely candidate 440236.6
+0
+multiple matching photozs 440236.6
+0
+Using photoz matched with cc: 0.017195180286381007 440236.6
+0
+warning, checking for matching photozs for far but likely candidate 440264.4
+0
+warning, checking for matching photozs for far but likely candidate 440264.5
+0
+warning, checking for matching photozs for far but likely candidate 440264.6
+0
+Using photoz matched with cc: 0.006787110767299875 440264.6
+0
+Best.0.12036794599705547.NO_GOOD_CANIDIDATE 440420.6
+0
+Best.0.06267448797725239.NO_GOOD_CANIDIDATE 440509.6
+0
+Best.0.03147017950382147.NO_GOOD_CANIDIDATE 440643.5
+0
+Best.0.07579469736218702.NO_GOOD_CANIDIDATE 450175.6
+0
+warning, checking for matching photozs for far but likely candidate 450339.6
+0
+warning, checking for matching photozs for far but likely candidate 460003.3
+0
+warning, checking for matching photozs for far but likely candidate 460003.4
+0
+warning, checking for matching photozs for far but likely candidate 460003.5
+0
+warning, checking for matching photozs for far but likely candidate 460003.6
+0
+USING BEST CHANCE: 0.004614230566557409 460003.6
+0
+Best.0.06761388196468843.NO_GOOD_CANIDIDATE 460004.6
+0
+Using photoz matched with cc: 0.47134625504283845 460103.6
+0
+warning, checking for matching photozs for far but likely candidate 470232.6
+0
+Using photoz matched with cc: 0.21318294001946136 470240.6
+0
+Best.0.07513766641345843.NO_GOOD_CANIDIDATE 480107.6
+0
+Best.0.5043589737434033.NO_GOOD_CANIDIDATE 480552.6
+0
+warning, checking for matching photozs for far but likely candidate 500012.5
+0
+warning, checking for matching photozs for far but likely candidate 500012.6
+0
+Using photoz matched with cc: 0.2552156119008223 500057.6
+0
+warning, checking for matching photozs for far but likely candidate 500100.5
+0
+warning, checking for matching photozs for far but likely candidate 500100.6
+0
+USING BEST CHANCE: 0.011618344022421678 500100.6
+0
+Best.0.029712013577781415.NO_GOOD_CANIDIDATE 510113.6
+0
+Using photoz matched with cc: 0.5670969682141949 510597.6
+0
+warning, checking for matching photozs for far but likely candidate 530219.3
+0
+multiple matching photozs 530219.3
+0
+warning, checking for matching photozs for far but likely candidate 530219.4
+0
+multiple matching photozs 530219.4
+0
+warning, checking for matching photozs for far but likely candidate 530219.5
+0
+multiple matching photozs 530219.5
+0
+warning, checking for matching photozs for far but likely candidate 530219.6
+0
+multiple matching photozs 530219.6
+0
+Using photoz matched with cc: 0.6874881576566896 530219.5
+0
+Using photoz matched with cc: 0.4538792185402303 530249.6
+0
+Using photoz matched with cc: 0.17147078989792286 550041.6
+0
+warning, checking for matching photozs for far but likely candidate 550059.5
+0
+warning, checking for matching photozs for far but likely candidate 550059.6
+0
+USING BEST CHANCE: 0.008229417255548377 550059.6
+0
+warning, checking for matching photozs for far but likely candidate 550096.3
+0
+warning, checking for matching photozs for far but likely candidate 550096.4
+0
+warning, checking for matching photozs for far but likely candidate 550096.5
+0
+warning, checking for matching photozs for far but likely candidate 550096.6
+0
+USING BEST CHANCE: 0.0030128704513543436 550096.6
+0
+Using photoz matched with cc: 0.9040233502575252 550221.6
+0
+multiple matching photozs 560027.3
+0
+multiple matching photozs 560027.4
+0
+multiple matching photozs 560027.5
+0
+multiple matching photozs 560027.5
+0
+multiple matching photozs 560027.6
+0
+multiple matching photozs 560027.6
+0
+Using photoz matched with cc: 0.17274154505168993 560027.6
+0
+warning, checking for matching photozs for far but likely candidate 560152.3
+0
+warning, checking for matching photozs for far but likely candidate 570096.3
+0
+warning, checking for matching photozs for far but likely candidate 570096.4
+0
+warning, checking for matching photozs for far but likely candidate 570096.5
+0
+warning, checking for matching photozs for far but likely candidate 570096.6
+0
+USING BEST CHANCE: 0.002296097770709604 570096.6
+0
+Using photoz matched with cc: 0.27524432653901176 580234.4
+0
+multiple matching photozs 580235.3
+0
+multiple matching photozs 580235.4
+0
+multiple matching photozs 580235.5
+0
+multiple matching photozs 580235.6
+0
+Using photoz matched with cc: 0.8958941547696915 580235.5
+0
+warning, checking for matching photozs for far but likely candidate 580327.4
+0
+warning, checking for matching photozs for far but likely candidate 580327.5
+0
+warning, checking for matching photozs for far but likely candidate 580327.6
+0
+USING BEST CHANCE: 0.014651383487096825 580327.6
+0
+multiple matching photozs 590002.3
+0
+warning, checking for matching photozs for far but likely candidate 590002.4
+0
+multiple matching photozs 590002.4
+0
+warning, checking for matching photozs for far but likely candidate 590002.5
+0
+multiple matching photozs 590002.5
+0
+multiple matching photozs 590123.3
+0
+Using photoz matched with cc: 0.425749472809934 590123.6
+0
+Best.0.3749478089356476.NO_GOOD_CANIDIDATE 590287.6

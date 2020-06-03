@@ -185,6 +185,8 @@ def load_fixed_kfold(ia_only=False, three=False, mask=False, num_splits=12,
         largest_sample_size = np.max([n_ia, n_ibc, n_ii, n_iin, n_sls])
         aug_to = [largest_sample_size]*5
     
+    for i in range(len(aug_to)):
+        aug_to[i] = int(aug_to[i])
     #load raw data
     raw = [[],[],[],[],[]] 
     for i in range(5):#for each type
@@ -586,7 +588,7 @@ def main():
                 os.mkdir(OUTPUT_DIR + 'cnn_kfold_results')
             np.save(OUTPUT_DIR + 'cnn_kfold_results/y_pred_fold%s' % args.k_fold, y_pred)
             np.save(OUTPUT_DIR + 'cnn_kfold_results/y_true_fold%s' % args.k_fold, y_full_test_orig)
-        f = confusion_matrix(y_full_test_orig, y_pred_2)
+        cm = confusion_matrix(y_full_test_orig, y_pred_2)
         print(cm)
     
     elif args.all:

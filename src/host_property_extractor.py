@@ -60,14 +60,7 @@ ERRORFILE = OUTPUT_DIR + '/errorfile.txt' #really just a log file of the run
 WRITE_CSV = OUTPUT_DIR + "/galaxiesdata.csv" # filename to write to or None
 PLOT_DIR = OUTPUT_DIR + '/plots' # where to put plot images
 PLOT_DIR2 = OUTPUT_DIR + '/zsorted_plots' #redshift-sorted plots for paper
-# clear leftover plots from previous runs
-old_plots = glob.glob(PLOT_DIR + '/*') + glob.glob(PLOT_DIR2 + '/*')
-for old_plot in old_plots:
-    os.remove(old_plot)
-if not os.path.isdir(PLOT_DIR): 
-    os.mkdir(PLOT_DIR)
-if not os.path.isdir(PLOT_DIR2): 
-    os.mkdir(PLOT_DIR2)
+
 FILENAME_PREFIX = SOURCEDIR + "/psc" #everything before the sn number
 
 FILLER_VAL = None
@@ -149,10 +142,6 @@ for i in range(3,7):
     for val in perImageHeaders:
         COLUMNS.append(val + '_' + str(i))
 
-# clear any previous logs from errorfile
-if os.path.exists(ERRORFILE):
-  os.remove(ERRORFILE)
-  
   
 #all_myMags = []
 #all_realMags = []
@@ -1003,7 +992,7 @@ class Supernova:
         else:
                 self.filter_to_use = 5
                 #no good candidates at all, GET DEFAULT DATA AND RETURN
-                self.images[self.filter_to_use].errorProtocol("No good candidate")
+                self.images[self.filter_to_use].errorProtocol("No good candidate cc: %s" % lowest_cc_of(range(3,7))[1])
                 global BAD_COUNT
                 BAD_COUNT += 1
                 all_sn_data_default = {}
@@ -1131,11 +1120,26 @@ def extraction(filenames):
         np.savez(OUTPUT_DIR + '/all_masks', **masks)
         print('saved all masks')
 
-            
 
 def main():
     import time
     start = time.time()
+    
+    
+    if not args.mask:
+        # clear any previous logs from errorfile
+        if os.path.exists(ERRORFILE):
+          os.remove(ERRORFILE)
+          
+          # clear leftover plots from previous runs
+        old_plots = glob.glob(PLOT_DIR + '/*') + glob.glob(PLOT_DIR2 + '/*')
+        for old_plot in old_plots:
+            os.remove(old_plot)
+        if not os.path.isdir(PLOT_DIR): 
+            os.mkdir(PLOT_DIR)
+        if not os.path.isdir(PLOT_DIR2): 
+            os.mkdir(PLOT_DIR2)
+          
     
     '''collect defaults from previous run if applicable'''
     #This script (host_property_extractor.py) should be run twice so that

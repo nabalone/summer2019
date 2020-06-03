@@ -3,6 +3,5 @@
 *.ipynb_checkpoints/*
 *.fits
 *.png
-*/dev/*
 */.ipynb_checkpoints/*
 *.ipynb

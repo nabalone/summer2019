@@ -1,0 +1,1299 @@
+0
+chosen by location 000001.6
+1
+chosen by location 000006.6
+2
+Note: raising threshold to 3.3 
+ 000010.4
+3
+Note: raising threshold to 3.5999999999999996 
+ 000010.4
+4
+Note: raising threshold to 3.8999999999999995 
+ 000010.4
+5
+Note: raising threshold to 4.199999999999999 
+ 000010.4
+6
+Note: raising threshold to 3.3 
+ 000010.5
+7
+Note: raising threshold to 3.5999999999999996 
+ 000010.5
+8
+Note: raising threshold to 3.8999999999999995 
+ 000010.5
+9
+Note: raising threshold to 4.199999999999999 
+ 000010.5
+10
+Note: raising threshold to 4.499999999999999 
+ 000010.5
+11
+Note: raising threshold to 4.799999999999999 
+ 000010.5
+12
+Note: raising threshold to 5.099999999999999 
+ 000010.5
+13
+Note: raising threshold to 5.399999999999999 
+ 000010.5
+14
+Note: raising threshold to 5.699999999999998 
+ 000010.5
+15
+Note: raising threshold to 5.999999999999998 
+ 000010.5
+16
+Note: raising threshold to 6.299999999999998 
+ 000010.5
+17
+Note: raising threshold to 6.599999999999998 
+ 000010.5
+18
+Note: raising threshold to 6.899999999999998 
+ 000010.5
+19
+Note: raising threshold to 7.1999999999999975 
+ 000010.5
+20
+Note: raising threshold to 7.499999999999997 
+ 000010.5
+21
+Note: raising threshold to 3.3 
+ 000010.6
+22
+chosen by location 000010.5
+23
+No good candidate 000011.5
+24
+chosen by location 000034.5
+25
+chosen by location 000038.5
+26
+chosen by location 000076.6
+27
+No good candidate 000091.5
+28
+chosen by location 000098.6
+29
+chosen by location 000133.6
+30
+chosen by location 000137.6
+31
+chosen by location 000142.6
+32
+chosen by location 000174.5
+33
+chosen by location 000190.4
+34
+chosen by location 000196.6
+35
+No good candidate 000199.5
+36
+No good candidate 000202.5
+37
+chosen by location 000215.5
+38
+chosen by location 000218.6
+39
+chosen by location 000220.6
+40
+chosen by location 000236.6
+41
+chosen by location 000248.6
+42
+chosen by location 000420.6
+43
+chosen by location 010010.6
+44
+Note: raising threshold to 3.3 
+ 010026.5
+45
+Note: raising threshold to 3.5999999999999996 
+ 010026.5
+46
+Note: raising threshold to 3.8999999999999995 
+ 010026.5
+47
+Note: raising threshold to 4.199999999999999 
+ 010026.5
+48
+Note: raising threshold to 4.499999999999999 
+ 010026.5
+49
+Note: raising threshold to 4.799999999999999 
+ 010026.5
+50
+Note: raising threshold to 5.099999999999999 
+ 010026.5
+51
+Note: raising threshold to 5.399999999999999 
+ 010026.5
+52
+Note: raising threshold to 5.699999999999998 
+ 010026.5
+53
+Note: raising threshold to 5.999999999999998 
+ 010026.5
+54
+Note: raising threshold to 6.299999999999998 
+ 010026.5
+55
+Note: raising threshold to 6.599999999999998 
+ 010026.5
+56
+Note: raising threshold to 6.899999999999998 
+ 010026.5
+57
+Note: raising threshold to 7.1999999999999975 
+ 010026.5
+58
+Note: raising threshold to 7.499999999999997 
+ 010026.5
+59
+Note: raising threshold to 7.799999999999997 
+ 010026.5
+60
+Note: raising threshold to 8.099999999999998 
+ 010026.5
+61
+Note: raising threshold to 8.399999999999999 
+ 010026.5
+62
+Note: raising threshold to 8.7 
+ 010026.5
+63
+Note: raising threshold to 9.0 
+ 010026.5
+64
+Note: raising threshold to 9.3 
+ 010026.5
+65
+Note: raising threshold to 9.600000000000001 
+ 010026.5
+66
+Note: raising threshold to 9.900000000000002 
+ 010026.5
+67
+Note: raising threshold to 10.200000000000003 
+ 010026.5
+68
+Note: raising threshold to 10.500000000000004 
+ 010026.5
+69
+Note: raising threshold to 10.800000000000004 
+ 010026.5
+70
+Note: raising threshold to 11.100000000000005 
+ 010026.5
+71
+Note: raising threshold to 11.400000000000006 
+ 010026.5
+72
+Note: raising threshold to 11.700000000000006 
+ 010026.5
+73
+Note: raising threshold to 12.000000000000007 
+ 010026.5
+74
+Note: raising threshold to 12.300000000000008 
+ 010026.5
+75
+Note: raising threshold to 12.600000000000009 
+ 010026.5
+76
+Note: raising threshold to 12.90000000000001 
+ 010026.5
+77
+Note: raising threshold to 13.20000000000001 
+ 010026.5
+78
+Note: raising threshold to 13.50000000000001 
+ 010026.5
+79
+Note: raising threshold to 13.800000000000011 
+ 010026.5
+80
+Note: raising threshold to 14.100000000000012 
+ 010026.5
+81
+Note: raising threshold to 14.400000000000013 
+ 010026.5
+82
+Note: raising threshold to 14.700000000000014 
+ 010026.5
+83
+Note: raising threshold to 15.000000000000014 
+ 010026.5
+84
+Note: raising threshold to 15.300000000000015 
+ 010026.5
+85
+Note: raising threshold to 15.600000000000016 
+ 010026.5
+86
+Note: raising threshold to 15.900000000000016 
+ 010026.5
+87
+Note: raising threshold to 16.200000000000017 
+ 010026.5
+88
+Note: raising threshold to 16.500000000000018 
+ 010026.5
+89
+Note: raising threshold to 16.80000000000002 
+ 010026.5
+90
+Note: raising threshold to 17.10000000000002 
+ 010026.5
+91
+Note: raising threshold to 17.40000000000002 
+ 010026.5
+92
+Note: raising threshold to 17.70000000000002 
+ 010026.5
+93
+Note: raising threshold to 18.00000000000002 
+ 010026.5
+94
+Note: raising threshold to 18.300000000000022 
+ 010026.5
+95
+Note: raising threshold to 18.600000000000023 
+ 010026.5
+96
+chosen by location 010026.5
+97
+No good candidate 010043.5
+98
+chosen by location 010163.3
+99
+chosen by location 010411.6
+100
+chosen by location 010454.6
+101
+chosen by location 020021.4
+102
+chosen by location 020027.6
+103
+chosen by location 020075.3
+104
+chosen by location 020082.6
+105
+chosen by location 020090.6
+106
+chosen by cc 020096.6
+107
+chosen by location 020121.6
+108
+chosen by location 020132.6
+109
+chosen by location 020176.6
+110
+chosen by location 020200.6
+111
+photozmatch 030006.3
+112
+chosen by location 030006.6
+113
+chosen by location 030010.5
+114
+chosen by location 030066.6
+115
+No good candidate 030129.5
+116
+photozmatch 040111.3
+117
+photozmatch 040111.4
+118
+chosen by cc 040111.6
+119
+chosen by location 040137.5
+120
+chosen by location 040146.6
+121
+No good candidate 040150.5
+122
+chosen by location 040166.5
+123
+chosen by location 040198.6
+124
+photozmatch 040201.3
+125
+photozmatch 040201.4
+126
+photozmatch 040201.5
+127
+photozmatch 040201.6
+128
+chosen by photoz 040201.6
+129
+chosen by location 040301.6
+130
+chosen by location 040662.6
+131
+chosen by location 040780.6
+132
+chosen by location 040782.6
+133
+No good candidate 050003.5
+134
+chosen by location 050005.6
+135
+chosen by location 050044.6
+136
+chosen by location 050081.6
+137
+chosen by location 050088.6
+138
+photozmatch 050201.6
+139
+chosen by photoz 050201.6
+140
+No good candidate 050203.5
+141
+chosen by location 050221.5
+142
+chosen by location 050251.6
+143
+chosen by location 050291.6
+144
+No good candidate 050293.5
+145
+chosen by location 050296.6
+146
+chosen by location 050301.6
+147
+chosen by location 050303.6
+148
+chosen by location 050577.6
+149
+photozmatch 050580.4
+150
+photozmatch 050580.6
+151
+chosen by location 050580.5
+152
+chosen by location 050581.6
+153
+chosen by cc 050596.5
+154
+No good candidate 050601.5
+155
+chosen by location 050607.6
+156
+chosen by location 060230.6
+157
+No good candidate 060270.5
+158
+chosen by location 060284.6
+159
+chosen by location 061196.6
+160
+No good candidate 070242.5
+161
+chosen by location 070291.6
+162
+No good candidate 070763.5
+163
+chosen by location 070955.6
+164
+chosen by location 071072.6
+165
+chosen by location 080064.6
+166
+No good candidate 080079.5
+167
+chosen by location 080308.6
+168
+chosen by location 080646.6
+169
+chosen by location 080723.5
+170
+chosen by location 080735.5
+171
+No good candidate 080762.5
+172
+chosen by location 080768.6
+173
+No good candidate 090022.5
+174
+chosen by location 090034.6
+175
+chosen by location 090037.6
+176
+chosen by location 090201.5
+177
+chosen by location 090275.6
+178
+chosen by location 091034.6
+179
+No good candidate 091040.5
+180
+chosen by location 091748.5
+181
+chosen by location 091869.6
+182
+chosen by cc 100014.6
+183
+No good candidate 100020.5
+184
+chosen by location 100090.6
+185
+photozmatch 100101.3
+186
+chosen by location 100101.6
+187
+chosen by location 100163.6
+188
+chosen by location 100170.4
+189
+chosen by location 100206.6
+190
+chosen by location 100213.6
+191
+chosen by location 100358.6
+192
+chosen by location 100405.6
+193
+chosen by location 110024.5
+194
+chosen by location 110030.6
+195
+chosen by location 110031.4
+196
+chosen by location 110033.5
+197
+chosen by location 110034.6
+198
+chosen by location 110036.6
+199
+chosen by location 110058.6
+200
+No good candidate 110405.5
+201
+chosen by location 110425.6
+202
+chosen by location 110426.6
+203
+chosen by location 110430.6
+204
+chosen by location 110431.4
+205
+chosen by location 110460.6
+206
+chosen by location 110468.5
+207
+chosen by location 110478.6
+208
+No good candidate 110484.5
+209
+chosen by location 110536.6
+210
+chosen by location 110542.6
+211
+chosen by location 110567.6
+212
+chosen by location 110716.6
+213
+chosen by location 110719.6
+214
+chosen by location 110721.6
+215
+chosen by location 110734.6
+216
+chosen by location 120031.6
+217
+chosen by location 120044.6
+218
+chosen by location 120067.6
+219
+chosen by location 120085.6
+220
+photozmatch 120086.3
+221
+photozmatch 120086.4
+222
+chosen by cc 120086.6
+223
+chosen by location 120094.5
+224
+chosen by location 120113.4
+225
+chosen by location 120143.6
+226
+chosen by location 120175.4
+227
+chosen by location 120225.5
+228
+No good candidate 120228.5
+229
+chosen by location 120243.6
+230
+chosen by location 120333.6
+231
+chosen by location 120336.3
+232
+chosen by location 120369.4
+233
+No good candidate 120400.5
+234
+chosen by location 120444.6
+235
+No good candidate 120585.5
+236
+chosen by location 120586.6
+237
+chosen by location 130150.6
+238
+chosen by location 130308.6
+239
+chosen by location 130327.6
+240
+chosen by location 130451.5
+241
+chosen by location 130514.6
+242
+chosen by location 130755.6
+243
+chosen by location 130812.6
+244
+chosen by location 130816.6
+245
+chosen by location 130846.6
+246
+No good candidate 130862.5
+247
+chosen by location 130913.6
+248
+chosen by location 130942.6
+249
+chosen by location 130943.6
+250
+chosen by cc 130945.6
+251
+Note: raising threshold to 3.3 
+ 131014.5
+252
+Note: raising threshold to 3.5999999999999996 
+ 131014.5
+253
+Note: raising threshold to 3.8999999999999995 
+ 131014.5
+254
+Note: raising threshold to 4.199999999999999 
+ 131014.5
+255
+Note: raising threshold to 4.499999999999999 
+ 131014.5
+256
+Note: raising threshold to 4.799999999999999 
+ 131014.5
+257
+Note: raising threshold to 5.099999999999999 
+ 131014.5
+258
+chosen by location 131014.6
+259
+chosen by location 131015.6
+260
+No good candidate 131089.5
+261
+chosen by location 131094.6
+262
+chosen by location 140103.6
+263
+chosen by location 140152.5
+264
+chosen by location 140181.6
+265
+chosen by location 140357.6
+266
+chosen by location 140418.6
+267
+chosen by location 150249.6
+268
+chosen by location 150254.6
+269
+chosen by location 150267.6
+270
+No good candidate 150381.5
+271
+chosen by location 150412.6
+272
+chosen by location 150455.6
+273
+chosen by location 150457.6
+274
+chosen by location 150507.6
+275
+chosen by location 150509.6
+276
+chosen by location 150522.6
+277
+chosen by location 150576.6
+278
+chosen by location 150582.5
+279
+chosen by location 150692.6
+280
+chosen by location 151034.6
+281
+chosen by location 151425.4
+282
+photozmatch 160039.3
+283
+chosen by cc 160039.6
+284
+chosen by location 160042.6
+285
+chosen by location 160046.6
+286
+No good candidate 160066.5
+287
+chosen by location 160070.6
+288
+chosen by cc 160099.6
+289
+No good candidate 160103.5
+290
+chosen by location 160126.6
+291
+chosen by location 160197.5
+292
+chosen by location 160198.4
+293
+chosen by location 160200.6
+294
+chosen by location 160214.6
+295
+chosen by location 160287.6
+296
+chosen by location 170078.6
+297
+No good candidate 170428.5
+298
+chosen by location 170532.6
+299
+chosen by location 180166.5
+300
+No good candidate 180279.5
+301
+No good candidate 180313.5
+302
+chosen by location 180561.6
+303
+chosen by location 190209.6
+304
+chosen by location 190230.6
+305
+chosen by location 190237.6
+306
+chosen by location 190260.6
+307
+chosen by location 190266.6
+308
+chosen by location 190299.6
+309
+chosen by location 190340.6
+310
+chosen by location 190369.6
+311
+chosen by location 200079.6
+312
+chosen by location 300008.6
+313
+chosen by location 300089.6
+314
+chosen by location 300105.6
+315
+chosen by location 300112.6
+316
+chosen by location 300140.6
+317
+chosen by location 300179.6
+318
+chosen by location 300220.6
+319
+chosen by location 300221.6
+320
+chosen by location 310025.6
+321
+chosen by location 310026.6
+322
+chosen by location 310039.6
+323
+chosen by location 310042.6
+324
+chosen by location 310051.6
+325
+No good candidate 310073.5
+326
+chosen by location 310090.3
+327
+chosen by location 310091.5
+328
+chosen by cc 310146.3
+329
+chosen by location 310161.6
+330
+chosen by cc 310188.6
+331
+chosen by location 310238.6
+332
+No good candidate 310260.5
+333
+chosen by location 310359.6
+334
+chosen by location 310574.6
+335
+chosen by location 320047.6
+336
+chosen by location 320099.5
+337
+chosen by location 320258.6
+338
+chosen by location 320347.6
+339
+No good candidate 320469.5
+340
+chosen by location 330013.6
+341
+chosen by location 330022.6
+342
+chosen by location 330023.6
+343
+chosen by location 330027.3
+344
+chosen by location 330040.5
+345
+chosen by location 330042.6
+346
+chosen by location 330053.6
+347
+No good candidate 330064.5
+348
+chosen by location 330075.6
+349
+chosen by location 330076.6
+350
+chosen by location 330083.5
+351
+chosen by location 330089.6
+352
+No good candidate 330106.5
+353
+No good candidate 330107.5
+354
+chosen by location 330112.6
+355
+chosen by location 330114.6
+356
+chosen by location 330128.6
+357
+chosen by location 330143.6
+358
+chosen by location 330146.6
+359
+chosen by location 330232.6
+360
+No good candidate 340169.5
+361
+No good candidate 340195.5
+362
+chosen by location 340211.6
+363
+chosen by location 340218.6
+364
+chosen by location 340222.6
+365
+chosen by location 340229.6
+366
+chosen by location 340232.6
+367
+chosen by location 340242.6
+368
+chosen by location 340243.6
+369
+chosen by location 340272.6
+370
+chosen by cc 340276.3
+371
+chosen by location 340316.6
+372
+chosen by location 340334.5
+373
+chosen by location 340337.6
+374
+chosen by location 340346.6
+375
+chosen by location 350027.4
+376
+chosen by location 350047.4
+377
+chosen by location 350050.6
+378
+chosen by location 350076.6
+379
+chosen by location 350078.6
+380
+chosen by location 350080.6
+381
+chosen by location 350083.6
+382
+chosen by location 350092.6
+383
+chosen by location 350192.5
+384
+chosen by location 350233.6
+385
+chosen by location 350235.6
+386
+chosen by location 350316.6
+387
+chosen by location 350330.6
+388
+chosen by location 350374.6
+389
+chosen by location 350548.6
+390
+chosen by location 350606.5
+391
+chosen by location 350607.6
+392
+chosen by location 350630.6
+393
+chosen by location 350633.6
+394
+chosen by location 360030.6
+395
+chosen by location 360112.6
+396
+chosen by location 360139.6
+397
+No good candidate 360140.5
+398
+chosen by location 360145.4
+399
+chosen by location 360156.5
+400
+photozmatch 360359.3
+401
+photozmatch 360359.4
+402
+photozmatch 360359.5
+403
+photozmatch 360359.6
+404
+chosen by photoz 360359.6
+405
+chosen by location 370066.6
+406
+chosen by location 370098.6
+407
+chosen by location 370189.5
+408
+chosen by location 370286.6
+409
+chosen by location 370290.6
+410
+chosen by location 370308.6
+411
+chosen by location 370329.6
+412
+chosen by location 370330.4
+413
+chosen by location 370333.4
+414
+chosen by location 370344.5
+415
+chosen by location 370356.6
+416
+No good candidate 370367.5
+417
+chosen by location 370369.6
+418
+chosen by location 370394.5
+419
+chosen by location 370407.6
+420
+chosen by location 370428.6
+421
+chosen by location 370469.6
+422
+chosen by location 370498.6
+423
+chosen by location 370519.6
+424
+chosen by location 370563.6
+425
+chosen by location 370566.6
+426
+chosen by location 370589.4
+427
+chosen by location 370595.5
+428
+chosen by location 380012.6
+429
+chosen by location 380014.6
+430
+No good candidate 380040.5
+431
+chosen by location 380046.6
+432
+chosen by location 380056.6
+433
+No good candidate 380108.5
+434
+chosen by location 380244.3
+435
+chosen by location 380279.4
+436
+chosen by location 380318.6
+437
+chosen by location 380378.6
+438
+chosen by location 390259.4
+439
+chosen by cc 390264.6
+440
+No good candidate 390449.5
+441
+chosen by location 390471.6
+442
+chosen by location 390627.6
+443
+No good candidate 390712.5
+444
+chosen by location 400158.6
+445
+chosen by location 420100.5
+446
+chosen by location 420136.6
+447
+chosen by location 420159.6
+448
+chosen by location 420196.6
+449
+chosen by location 420248.6
+450
+chosen by location 420258.6
+451
+chosen by location 420352.6
+452
+chosen by location 420393.6
+453
+chosen by location 420407.6
+454
+chosen by location 420414.6
+455
+chosen by location 420417.6
+456
+No good candidate 430003.5
+457
+chosen by location 430004.6
+458
+chosen by location 430005.6
+459
+chosen by location 440005.6
+460
+chosen by location 440008.6
+461
+chosen by location 440011.5
+462
+chosen by location 440035.6
+463
+chosen by location 440039.6
+464
+No good candidate 440042.5
+465
+chosen by location 440050.6
+466
+chosen by location 440066.6
+467
+chosen by location 440162.6
+468
+chosen by location 440176.6
+469
+chosen by location 440202.5
+470
+photozmatch 440236.3
+471
+photozmatch 440236.4
+472
+chosen by cc 440236.6
+473
+photozmatch 440264.3
+474
+chosen by location 440264.6
+475
+chosen by location 440285.6
+476
+No good candidate 440420.5
+477
+No good candidate 440509.5
+478
+No good candidate 440643.5
+479
+chosen by location 450008.6
+480
+chosen by location 450020.6
+481
+chosen by location 450025.5
+482
+chosen by location 450082.6
+483
+No good candidate 450175.5
+484
+chosen by location 450266.5
+485
+chosen by location 450284.5
+486
+photozmatch 450339.3
+487
+chosen by location 450339.6
+488
+chosen by location 460001.5
+489
+chosen by cc 460003.6
+490
+No good candidate 460004.5
+491
+chosen by location 460037.6
+492
+chosen by location 460064.6
+493
+No good candidate 460103.5
+494
+chosen by location 460105.6
+495
+chosen by location 470001.6
+496
+chosen by location 470005.6
+497
+chosen by location 470015.6
+498
+chosen by location 470041.6
+499
+chosen by location 470043.4
+500
+chosen by location 470047.6
+501
+chosen by location 470110.6
+502
+chosen by location 470232.5
+503
+No good candidate 470240.5
+504
+chosen by location 470244.5
+505
+chosen by location 480058.5
+506
+chosen by location 480064.6
+507
+No good candidate 480107.5
+508
+chosen by location 480154.5
+509
+chosen by location 480168.6
+510
+chosen by location 480464.4
+511
+No good candidate 480552.5
+512
+chosen by location 480845.6
+513
+chosen by location 490007.6
+514
+chosen by location 490008.6
+515
+No good candidate 490025.5
+516
+chosen by location 490037.6
+517
+chosen by location 490521.6
+518
+chosen by location 490563.6
+519
+chosen by location 500004.5
+520
+chosen by location 500012.6
+521
+chosen by location 500022.6
+522
+chosen by location 500038.6
+523
+No good candidate 500057.5
+524
+chosen by location 500063.6
+525
+chosen by cc 500100.6
+526
+chosen by location 500301.6
+527
+chosen by location 500332.6
+528
+chosen by location 500491.6
+529
+chosen by location 500511.6
+530
+chosen by location 510082.6
+531
+No good candidate 510113.5
+532
+chosen by location 510174.6
+533
+chosen by location 510185.6
+534
+chosen by location 510238.6
+535
+chosen by location 510251.6
+536
+chosen by location 510266.6
+537
+chosen by location 510457.6
+538
+chosen by location 510550.6
+539
+chosen by location 510578.6
+540
+No good candidate 510597.5
+541
+chosen by location 510638.6
+542
+chosen by location 520001.3
+543
+chosen by location 520007.5
+544
+chosen by location 520008.6
+545
+chosen by location 520019.6
+546
+chosen by location 520022.6
+547
+chosen by location 520023.6
+548
+chosen by location 520041.6
+549
+chosen by location 520062.6
+550
+chosen by location 520071.6
+551
+chosen by location 520077.6
+552
+chosen by location 520107.6
+553
+chosen by location 520188.6
+554
+chosen by location 530037.6
+555
+chosen by location 530061.6
+556
+chosen by location 530085.6
+557
+chosen by location 530086.6
+558
+chosen by location 530128.6
+559
+chosen by location 530175.6
+560
+chosen by cc 530219.5
+561
+chosen by location 530240.6
+562
+No good candidate 530249.5
+563
+chosen by location 530251.6
+564
+chosen by location 540163.6
+565
+chosen by location 550005.6
+566
+No good candidate 550041.5
+567
+chosen by location 550059.6
+568
+chosen by location 550096.6
+569
+chosen by location 550130.6
+570
+chosen by location 550137.6
+571
+chosen by location 550154.6
+572
+chosen by location 550155.6
+573
+chosen by location 550190.6
+574
+chosen by location 550197.6
+575
+chosen by location 550202.6
+576
+chosen by location 550218.5
+577
+No good candidate 550221.5
+578
+No good candidate 560027.5
+579
+chosen by location 560033.5
+580
+chosen by location 560054.6
+581
+chosen by location 560087.6
+582
+chosen by location 560116.6
+583
+chosen by location 560121.6
+584
+chosen by location 560152.6
+585
+chosen by location 570022.6
+586
+chosen by location 570025.6
+587
+chosen by location 570062.5
+588
+chosen by location 570096.6
+589
+chosen by location 580028.5
+590
+chosen by location 580084.6
+591
+chosen by location 580098.6
+592
+No good candidate 580234.5
+593
+No good candidate 580235.5
+594
+chosen by location 580275.6
+595
+chosen by location 580276.6
+596
+chosen by location 580280.6
+597
+chosen by location 580289.6
+598
+chosen by location 580300.6
+599
+chosen by location 580312.6
+600
+chosen by cc 580327.6
+601
+photozmatch 590002.3
+602
+chosen by location 590002.6
+603
+chosen by location 590005.6
+604
+chosen by location 590031.6
+605
+chosen by location 590045.6
+606
+chosen by location 590097.6
+607
+No good candidate 590123.5
+608
+chosen by location 590194.6
+609
+No good candidate 590287.5
